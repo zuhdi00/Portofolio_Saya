@@ -1,0 +1,69 @@
+﻿<html xmlns:o="urn:schemas-microsoft-com:office:office"
+    xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">
+    <head><meta charset="utf-8"><!--[if gte mso 9]><xml>
+    <x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet>
+    <x:Name>Rekap Lembur</x:Name><x:WorksheetOptions><x:DisplayGridlines/>
+    </x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook>
+    </xml><![endif]--></head><body>
+    <h3>Rekap Total Jam Lembur per Karyawan</h3>
+    <p>Periode: 2026-08-01 s/d 2026-08-31</p>
+    <table border="1">
+            <thead class="table-light"><tr><th>NIK</th><th>Nama</th><th>Dept</th><th>Status</th>
+              <th>Hari</th><th>Total Jam</th></tr></thead>
+            <tbody>
+                          <tr>
+                <td>175</td>
+                <td>Miftahol.Arifin</td>
+                <td><small>DESIGN</small></td>
+                <td><small>—</small></td>
+                <td>2</td>
+                <td><strong class="">
+                    11.0</strong></td>
+              </tr>
+                          <tr>
+                <td>12775</td>
+                <td>Bima Dio Setiawan</td>
+                <td><small>DESIGN</small></td>
+                <td><small>—</small></td>
+                <td>2</td>
+                <td><strong class="">
+                    11.0</strong></td>
+              </tr>
+                          <tr>
+                <td>707</td>
+                <td>Supriani</td>
+                <td><small>DESIGN</small></td>
+                <td><small>—</small></td>
+                <td>2</td>
+                <td><strong class="">
+                    7.0</strong></td>
+              </tr>
+                          <tr>
+                <td>12617</td>
+                <td>Winda Arianti</td>
+                <td><small>MARKETING</small></td>
+                <td><small>—</small></td>
+                <td>1</td>
+                <td><strong class="">
+                    5.0</strong></td>
+              </tr>
+                          <tr>
+                <td>889</td>
+                <td>Faradila Ayu C.N</td>
+                <td><small>MARKETING</small></td>
+                <td><small>—</small></td>
+                <td>1</td>
+                <td><strong class="">
+                    3.0</strong></td>
+              </tr>
+                          <tr>
+                <td>12848</td>
+                <td>Miftakul Janah</td>
+                <td><small>MARKETING</small></td>
+                <td><small>—</small></td>
+                <td>1</td>
+                <td><strong class="">
+                    2.0</strong></td>
+              </tr>
+                        </tbody>
+          </table></body></html>

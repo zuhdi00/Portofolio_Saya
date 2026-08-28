@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tools Migrasi Data Pegawai</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .tool-card {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+        .tool-card .icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+        .tool-card h2 {
+            color: #333;
+            margin-bottom: 12px;
+            font-size: 1.4em;
+        }
+        .tool-card p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        .tool-card .features {
+            background: #f5f5f5;
+            padding: 12px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            font-size: 0.9em;
+        }
+        .tool-card .features li {
+            list-style: none;
+            padding: 5px 0;
+            color: #555;
+        }
+        .tool-card .features li:before {
+            content: "✓ ";
+            color: #4caf50;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 12px 25px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: opacity 0.3s;
+            cursor: pointer;
+            border: none;
+            font-size: 1em;
+        }
+        .btn:hover {
+            opacity: 0.85;
+        }
+        .btn-secondary {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+        .info-box {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 30px;
+            color: #1565c0;
+        }
+        .warning-box {
+            background: #fff3cd;
+            border-left: 4px solid #ff9800;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 30px;
+            color: #c57c00;
+        }
+        .info-box h3, .warning-box h3 {
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+        .workflow {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 30px;
+        }
+        .workflow h2 {
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .step {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .step-number {
+            background: #667eea;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+            margin-right: 15px;
+        }
+        .step-content {
+            flex: 1;
+        }
+        .step-content h3 {
+            color: #333;
+            margin-bottom: 5px;
+        }
+        .step-content p {
+            color: #666;
+            margin-bottom: 5px;
+        }
+        .arrow {
+            text-align: center;
+            color: #667eea;
+            font-size: 1.5em;
+            margin: -10px 0 10px 20px;
+        }
+        .footer {
+            text-align: center;
+            color: white;
+            margin-top: 40px;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔄 Tools Migrasi Data Pegawai</h1>
+            <p>Sistem otomatis untuk membandingkan dan memindahkan data dari CSV ke SQL Server</p>
+        </div>
+
+        <div class="info-box">
+            <h3>📌 Informasi Penting</h3>
+            <p><strong>Database Source:</strong> CSV file (DATA KARYAWAN (2).csv)</p>
+            <p><strong>Database Target:</strong> SQL Server - dbHR (spsdmz2)</p>
+            <p><strong>Mode Perbandingan:</strong> Case-insensitive (huruf besar/kecil diabaikan)</p>
+        </div>
+
+        <div class="warning-box">
+            <h3>⚠️ Backup Terlebih Dahulu</h3>
+            <p>Sebelum menjalankan migrasi, pastikan Anda telah melakukan backup database dbHR untuk keamanan data.</p>
+        </div>
+
+        <div class="info-box" style="background: #f3e5f5; border-left-color: #9c27b0;">
+            <h3>🔧 Persiapan Database</h3>
+            <p>Jika ini pertama kali menggunakan tools ini, Anda perlu setup database terlebih dahulu:</p>
+            <p style="margin-top: 15px;">
+                <a href="database_setup_guide.html" class="btn" style="background: linear-gradient(135deg, #9c27b0 0%, #6a1b9a 100%); text-decoration: none;">
+                    📋 Buka Setup Guide Interaktif
+                </a>
+                atau baca
+                <a href="SETUP.md" style="color: #6a1b9a; font-weight: bold; text-decoration: none;">SETUP.md</a>
+                untuk instruksi lengkap.
+            </p>
+        </div>
+
+        <div class="workflow">
+            <h2>📊 Alur Kerja Migrasi</h2>
+            <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h3>Analisis & Perbandingan</h3>
+                    <p>Gunakan "Data Comparison Tool" untuk membandingkan data CSV dengan database SQL Server</p>
+                </div>
+            </div>
+            <div class="arrow">↓</div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h3>Preview Migrasi (Dry Run)</h3>
+                    <p>Jalankan "Migration Tool" dalam mode DRY RUN untuk melihat perubahan apa yang akan dilakukan</p>
+                </div>
+            </div>
+            <div class="arrow">↓</div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h3>Eksekusi Migrasi</h3>
+                    <p>Setelah yakin dengan preview, klik "EXECUTE MIGRASI" untuk benar-benar mengubah database</p>
+                </div>
+            </div>
+            <div class="arrow">↓</div>
+            <div class="step">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                    <h3>Verifikasi Hasil</h3>
+                    <p>Jalankan perbandingan lagi untuk memastikan semua data sudah tersinkronisasi dengan baik</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="tools-grid">
+            <!-- Tool 1: Data Comparison -->
+            <div class="tool-card">
+                <div class="icon">📊</div>
+                <h2>Data Comparison Tool</h2>
+                <p>Bandingkan data antara CSV dan SQL Server dengan detail. Lihat data mana saja yang berbeda, duplikat, atau hanya ada di salah satu sumber.</p>
+                <ul class="features">
+                    <li>Perbandingan case-insensitive</li>
+                    <li>Deteksi data yang sama</li>
+                    <li>Identifikasi perbedaan detail</li>
+                    <li>Laporan komprehensif</li>
+                </ul>
+                <a href="compare_data_employee.php" class="btn">Jalankan Analisis</a>
+            </div>
+
+            <!-- Tool 2: Migration Tool -->
+            <div class="tool-card">
+                <div class="icon">🚀</div>
+                <h2>Migration Tool</h2>
+                <p>Migrasi data otomatis dari CSV ke SQL Server dengan mode DRY RUN untuk preview terlebih dahulu sebelum commit perubahan.</p>
+                <ul class="features">
+                    <li>Mode DRY RUN (preview aman)</li>
+                    <li>Auto INSERT data baru</li>
+                    <li>Auto UPDATE data existing</li>
+                    <li>Error handling & rollback</li>
+                </ul>
+                <a href="migrate_csv_to_sqlserver.php" class="btn">Mulai Migrasi</a>
+            </div>
+
+            <!-- Tool 3: SQL Script Generator -->
+            <div class="tool-card">
+                <div class="icon">💾</div>
+                <h2>SQL Script Generator</h2>
+                <p>Generate SQL migration script lengkap yang bisa dijalankan langsung di SQL Server Management Studio (SSMS) atau command line.</p>
+                <ul class="features">
+                    <li>Export sebagai .sql file</li>
+                    <li>Bisa dijalankan di SSMS</li>
+                    <li>Include backup instructions</li>
+                    <li>Auto verification queries</li>
+                </ul>
+                <a href="generate_migration_sql.php" class="btn btn-secondary">Download SQL Script</a>
+            </div>
+        </div>
+
+        <div class="info-box">
+            <h3>❓ Pertanyaan Yang Sering Diajukan</h3>
+            <p><strong>Q: Apakah perbedaan huruf besar/kecil akan dianggap berbeda?</strong><br>
+            A: Tidak. Sistem menggunakan case-insensitive comparison, jadi "SUDIONO" dan "Sudiono" dianggap sama.</p>
+            
+            <p style="margin-top: 15px;"><strong>Q: Apa itu mode DRY RUN?</strong><br>
+            A: Mode preview yang menunjukkan perubahan apa yang akan dilakukan tanpa benar-benar mengubah database. Gunakan ini untuk verifikasi sebelum eksekusi sesungguhnya.</p>
+            
+            <p style="margin-top: 15px;"><strong>Q: Bagaimana jika ada error saat migrasi?</strong><br>
+            A: Sistem akan mencatat error dan menampilkan detailnya. Anda bisa memperbaiki data CSV dan mencoba lagi.</p>
+            
+            <p style="margin-top: 15px;"><strong>Q: Bisa di-rollback jika ada kesalahan?</strong><br>
+            A: Gunakan backup yang telah Anda buat sebelum migrasi. Itulah mengapa backup sangat penting!</p>
+        </div>
+
+        <div class="footer">
+            <p>Tools Migrasi Data Pegawai v1.0 | Dibuat untuk HRIS Supracor</p>
+            <p style="margin-top: 10px; font-size: 0.9em;">Database: SQL Server (spsdmz2/dbHR) | Source: CSV File</p>
+        </div>
+    </div>
+</body>
+</html>

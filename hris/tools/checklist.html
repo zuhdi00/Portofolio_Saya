@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pre-Migration Checklist</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 15px;
+        }
+        .section {
+            margin-bottom: 30px;
+        }
+        .section h2 {
+            color: #667eea;
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        .section h2 .icon {
+            font-size: 1.5em;
+            margin-right: 10px;
+        }
+        .checklist {
+            list-style: none;
+            padding: 0;
+        }
+        .checklist li {
+            padding: 12px;
+            margin: 8px 0;
+            background: #f9f9f9;
+            border-left: 4px solid #667eea;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .checklist li:hover {
+            background: #f0f0f0;
+            border-left-color: #764ba2;
+        }
+        .checklist li input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-right: 15px;
+            cursor: pointer;
+            accent-color: #667eea;
+        }
+        .checklist li input[type="checkbox"]:checked + label {
+            color: #999;
+            text-decoration: line-through;
+        }
+        .checklist label {
+            cursor: pointer;
+            flex: 1;
+            margin: 0;
+        }
+        .success-box {
+            background: #c8e6c9;
+            border-left: 4px solid #4caf50;
+            padding: 15px;
+            border-radius: 4px;
+            color: #2e7d32;
+            margin-bottom: 20px;
+        }
+        .warning-box {
+            background: #fff3cd;
+            border-left: 4px solid #ff9800;
+            padding: 15px;
+            border-radius: 4px;
+            color: #c57c00;
+            margin-bottom: 20px;
+        }
+        .error-box {
+            background: #ffebee;
+            border-left: 4px solid #f44336;
+            padding: 15px;
+            border-radius: 4px;
+            color: #c62828;
+            margin-bottom: 20px;
+        }
+        .info-box {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 15px;
+            border-radius: 4px;
+            color: #1565c0;
+            margin-bottom: 20px;
+        }
+        .progress {
+            background: #e0e0e0;
+            height: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+        .progress-bar {
+            background: linear-gradient(90deg, #4caf50 0%, #667eea 100%);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .requirement {
+            padding: 15px;
+            background: #f5f5f5;
+            border-radius: 4px;
+            margin: 10px 0;
+            border-left: 4px solid #2196f3;
+        }
+        .requirement strong {
+            color: #1565c0;
+        }
+        button {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            cursor: pointer;
+            margin-top: 20px;
+            width: 100%;
+            font-weight: bold;
+            transition: opacity 0.3s;
+        }
+        button:hover {
+            opacity: 0.9;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            color: #999;
+            font-size: 0.9em;
+        }
+        .print-friendly {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>✅ Pre-Migration Checklist</h1>
+
+        <div class="warning-box">
+            <strong>⚠️ PENTING:</strong> Sebelum melakukan migrasi data, pastikan semua item di checklist ini sudah terpenuhi!
+        </div>
+
+        <!-- System Requirements -->
+        <div class="section">
+            <h2><span class="icon">🖥️</span> System Requirements</h2>
+            <ul class="checklist">
+                <li>
+                    <input type="checkbox" id="check1">
+                    <label for="check1"><strong>XAMPP Running</strong> - Apache & MySQL sudah start</label>
+                </li>
+                <li>
+                    <input type="checkbox" id="check2">
+                    <label for="check2"><strong>PHP 7.4+</strong> - Dengan extension sqlsrv dan mysqli</label>
+                </li>
+                <li>
+                    <input type="checkbox" id="check3">
+                    <label for="check3"><strong>SQL Server Client</strong> - sqlsrv extension ter-install di PHP</label>
+                </li>
+                <li>
+                    <input type="checkbox" id="check4">
+                    <label for="check4"><strong>Network Access</strong> - Bisa ping ke server spsdmz2</label>
+                </li>
+                <li>
+                    <input type="checkbox" id="check5">
+                    <label for="check5"><strong>Internet Connection</strong> - Untuk akses portal</label>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Database Preparation -->
+        <div class="section">
+            <h2><span class="icon">💾</span> Database Preparation</h2>
+            <ul class="checklist">
+                <li>
+                    <input type="checkbox" id="check6">
+                    <label for="check6"><strong>SQL Server Access</strong> - Bisa login ke spsdmz2 dengan user sa</label>
+                </li>
+                <li>
+                    <input type="checkbox" id="check7">
+                    <label for="check7"><strong>Database Backup</strong> - Sudah backup database dbHR (WAJIB!)</label>
+                </li>
+                <li>
+                    <input type="checkbox" id="check8">
+                    <label for="check8"><strong>Backup Location</strong> - Backup file disimpan di tempat aman</label>
+                </li>
+                <li>
+                    <input type="checkbox" id="check9">
+                    <label for="check9"><strong>Backup Verification</strong> - Test restore backup untuk memastikan valid</label>
+                </li>
+                <li>
+                    <input type="checkbox" id="check10">
+                    <label for="check10"><strong>Table Existence</strong> - Tabel dbo.pegawai_lengkap sudah ada di dbHR</label>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Data Preparation -->
+        <div class="section">
+            <h2><span class="icon">📊</span> Data Preparation</h2>
+            <ul class="checklist">
+                <li>
+                    <input type="checkbox" id="check11">
+                    <label for="check11"><strong>CSV File Present</strong> - File DATA KARYAWAN (2).csv sudah ada</label>
+                </li>
+                <li>
+                    <input type="checkbox" id="check12">
+                    <label for="check12"><strong>CSV File Location</strong> - Path: c:\xampp\htdocs\hris\database\DATA KARYAWAN (2).csv</label>
+                </li>
+                <li>
+                    <input type="checkbox" id="check13">
+                    <label for="check13"><strong>CSV Format Valid</strong> - File CSV sudah dicek, format OK</label>
+                </li>
+                <li>
+                    <input type="checkbox" id="check14">
+                    <label for="check14"><strong>Data Quality Check</strong> - Data CSV sudah diverifikasi, tidak ada kesalahan grosir</label>
+                </li>
+                <li>
+                    <input type="checkbox" id="check15">
+                    <label for="check15"><strong>Duplicate Check</strong> - Pastikan tidak ada duplikat ID di CSV</label>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Tools Verification -->
+        <div class="section">
+            <h2><span class="icon">🔧</span> Tools Verification</h2>
+            <ul class="checklist">
+                <li>
+                    <input type="checkbox" id="check16">
+                    <label for="check16"><strong>Folder Exists</strong> - c:\xampp\htdocs\hris\tools\ sudah ada</label>
+                </li>
+                <li>
+                    <input type="checkbox" id="check17">
+                    <label for="check17"><strong>Portal Accessible</strong> - http://localhost/hris/tools/ bisa diakses</label>
+                </li>
+                <li>
+                    <input type="checkbox" id="check18">
+                    <label for="check18"><strong>Comparison Tool Working</strong> - compare_data_employee.php bisa run</label>
+                </li>
+                <li>
+                    <input type="checkbox" id="check19">
+                    <label for="check19"><strong>Migration Tool Ready</strong> - migrate_csv_to_sqlserver.php bisa run</label>
+                </li>
+                <li>
+                    <input type="checkbox" id="check20">
+                    <label for="check20"><strong>SQL Generator Ready</strong> - generate_migration_sql.php bisa download</label>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Pre-Execution -->
+        <div class="section">
+            <h2><span class="icon">📋</span> Pre-Execution Checklist</h2>
+            <ul class="checklist">
+                <li>
+                    <input type="checkbox" id="check21">
+                    <label for="check21"><strong>Run Comparison First</strong> - Jalankan compare_data_employee.php untuk baseline</label>
+                </li>
+                <li>
+                    <input type="checkbox" id="check22">
+                    <label for="check22"><strong>Review Comparison Results</strong> - Lihat output & understand perbedaannya</label>
+                </li>
+                <li>
+                    <input type="checkbox" id="check23">
+                    <label for="check23"><strong>Document Current State</strong> - Catat jumlah records sebelum migrasi</label>
+                </li>
+                <li>
+                    <input type="checkbox" id="check24">
+                    <label for="check24"><strong>Test in DRY RUN Mode</strong> - Buka migration tool, pastikan mode DRY RUN</label>
+                </li>
+                <li>
+                    <input type="checkbox" id="check25">
+                    <label for="check25"><strong>Review Dry Run Output</strong> - Lihat berapa INSERT/UPDATE/ERROR</label>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Team Notification -->
+        <div class="section">
+            <h2><span class="icon">👥</span> Team Notification</h2>
+            <ul class="checklist">
+                <li>
+                    <input type="checkbox" id="check26">
+                    <label for="check26"><strong>Notify Users</strong> - Beritahu user HRIS akan ada maintenance</label>
+                </li>
+                <li>
+                    <input type="checkbox" id="check27">
+                    <label for="check27"><strong>Schedule Downtime</strong> - Jadwalkan migrasi di luar jam kerja</label>
+                </li>
+                <li>
+                    <input type="checkbox" id="check28">
+                    <label for="check28"><strong>Prepare Support Team</strong> - Brief team soal migrasi & rollback plan</label>
+                </li>
+                <li>
+                    <input type="checkbox" id="check29">
+                    <label for="check29"><strong>Communication Channel</strong> - Siapkan channel komunikasi (telepon, chat)</label>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Progress Bar -->
+        <div style="margin: 30px 0;">
+            <strong>Checklist Progress:</strong>
+            <div class="progress">
+                <div class="progress-bar" id="progressBar">0%</div>
+            </div>
+            <p id="progressText" style="text-align: center; color: #666; margin-top: 10px;">0/29 items completed</p>
+        </div>
+
+        <!-- System Requirements Details -->
+        <div class="section">
+            <h2><span class="icon">⚙️</span> Requirement Details</h2>
+            
+            <div class="requirement">
+                <strong>1. XAMPP Status</strong>
+                <p>Apache & MySQL harus berjalan. Cek:</p>
+                <code>Services → XAMPP Control Panel → Click "Start" pada Apache & MySQL</code>
+            </div>
+
+            <div class="requirement">
+                <strong>2. PHP Extensions</strong>
+                <p>Cek di phpinfo():</p>
+                <code>
+                - php_sqlsrv (untuk SQL Server connection)<br>
+                - mysqli (sudah default di XAMPP)
+                </code>
+            </div>
+
+            <div class="requirement">
+                <strong>3. SQL Server Connection</strong>
+                <p>Test connection dengan credentials:</p>
+                <code>
+                Server: spsdmz2<br>
+                User: sa<br>
+                Password: supracor<br>
+                Database: dbHR
+                </code>
+            </div>
+
+            <div class="requirement">
+                <strong>4. Backup Strategy</strong>
+                <p>Backup database dbHR menggunakan SSMS:</p>
+                <code>
+                Right-click dbHR → Tasks → Back Up<br>
+                Location: C:\Backups\ (atau tempat aman lainnya)<br>
+                Verify: Test restore ke database baru
+                </code>
+            </div>
+
+            <div class="requirement">
+                <strong>5. Network Check</strong>
+                <p>Test connection ke server spsdmz2:</p>
+                <code>
+                CMD → ping spsdmz2<br>
+                Atau: telnet spsdmz2 1433 (untuk SQL Server port)
+                </code>
+            </div>
+        </div>
+
+        <!-- Action Plan -->
+        <div class="section">
+            <h2><span class="icon">🎯</span> Migration Action Plan</h2>
+            <div class="info-box">
+                <strong>Step 1: Preparation</strong><br>
+                Pastikan semua item di checklist ini ✅ CHECKED<br><br>
+                <strong>Step 2: Baseline</strong><br>
+                Run: Comparison Tool → Document results<br><br>
+                <strong>Step 3: Preview</strong><br>
+                Run: Migration Tool (DRY RUN mode) → Review output<br><br>
+                <strong>Step 4: Execute</strong><br>
+                Click: "EXECUTE MIGRASI" → Tunggu selesai<br><br>
+                <strong>Step 5: Verification</strong><br>
+                Run: Comparison Tool → Verify Migration Tool → Verify Tool<br><br>
+                <strong>Step 6: Documentation</strong><br>
+                Catat hasil, simpan screenshot, update audit log
+            </div>
+        </div>
+
+        <!-- Quick Access -->
+        <div class="section">
+            <h2><span class="icon">🔗</span> Quick Links</h2>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                <a href="http://localhost/hris/tools/" style="padding: 12px; background: #667eea; color: white; text-decoration: none; border-radius: 5px; text-align: center; font-weight: bold;">→ Portal Utama</a>
+                <a href="compare_data_employee.php" style="padding: 12px; background: #764ba2; color: white; text-decoration: none; border-radius: 5px; text-align: center; font-weight: bold;">→ Comparison Tool</a>
+                <a href="migrate_csv_to_sqlserver.php" style="padding: 12px; background: #f5576c; color: white; text-decoration: none; border-radius: 5px; text-align: center; font-weight: bold;">→ Migration Tool</a>
+                <a href="verify_migration.php" style="padding: 12px; background: #4caf50; color: white; text-decoration: none; border-radius: 5px; text-align: center; font-weight: bold;">→ Verification Tool</a>
+            </div>
+        </div>
+
+        <!-- Export -->
+        <div style="margin-top: 30px; text-align: center;">
+            <button onclick="window.print()">🖨️ Print Checklist</button>
+        </div>
+
+        <div class="footer">
+            <p>Pre-Migration Checklist v1.0 | Data Pegawai Migrasi Tools</p>
+            <p>Simpan checklist ini dan centang setiap item sebelum memulai migrasi</p>
+            <p style="margin-top: 10px; font-weight: bold; color: #f44336;">⚠️ JANGAN LUPA BACKUP DATABASE!</p>
+        </div>
+    </div>
+
+    <script>
+        // Update progress bar
+        function updateProgress() {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            const checked = document.querySelectorAll('input[type="checkbox"]:checked').length;
+            const total = checkboxes.length;
+            const percentage = Math.round((checked / total) * 100);
+            
+            document.getElementById('progressBar').style.width = percentage + '%';
+            document.getElementById('progressBar').textContent = percentage + '%';
+            document.getElementById('progressText').textContent = checked + '/' + total + ' items completed';
+        }
+
+        // Add event listeners
+        document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+            checkbox.addEventListener('change', updateProgress);
+        });
+
+        // Initial update
+        updateProgress();
+    </script>
+</body>
+</html>

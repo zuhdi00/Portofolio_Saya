@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>🔧 Data Consolidation & Migration - HRIS Tools</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .header {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .header h1 {
+            margin: 0 0 10px 0;
+            color: #333;
+        }
+        .header p {
+            margin: 5px 0;
+            color: #666;
+            font-size: 14px;
+        }
+        .stage {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-left: 5px solid #667eea;
+        }
+        .stage.warning {
+            border-left-color: #ff9800;
+            background: #fff8f0;
+        }
+        .stage.success {
+            border-left-color: #4caf50;
+            background: #f1f8f6;
+        }
+        .stage.info {
+            border-left-color: #2196f3;
+            background: #f0f7ff;
+        }
+        .stage h2 {
+            margin: 0 0 15px 0;
+            font-size: 18px;
+            color: #333;
+        }
+        .stage-content {
+            font-size: 13px;
+            line-height: 1.6;
+        }
+        .step-list {
+            list-style: none;
+            padding: 0;
+        }
+        .step-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+        }
+        .step-list li:last-child {
+            border-bottom: none;
+        }
+        .step-icon {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #667eea;
+            color: white;
+            text-align: center;
+            line-height: 24px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-right: 10px;
+            flex-shrink: 0;
+        }
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+        .btn {
+            padding: 10px 15px;
+            border-radius: 4px;
+            text-decoration: none;
+            color: white;
+            font-size: 13px;
+            font-weight: bold;
+            display: inline-block;
+            cursor: pointer;
+            border: none;
+            transition: opacity 0.3s;
+        }
+        .btn:hover {
+            opacity: 0.9;
+        }
+        .btn-primary {
+            background: #667eea;
+        }
+        .btn-warning {
+            background: #ff9800;
+        }
+        .btn-success {
+            background: #4caf50;
+        }
+        .btn-info {
+            background: #2196f3;
+        }
+        .btn-danger {
+            background: #f44336;
+        }
+        .status-box {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #ddd;
+        }
+        .status-item:last-child {
+            border-bottom: none;
+        }
+        .timeline {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .timeline-item {
+            flex: 1;
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+        .timeline-item.active {
+            background: #e3f2fd;
+            border-color: #2196f3;
+        }
+        .timeline-item h4 {
+            margin: 0 0 5px 0;
+            color: #333;
+        }
+        .timeline-item p {
+            margin: 0;
+            font-size: 12px;
+            color: #666;
+        }
+        .critical-warning {
+            background: #ffebee;
+            border: 2px solid #f44336;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 15px 0;
+            color: #c62828;
+        }
+        .success-msg {
+            background: #e8f5e9;
+            border: 2px solid #4caf50;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 15px 0;
+            color: #2e7d32;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- HEADER -->
+    <div class="header">
+        <h1>🔧 Data Consolidation & Employee Migration</h1>
+        <p><strong>Status:</strong> ✅ Ready for Implementation</p>
+        <p><strong>Objective:</strong> Consolidate duplicate employee data while preserving zkteco records</p>
+        <p><strong>Total Records:</strong> 533 employees | <strong>Duplicates Found:</strong> 4 groups</p>
+    </div>
+
+    <!-- TIMELINE -->
+    <div class="stage info">
+        <h2>📍 Process Timeline</h2>
+        <div class="timeline">
+            <div class="timeline-item active">
+                <h4>1️⃣ Setup</h4>
+                <p>Add new columns<br>& mapping table</p>
+            </div>
+            <div class="timeline-item">
+                <h4>2️⃣ Analyze</h4>
+                <p>Review duplicates<br>& create mapping</p>
+            </div>
+            <div class="timeline-item">
+                <h4>3️⃣ Consolidate</h4>
+                <p>Link records<br>& flag duplicates</p>
+            </div>
+            <div class="timeline-item">
+                <h4>4️⃣ Verify</h4>
+                <p>Check data integrity<br>& audit trail</p>
+            </div>
+            <div class="timeline-item">
+                <h4>5️⃣ Migrate</h4>
+                <p>Execute CSV migration<br>with consolidated data</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- STAGE 1: REVIEW DUPLICATES -->
+    <div class="stage warning">
+        <h2>📋 Stage 1: Review Duplicates in SQL Server</h2>
+        <div class="stage-content">
+            <p><strong>What:</strong> Analyze existing duplicates in SQL Server database</p>
+            <p><strong>Why:</strong> Need to understand data structure before consolidation</p>
+            <p><strong>Details:</strong></p>
+            <div class="status-box">
+                <div class="status-item">
+                    <span>📍 <strong>SUDIONO</strong></span>
+                    <span>2 records (ID: 2000601, 2020624)</span>
+                </div>
+                <div class="status-item">
+                    <span>📍 <strong>KHOIRUL ANAM</strong></span>
+                    <span>2 records (ID: 2060658, 42601327)</span>
+                </div>
+                <div class="status-item">
+                    <span>📍 <strong>RONI</strong></span>
+                    <span>2 records (ID: 41709164, 40001380)</span>
+                </div>
+                <div class="status-item">
+                    <span>📍 <strong>DIAN SANTOSO</strong></span>
+                    <span>2 records (⚠️ SAME NIK!)</span>
+                </div>
+            </div>
+            <p><strong>⚠️ CRITICAL NOTE:</strong> DIAN SANTOSO has identical NIK (3516062803870001) in both records. This needs investigation!</p>
+        </div>
+        <div class="button-group">
+            <a href="analyze_sql_duplicates_detailed.php" class="btn btn-warning">📋 Analyze Duplicates</a>
+            <a href="find_duplicates_by_name.php" class="btn btn-info">🔍 Detailed View</a>
+        </div>
+    </div>
+
+    <!-- STAGE 2: SETUP SCHEMA -->
+    <div class="stage info">
+        <h2>🏗️ Stage 2: Setup Database Schema</h2>
+        <div class="stage-content">
+            <p><strong>What:</strong> Add new columns to pegawai_lengkap + create mapping tables</p>
+            <p><strong>Duration:</strong> ~5-10 seconds | <strong>Risk:</strong> VERY LOW (non-destructive)</p>
+            <p><strong>New Columns:</strong></p>
+            <ul class="step-list">
+                <li><span class="step-icon">1</span> <strong>person_unified_id</strong> - Universal ID for same person</li>
+                <li><span class="step-icon">2</span> <strong>id_source</strong> - Source: SQL / EXCEL / ZKTECO</li>
+                <li><span class="step-icon">3</span> <strong>nik_source</strong> - Source of NIK</li>
+                <li><span class="step-icon">4</span> <strong>is_primary</strong> - Flag for primary record</li>
+                <li><span class="step-icon">5</span> <strong>consolidation_notes</strong> - Audit notes</li>
+                <li><span class="step-icon">6</span> <strong>id_peg_excel</strong> - Original Excel ID</li>
+                <li><span class="step-icon">7</span> <strong>nik_excel</strong> - Original Excel NIK</li>
+            </ul>
+            <p><strong>New Tables:</strong></p>
+            <ul class="step-list">
+                <li><span class="step-icon">A</span> <strong>pegawai_id_mapping</strong> - Tracks all ID sources</li>
+                <li><span class="step-icon">B</span> <strong>pegawai_consolidation_log</strong> - Audit trail</li>
+            </ul>
+            <div class="success-msg">
+                ✅ <strong>Safe:</strong> NO data deletion. All records preserved. Fully reversible.
+            </div>
+        </div>
+        <div class="button-group">
+            <a href="setup_schema_and_consolidate.php?action=setup&dry_run=1" class="btn btn-info">📋 Preview Setup</a>
+            <a href="setup_schema_and_consolidate.php?action=setup&dry_run=0" class="btn btn-danger" onclick="return confirm('Execute schema setup? This is reversible but affects database structure.');">🔴 Execute Setup</a>
+        </div>
+    </div>
+
+    <!-- STAGE 3: ANALYZE & MAP -->
+    <div class="stage info">
+        <h2>🔗 Stage 3: Analyze & Create Mappings</h2>
+        <div class="stage-content">
+            <p><strong>What:</strong> Identify duplicate groups and create unified IDs</p>
+            <p><strong>Output:</strong> Proposed unified IDs for each duplicate group</p>
+            <p><strong>Example:</strong></p>
+            <div class="status-box">
+                <strong>PERSON_SUDIONO_001</strong>
+                <div style="margin-top: 10px; padding-left: 20px;">
+                    <div>ID: 2000601 (NIK: 3514111701770001) ← Primary</div>
+                    <div>ID: 2020624 (NIK: 3516050406820001) ← Duplicate</div>
+                </div>
+            </div>
+        </div>
+        <div class="button-group">
+            <a href="setup_schema_and_consolidate.php?action=analyze" class="btn btn-info">🔗 Analyze & Map</a>
+        </div>
+    </div>
+
+    <!-- STAGE 4: CONSOLIDATE -->
+    <div class="stage warning">
+        <h2>🔀 Stage 4: Consolidate Data</h2>
+        <div class="stage-content">
+            <p><strong>What:</strong> Link duplicate records + set flags + create mappings</p>
+            <p><strong>Actions:</strong></p>
+            <ul class="step-list">
+                <li><span class="step-icon">✓</span> Populate <strong>person_unified_id</strong> for duplicates</li>
+                <li><span class="step-icon">✓</span> Set <strong>is_primary = 1</strong> for main record</li>
+                <li><span class="step-icon">✓</span> Set <strong>is_primary = 0</strong> for duplicate</li>
+                <li><span class="step-icon">✓</span> Create records in <strong>pegawai_id_mapping</strong></li>
+                <li><span class="step-icon">✓</span> Log all changes in audit trail</li>
+                <li><span class="step-icon">✓</span> PRESERVE all original data</li>
+            </ul>
+            <div class="critical-warning">
+                ⚠️ <strong>IMPORTANT:</strong> This modifies data but does NOT delete anything. All records are preserved and linked. Fully auditable and reversible.
+            </div>
+            <p><strong>Recommendation:</strong> Run with dry_run=1 first, then execute.</p>
+        </div>
+        <div class="button-group">
+            <a href="setup_schema_and_consolidate.php?action=consolidate&dry_run=1" class="btn btn-info">📋 Preview Consolidation</a>
+            <a href="setup_schema_and_consolidate.php?action=consolidate&dry_run=0" class="btn btn-danger" onclick="return confirm('Execute consolidation? All duplicate records will be linked. This is reversible.');">🔴 Execute Consolidation</a>
+        </div>
+    </div>
+
+    <!-- STAGE 5: VERIFY -->
+    <div class="stage success">
+        <h2>✅ Stage 5: Verify Data Integrity</h2>
+        <div class="stage-content">
+            <p><strong>What:</strong> Check consolidation results and data integrity</p>
+            <p><strong>Checks:</strong></p>
+            <ul class="step-list">
+                <li><span class="step-icon">✓</span> Total records = 533 (no data lost)</li>
+                <li><span class="step-icon">✓</span> All duplicates linked correctly</li>
+                <li><span class="step-icon">✓</span> Mapping integrity verified</li>
+                <li><span class="step-icon">✓</span> Audit trail complete</li>
+                <li><span class="step-icon">✓</span> zkteco data preserved</li>
+                <li><span class="step-icon">✓</span> No orphaned records</li>
+            </ul>
+        </div>
+        <div class="button-group">
+            <a href="verify_consolidation.php" class="btn btn-success">✅ Verify Results</a>
+        </div>
+    </div>
+
+    <!-- STAGE 6: MIGRATE -->
+    <div class="stage success">
+        <h2>🚀 Stage 6: Execute CSV Migration</h2>
+        <div class="stage-content">
+            <p><strong>What:</strong> Migrate CSV data to SQL Server with consolidated linking</p>
+            <p><strong>Data:</strong> 533 employee records from Excel</p>
+            <p><strong>Action:</strong></p>
+            <ul class="step-list">
+                <li><span class="step-icon">✓</span> UPDATE: 533 existing records (all matched)</li>
+                <li><span class="step-icon">✓</span> INSERT: 0 new records</li>
+                <li><span class="step-icon">✓</span> Link with consolidated data</li>
+                <li><span class="step-icon">✓</span> Keep all source tracking</li>
+            </ul>
+        </div>
+        <div class="button-group">
+            <a href="migrate_csv_to_sqlserver.php" class="btn btn-success">🚀 Execute Migration</a>
+            <a href="compare_data_employee.php" class="btn btn-info">📊 View Comparison Report</a>
+        </div>
+    </div>
+
+    <!-- SUPPORT -->
+    <div class="stage info">
+        <h2>📚 Support & Documentation</h2>
+        <div class="button-group">
+            <a href="DATA_CONSOLIDATION_GUIDE.md" target="_blank" class="btn btn-info">📖 Full Documentation</a>
+            <a href="QUICKSTART.md" target="_blank" class="btn btn-info">⚡ Quick Start Guide</a>
+            <a href="index.html" class="btn btn-primary">🏠 Back to Tools Index</a>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div style="text-align: center; color: white; margin-top: 30px; font-size: 12px;">
+        <p>HRIS Data Consolidation & Migration Tools | Status: ✅ Ready | Risk Level: 🟢 LOW</p>
+    </div>
+</div>
+</body>
+</html>

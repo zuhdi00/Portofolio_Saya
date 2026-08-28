@@ -1,0 +1,35 @@
+
+[28/08/2026  1:00:01.18] === Sinkronisasi ZKTeco mulai ===
+=== Impor ZKTeco dimulai 27-08-2026 20:00:01 ===
+Ambil tap sejak: 2026-08-26 17:28:05
+Dibaca dari MDB : 1097 baris
+Tap baru masuk  : 243
+Sudah ada (dilewati): 854 baris
+Tap terakhir    : 2026-08-28 00:32:33
+Selesai dalam 22.7 detik.
+Lanjutkan dengan: sync_zkteco_proses.php
+=== Proses absensi 27-08-2026 20:00:25 ===
+Tanggal shift 3 : tanggal_tap
+  Shift 1: kerja 08:00-16:00, tap masuk 05:00-11:59, toleransi 5 mnt
+  Shift 2: kerja 16:00-00:00, tap masuk 13:00-19:59, toleransi 5 mnt
+  Shift 3: kerja 00:00-08:00, tap masuk 21:00-02:59, toleransi 5 mnt
+
+Pegawai terpetakan: 601
+Pegawai dengan tap belum diproses: 232
+(!) 256 zkteco_userid BELUM DIPETAKAN / tidak aktif:
+    2146 (739 tap), 2145 (736 tap), 1969 (706 tap), 1579 (697 tap), 1996 (672 tap), 2113 (649 tap), 2175 (646 tap), 2186 (594 tap), 1667 (588 tap), 1638 (578 tap), 1640 (573 tap), 2034 (562 tap), 2188 (538 tap), 2164 (521 tap), 1331 (497 tap), 1265 (496 tap), 1654 (489 tap), 2076 (484 tap), 2104 (481 tap), 1269 (472 tap), 2117 (449 tap), 1307 (437 tap), 1258 (408 tap), 1288 (406 tap), 1156 (396 tap), 2243 (396 tap), 2035 (387 tap), 2207 (376 tap), 1337 (370 tap), 1639 (353 tap), 2296 (349 tap), 2208 (348 tap), 1249 (333 tap), 1316 (333 tap), 2298 (329 tap), 2219 (329 tap), 1236 (317 tap), 1989 (317 tap), 2321 (313 tap), 2310 (311 tap), 2320 (297 tap), 2087 (278 tap), 2042 (276 tap), 2123 (272 tap), 2292 (258 tap), 1399 (246 tap), 2021 (242 tap), 2300 (239 tap), 4036 (236 tap), 2290 (234 tap), 2301 (232 tap), 3961 (230 tap), 4087 (229 tap), 4280 (226 tap), 2183 (223 tap), 2159 (212 tap), 2048 (206 tap), 3972 (204 tap), 4285 (202 tap), 2217 (201 tap), 2062 (196 tap), 2218 (193 tap), 2221 (187 tap), 3965 (184 tap), 2023 (179 tap), 4078 (179 tap), 1320 (176 tap), 4070 (173 tap), 2274 (173 tap), 1383 (171 tap), 4304 (169 tap), 2075 (164 tap), 1471 (164 tap), 2223 (164 tap), 2170 (164 tap), 4312 (164 tap), 2303 (161 tap), 2353 (150 tap), 2227 (150 tap), 2314 (149 tap), 2173 (147 tap), 3967 (144 tap), 2340 (135 tap), 2349 (134 tap), 1950 (134 tap), 2057 (133 tap), 2099 (129 tap), 2163 (124 tap), 2347 (123 tap), 2230 (118 tap), 2078 (116 tap), 2215 (116 tap), 2148 (116 tap), 3969 (114 tap), 2992 (113 tap), 2007 (112 tap), 1911 (108 tap), 2343 (107 tap), 4295 (107 tap), 2052 (100 tap), 1577 (100 tap), 2127 (99 tap), 2063 (97 tap), 2242 (97 tap), 2073 (96 tap), 4282 (95 tap), 2266 (93 tap), 2134 (92 tap), 2168 (88 tap), 4112 (87 tap), 2287 (81 tap), 2322 (79 tap), 1290 (79 tap), 2231 (79 tap), 2233 (77 tap), 4362 (73 tap), 2348 (73 tap), 2309 (65 tap), 2165 (62 tap), 2308 (58 tap), 2198 (58 tap), 4300 (57 tap), 2253 (55 tap), 4076 (54 tap), 4360 (49 tap), 1921 (49 tap), 2344 (49 tap), 2181 (47 tap), 4313 (46 tap), 2259 (44 tap), 2178 (43 tap), 2161 (42 tap), 2299 (42 tap), 2302 (40 tap), 2138 (37 tap), 4351 (35 tap), 4361 (32 tap), 2334 (31 tap), 2267 (31 tap), 4334 (30 tap), 2129 (29 tap), 2332 (28 tap), 2137 (28 tap), 2980 (25 tap), 2333 (25 tap), 2249 (23 tap), 4314 (22 tap), 4073 (21 tap), 4327 (21 tap), 4326 (18 tap), 2977 (17 tap), 2232 (17 tap), 4332 (17 tap), 2201 (17 tap), 2263 (16 tap), 2272 (16 tap), 2182 (14 tap), 2284 (14 tap), 2330 (14 tap), 2297 (13 tap), 2260 (13 tap), 2158 (12 tap), 3964 (12 tap), 2295 (12 tap), 4288 (12 tap), 4404 (11 tap), 2271 (10 tap), 2264 (10 tap), 4319 (10 tap), 2317 (9 tap), 4088 (7 tap), 4328 (6 tap), 2341 (5 tap), 4321 (5 tap), 4317 (5 tap), 2197 (5 tap), 4437 (4 tap), 4455 (4 tap), 4564 (4 tap), 2235 (4 tap), 4447 (4 tap), 4445 (4 tap), 2236 (4 tap), 2237 (4 tap), 1467 (3 tap), 4562 (3 tap), 4375 (3 tap), 4077 (3 tap), 2325 (3 tap), 4406 (3 tap), 4397 (3 tap), 4347 (3 tap), 2241 (3 tap), 1289 (3 tap), 2240 (3 tap), 4114 (3 tap), 2262 (3 tap), 4386 (2 tap), 4080 (2 tap), 2342 (2 tap), 2324 (2 tap), 4389 (2 tap), 4391 (2 tap), 4396 (2 tap), 2210 (2 tap), 2135 (2 tap), 2151 (2 tap), 4399 (2 tap), 4422 (2 tap), 2291 (2 tap), 4308 (2 tap), 4378 (2 tap), 2220 (2 tap), 2288 (2 tap), 2289 (2 tap), 2319 (1 tap), 4392 (1 tap), 4393 (1 tap), 4394 (1 tap), 4395 (1 tap), 4425 (1 tap), 4426 (1 tap), 4427 (1 tap), 4428 (1 tap), 4376 (1 tap), 4377 (1 tap), 4079 (1 tap), 4424 (1 tap), 4299 (1 tap), 4372 (1 tap), 4374 (1 tap), 4379 (1 tap), 4381 (1 tap), 4388 (1 tap), 4390 (1 tap), 2098 (1 tap), 2273 (1 tap), 1458 (1 tap), 4398 (1 tap), 4421 (1 tap), 4423 (1 tap), 4448 (1 tap), 4346 (1 tap), 4373 (1 tap), 4380 (1 tap), 4382 (1 tap), 2315 (1 tap), 4387 (1 tap), 4420 (1 tap), 4383 (1 tap), 4384 (1 tap), 4385 (1 tap), 4320 (1 tap), 4302 (1 tap), 4316 (1 tap), 2110 (1 tap)
+    Absensi mereka TIDAK akan muncul sampai pegawai.zkteco_userid diisi.
+  ... 50 pegawai diproses, 50 baris (1s)
+  ... 100 pegawai diproses, 100 baris (2s)
+  ... 150 pegawai diproses, 150 baris (3s)
+  ... 200 pegawai diproses, 200 baris (4s)
+
+Tap berpasangan lengkap : 0
+Tanpa tap pulang        : 92
+Tanpa tap masuk         : 141
+Tap ganda dibuang       : 10
+Digabung (tgl sama)     : 1
+Baris absensi ditulis   : 232
+Masuk antrian approval  : 232
+Selesai dalam 4.5 detik.
+[28/08/2026  1:00:29.78] === Sinkronisasi ZKTeco selesai ===
