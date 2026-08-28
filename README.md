@@ -1,4 +1,4 @@
-[README(1).md](https://github.com/user-attachments/files/31537675/README.1.md)
+[README(2).md](https://github.com/user-attachments/files/31538557/README.2.md)
 # Portofolio Saya — Zuhdi
 
 Repository ini berisi kumpulan project dan tools yang saya buat selama bekerja di bidang **IT / EDP (Electronic Data Processing)**, khususnya untuk mendukung operasional produksi, gudang, dan administrasi di lingkungan manufaktur. Sebagian besar aplikasi dibangun untuk menyelesaikan kebutuhan internal perusahaan: pencatatan stok, pelabelan produk, monitoring mesin, pengelolaan tiket IT, hingga sistem HR.
