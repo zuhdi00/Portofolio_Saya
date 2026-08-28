@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IT Support — PT. Supracor Sejahtera</title>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --navy:   #06112b;
+            --blue:   #0f3572;
+            --mid:    #1a5fbd;
+            --accent: #e63946;
+            --gold:   #f4a261;
+            --white:  #ffffff;
+            --off:    #f0f4ff;
+            --text:   #111827;
+            --muted:  #5e6e8a;
+            --border: rgba(15,53,114,0.14);
+            --glass:  rgba(255,255,255,0.75);
+        }
+
+        /* ── CANVAS ── */
+        body {
+            font-family: 'Sora', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 16px;
+            background: #06112b;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Particle canvas */
+        #bg { position: fixed; inset: 0; z-index: 0; }
+
+        /* Animated mesh blobs */
+        .blob {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(90px);
+            opacity: 0.25;
+            z-index: 0;
+            animation: drift 18s ease-in-out infinite alternate;
+        }
+        .blob1 { width: 520px; height: 520px; background: #1a5fbd; top: -120px; left: -100px; animation-duration: 20s; }
+        .blob2 { width: 400px; height: 400px; background: #0f3572; bottom: -80px; right: -60px; animation-duration: 16s; animation-delay: -8s; }
+        .blob3 { width: 300px; height: 300px; background: #e63946; top: 40%; left: 55%; animation-duration: 24s; animation-delay: -4s; opacity: 0.12; }
+
+        @keyframes drift {
+            from { transform: translate(0, 0) scale(1); }
+            to   { transform: translate(40px, 30px) scale(1.08); }
+        }
+
+        /* Grid overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 48px 48px;
+            z-index: 0;
+        }
+
+        /* ── CARD ── */
+        .card {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 480px;
+            background: var(--glass);
+            backdrop-filter: blur(24px) saturate(160%);
+            -webkit-backdrop-filter: blur(24px) saturate(160%);
+            border-radius: 24px;
+            border: 1px solid rgba(255,255,255,0.55);
+            box-shadow: 0 30px 80px rgba(6,17,43,0.5), 0 0 0 1px rgba(255,255,255,0.08);
+            animation: cardIn 0.6s cubic-bezier(.22,.68,0,1.2) both;
+        }
+
+        @keyframes cardIn {
+            from { opacity: 0; transform: translateY(32px) scale(0.97); }
+            to   { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        /* ── HEADER ── */
+        .header {
+            padding: 28px 32px 24px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .logo-ring {
+            position: relative;
+            width: 52px; height: 52px;
+            flex-shrink: 0;
+        }
+
+        .logo-ring svg { position: absolute; inset: 0; animation: spin 12s linear infinite; }
+
+        .logo-inner {
+            position: absolute;
+            inset: 8px;
+            background: var(--navy);
+            border-radius: 50%;
+            display: grid; place-items: center;
+            font-family: 'Space Mono', monospace;
+            font-size: 11px; font-weight: 700;
+            color: var(--white);
+            letter-spacing: 0.5px;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .header-text h1 {
+            font-size: 14px; font-weight: 600;
+            color: var(--navy);
+            line-height: 1.25;
+        }
+
+        .header-text p {
+            font-size: 12px; font-weight: 400;
+            color: var(--muted);
+            margin-top: 2px;
+        }
+
+        /* dept pill */
+        .dept-tag {
+            margin-left: auto;
+            background: var(--navy);
+            color: rgba(255,255,255,0.8);
+            font-size: 10px; font-weight: 500;
+            font-family: 'Space Mono', monospace;
+            letter-spacing: 0.8px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            white-space: nowrap;
+        }
+
+        /* ── BODY ── */
+        .body { padding: 28px 32px 32px; }
+
+        .field { margin-bottom: 18px; }
+
+        .field label {
+            display: block;
+            font-size: 11px; font-weight: 600;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 7px;
+        }
+
+        .field label .req { color: var(--accent); margin-left: 2px; }
+
+        .field input,
+        .field select,
+        .field textarea {
+            width: 100%;
+            padding: 11px 14px;
+            border: 1.5px solid var(--border);
+            border-radius: 10px;
+            font-size: 14px; font-weight: 400;
+            font-family: 'Sora', sans-serif;
+            color: var(--text);
+            background: rgba(255,255,255,0.9);
+            transition: border-color 0.2s, box-shadow 0.2s;
+            appearance: none;
+        }
+
+        .field input::placeholder,
+        .field textarea::placeholder { color: #a0aec0; }
+
+        .field input:focus,
+        .field select:focus,
+        .field textarea:focus {
+            outline: none;
+            border-color: var(--mid);
+            box-shadow: 0 0 0 3px rgba(26,95,189,0.12);
+            background: #fff;
+        }
+
+        .field select {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%235e6e8a' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+            background-color: rgba(255,255,255,0.9);
+            padding-right: 36px;
+            cursor: pointer;
+        }
+
+        .field textarea {
+            resize: vertical;
+            min-height: 100px;
+            line-height: 1.65;
+        }
+
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--border), transparent);
+            margin: 22px 0;
+        }
+
+        /* Category + priority row */
+        .row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+        /* Priority badge select colors */
+        select#priority option[value="Low"]      { color: #059669; }
+        select#priority option[value="Medium"]   { color: #d97706; }
+        select#priority option[value="High"]     { color: #dc2626; }
+        select#priority option[value="Critical"] { color: #7c3aed; }
+
+        /* ── TICKET BADGE ── */
+        .ticket-badge {
+            display: none;
+            align-items: center;
+            gap: 10px;
+            background: var(--navy);
+            border-radius: 10px;
+            padding: 12px 16px;
+            margin-bottom: 18px;
+        }
+
+        .ticket-badge .dot {
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            background: #22c55e;
+            animation: pulse-dot 1.5s ease-in-out infinite;
+            flex-shrink: 0;
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50%       { opacity: 0.5; transform: scale(0.8); }
+        }
+
+        .ticket-badge span {
+            font-family: 'Space Mono', monospace;
+            font-size: 13px; font-weight: 700;
+            color: #fff;
+            letter-spacing: 1.5px;
+        }
+
+        .ticket-badge .label {
+            font-size: 10px; font-weight: 400;
+            color: rgba(255,255,255,0.5);
+            letter-spacing: 0.5px;
+            margin-left: auto;
+        }
+
+        /* ── TOAST ── */
+        .toast {
+            display: none;
+            align-items: center;
+            gap: 10px;
+            background: #ecfdf5;
+            border: 1.5px solid #6ee7b7;
+            border-radius: 10px;
+            padding: 12px 16px;
+            margin-bottom: 18px;
+            font-size: 13px;
+            color: #065f46;
+            animation: slideDown 0.35s ease;
+        }
+
+        .toast.show { display: flex; }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-8px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .toast-icon {
+            width: 20px; height: 20px;
+            background: #10b981;
+            border-radius: 50%;
+            display: grid; place-items: center;
+            color: white; font-size: 11px;
+            flex-shrink: 0;
+        }
+
+        /* ── BUTTONS ── */
+        .actions { display: flex; gap: 10px; }
+
+        .btn {
+            flex: 1;
+            padding: 13px;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px; font-weight: 600;
+            font-family: 'Sora', sans-serif;
+            cursor: pointer;
+            transition: transform 0.12s, opacity 0.15s, box-shadow 0.15s;
+            letter-spacing: 0.2px;
+        }
+
+        .btn:active { transform: scale(0.97); }
+
+        .btn-submit {
+            background: var(--navy);
+            color: #fff;
+            flex: 2;
+            box-shadow: 0 4px 20px rgba(6,17,43,0.25);
+        }
+
+        .btn-submit:hover {
+            background: var(--blue);
+            box-shadow: 0 6px 28px rgba(15,53,114,0.4);
+        }
+
+        .btn-reset {
+            background: rgba(255,255,255,0.7);
+            color: var(--muted);
+            border: 1.5px solid var(--border);
+        }
+
+        .btn-reset:hover { background: var(--off); }
+
+        /* ── FOOTER ── */
+        .footer {
+            border-top: 1px solid var(--border);
+            padding: 14px 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 11px;
+            color: var(--muted);
+        }
+
+        .footer a { color: var(--mid); text-decoration: none; }
+        .footer a:hover { text-decoration: underline; }
+
+        @media print {
+            body { background: white; }
+            .blob, body::before, #bg { display: none; }
+            .card { box-shadow: none; border: 1px solid #ddd; backdrop-filter: none; background: white; }
+            .actions { display: none; }
+        }
+
+        @media (max-width: 520px) {
+            .body, .footer { padding-left: 20px; padding-right: 20px; }
+            .header { padding-left: 20px; padding-right: 20px; }
+            .row { grid-template-columns: 1fr; }
+            .dept-tag { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="blob blob1"></div>
+<div class="blob blob2"></div>
+<div class="blob blob3"></div>
+
+<!-- Particle canvas -->
+<canvas id="bg"></canvas>
+
+<div class="card">
+    <!-- Header -->
+    <div class="header">
+        <div class="logo-ring">
+            <svg viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="26" cy="26" r="24" stroke="#1a5fbd" stroke-width="1.5" stroke-dasharray="6 4"/>
+            </svg>
+            <div class="logo-inner">SPS</div>
+        </div>
+        <div class="header-text">
+            <h1>PT. Supracor Sejahtera</h1>
+            <p>Formulir Permintaan Departement EDP</p>
+        </div>
+        <span class="dept-tag">EDP / IT</span>
+    </div>
+
+    <!-- Body -->
+    <div class="body">
+
+        <!-- Toast -->
+        <div id="toast" class="toast">
+            <div class="toast-icon">✓</div>
+            <span id="toastMsg">Ticket berhasil disubmit!</span>
+        </div>
+
+        <!-- Ticket badge -->
+        <div id="ticketBadge" class="ticket-badge">
+            <div class="dot"></div>
+            <span id="ticketNum">—</span>
+            <span class="label">TICKET AKTIF</span>
+        </div>
+
+        <form id="ticketForm" novalidate>
+
+            <!-- User Info -->
+            <div class="field">
+                <label>Nama Lengkap <span class="req">*</span></label>
+                <input type="text" id="name" placeholder="Masukkan nama lengkap" required>
+            </div>
+
+            <div class="field">
+                <label>Departemen <span class="req">*</span></label>
+                <select id="department" required>
+                    <option value="">— Pilih Departemen —</option>
+                    <option>Accounting</option>
+                    <option>Finance</option>
+                    <option>Human Resource Development</option>
+                    <option>Marketing</option>
+                    <option>Sales</option>
+                    <option>Production</option>
+                    <option>Warehouse</option>
+                    <option>PPIC</option>
+                    <option>Quality Control</option>
+                    <option>Purchasing</option>
+                    <option>EDP / IT</option>
+                    <option>General Affairs</option>
+                    <option>Board of Director</option>
+                </select>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- Detail -->
+            <!-- <div class="row">
+                <div class="field">
+                    <label>Kategori <span class="req">*</span></label>
+                    <select id="category" required>
+                        <option value="">— Pilih —</option>
+                        <option value="Hardware">Hardware</option>
+                        <option value="Software">Software</option>
+                        <option value="Network">Network / Internet</option>
+                        <option value="Email">Email / Outlook</option>
+                        <option value="Printer">Printer / Scanner</option>
+                        <option value="Access">User Access</option>
+                        <option value="Application">Aplikasi Internal</option>
+                        <option value="Other">Lainnya</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label>Prioritas <span class="req">*</span></label>
+                    <select id="priority" required>
+                        <option value="">— Pilih —</option>
+                        <option value="Low">Low</option>
+                        <option value="Medium">Medium</option>
+                        <option value="High">High</option>
+                        <option value="Critical">Critical</option>
+                    </select>
+                </div>
+            </div> -->
+
+            <div class="field">
+                <label>Subjek Permasalahan <span class="req">*</span></label>
+                <input type="text" id="subject" placeholder="Ringkasan singkat permasalahan" required>
+            </div>
+
+            <div class="field" style="margin-bottom:24px;">
+                <label>Deskripsi Detail <span class="req">*</span></label>
+                <textarea id="description" placeholder="Jelaskan permasalahan secara detail&#10;• Kapan terjadi?&#10;• Apa pesan error-nya?&#10;• Sudah dicoba restart?" required></textarea>
+            </div>
+
+            <div class="actions">
+                <button type="submit" class="btn btn-submit">Submit Ticket</button>
+                <button type="button" class="btn btn-reset" onclick="resetForm()">Reset</button>
+            </div>
+
+        </form>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <span>© 2026 PT. Supracor Sejahtera</span>
+        <a href="mailto:it.support@supracor.com">support@supracor.co.id</a>
+    </div>
+</div>
+
+<script>
+/* ── PARTICLE BG ── */
+(function() {
+    var canvas = document.getElementById('bg');
+    var ctx = canvas.getContext('2d');
+    var W, H, pts;
+
+    function resize() {
+        W = canvas.width  = window.innerWidth;
+        H = canvas.height = window.innerHeight;
+    }
+
+    function init() {
+        pts = [];
+        var count = Math.min(70, Math.floor(W * H / 14000));
+        for (var i = 0; i < count; i++) {
+            pts.push({
+                x:  Math.random() * W,
+                y:  Math.random() * H,
+                vx: (Math.random() - 0.5) * 0.35,
+                vy: (Math.random() - 0.5) * 0.35,
+                r:  Math.random() * 1.6 + 0.6,
+                a:  Math.random() * 0.55 + 0.15
+            });
+        }
+    }
+
+    function draw() {
+        ctx.clearRect(0, 0, W, H);
+
+        /* connect nearby */
+        for (var i = 0; i < pts.length; i++) {
+            for (var j = i + 1; j < pts.length; j++) {
+                var dx = pts[i].x - pts[j].x;
+                var dy = pts[i].y - pts[j].y;
+                var d  = Math.sqrt(dx*dx + dy*dy);
+                if (d < 130) {
+                    ctx.beginPath();
+                    ctx.moveTo(pts[i].x, pts[i].y);
+                    ctx.lineTo(pts[j].x, pts[j].y);
+                    ctx.strokeStyle = 'rgba(100,160,255,' + (0.18 * (1 - d/130)) + ')';
+                    ctx.lineWidth = 0.6;
+                    ctx.stroke();
+                }
+            }
+        }
+
+        /* dots */
+        pts.forEach(function(p) {
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(180,210,255,' + p.a + ')';
+            ctx.fill();
+
+            p.x += p.vx;
+            p.y += p.vy;
+            if (p.x < 0 || p.x > W) p.vx *= -1;
+            if (p.y < 0 || p.y > H) p.vy *= -1;
+        });
+
+        requestAnimationFrame(draw);
+    }
+
+    resize();
+    init();
+    draw();
+    window.addEventListener('resize', function() { resize(); init(); });
+})();
+
+/* ── FORM ── */
+function showToast(msg, duration) {
+    var t = document.getElementById('toast');
+    document.getElementById('toastMsg').textContent = msg;
+    t.classList.add('show');
+    setTimeout(function() { t.classList.remove('show'); }, duration || 4000);
+}
+
+function generateTicket() {
+    var d   = new Date();
+    var pad = function(n) { return String(n).padStart(2, '0'); };
+    var rand = String(Math.floor(Math.random() * 10000)).padStart(4, '0');
+    return 'SPS-' + d.getFullYear() + pad(d.getMonth()+1) + pad(d.getDate()) + '-' + rand;
+}
+
+document.getElementById('ticketForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    var name    = document.getElementById('name').value.trim();
+    var dept    = document.getElementById('department').value;
+    var subject = document.getElementById('subject').value.trim();
+    var desc    = document.getElementById('description').value.trim();
+
+    if (!name || !dept || !subject || !desc) {
+        showToast('Harap isi semua field yang wajib diisi.', 3500);
+        return;
+    }
+
+    var submitBtn = document.querySelector('.btn-submit');
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Mengirim…';
+
+    try {
+        var form = new URLSearchParams();
+        form.append('name', name);
+        form.append('department', dept);
+        form.append('subject', subject);
+        form.append('description', desc);
+
+        var resp = await fetch('ticket_submit.php', {
+            method: 'POST',
+            body: form,
+            cache: 'no-cache'
+        });
+
+        var data = null;
+        try { data = await resp.json(); } catch(e) { throw new Error('Invalid JSON response from server'); }
+
+        if (resp.ok && data && data.success) {
+            var ticketNum = data.NoTiket || '—';
+            document.getElementById('ticketNum').textContent = ticketNum;
+            document.getElementById('ticketBadge').style.display = 'flex';
+            showToast('Ticket ' + ticketNum + ' berhasil disubmit!', 5000);
+            document.getElementById('ticketForm').reset();
+        } else {
+            var msg = (data && data.message) ? data.message : ('HTTP ' + resp.status);
+            showToast('Gagal submit: ' + msg, 6000);
+            alert('Gagal submit tiket: ' + msg);
+        }
+    } catch (err) {
+        console.error('Submit error:', err);
+        showToast('Koneksi gagal: ' + err.message, 6000);
+        alert('Koneksi gagal: ' + err.message);
+    } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit Ticket';
+    }
+});
+
+function resetForm() {
+    if (confirm('Reset form? Semua data akan dihapus.')) {
+        document.getElementById('ticketForm').reset();
+        var badge = document.getElementById('ticketBadge');
+        badge.style.display = 'none';
+    }
+}
+</script>
+</body>
+</html>

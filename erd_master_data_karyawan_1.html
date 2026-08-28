@@ -1,0 +1,133 @@
+<style>
+#erd svg.erDiagram .divider path { stroke-opacity: 0.5; }
+#erd svg.erDiagram .row-rect-odd path,
+#erd svg.erDiagram .row-rect-odd rect,
+#erd svg.erDiagram .row-rect-even path,
+#erd svg.erDiagram .row-rect-even rect { stroke: none !important; }
+</style>
+<div id="erd"></div>
+<script type="module">
+import mermaid from 'https://esm.sh/mermaid@11/dist/mermaid.esm.min.mjs';
+const dark = matchMedia('(prefers-color-scheme: dark)').matches;
+await document.fonts.ready;
+mermaid.initialize({
+  startOnLoad: false,
+  theme: 'base',
+  fontFamily: '"Anthropic Sans", sans-serif',
+  themeVariables: {
+    darkMode: dark,
+    fontSize: '13px',
+    fontFamily: '"Anthropic Sans", sans-serif',
+    lineColor: dark ? '#9c9a92' : '#73726c',
+    textColor: dark ? '#c2c0b6' : '#3d3d3a',
+  },
+});
+const { svg } = await mermaid.render('erd-svg', `erDiagram
+  DEPARTEMEN ||--o{ KARYAWAN : memiliki
+  JABATAN ||--o{ KARYAWAN : menempati
+  KARYAWAN ||--o| USERS : "akun login"
+  KARYAWAN ||--o{ KONTRAK_KERJA : punya
+  KARYAWAN ||--o{ PENDIDIKAN : punya
+  KARYAWAN ||--o{ KELUARGA : punya
+  KARYAWAN ||--o{ DOKUMEN_KARYAWAN : punya
+  KARYAWAN |o--o{ KARYAWAN : "atasan langsung"
+  DEPARTEMEN {
+    uuid id PK
+    string kode
+    string nama
+  }
+  JABATAN {
+    uuid id PK
+    string nama
+    int level
+  }
+  KARYAWAN {
+    uuid id PK
+    string nik "NIK perusahaan, unik"
+    string no_ktp
+    string nama_lengkap
+    string email
+    string no_hp
+    date tgl_lahir
+    string tempat_lahir
+    enum jenis_kelamin
+    string agama
+    enum status_nikah "TK-K3 utk PTKP"
+    text alamat
+    date tgl_masuk
+    enum status_karyawan "tetap-kontrak-harian"
+    string npwp
+    string no_bpjs_tk
+    string no_bpjs_kes
+    string no_rekening
+    string nama_bank
+    uuid departemen_id FK
+    uuid jabatan_id FK
+    uuid atasan_id FK
+    boolean is_aktif
+  }
+  USERS {
+    uuid id PK
+    uuid karyawan_id FK
+    string username
+    string password_hash
+    enum role "admin-hr-atasan-karyawan"
+    timestamp last_login
+  }
+  KONTRAK_KERJA {
+    uuid id PK
+    uuid karyawan_id FK
+    enum jenis "PKWT-PKWTT"
+    date tgl_mulai
+    date tgl_selesai
+    string file_path
+  }
+  PENDIDIKAN {
+    uuid id PK
+    uuid karyawan_id FK
+    enum jenjang
+    string institusi
+    string jurusan
+    int tahun_lulus
+  }
+  KELUARGA {
+    uuid id PK
+    uuid karyawan_id FK
+    string nama
+    enum hubungan
+    string no_hp
+    boolean is_kontak_darurat
+  }
+  DOKUMEN_KARYAWAN {
+    uuid id PK
+    uuid karyawan_id FK
+    enum jenis "KTP-ijazah-sertifikat"
+    string file_path
+    date tgl_upload
+  }`);
+document.getElementById('erd').innerHTML = svg;
+
+document.querySelectorAll('#erd svg.erDiagram .node').forEach(node => {
+  const firstPath = node.querySelector('path[d]');
+  if (!firstPath) return;
+  const d = firstPath.getAttribute('d');
+  const nums = d.match(/-?[\d.]+/g)?.map(Number);
+  if (!nums || nums.length < 8) return;
+  const xs = [nums[0], nums[2], nums[4], nums[6]];
+  const ys = [nums[1], nums[3], nums[5], nums[7]];
+  const x = Math.min(...xs), y = Math.min(...ys);
+  const w = Math.max(...xs) - x, h = Math.max(...ys) - y;
+  const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+  rect.setAttribute('x', x); rect.setAttribute('y', y);
+  rect.setAttribute('width', w); rect.setAttribute('height', h);
+  rect.setAttribute('rx', '8');
+  for (const a of ['fill', 'stroke', 'stroke-width', 'class', 'style']) {
+    if (firstPath.hasAttribute(a)) rect.setAttribute(a, firstPath.getAttribute(a));
+  }
+  firstPath.replaceWith(rect);
+});
+
+document.querySelectorAll('#erd svg.erDiagram .row-rect-odd path, #erd svg.erDiagram .row-rect-even path').forEach(p => {
+  p.setAttribute('stroke', 'none');
+});
+</script>

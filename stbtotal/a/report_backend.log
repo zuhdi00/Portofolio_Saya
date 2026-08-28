@@ -1,0 +1,388 @@
+[2026-06-26T05:37:14+02:00] INCOMING GET /stbtotal/a/report_backend.php?action=minmax_date from 2001:448a:c0f0:4ea8:fdf8:4dc3:15fb:60d6
+[2026-06-26T05:37:16+02:00] INCOMING GET /stbtotal/a/report_backend.php?start=2026-05-26&end=2026-06-26 from 2001:448a:c0f0:4ea8:fdf8:4dc3:15fb:60d6
+[2026-06-26T05:37:17+02:00] Date-range report start=2026-05-26 end=2026-06-26 status= rows=1251 duration=0.021066904067993 limit=100000 offset=0
+[2026-06-26T06:11:38+02:00] INCOMING GET /stbtotal/a/report_backend.php?action=minmax_date from 2001:448a:c0f0:4ea8:fdf8:4dc3:15fb:60d6
+[2026-06-26T06:11:39+02:00] INCOMING GET /stbtotal/a/report_backend.php?start=2026-05-26&end=2026-06-26 from 2001:448a:c0f0:4ea8:fdf8:4dc3:15fb:60d6
+[2026-06-26T06:11:40+02:00] Date-range report start=2026-05-26 end=2026-06-26 status= rows=1259 duration=0.015611886978149 limit=100000 offset=0
+[2026-06-26T08:04:54+02:00] INCOMING GET /stbtotal/a/report_backend.php?action=minmax_date from fe80::8e1c:486b:4125:3a2b
+[2026-06-26T08:04:56+02:00] INCOMING GET /stbtotal/a/report_backend.php?start=2026-05-26&end=2026-06-26 from fe80::8e1c:486b:4125:3a2b
+[2026-06-26T08:04:57+02:00] Date-range report start=2026-05-26 end=2026-06-26 status= rows=1262 duration=0.016283988952637 limit=100000 offset=0
+[2026-06-26T08:04:57+02:00] INCOMING GET /stbtotal/a/report_backend.php?start=2026-06-01&end=2026-06-26 from 2001:448a:c0f0:4ea8:fdf8:4dc3:15fb:60d6
+[2026-06-26T08:04:58+02:00] Date-range report start=2026-06-01 end=2026-06-26 status= rows=1089 duration=0.014031887054443 limit=100000 offset=0
+[2026-06-26T08:05:36+02:00] INCOMING GET /stbtotal/a/report_backend.php?start=2026-01-01&end=2026-06-26 from fe80::8e1c:486b:4125:3a2b
+[2026-06-26T08:05:50+02:00] Using literal VALUES for sc_list due to large count=6927
+[2026-06-26T08:05:54+02:00] Date-range report start=2026-01-01 end=2026-06-26 status= rows=6927 duration=0.98740291595459 limit=100000 offset=0
+[2026-06-26T09:17:50+02:00] INCOMING GET /stbtotal/a/report_backend.php?start=2026-06-01&end=2026-06-26 from 2001:448a:c0f0:4ea8:fdf8:4dc3:15fb:60d6
+[2026-06-26T09:17:51+02:00] Date-range report start=2026-06-01 end=2026-06-26 status= rows=1098 duration=0.013495922088623 limit=100000 offset=0
+[2026-06-26T10:06:44+02:00] INCOMING GET /stbtotal/a/report_backend.php?start=2026-06-01&end=2026-06-26 from 2001:448a:c0f0:4ea8:fdf8:4dc3:15fb:60d6
+[2026-06-26T10:06:45+02:00] Date-range report start=2026-06-01 end=2026-06-26 status= rows=1106 duration=0.025110960006714 limit=100000 offset=0
+[2026-06-26T10:47:57+02:00] INCOMING GET /stbtotal/a/report_backend.php?start=2026-01-01&end=2026-06-26 from 2001:448a:c0f0:4ea8:fdf8:4dc3:15fb:60d6
+[2026-06-26T10:47:57+02:00] Using literal VALUES for sc_list due to large count=6948
+[2026-06-26T10:48:00+02:00] Date-range report start=2026-01-01 end=2026-06-26 status= rows=6948 duration=0.090970993041992 limit=100000 offset=0
+[2026-06-26T10:55:47+02:00] INCOMING GET /stbtotal/a/report_backend.php?action=minmax_date from fe80::8e1c:486b:4125:3a2b
+[2026-06-26T11:19:45+02:00] INCOMING GET /stbtotal/a/report_backend.php?start=2025-01-01&end=2025-02-01 from fe80::8e1c:486b:4125:3a2b
+[2026-06-26T11:19:46+02:00] Date-range report start=2025-01-01 end=2025-02-01 status= rows=1248 duration=0.020051002502441 limit=100000 offset=0
+[2026-06-26T11:19:51+02:00] INCOMING GET /stbtotal/a/report_backend.php?start=2025-01-01&end=2025-02-01&status=CLOSE from fe80::8e1c:486b:4125:3a2b
+[2026-06-26T11:19:52+02:00] Date-range report start=2025-01-01 end=2025-02-01 status=CLOSE rows=1248 duration=0.28091621398926 limit=100000 offset=0
+[2026-06-26T11:20:06+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-26T11:20:07+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-26T11:20:08+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-26T11:20:10+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-26T11:20:11+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-26T11:20:13+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-26T11:20:14+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-26T11:20:16+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-26T11:20:17+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-26T11:20:18+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-26T11:20:19+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-26T11:20:20+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-26T11:20:32+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-26T11:20:33+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-26T11:20:34+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-26T11:20:36+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-26T11:20:37+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-26T11:22:54+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-26T11:22:55+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-26T11:22:56+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-26T11:23:05+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-26T11:23:07+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-26T11:23:08+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-26T11:23:38+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-26T11:23:39+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-26T11:23:40+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-26T11:23:41+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-26T11:23:43+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-26T11:23:43+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-26T11:23:46+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-26T11:23:47+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-26T11:23:48+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-26T11:23:49+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-26T11:23:50+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-26T11:23:51+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-26T11:23:53+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-26T11:23:55+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-26T11:23:55+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-26T11:23:57+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-26T11:23:59+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-27T03:06:02+02:00] INCOMING GET /stbtotal/a/report_backend.php?start=2026-06-01&end=2026-06-26 from 2001:448a:c0f0:2747:ce0f:9e6b:1d1f:c0fa
+[2026-06-27T03:06:03+02:00] Date-range report start=2026-06-01 end=2026-06-26 status= rows=1136 duration=0.026579141616821 limit=100000 offset=0
+[2026-06-29T03:12:44+02:00] INCOMING GET /stbtotal/a/report_backend.php?action=minmax_date from 2001:448a:c0f0:2747:ce0f:9e6b:1d1f:c0fa
+[2026-06-29T03:12:46+02:00] INCOMING GET /stbtotal/a/report_backend.php?start=2026-05-26&end=2026-06-26 from 2001:448a:c0f0:2747:ce0f:9e6b:1d1f:c0fa
+[2026-06-29T03:12:47+02:00] Date-range report start=2026-05-26 end=2026-06-26 status= rows=1309 duration=0.027485132217407 limit=100000 offset=0
+[2026-06-29T03:15:52+02:00] INCOMING GET /stbtotal/a/report_backend.php?action=minmax_date from fe80::8e1c:486b:4125:3a2b
+[2026-06-29T03:20:40+02:00] INCOMING GET /stbtotal/a/report_backend.php?start=2026-05-26&end=2026-06-26 from fe80::8e1c:486b:4125:3a2b
+[2026-06-29T03:20:40+02:00] Date-range report start=2026-05-26 end=2026-06-26 status= rows=1309 duration=0.020056962966919 limit=100000 offset=0
+[2026-06-29T03:23:10+02:00] INCOMING GET /stbtotal/a/report_backend.php?start=2026-01-01&end=2026-03-31 from fe80::8e1c:486b:4125:3a2b
+[2026-06-29T03:23:10+02:00] Using literal VALUES for sc_list due to large count=3266
+[2026-06-29T03:23:11+02:00] Date-range report start=2026-01-01 end=2026-03-31 status= rows=3266 duration=0.04052996635437 limit=100000 offset=0
+[2026-06-29T03:23:24+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-29T03:23:29+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-29T03:23:30+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-29T03:23:33+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-29T03:23:35+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-29T03:23:37+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-29T03:23:38+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-29T03:32:21+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-29T04:10:42+02:00] INCOMING GET /stbtotal/a/report_backend.php?action=minmax_date from fe80::8e1c:486b:4125:3a2b
+[2026-06-29T04:12:06+02:00] INCOMING GET /stbtotal/a/report_backend.php?start=2026-01-01&end=2026-03-31 from fe80::8e1c:486b:4125:3a2b
+[2026-06-29T04:12:06+02:00] Using literal VALUES for sc_list due to large count=3266
+[2026-06-29T04:12:08+02:00] Date-range report start=2026-01-01 end=2026-03-31 status= rows=3266 duration=0.040730953216553 limit=100000 offset=0
+[2026-06-29T04:12:43+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-29T04:12:51+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-29T04:12:55+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-29T04:12:56+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-29T04:13:02+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-29T04:13:04+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-29T04:13:30+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-29T04:13:31+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-29T04:13:32+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-29T04:13:33+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-29T04:13:36+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-29T04:13:38+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-29T04:13:41+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-29T04:13:45+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-29T04:14:13+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-29T04:14:16+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-29T04:32:23+02:00] INCOMING GET /stbtotal/a/report_backend.php?action=minmax_date from 2001:448a:c0f0:2747:ce0f:9e6b:1d1f:c0fa
+[2026-06-29T04:32:26+02:00] INCOMING GET /stbtotal/a/report_backend.php?start=2026-05-26&end=2026-06-26 from 2001:448a:c0f0:2747:ce0f:9e6b:1d1f:c0fa
+[2026-06-29T04:32:28+02:00] Date-range report start=2026-05-26 end=2026-06-26 status= rows=1309 duration=0.019134044647217 limit=100000 offset=0
+[2026-06-29T04:32:41+02:00] INCOMING GET /stbtotal/a/report_backend.php?start=2026-05-26&end=2026-06-26 from 2001:448a:c0f0:2747:ce0f:9e6b:1d1f:c0fa
+[2026-06-29T04:32:42+02:00] Date-range report start=2026-05-26 end=2026-06-26 status= rows=1309 duration=0.030659198760986 limit=100000 offset=0
+[2026-06-29T04:33:40+02:00] INCOMING GET /stbtotal/a/report_backend.php?start=2026-05-26&end=2026-06-26 from 2001:448a:c0f0:2747:ce0f:9e6b:1d1f:c0fa
+[2026-06-29T04:33:41+02:00] Date-range report start=2026-05-26 end=2026-06-26 status= rows=1309 duration=0.027511119842529 limit=100000 offset=0
+[2026-06-30T02:58:26+02:00] INCOMING GET /stbtotal/a/report_backend.php?start=2025-01-01&end=2025-12-31 from fe80::8e1c:486b:4125:3a2b
+[2026-06-30T02:58:26+02:00] Using literal VALUES for sc_list due to large count=15377
+[2026-06-30T02:58:36+02:00] Date-range report start=2025-01-01 end=2025-12-31 status= rows=15377 duration=0.22283387184143 limit=100000 offset=0
+[2026-06-30T03:15:56+02:00] INCOMING GET /stbtotal/a/report_backend.php?start=2025-01-01&end=2025-01-31 from fe80::8e1c:486b:4125:3a2b
+[2026-06-30T03:15:57+02:00] Date-range report start=2025-01-01 end=2025-01-31 status= rows=1248 duration=0.019652128219604 limit=100000 offset=0
+[2026-06-30T03:19:06+02:00] INCOMING GET /stbtotal/a/report_backend.php?action=minmax_date from fe80::8e1c:486b:4125:3a2b
+[2026-06-30T03:19:09+02:00] INCOMING GET /stbtotal/a/report_backend.php?start=2026-05-29&end=2026-06-29&status=CLOSE from fe80::8e1c:486b:4125:3a2b
+[2026-06-30T03:19:10+02:00] Date-range report start=2026-05-29 end=2026-06-29 status=CLOSE rows=1247 duration=0.021817207336426 limit=100000 offset=0
+[2026-06-30T03:19:16+02:00] INCOMING GET /stbtotal/a/report_backend.php?start=2026-05-29&end=2026-06-29&status=CLOSE from fe80::8e1c:486b:4125:3a2b
+[2026-06-30T03:19:17+02:00] Date-range report start=2026-05-29 end=2026-06-29 status=CLOSE rows=1247 duration=0.047046899795532 limit=100000 offset=0
+[2026-06-30T03:19:27+02:00] INCOMING GET /stbtotal/a/report_backend.php?start=0005-01-01&end=2026-06-29&status=CLOSE from fe80::8e1c:486b:4125:3a2b
+[2026-06-30T03:19:27+02:00] SQL ERROR (sc page select): [{"0":"22007","SQLSTATE":"22007","1":242,"code":242,"2":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]The conversion of a varchar data type to a datetime data type resulted in an out-of-range value.","message":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]The conversion of a varchar data type to a datetime data type resulted in an out-of-range value."}]
+[2026-06-30T03:19:37+02:00] INCOMING GET /stbtotal/a/report_backend.php?start=2025-01-01&end=2025-01-31&status=CLOSE from fe80::8e1c:486b:4125:3a2b
+[2026-06-30T03:19:38+02:00] Date-range report start=2025-01-01 end=2025-01-31 status=CLOSE rows=1248 duration=0.02014422416687 limit=100000 offset=0
+[2026-06-30T04:20:50+02:00] INCOMING GET /stbtotal/a/report_backend.php?start=2025-01-01&end=2025-12-31&status=CLOSE from fe80::8e1c:486b:4125:3a2b
+[2026-06-30T04:20:50+02:00] Using literal VALUES for sc_list due to large count=15377
+[2026-06-30T04:21:27+02:00] Date-range report start=2025-01-01 end=2025-12-31 status=CLOSE rows=15377 duration=0.23112416267395 limit=100000 offset=0
+[2026-06-30T04:21:41+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-30T11:16:47+02:00] INCOMING GET /stbtotal/a/report_backend.php?start=2025-01-01&end=2025-12-31&status=CLOSE from fe80::8e1c:486b:4125:3a2b
+[2026-06-30T11:16:47+02:00] Using literal VALUES for sc_list due to large count=15377
+[2026-06-30T11:16:56+02:00] Date-range report start=2025-01-01 end=2025-12-31 status=CLOSE rows=15377 duration=1.5222508907318 limit=100000 offset=0
+[2026-06-30T11:21:47+02:00] INCOMING GET /stbtotal/a/report_backend.php?start=2025-01-01&end=2025-12-31 from fe80::8e1c:486b:4125:3a2b
+[2026-06-30T11:21:47+02:00] Using literal VALUES for sc_list due to large count=15377
+[2026-06-30T11:21:55+02:00] Date-range report start=2025-01-01 end=2025-12-31 status= rows=15377 duration=0.19696998596191 limit=100000 offset=0
+[2026-06-30T11:23:36+02:00] INCOMING GET /stbtotal/a/report_backend.php?start=2025-01-01&end=2025-12-31 from fe80::8e1c:486b:4125:3a2b
+[2026-06-30T11:23:36+02:00] Using literal VALUES for sc_list due to large count=15377
+[2026-06-30T11:23:37+02:00] Date-range report start=2025-01-01 end=2025-12-31 status= rows=15377 duration=0.19831204414368 limit=100000 offset=0
+[2026-06-30T11:23:49+02:00] INCOMING GET /stbtotal/a/report_backend.php?start=2025-01-01&end=2025-12-31&status=CLOSE from fe80::8e1c:486b:4125:3a2b
+[2026-06-30T11:23:49+02:00] Using literal VALUES for sc_list due to large count=15377
+[2026-06-30T11:23:50+02:00] Date-range report start=2025-01-01 end=2025-12-31 status=CLOSE rows=15377 duration=0.19417595863342 limit=100000 offset=0
+[2026-06-30T11:24:11+02:00] INCOMING GET /stbtotal/a/report_backend.php?start=2025-01-01&end=2025-12-31&status=CLOSE from fe80::8e1c:486b:4125:3a2b
+[2026-06-30T11:24:11+02:00] Using literal VALUES for sc_list due to large count=15377
+[2026-06-30T11:24:12+02:00] Date-range report start=2025-01-01 end=2025-12-31 status=CLOSE rows=15377 duration=0.19699811935425 limit=100000 offset=0
+[2026-07-03T04:10:06+02:00] INCOMING GET /stbtotal/a/report_backend.php?slc=2605%2F00994 from fe80::8e1c:486b:4125:3a2b
+[2026-07-03T04:10:06+02:00] SLC lookup '2605/00994' rows=1 duration=8.7976455688477E-5 limit=100000 offset=0
+[2026-07-03T04:10:10+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-07-03T04:10:38+02:00] INCOMING GET /stbtotal/a/report_backend.php?slc=2605%2F00426 from fe80::8e1c:486b:4125:3a2b
+[2026-07-03T04:10:38+02:00] SLC lookup '2605/00426' rows=1 duration=5.9843063354492E-5 limit=100000 offset=0
+[2026-07-03T04:10:40+02:00] INCOMING GET /stbtotal/a/report_backend.php?slc=2605%2F00426 from fe80::8e1c:486b:4125:3a2b
+[2026-07-03T04:10:41+02:00] SLC lookup '2605/00426' rows=1 duration=6.2942504882812E-5 limit=100000 offset=0
+[2026-07-03T04:10:43+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-07-03T04:10:47+02:00] INCOMING GET /stbtotal/a/report_backend.php?action=minmax_date from fe80::8e1c:486b:4125:3a2b
+[2026-07-03T04:10:48+02:00] INCOMING GET /stbtotal/a/report_backend.php?start=2026-06-02&end=2026-07-02&status=CLOSE from fe80::8e1c:486b:4125:3a2b
+[2026-07-03T04:10:50+02:00] Date-range report start=2026-06-02 end=2026-07-02 status=CLOSE rows=1369 duration=0.017881155014038 limit=100000 offset=0
+[2026-07-10T08:50:07+02:00] INCOMING GET /stbtotal/a/report_backend.php?action=minmax_date from fe80::8e1c:486b:4125:3a2b
+[2026-07-16T11:25:40+02:00] INCOMING GET /stbtotal/a/report_backend.php?action=minmax_date from 2001:448a:c0f0:1c8c:5615:2994:bd27:1112
+[2026-07-16T11:25:46+02:00] INCOMING GET /stbtotal/a/report_backend.php?start=2026-01-01&end=2026-07-16 from 2001:448a:c0f0:1c8c:5615:2994:bd27:1112
+[2026-07-16T11:25:46+02:00] Using literal VALUES for sc_list due to large count=7750
+[2026-07-16T11:25:50+02:00] Date-range report start=2026-01-01 end=2026-07-16 status= rows=7750 duration=0.24412298202515 limit=100000 offset=0
+[2026-07-17T03:33:11+02:00] INCOMING GET /stbtotal/a/report_backend.php?action=minmax_date from 2001:448a:c0f0:1c8c:5615:2994:bd27:1112
+[2026-07-17T03:33:17+02:00] INCOMING GET /stbtotal/a/report_backend.php?start=2026-06-01&end=2026-07-16 from 2001:448a:c0f0:1c8c:5615:2994:bd27:1112
+[2026-07-17T03:33:18+02:00] Date-range report start=2026-06-01 end=2026-07-16 status= rows=1934 duration=0.02670693397522 limit=100000 offset=0
+[2026-07-17T08:15:30+02:00] INCOMING GET /stbtotal/a/report_backend.php?start=2026-01-01&end=2026-07-16 from 2001:448a:c0f0:1c8c:5615:2994:bd27:1112
+[2026-07-17T08:15:30+02:00] Using literal VALUES for sc_list due to large count=7765
+[2026-07-17T08:15:33+02:00] Date-range report start=2026-01-01 end=2026-07-16 status= rows=7765 duration=0.12508988380432 limit=100000 offset=0
+[2026-07-20T05:43:48+02:00] INCOMING GET /stbtotal/a/report_backend.php?action=minmax_date from fe80::8e1c:486b:4125:3a2b
+[2026-07-23T11:00:55+02:00] INCOMING GET /stbtotal/a/report_backend.php?action=minmax_date from fe80::8e1c:486b:4125:3a2b
+[2026-07-27T04:01:49+02:00] INCOMING GET /stbtotal/a/report_backend.php?action=minmax_date from fe80::8e1c:486b:4125:3a2b
+[2026-07-27T09:50:12+02:00] INCOMING GET /stbtotal/a/report_backend.php?start=2026-06-27&end=2026-07-27 from fe80::8e1c:486b:4125:3a2b
+[2026-07-27T09:50:14+02:00] Date-range report start=2026-06-27 end=2026-07-27 status= rows=1278 duration=0.051968812942505 limit=100000 offset=0
+[2026-07-27T09:50:22+02:00] INCOMING GET /stbtotal/a/report_backend.php?slc=SLC%2F2606%2F00562 from fe80::8e1c:486b:4125:3a2b
+[2026-07-27T09:50:24+02:00] SLC lookup 'SLC/2606/00562' rows=1 duration=6.2942504882812E-5 limit=100000 offset=0
+[2026-07-27T09:50:26+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-07-27T09:50:46+02:00] INCOMING GET /stbtotal/a/report_backend.php?slc=SLC%2F2605%2F01143 from fe80::8e1c:486b:4125:3a2b
+[2026-07-27T09:50:47+02:00] SLC lookup 'SLC/2605/01143' rows=1 duration=0.0001068115234375 limit=100000 offset=0
+[2026-07-27T09:50:49+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-07-27T09:50:57+02:00] INCOMING GET /stbtotal/a/report_backend.php?slc=SLC%2F2605%2F00335 from fe80::8e1c:486b:4125:3a2b
+[2026-07-27T09:50:58+02:00] SLC lookup 'SLC/2605/00335' rows=1 duration=9.8943710327148E-5 limit=100000 offset=0
+[2026-07-27T09:51:38+02:00] INCOMING GET /stbtotal/a/report_backend.php?slc=SLC%2F2604%2F01488 from fe80::8e1c:486b:4125:3a2b
+[2026-07-27T09:51:38+02:00] SLC lookup 'SLC/2604/01488' rows=1 duration=0.0002288818359375 limit=100000 offset=0
+[2026-07-27T09:51:41+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-07-28T06:34:28+02:00] INCOMING GET /stbtotal/a/report_backend.php?action=minmax_date from fe80::8e1c:486b:4125:3a2b
+[2026-07-28T06:34:36+02:00] INCOMING GET /stbtotal/a/report_backend.php?slc=SLC%2F2604%2F00086 from fe80::8e1c:486b:4125:3a2b
+[2026-07-28T06:34:38+02:00] SLC lookup 'SLC/2604/00086' rows=1 duration=0.00012993812561035 limit=100000 offset=0
+[2026-07-28T06:34:38+02:00] INCOMING GET /stbtotal/a/report_backend.php?slc=SLC%2F2604%2F00086 from fe80::8e1c:486b:4125:3a2b
+[2026-07-28T06:34:38+02:00] SLC lookup 'SLC/2604/00086' rows=1 duration=0.00018692016601562 limit=100000 offset=0
+[2026-07-28T06:34:40+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-07-28T06:35:03+02:00] INCOMING GET /stbtotal/a/report_backend.php?slc=SLC%2F2601%2F00032 from fe80::8e1c:486b:4125:3a2b
+[2026-07-28T06:35:04+02:00] SLC lookup 'SLC/2601/00032' rows=1 duration=0.00023579597473145 limit=100000 offset=0
+[2026-07-28T06:35:06+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-07-28T06:35:10+02:00] INCOMING GET /stbtotal/a/report_backend.php?slc=SLC%2F2601%2F00031 from fe80::8e1c:486b:4125:3a2b
+[2026-07-28T06:35:10+02:00] SLC lookup 'SLC/2601/00031' rows=1 duration=0.00017404556274414 limit=100000 offset=0
+[2026-07-28T06:35:19+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-07-28T06:35:45+02:00] INCOMING GET /stbtotal/a/report_backend.php?slc=SLC%2F2603%2F00997 from fe80::8e1c:486b:4125:3a2b
+[2026-07-28T06:35:46+02:00] SLC lookup 'SLC/2603/00997' rows=1 duration=6.103515625E-5 limit=100000 offset=0
+[2026-07-28T06:35:48+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-07-28T06:36:41+02:00] INCOMING GET /stbtotal/a/report_backend.php?slc=SLC%2F2603%2F00124 from fe80::8e1c:486b:4125:3a2b
+[2026-07-28T06:36:42+02:00] SLC lookup 'SLC/2603/00124' rows=1 duration=0.00021195411682129 limit=100000 offset=0
+[2026-07-28T06:36:43+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-07-28T06:37:29+02:00] INCOMING GET /stbtotal/a/report_backend.php?slc=SLC%2F2602%2F00054 from fe80::8e1c:486b:4125:3a2b
+[2026-07-28T06:37:30+02:00] SLC lookup 'SLC/2602/00054' rows=1 duration=0.00023484230041504 limit=100000 offset=0
+[2026-07-28T06:37:32+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-07-29T07:00:56+02:00] INCOMING GET /stbtotal/a/report_backend.php?action=minmax_date from fe80::8e1c:486b:4125:3a2b
+[2026-07-29T07:00:58+02:00] INCOMING GET /stbtotal/a/report_backend.php?start=2026-06-29&end=2026-07-29 from fe80::8e1c:486b:4125:3a2b
+[2026-07-29T07:01:00+02:00] Date-range report start=2026-06-29 end=2026-07-29 status= rows=1391 duration=0.028850078582764 limit=100000 offset=0
+[2026-07-29T07:01:02+02:00] INCOMING GET /stbtotal/a/report_backend.php?slc=SLC%2F2604%2F00879 from fe80::8e1c:486b:4125:3a2b
+[2026-07-29T07:01:03+02:00] SLC lookup 'SLC/2604/00879' rows=1 duration=0.00013494491577148 limit=100000 offset=0
+[2026-07-29T07:01:05+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-07-29T07:01:28+02:00] INCOMING GET /stbtotal/a/report_backend.php?slc=SLC%2F2604%2F00088 from fe80::8e1c:486b:4125:3a2b
+[2026-07-29T07:01:29+02:00] SLC lookup 'SLC/2604/00088' rows=1 duration=6.1988830566406E-5 limit=100000 offset=0
+[2026-07-29T07:01:31+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-07-31T11:13:09+02:00] INCOMING GET /stbtotal/a/report_backend.php?action=minmax_date from fe80::8e1c:486b:4125:3a2b
+[2026-08-04T04:52:04+02:00] INCOMING GET /stbtotal/a/report_backend.php?action=minmax_date from fe80::3adc:3385:c716:2411
+[2026-08-04T04:52:14+02:00] INCOMING GET /stbtotal/a/report_backend.php?start=2026-01-01&end=2026-08-04 from fe80::3adc:3385:c716:2411
+[2026-08-04T04:52:14+02:00] Using literal VALUES for sc_list due to large count=8537
+[2026-08-04T04:52:18+02:00] Date-range report start=2026-01-01 end=2026-08-04 status= rows=8537 duration=0.1626980304718 limit=100000 offset=0
+[2026-08-13T09:06:30+02:00] INCOMING GET /stbtotal/a/report_backend.php?start=2026-07-01&end=2026-07-31 from fe80::8e1c:486b:4125:3a2b
+[2026-08-13T09:06:31+02:00] Date-range report start=2026-07-01 end=2026-07-31 status= rows=1378 duration=0.045445203781128 limit=100000 offset=0
+[2026-08-13T09:06:44+02:00] INCOMING GET /stbtotal/a/report_backend.php?start=2026-01-01&end=2026-07-31 from fe80::8e1c:486b:4125:3a2b
+[2026-08-13T09:06:44+02:00] Using literal VALUES for sc_list due to large count=8475
+[2026-08-13T09:07:05+02:00] Date-range report start=2026-01-01 end=2026-07-31 status= rows=8475 duration=0.155513048172 limit=100000 offset=0
+[2026-08-13T10:44:58+02:00] INCOMING GET /stbtotal/a/report_backend.php?slc=SLC%2F2601%2F00966 from fe80::8e1c:486b:4125:3a2b
+[2026-08-13T10:44:58+02:00] SLC lookup 'SLC/2601/00966' rows=1 duration=9.2029571533203E-5 limit=100000 offset=0
+[2026-08-13T10:45:01+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-08-14T03:18:19+02:00] INCOMING GET /stbtotal/a/report_backend.php?slc=SLC%2F2601%2F00930 from fe80::8e1c:486b:4125:3a2b
+[2026-08-14T03:18:21+02:00] SLC lookup 'SLC/2601/00930' rows=1 duration=0.0002138614654541 limit=100000 offset=0
+[2026-08-14T03:18:35+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-08-14T03:26:49+02:00] INCOMING GET /stbtotal/a/report_backend.php?slc=SLC%2F2601%2F00853 from fe80::8e1c:486b:4125:3a2b
+[2026-08-14T03:26:49+02:00] SLC lookup 'SLC/2601/00853' rows=1 duration=0.00017595291137695 limit=100000 offset=0
+[2026-08-14T03:26:52+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-08-14T03:28:01+02:00] INCOMING GET /stbtotal/a/report_backend.php?slc=SLC%2F2601%2F00810 from fe80::8e1c:486b:4125:3a2b
+[2026-08-14T03:28:02+02:00] SLC lookup 'SLC/2601/00810' rows=1 duration=9.3936920166016E-5 limit=100000 offset=0
+[2026-08-14T03:28:04+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-08-14T03:41:53+02:00] INCOMING GET /stbtotal/a/report_backend.php?slc=2601%2F00294 from fe80::8e1c:486b:4125:3a2b
+[2026-08-14T03:41:53+02:00] SLC lookup '2601/00294' rows=1 duration=5.9843063354492E-5 limit=100000 offset=0
+[2026-08-14T03:41:59+02:00] INCOMING GET /stbtotal/a/report_backend.php?slc=2601%2F00294 from fe80::8e1c:486b:4125:3a2b
+[2026-08-14T03:41:59+02:00] SLC lookup '2601/00294' rows=1 duration=0.00011420249938965 limit=100000 offset=0
+[2026-08-14T03:42:00+02:00] INCOMING GET /stbtotal/a/report_backend.php?slc=2601%2F00294 from fe80::8e1c:486b:4125:3a2b
+[2026-08-14T03:42:00+02:00] SLC lookup '2601/00294' rows=1 duration=6.103515625E-5 limit=100000 offset=0
+[2026-08-14T03:42:06+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-08-14T03:42:09+02:00] INCOMING GET /stbtotal/a/report_backend.php?action=minmax_date from fe80::8e1c:486b:4125:3a2b
+[2026-08-14T03:42:17+02:00] INCOMING GET /stbtotal/a/report_backend.php?start=2026-07-13&end=2026-08-13 from fe80::8e1c:486b:4125:3a2b
+[2026-08-14T03:42:19+02:00] Date-range report start=2026-07-13 end=2026-08-13 status= rows=1522 duration=0.030969142913818 limit=100000 offset=0
+[2026-08-14T03:42:24+02:00] INCOMING GET /stbtotal/a/report_backend.php?slc=2601%2F00294 from fe80::8e1c:486b:4125:3a2b
+[2026-08-14T03:42:25+02:00] SLC lookup '2601/00294' rows=1 duration=0.00010490417480469 limit=100000 offset=0
+[2026-08-14T03:42:28+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-08-14T03:42:36+02:00] INCOMING GET /stbtotal/a/report_backend.php?slc=slc%2F2601%2F00294 from fe80::8e1c:486b:4125:3a2b
+[2026-08-14T03:42:36+02:00] SLC lookup 'slc/2601/00294' rows=1 duration=0.00020694732666016 limit=100000 offset=0
+[2026-08-14T03:42:40+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-08-14T04:11:53+02:00] INCOMING GET /stbtotal/a/report_backend.php?slc=SLC%2F2601%2F00312 from fe80::8e1c:486b:4125:3a2b
+[2026-08-14T04:11:54+02:00] SLC lookup 'SLC/2601/00312' rows=1 duration=6.5088272094727E-5 limit=100000 offset=0
+[2026-08-14T04:11:59+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-08-14T04:16:25+02:00] INCOMING GET /stbtotal/a/report_backend.php?slc=SLC%2F2601%2F00313 from fe80::8e1c:486b:4125:3a2b
+[2026-08-14T04:16:25+02:00] SLC lookup 'SLC/2601/00313' rows=1 duration=0.00013995170593262 limit=100000 offset=0
+[2026-08-14T04:16:26+02:00] INCOMING GET /stbtotal/a/report_backend.php?slc=SLC%2F2601%2F00313 from fe80::8e1c:486b:4125:3a2b
+[2026-08-14T04:16:27+02:00] SLC lookup 'SLC/2601/00313' rows=1 duration=0.00018000602722168 limit=100000 offset=0
+[2026-08-14T04:16:28+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-08-14T06:26:07+02:00] INCOMING GET /stbtotal/a/report_backend.php?slc=SLC%2F2601%2F00705 from fe80::8e1c:486b:4125:3a2b
+[2026-08-14T06:26:07+02:00] SLC lookup 'SLC/2601/00705' rows=1 duration=5.9843063354492E-5 limit=100000 offset=0
+[2026-08-14T06:26:10+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-08-14T06:26:12+02:00] INCOMING GET /stbtotal/a/report_backend.php?slc=SLC%2F2601%2F00706 from fe80::8e1c:486b:4125:3a2b
+[2026-08-14T06:26:13+02:00] SLC lookup 'SLC/2601/00706' rows=1 duration=6.1988830566406E-5 limit=100000 offset=0
+[2026-08-14T06:27:30+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-08-14T06:34:43+02:00] INCOMING GET /stbtotal/a/report_backend.php?slc=SLC%2F2601%2F00010 from fe80::8e1c:486b:4125:3a2b
+[2026-08-14T06:34:43+02:00] SLC lookup 'SLC/2601/00010' rows=1 duration=0.00018191337585449 limit=100000 offset=0
+[2026-08-14T06:35:35+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-08-14T10:59:30+02:00] INCOMING GET /stbtotal/a/report_backend.php?slc=SLC%2F2601%2F00011 from fe80::8e1c:486b:4125:3a2b
+[2026-08-14T10:59:31+02:00] SLC lookup 'SLC/2601/00011' rows=1 duration=6.2942504882812E-5 limit=100000 offset=0
+[2026-08-14T11:01:12+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-08-14T11:01:20+02:00] INCOMING GET /stbtotal/a/report_backend.php?slc=SLC%2F2601%2F00014 from fe80::8e1c:486b:4125:3a2b
+[2026-08-14T11:01:21+02:00] SLC lookup 'SLC/2601/00014' rows=1 duration=7.8916549682617E-5 limit=100000 offset=0
+[2026-08-14T11:01:30+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-08-14T11:01:36+02:00] INCOMING GET /stbtotal/a/report_backend.php?slc=SLC%2F2601%2F00016 from fe80::8e1c:486b:4125:3a2b
+[2026-08-14T11:01:37+02:00] SLC lookup 'SLC/2601/00016' rows=1 duration=6.2227249145508E-5 limit=100000 offset=0
+[2026-08-14T11:02:00+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-08-14T11:02:19+02:00] INCOMING GET /stbtotal/a/report_backend.php?slc=SLC%2F2601%2F00021 from fe80::8e1c:486b:4125:3a2b
+[2026-08-14T11:02:20+02:00] SLC lookup 'SLC/2601/00021' rows=1 duration=0.00010395050048828 limit=100000 offset=0
+[2026-08-14T11:04:58+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-08-21T04:11:01+02:00] INCOMING GET /stbtotal/a/report_backend.php?slc=SLC%2F2601%2F00033 from fe80::8e1c:486b:4125:3a2b
+[2026-08-21T04:11:02+02:00] SLC lookup 'SLC/2601/00033' rows=1 duration=0.00011491775512695 limit=100000 offset=0
+[2026-08-21T04:11:05+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-08-21T04:11:12+02:00] INCOMING GET /stbtotal/a/report_backend.php?slc=SLC%2F2601%2F00217 from fe80::8e1c:486b:4125:3a2b
+[2026-08-21T04:11:13+02:00] SLC lookup 'SLC/2601/00217' rows=1 duration=0.00018000602722168 limit=100000 offset=0
+[2026-08-26T03:17:00+02:00] INCOMING GET /stbtotal/a/report_backend.php?slc=SLC%2F2605%2F00628 from fe80::8e1c:486b:4125:3a2b
+[2026-08-26T03:17:01+02:00] SLC lookup 'SLC/2605/00628' rows=1 duration=6.7949295043945E-5 limit=100000 offset=0
+[2026-08-26T03:17:04+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-08-26T03:18:21+02:00] INCOMING GET /stbtotal/a/report_backend.php?slc=SLC%2F2605%2F00470 from fe80::8e1c:486b:4125:3a2b
+[2026-08-26T03:18:22+02:00] SLC lookup 'SLC/2605/00470' rows=1 duration=6.103515625E-5 limit=100000 offset=0
+[2026-08-26T03:24:44+02:00] INCOMING GET /stbtotal/a/report_backend.php?slc=SLC%2F2605%2F00439 from fe80::8e1c:486b:4125:3a2b
+[2026-08-26T03:24:44+02:00] SLC lookup 'SLC/2605/00439' rows=1 duration=6.8187713623047E-5 limit=100000 offset=0
+[2026-08-26T03:24:47+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-08-26T03:26:54+02:00] INCOMING GET /stbtotal/a/report_backend.php?slc=SLC%2F2605%2F00362 from fe80::8e1c:486b:4125:3a2b
+[2026-08-26T03:26:55+02:00] SLC lookup 'SLC/2605/00362' rows=1 duration=6.6041946411133E-5 limit=100000 offset=0
+[2026-08-26T03:26:57+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-08-26T03:28:17+02:00] INCOMING GET /stbtotal/a/report_backend.php?slc=SLC%2F2605%2F00335 from fe80::8e1c:486b:4125:3a2b
+[2026-08-26T03:28:17+02:00] SLC lookup 'SLC/2605/00335' rows=1 duration=6.1988830566406E-5 limit=100000 offset=0
+[2026-08-26T03:28:21+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-08-26T03:28:28+02:00] INCOMING GET /stbtotal/a/report_backend.php?slc=SLC%2F2605%2F00226 from fe80::8e1c:486b:4125:3a2b
+[2026-08-26T03:28:29+02:00] SLC lookup 'SLC/2605/00226' rows=1 duration=5.3882598876953E-5 limit=100000 offset=0
+[2026-08-26T03:29:12+02:00] INCOMING GET /stbtotal/a/report_backend.php?slc=SLC%2F2605%2F00185 from fe80::8e1c:486b:4125:3a2b
+[2026-08-26T03:29:13+02:00] SLC lookup 'SLC/2605/00185' rows=1 duration=6.103515625E-5 limit=100000 offset=0
+[2026-08-26T03:29:15+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-08-26T03:38:26+02:00] INCOMING GET /stbtotal/a/report_backend.php?slc=SLC%2F2604%2F01055 from fe80::8e1c:486b:4125:3a2b
+[2026-08-26T03:38:27+02:00] SLC lookup 'SLC/2604/01055' rows=1 duration=5.9843063354492E-5 limit=100000 offset=0
+[2026-08-26T03:38:29+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-08-26T03:39:27+02:00] INCOMING GET /stbtotal/a/report_backend.php?slc=SLC%2F2603%2F00068 from fe80::8e1c:486b:4125:3a2b
+[2026-08-26T03:39:28+02:00] SLC lookup 'SLC/2603/00068' rows=1 duration=6.3896179199219E-5 limit=100000 offset=0
+[2026-08-26T03:39:30+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-08-26T03:43:01+02:00] INCOMING GET /stbtotal/a/report_backend.php?slc=SLC%2F2606%2F01108 from fe80::8e1c:486b:4125:3a2b
+[2026-08-26T03:43:01+02:00] SLC lookup 'SLC/2606/01108' rows=1 duration=6.7949295043945E-5 limit=100000 offset=0
+[2026-08-26T03:43:01+02:00] INCOMING GET /stbtotal/a/report_backend.php?slc=SLC%2F2606%2F01108 from fe80::8e1c:486b:4125:3a2b
+[2026-08-26T03:43:02+02:00] SLC lookup 'SLC/2606/01108' rows=1 duration=5.9127807617188E-5 limit=100000 offset=0
+[2026-08-26T03:43:03+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-08-26T03:45:36+02:00] INCOMING GET /stbtotal/a/report_backend.php?slc=SLC%2F2606%2F00072 from fe80::8e1c:486b:4125:3a2b
+[2026-08-26T03:45:37+02:00] SLC lookup 'SLC/2606/00072' rows=1 duration=7.6055526733398E-5 limit=100000 offset=0
+[2026-08-26T03:45:38+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-08-26T03:46:18+02:00] INCOMING GET /stbtotal/a/report_backend.php?slc=SLC%2F2606%2F00943 from fe80::8e1c:486b:4125:3a2b
+[2026-08-26T03:46:19+02:00] SLC lookup 'SLC/2606/00943' rows=1 duration=5.793571472168E-5 limit=100000 offset=0
+[2026-08-26T03:46:20+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-08-26T03:48:00+02:00] INCOMING GET /stbtotal/a/report_backend.php?slc=SLC%2F2605%2F01115 from fe80::8e1c:486b:4125:3a2b
+[2026-08-26T03:48:01+02:00] SLC lookup 'SLC/2605/01115' rows=1 duration=5.9127807617188E-5 limit=100000 offset=0
+[2026-08-26T03:48:02+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-08-26T03:49:16+02:00] INCOMING GET /stbtotal/a/report_backend.php?slc=SLC%2F2606%2F00292 from fe80::8e1c:486b:4125:3a2b
+[2026-08-26T03:49:16+02:00] SLC lookup 'SLC/2606/00292' rows=1 duration=6.413459777832E-5 limit=100000 offset=0
+[2026-08-26T03:49:18+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-08-26T03:49:22+02:00] INCOMING GET /stbtotal/a/report_backend.php?slc=SLC%2F2606%2F00211 from fe80::8e1c:486b:4125:3a2b
+[2026-08-26T03:49:23+02:00] SLC lookup 'SLC/2606/00211' rows=1 duration=5.793571472168E-5 limit=100000 offset=0
+[2026-08-26T03:49:25+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-08-26T03:49:32+02:00] INCOMING GET /stbtotal/a/report_backend.php?slc=SLC%2F2604%2F01170 from fe80::8e1c:486b:4125:3a2b
+[2026-08-26T03:49:33+02:00] SLC lookup 'SLC/2604/01170' rows=1 duration=5.9843063354492E-5 limit=100000 offset=0
+[2026-08-26T03:49:34+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-08-26T03:49:46+02:00] INCOMING GET /stbtotal/a/report_backend.php?slc=SLC%2F2605%2F01120 from fe80::8e1c:486b:4125:3a2b
+[2026-08-26T03:49:47+02:00] SLC lookup 'SLC/2605/01120' rows=1 duration=5.5074691772461E-5 limit=100000 offset=0
+[2026-08-26T03:49:54+02:00] INCOMING GET /stbtotal/a/report_backend.php?slc=SLC%2F2605%2F00948 from fe80::8e1c:486b:4125:3a2b
+[2026-08-26T03:49:55+02:00] SLC lookup 'SLC/2605/00948' rows=1 duration=5.793571472168E-5 limit=100000 offset=0
+[2026-08-26T03:50:01+02:00] INCOMING GET /stbtotal/a/report_backend.php?slc=SLC%2F2605%2F00948 from fe80::8e1c:486b:4125:3a2b
+[2026-08-26T03:50:03+02:00] SLC lookup 'SLC/2605/00948' rows=1 duration=6.1988830566406E-5 limit=100000 offset=0
+[2026-08-26T03:50:33+02:00] INCOMING GET /stbtotal/a/report_backend.php?slc=SLC%2F2603%2F00600 from fe80::8e1c:486b:4125:3a2b
+[2026-08-26T03:50:34+02:00] SLC lookup 'SLC/2603/00600' rows=1 duration=6.0081481933594E-5 limit=100000 offset=0
+[2026-08-26T03:50:37+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-08-26T03:50:41+02:00] INCOMING GET /stbtotal/a/report_backend.php?slc=SLC%2F2603%2F00597 from fe80::8e1c:486b:4125:3a2b
+[2026-08-26T03:50:42+02:00] SLC lookup 'SLC/2603/00597' rows=1 duration=5.9843063354492E-5 limit=100000 offset=0
+[2026-08-26T03:50:48+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-08-26T04:06:38+02:00] INCOMING GET /stbtotal/a/report_backend.php?slc=SLC%2F2603%2F00600 from fe80::8e1c:486b:4125:3a2b
+[2026-08-26T04:06:39+02:00] SLC lookup 'SLC/2603/00600' rows=1 duration=6.6041946411133E-5 limit=100000 offset=0
+[2026-08-26T04:06:45+02:00] INCOMING GET /stbtotal/a/report_backend.php?slc=SLC%2F2603%2F00597 from fe80::8e1c:486b:4125:3a2b
+[2026-08-26T04:06:46+02:00] SLC lookup 'SLC/2603/00597' rows=1 duration=8.0108642578125E-5 limit=100000 offset=0
+[2026-08-26T04:12:56+02:00] INCOMING GET /stbtotal/a/report_backend.php?slc=SLC%2F2607%2F00749 from fe80::8e1c:486b:4125:3a2b
+[2026-08-26T04:12:56+02:00] SLC lookup 'SLC/2607/00749' rows=1 duration=5.6028366088867E-5 limit=100000 offset=0
+[2026-08-26T04:12:59+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-08-26T04:13:09+02:00] INCOMING GET /stbtotal/a/report_backend.php?slc=SLC%2F2607%2F00740 from fe80::8e1c:486b:4125:3a2b
+[2026-08-26T04:13:10+02:00] SLC lookup 'SLC/2607/00740' rows=1 duration=6.2942504882812E-5 limit=100000 offset=0
+[2026-08-26T04:13:12+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-08-26T04:13:20+02:00] INCOMING GET /stbtotal/a/report_backend.php?slc=SLC%2F2607%2F00724 from fe80::8e1c:486b:4125:3a2b
+[2026-08-26T04:13:21+02:00] SLC lookup 'SLC/2607/00724' rows=1 duration=6.3180923461914E-5 limit=100000 offset=0
+[2026-08-26T04:13:57+02:00] INCOMING GET /stbtotal/a/report_backend.php?slc=SLC%2F2607%2F00364 from fe80::8e1c:486b:4125:3a2b
+[2026-08-26T04:13:58+02:00] SLC lookup 'SLC/2607/00364' rows=1 duration=0.00010395050048828 limit=100000 offset=0
+[2026-08-26T04:24:04+02:00] INCOMING GET /stbtotal/a/report_backend.php?slc=SLC%2F2607%2F00519 from fe80::8e1c:486b:4125:3a2b
+[2026-08-26T04:24:05+02:00] SLC lookup 'SLC/2607/00519' rows=1 duration=6.0081481933594E-5 limit=100000 offset=0
+[2026-08-26T04:24:07+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-08-26T04:24:13+02:00] INCOMING GET /stbtotal/a/report_backend.php?slc=SLC%2F2607%2F00101 from fe80::8e1c:486b:4125:3a2b
+[2026-08-26T04:24:14+02:00] SLC lookup 'SLC/2607/00101' rows=1 duration=6.1988830566406E-5 limit=100000 offset=0
+[2026-08-26T04:24:23+02:00] INCOMING GET /stbtotal/a/report_backend.php?slc=SLC%2F2606%2F00072 from fe80::8e1c:486b:4125:3a2b
+[2026-08-26T04:24:24+02:00] SLC lookup 'SLC/2606/00072' rows=1 duration=6.5088272094727E-5 limit=100000 offset=0
+[2026-08-26T04:24:31+02:00] INCOMING GET /stbtotal/a/report_backend.php?slc=SLC%2F2607%2F00298 from fe80::8e1c:486b:4125:3a2b
+[2026-08-26T04:24:31+02:00] SLC lookup 'SLC/2607/00298' rows=1 duration=5.6028366088867E-5 limit=100000 offset=0
+[2026-08-26T04:24:39+02:00] INCOMING GET /stbtotal/a/report_backend.php?slc=SLC%2F2607%2F00294 from fe80::8e1c:486b:4125:3a2b
+[2026-08-26T04:24:40+02:00] SLC lookup 'SLC/2607/00294' rows=1 duration=6.0081481933594E-5 limit=100000 offset=0
+[2026-08-26T04:24:44+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-08-26T04:25:24+02:00] INCOMING GET /stbtotal/a/report_backend.php?slc=SLC%2F2607%2F00039 from fe80::8e1c:486b:4125:3a2b
+[2026-08-26T04:25:25+02:00] SLC lookup 'SLC/2607/00039' rows=1 duration=6.2942504882812E-5 limit=100000 offset=0
+[2026-08-26T04:25:28+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-08-26T04:25:39+02:00] INCOMING GET /stbtotal/a/report_backend.php?slc=SLC%2F2607%2F00068 from fe80::8e1c:486b:4125:3a2b
+[2026-08-26T04:25:40+02:00] SLC lookup 'SLC/2607/00068' rows=1 duration=6.103515625E-5 limit=100000 offset=0
+[2026-08-26T04:25:45+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-08-26T06:39:11+02:00] INCOMING GET /stbtotal/a/report_backend.php?slc=SLC%2F2606%2F00254 from fe80::8e1c:486b:4125:3a2b
+[2026-08-26T06:39:11+02:00] SLC lookup 'SLC/2606/00254' rows=1 duration=8.1062316894531E-5 limit=100000 offset=0
+[2026-08-26T06:44:22+02:00] INCOMING GET /stbtotal/a/report_backend.php?slc=SLC%2F2607%2F00091 from fe80::8e1c:486b:4125:3a2b
+[2026-08-26T06:44:22+02:00] SLC lookup 'SLC/2607/00091' rows=1 duration=8.2015991210938E-5 limit=100000 offset=0
+[2026-08-26T06:44:25+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-08-26T06:47:00+02:00] INCOMING GET /stbtotal/a/report_backend.php?slc=SLC%2F2606%2F01280 from fe80::8e1c:486b:4125:3a2b
+[2026-08-26T06:47:01+02:00] SLC lookup 'SLC/2606/01280' rows=1 duration=5.6982040405273E-5 limit=100000 offset=0
+[2026-08-26T06:47:02+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-08-26T06:50:03+02:00] INCOMING GET /stbtotal/a/report_backend.php?slc=SLC%2F2606%2F01060 from fe80::8e1c:486b:4125:3a2b
+[2026-08-26T06:50:03+02:00] SLC lookup 'SLC/2606/01060' rows=1 duration=6.6995620727539E-5 limit=100000 offset=0
+[2026-08-26T06:50:05+02:00] INCOMING POST /stbtotal/a/report_backend.php from fe80::8e1c:486b:4125:3a2b

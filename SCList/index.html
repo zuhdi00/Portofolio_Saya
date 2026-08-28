@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Contract List</title>
+    <!-- Memuat Tailwind CSS dari CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Memuat SheetJS (XLSX) untuk fungsionalitas ekspor ke Excel -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <!-- Menggunakan font Inter sebagai standar Tailwind -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100 text-gray-800">
+
+    <div class="container mx-auto p-4 md:p-8">
+
+        <!-- Judul Halaman -->
+        <header class="mb-8">
+            <h1 class="text-3xl font-bold text-gray-900">Daftar Sales Contract</h1>
+            <p class="text-gray-600 mt-1">Kelola dan telusuri sales contract marketing.</p>
+        </header>
+
+        <!-- Panel Filter dan Pencarian -->
+        <div class="bg-white p-6 md:p-8 rounded-xl shadow-lg mb-8">
+            <form id="filterForm">
+                <div class="grid grid-cols-1 md:grid-cols-6 gap-6">
+
+                    <!-- Filter Tanggal Mulai -->
+                    <div>
+                        <label for="startDate" class="block text-sm font-medium text-gray-700 mb-2">Tanggal
+                            Mulai</label>
+                        <input type="date" id="startDate" name="startDate"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200">
+                    </div>
+
+                    <!-- Filter Tanggal Akhir -->
+                    <div>
+                        <label for="endDate" class="block text-sm font-medium text-gray-700 mb-2">Tanggal Akhir</label>
+                        <input type="date" id="endDate" name="endDate"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200">
+                    </div>
+
+                    <!-- Tombol Filter (Baru)
+                     -->
+                    <div class="md:self-end">
+                        <button type="submit" id="filterButton"
+                            class="w-full px-6 py-2 bg-gray-600 text-white font-semibold rounded-lg shadow-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition duration-200 ease-in-out ">
+                            Filter
+                        </button>
+                    </div>
+
+                    <!-- Input Pencarian Nomor SC -->
+                    <div class="md:col-span-1">
+                        <label for="searchSC" class="block text-sm font-medium text-gray-700 mb-2">Nomor SC</label>
+                        <input type="text" id="searchSC" name="searchSC" placeholder="Cari nomor SC..."
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200">
+                    </div>
+
+                    <!-- Tombol Search -->
+                    <div class="md:self-end">
+                        <button type="submit" id="searchButton"
+                            class="w-full px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-200 ease-in-out">
+                            Cari
+                        </button>
+                    </div>
+
+                    <!-- Tombol Reset -->
+                    <div class="md:self-end">
+                        <button type="button" id="resetButton"
+                            class="w-full px-6 py-2 bg-red-600 text-white font-semibold rounded-lg shadow-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition duration-200 ease-in-out">
+                            Reset
+                        </button>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+
+        <!-- Bagian Hasil Pencarian (Muncul setelah search) -->
+        <div id="resultsSection" class="hidden">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-2xl font-semibold text-gray-900">Hasil</h2>
+                <div class="flex space-x-3 items-center">
+                    <!-- Checkbox Sortir DT -->
+                    <div class="flex items-center">
+                        <input id="sortirDtCheckbox" type="checkbox"
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2">
+                        <label for="sortirDtCheckbox"
+                            class="ml-2 text-sm font-medium text-gray-900 whitespace-nowrap">Sortir DT</label>
+                    </div>
+                    <!-- Filter Jenis SC (Dropdown) -->
+                    <div>
+                        <select id="jnsScFilter"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 bg-white text-gray-700 h-full">
+                            <option value="">Semua Jenis</option>
+                            <option value="OU">OU</option>
+                            <option value="OUP">OUP</option>
+                            <option value="SHEET">SHEET</option>
+                            <option value="OB">OB</option>
+                        </select>
+                    </div>
+                    <!-- Tombol Filter OP Belum -->
+                    <button id="filterBelumButton"
+                        class="flex items-center px-4 py-2 bg-yellow-500 text-white font-semibold rounded-lg shadow-md hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 transition duration-200 ease-in-out">
+                        <svg class="w-5 h-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                            stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 0 1-.659 1.591l-5.432 5.432a2.25 2.25 0 0 0-.659 1.591v2.927a2.25 2.25 0 0 1-1.244 2.013L9.75 21v-6.572a2.25 2.25 0 0 0-.659-1.591L3.659 7.409A2.25 2.25 0 0 1 3 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0 1 12 3Z" />
+                        </svg>
+                        Filter OP Belum
+                    </button>
+                    <!-- Tombol Update Data -->
+                    <button id="updateDataButton"
+                        class="flex items-center px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-200 ease-in-out">
+                        <svg class="w-5 h-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                            stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.992 0 3.181 3.183a8.25 8.25 0 0 0 11.667 0m0 0-3.181-3.183m0 0-3.181 3.183m3.181-3.183L12.75 12m3.273-2.652V7.5M21.015 19.644V14.652M2.985 4.356h4.992m-4.992 0v4.992m0 0 3.181-3.183a8.25 8.25 0 0 1 11.667 0m0 0 3.181 3.183m0 0-3.181-3.183m0 0 3.181-3.183M12.75 12l-3.273-2.652" />
+                        </svg>
+                        Update Data
+                    </button>
+                    <!-- Tombol Export Excel -->
+                    <button id="exportExcelButton"
+                        class="flex items-center px-4 py-2 bg-green-600 text-white font-semibold rounded-lg shadow-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition duration-200 ease-in-out">
+                        <svg class="w-5 h-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                            stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M9 8.25H7.5a2.25 2.25 0 0 0-2.25 2.25v9a2.25 2.25 0 0 0 2.25 2.25h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25H15M9 12l3 3m0 0 3-3m-3 3V2.25" />
+                        </svg>
+                        Export Excel
+                    </button>
+                </div>
+            </div>
+            <!-- Kontainer Tabel agar Responsif -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full min-w-full divide-y divide-gray-200">
+                        <!-- Header Tabel (DIMODIFIKASI) -->
+                        <thead class="sticky top-0 bg-gray-50 z-10">
+                            <tr>
+                                <th scope="col"
+                                    class="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                    No.
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                    Nomor SC
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                    No. MC
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                    Nomer OP
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                    Tgl SC
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                    DT
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                    Jam
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                    Pemesan
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                    Item
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                    Jenis
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                    Tipe
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                    Flute
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                    Ukuran
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                    Kualitas
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                    Warna
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                    Qty
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                    Keterangan
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                    SC Lama
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                    Sales
+                                </th>
+                                <th scope="col"
+                                    class="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                    Ket. Mkt
+                                </th>
+                            </tr>
+                        </thead>
+
+                        <!-- Body Tabel (Akan diisi oleh JavaScript) -->
+                        <tbody id="resultsTableBody" class="bg-white divide-y divide-gray-200">
+                            <!-- Status Loading -->
+                            <tr id="loadingRow" class="hidden">
+                                <td colspan="21" class="text-center p-8 text-gray-500">
+                                    <svg class="animate-spin h-5 w-5 text-blue-600 mx-auto"
+                                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                            stroke-width="4"></circle>
+                                        <path class="opacity-75" fill="currentColor"
+                                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                                        </path>
+                                    </svg>
+                                    Memuat data...
+                                </td>
+                            </tr>
+                            <!-- Status Data Tidak Ditemukan -->
+                            <tr id="noResultsRow" class="hidden">
+                                <td colspan="21" class="text-center p-8 text-gray-500">
+                                    Data tidak ditemukan.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Paginasi (Statik untuk saat ini) -->
+                <div class="px-6 py-4 border-t border-gray-200 flex items-center justify-between">
+                    <p id="paginationSummary" class="text-sm text-gray-700">
+                        Menunggu pencarian...
+                    </p>
+                    <div class="flex space-x-1">
+                        <!-- Paginasi bisa ditambahkan di sini -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // --- KONFIGURASI API ---
+        // URL API telah diperbaiki untuk menunjuk ke file api.php secara relatif
+        const API_BASE_URL = 'https://supracor.ardhiansyah.my.id/api/';
+
+        // --- STATE APLIKASI ---
+        let currentData = []; // Menyimpan data terakhir yang di-fetch
+        let originalData = []; // Menyimpan data asli dari server untuk filtering
+
+        // --- REFERENSI ELEMEN ---
+        const filterForm = document.getElementById('filterForm');
+        const resultsSection = document.getElementById('resultsSection');
+        const tableBody = document.getElementById('resultsTableBody');
+        const loadingRow = document.getElementById('loadingRow');
+        const noResultsRow = document.getElementById('noResultsRow');
+        const paginationSummary = document.getElementById('paginationSummary');
+        const resetButton = document.getElementById('resetButton');
+        const exportExcelButton = document.getElementById('exportExcelButton');
+        const updateDataButton = document.getElementById('updateDataButton');
+        const filterBelumButton = document.getElementById('filterBelumButton');
+        const jnsScFilter = document.getElementById('jnsScFilter');
+        const sortirDtCheckbox = document.getElementById('sortirDtCheckbox');
+
+        // --- HELPER FORMAT TANGGAL ---
+        function formatDate(dateField) {
+            // Handle data tanggal dari SQLSRV yang mungkin berupa objek
+            let dateString;
+            if (typeof dateField === 'object' && dateField && dateField.date) {
+                dateString = dateField.date;
+            } else {
+                dateString = dateField;
+            }
+
+            if (!dateString) return '-';
+
+            const date = new Date(dateString);
+            if (isNaN(date.getTime())) {
+                return dateString; // Kembalikan string asli jika tidak valid
+            }
+
+            // Format ke 'dd-mm-yyyy'
+            const day = String(date.getDate()).padStart(2, '0');
+            const month = String(date.getMonth() + 1).padStart(2, '0'); // Bulan dimulai dari 0
+            const year = date.getFullYear();
+
+            return `${day}-${month}-${year}`;
+        }
+
+        // --- HELPER FORMAT WAKTU ---
+        function formatTime(dateField) {
+            // Handle data waktu dari SQLSRV yang mungkin berupa objek
+            let dateString;
+            if (typeof dateField === 'object' && dateField && dateField.date) {
+                dateString = dateField.date;
+            } else {
+                dateString = dateField;
+            }
+
+            if (!dateString) return '-';
+
+            const date = new Date(dateString);
+            if (isNaN(date.getTime())) {
+                return dateString; // Kembalikan string asli jika tidak valid
+            }
+
+            // Format ke 'HH:mm:ss'
+            return date.toLocaleTimeString('id-ID', { hour12: false });
+        }
+
+        // --- FUNGSI UNTUK MENGISI TABEL ---
+        function populateTable(data) {
+            tableBody.innerHTML = ''; // Pastikan kosong
+
+            data.forEach((row, index) => {
+                // Tentukan class untuk baris berdasarkan sumber data
+                let rowClass = '';
+                let textColorClass = 'text-gray-700'; // Default text color
+
+                const isTidakProduksi = row.cKeterangan && row.cKeterangan.toLowerCase().includes('tidak produksi');
+
+                if (isTidakProduksi) {
+                    rowClass = 'bg-red-600 hover:bg-red-700'; // Warna merah
+                    textColorClass = 'text-white'; // Teks putih
+                } else if (row.cNoOp && row.cNoOp.trim().toUpperCase() === 'BELUM') {
+                    rowClass = 'bg-yellow-100'; // Prioritas: Warna kuning jika OP belum ada
+                } else if (row.dataSource === 'detail') {
+                    rowClass = 'bg-blue-50'; // Warna biru untuk baris detail
+                }
+
+                const tr = document.createElement('tr');
+
+                // Logika untuk menampilkan No. OP dengan warna
+                let opHtml = row.cNoOp || '-';
+                if (row.cNoOp && row.cNoOp.trim().toUpperCase() === 'BELUM') {
+                    if (isTidakProduksi) {
+                        opHtml = `<span class="text-white font-semibold">${row.cNoOp}</span>`;
+                    } else {
+                        opHtml = `<span class="text-red-600 font-semibold">${row.cNoOp}</span>`;
+                    }
+                }
+
+                tr.className = rowClass; // Terapkan class ke elemen <tr>
+                tr.innerHTML = ` 
+                    <td class="px-6 py-4 whitespace-nowrap text-sm ${textColorClass}">${index + 1}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm ${textColorClass}">${row.cNoSC || '-'}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm ${textColorClass}">${row.cNoMc || '-'}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm ${textColorClass}">${opHtml}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm ${textColorClass}">${formatDate(row.dTanggal)}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm ${textColorClass}">${formatDate(row.dTglKirim)}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm ${textColorClass}">${formatTime(row.UserDate)}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm ${textColorClass}">${row.cNama || '-'}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm ${textColorClass}">${row.cJenis || '-'}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm ${textColorClass}">${row.cJnsSc || '-'}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm ${textColorClass}">${row.cKodeTipe || '-'}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm ${textColorClass}">${row.cJnsGel || '-'}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm ${textColorClass}">${row.Ukuran || '-'}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm ${textColorClass}">${row.Kualitas || '-'}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm ${textColorClass}">${row.cWarna || '-'}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm ${textColorClass}">${parseInt(row.nQty) || 0}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm ${textColorClass}">${row.cKeterangan || '-'}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm ${textColorClass}">${row.OPLama || '-'}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm ${textColorClass}">${row.cSales || '-'}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm ${textColorClass}">${row.cKet_Mkt || '-'}</td>
+                `;
+                tableBody.appendChild(tr);
+            });
+        }
+
+        // --- FUNGSI UTAMA UNTUK MENGAMBIL DATA ---
+        async function fetchData(filters = {}) {
+            // Tampilkan bagian hasil
+            resultsSection.style.display = 'block';
+
+            // Tampilkan status loading & sembunyikan status lain
+            tableBody.innerHTML = ''; // Kosongkan hasil lama
+            loadingRow.classList.remove('hidden');
+            noResultsRow.classList.add('hidden');
+            paginationSummary.textContent = 'Mencari data...';
+
+            // Bangun query string dari filter
+            const params = new URLSearchParams();
+            if (filters.startDate) params.append('startDate', filters.startDate);
+            if (filters.endDate) params.append('endDate', filters.endDate);
+            if (filters.searchSC) params.append('searchSC', filters.searchSC);
+
+            const apiUrl = `${API_BASE_URL}?action=searchSC&${params.toString()}`;
+
+            try {
+                const response = await fetch(apiUrl);
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => null);
+                    throw new Error(errorData?.message || `HTTP error! status: ${response.status}`);
+                }
+                const result = await response.json();
+
+                loadingRow.classList.add('hidden');
+                jnsScFilter.value = ''; // Reset filter dropdown setiap kali data baru di-fetch
+
+                if (result.success && result.data.length > 0) {
+                    originalData = result.data; // Simpan data asli
+                    currentData = result.data; // Set data saat ini
+                    populateTable(result.data);
+                    const isFiltered = filters.startDate || filters.endDate || filters.searchSC;
+                    paginationSummary.textContent = isFiltered
+                        ? `Menampilkan ${result.data.length} hasil.`
+                        : `Menampilkan ${result.data.length} data terbaru.`;
+                } else {
+                    noResultsRow.classList.remove('hidden');
+                    originalData = []; // Kosongkan data asli
+                    currentData = []; // Kosongkan data saat ini
+                    paginationSummary.textContent = 'Data tidak ditemukan.';
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                loadingRow.classList.add('hidden');
+                noResultsRow.classList.remove('hidden');
+                noResultsRow.querySelector('td').textContent = `Gagal memuat data: ${error.message}`;
+                paginationSummary.textContent = 'Terjadi kesalahan.';
+            }
+        }
+
+        // --- FUNGSI BARU UNTUK MENERAPKAN SEMUA FILTER ---
+        function applyFilters() {
+            const selectedJns = jnsScFilter.value;
+            const filterBelumIsActive = filterBelumButton.classList.contains('bg-red-600'); // Cek status aktif dari warna
+            const isSortirDtActive = sortirDtCheckbox.checked;
+
+            let filteredData = [...originalData]; // Selalu mulai dari data asli
+
+            // 1. Terapkan filter Jenis SC
+            if (selectedJns) {
+                filteredData = filteredData.filter(row => row.cJnsSc && row.cJnsSc.trim().toUpperCase() === selectedJns);
+            }
+
+            // 2. Terapkan filter OP Belum
+            if (filterBelumIsActive) {
+                filteredData = filteredData.filter(row => row.cNoOp && row.cNoOp.trim().toUpperCase() === 'BELUM');
+            }
+
+            // 3. Terapkan Sorting DT (Mendekati tanggal sekarang)
+            if (isSortirDtActive) {
+                const now = new Date();
+                now.setHours(0, 0, 0, 0); // Hilangkan jam untuk akurasi tanggal
+
+                filteredData.sort((a, b) => {
+                    let dateStrA = (typeof a.dTglKirim === 'object' && a.dTglKirim && a.dTglKirim.date) ? a.dTglKirim.date : a.dTglKirim;
+                    let dateStrB = (typeof b.dTglKirim === 'object' && b.dTglKirim && b.dTglKirim.date) ? b.dTglKirim.date : b.dTglKirim;
+
+                    let dateA = new Date(dateStrA);
+                    let dateB = new Date(dateStrB);
+
+                    // Prioritaskan yang memiliki tanggal valid
+                    if (isNaN(dateA.getTime()) && isNaN(dateB.getTime())) return 0;
+                    if (isNaN(dateA.getTime())) return 1;
+                    if (isNaN(dateB.getTime())) return -1;
+
+                    dateA.setHours(0, 0, 0, 0);
+                    dateB.setHours(0, 0, 0, 0);
+
+                    let diffA = Math.abs(now - dateA);
+                    let diffB = Math.abs(now - dateB);
+
+                    return diffA - diffB;
+                });
+            }
+
+            currentData = filteredData; // Update data saat ini untuk keperluan export
+            populateTable(filteredData);
+            paginationSummary.textContent = `Menampilkan ${filteredData.length} hasil.`;
+        }
+
+        // --- EVENT LISTENER UNTUK FORM SUBMIT ---
+        filterForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+            const filters = {
+                startDate: document.getElementById('startDate').value,
+                endDate: document.getElementById('endDate').value,
+                searchSC: document.getElementById('searchSC').value
+            };
+            fetchData(filters);
+        });
+
+        // --- EVENT LISTENER UNTUK TOMBOL RESET ---
+        resetButton.addEventListener('click', function (event) {
+            event.preventDefault();
+            // Kosongkan semua input filter
+            document.getElementById('startDate').value = '';
+            document.getElementById('endDate').value = '';
+            document.getElementById('searchSC').value = '';
+            jnsScFilter.value = ''; // Reset dropdown
+            sortirDtCheckbox.checked = false; // Reset checkbox sortir DT
+            filterBelumButton.classList.remove('bg-red-600', 'hover:bg-red-700'); // Nonaktifkan tombol filter belum
+            filterBelumButton.classList.add('bg-yellow-500', 'hover:bg-yellow-600');
+            // Panggil fetchData tanpa filter untuk memuat data awal
+            fetchData();
+        });
+
+        // --- EVENT LISTENER UNTUK TOMBOL UPDATE DATA ---
+        updateDataButton.addEventListener('click', function () {
+            // Me-refresh halaman untuk mendapatkan data terbaru dari server.
+            location.reload();
+        });
+
+        // --- EVENT LISTENER UNTUK TOMBOL FILTER OP BELUM (TOGGLE) ---
+        filterBelumButton.addEventListener('click', function () {
+            // Ganti warna untuk menandakan status aktif/nonaktif
+            this.classList.toggle('bg-yellow-500');
+            this.classList.toggle('hover:bg-yellow-600');
+            this.classList.toggle('bg-red-600'); // Warna merah saat aktif
+            this.classList.toggle('hover:bg-red-700');
+            applyFilters(); // Panggil fungsi filter utama
+        });
+
+        // --- EVENT LISTENER UNTUK SORTIR DT ---
+        sortirDtCheckbox.addEventListener('change', function () {
+            applyFilters();
+        });
+
+        // --- EVENT LISTENER UNTUK FILTER JNS. SC ---
+        jnsScFilter.addEventListener('change', function () {
+            applyFilters(); // Panggil fungsi filter utama
+        });
+
+        // --- EVENT LISTENER UNTUK TOMBOL EXPORT EXCEL ---
+        exportExcelButton.addEventListener('click', function () {
+            if (currentData.length === 0) {
+                alert('Tidak ada data untuk diekspor.');
+                return;
+            }
+
+            // Tentukan header untuk file Excel
+            const headers = [
+                'No.', 'Nomor SC', 'No. MC', 'Nomer OP', 'Tgl SC', 'DT', 'Jam', 'Pemesan',
+                'Item', 'Jenis', 'Tipe', 'Flute', 'Ukuran', 'Kualitas', 'Warna', 'Qty', 'Keterangan',
+                'SC Lama', 'Sales', 'Ket. Mkt'
+            ];
+
+            // Ubah data JSON menjadi array of arrays untuk worksheet
+            const rows = currentData.map((row, index) => {
+                return [
+                    index + 1,
+                    row.cNoSC || '', row.cNoMc || '', row.cNoOp || '',
+                    formatDate(row.dTanggal), formatDate(row.dTglKirim), formatTime(row.UserDate),
+                    row.cNama || '', row.cJenis || '', row.cJnsSc || '', row.cKodeTipe || '',
+                    row.cJnsGel || '', row.Ukuran || '', row.Kualitas || '', row.cWarna || '',
+                    parseInt(row.nQty) || 0,
+                    row.cKeterangan || '', row.OPLama || '', row.cSales || '', row.cKet_Mkt || ''
+                ];
+            });
+
+            // Buat worksheet dari array of arrays (header + rows)
+            const worksheet = XLSX.utils.aoa_to_sheet([headers, ...rows]);
+            const workbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(workbook, worksheet, 'Sales Contracts');
+
+            const tgl = new Date().toISOString().slice(0, 10);
+            XLSX.writeFile(workbook, `sales_contract_list_${tgl}.xlsx`);
+        });
+
+        // --- MEMUAT DATA AWAL SAAT HALAMAN DIBUKA ---
+        document.addEventListener('DOMContentLoaded', () => fetchData());
+    </script>
+
+</body>
+
+</html>

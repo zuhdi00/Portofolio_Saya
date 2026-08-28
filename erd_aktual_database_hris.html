@@ -1,0 +1,396 @@
+<style>
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: #f5f5f3;
+  font-family: "Anthropic Sans", sans-serif;
+  user-select: none;
+}
+#container {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+  cursor: grab;
+}
+#container:active {
+  cursor: grabbing;
+}
+#erd {
+  transform-origin: 0 0;
+  display: inline-block;
+}
+#erd svg.erDiagram text,
+#erd svg.erDiagram .relationshipLabel,
+#erd svg.erDiagram .labelText {
+  fill: #000000;
+}
+#erd svg.erDiagram .divider path { stroke-opacity: 0.5; }
+#erd svg.erDiagram .row-rect-odd path,
+#erd svg.erDiagram .row-rect-odd rect,
+#erd svg.erDiagram .row-rect-even path,
+#erd svg.erDiagram .row-rect-even rect { stroke: none !important; }
+
+.controls {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 1000;
+}
+.controls button {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid #d1d5db;
+  background-color: #ffffff;
+  color: #111111;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  outline: none;
+}
+.controls button:hover {
+  background-color: #e5e7eb;
+  transform: scale(1.05);
+}
+.controls button:active {
+  transform: scale(0.95);
+}
+</style>
+<div id="container">
+  <div id="erd"></div>
+</div>
+<div class="controls">
+  <button id="zoom-in" title="Zoom In">＋</button>
+  <button id="zoom-out" title="Zoom Out">－</button>
+  <button id="reset" title="Fit Screen">⟲</button>
+</div>
+<script type="module">
+import mermaid from 'https://esm.sh/mermaid@11/dist/mermaid.esm.min.mjs';
+await document.fonts.ready;
+mermaid.initialize({
+  startOnLoad: false,
+  theme: 'base',
+  fontFamily: '"Anthropic Sans", sans-serif',
+  themeVariables: {
+    darkMode: false,
+    fontSize: '13px',
+    fontFamily: '"Anthropic Sans", sans-serif',
+    lineColor: '#000000',
+    textColor: '#000000',
+    mainBkg: '#ffffff',
+    nodeBorder: '#000000',
+    primaryColor: '#ffffff',
+    primaryTextColor: '#000000',
+    secondaryColor: '#f5f5f3',
+    tertiaryColor: '#ffffff',
+  },
+});
+const { svg } = await mermaid.render('erd-svg', `erDiagram
+  DEPARTEMEN ||--o{ JABATAN : memiliki
+  JABATAN ||--o{ LOWONGAN : membuka
+  LOWONGAN ||--o{ PELAMAR : dilamar
+  PELAMAR ||--o{ PENILAIAN_PELAMAR : dinilai
+  PEGAWAI ||--o{ ABSENSI : "hadir (implisit)"
+  PEGAWAI ||--o{ JADWAL_KEHADIRAN : "jadwal (implisit)"
+  PEGAWAI ||--o{ TABEL_CUTI : "cuti (implisit)"
+  JENIS_CUTI ||--o{ TABEL_CUTI : jenis
+  PEGAWAI ||--|| KONTRAK_PEGAWAI : "kontrak (implisit)"
+  KONTRAK_PEGAWAI ||--o{ RIWAYAT_KONTRAK : perubahan
+  PEGAWAI ||--o{ SLIP_GAJI : "gaji (implisit)"
+  PEGAWAI ||--o{ KPI : target
+  KPI ||--o{ PENILAIAN : dinilai
+  PEGAWAI ||--o{ PENGHARGAAN : "FK asli"
+  PENGHARGAAN ||--o{ PENERIMA_PENGHARGAAN : "FK asli"
+  PENERIMA_PENGHARGAAN ||--o{ NOMINASI : "FK asli"
+  NOMINASI ||--o{ LOGIN_AKTIVITAS : "FK asli"
+  PEGAWAI ||--o{ PROMOSI : "promosi (implisit)"
+  PEGAWAI ||--o{ MUTASI : "mutasi (implisit)"
+  PEGAWAI ||--o{ PENGUNDURAN_DIRI : "resign (implisit)"
+  PEGAWAI ||--o{ PHK : "phk (implisit)"
+  PEGAWAI {
+    int id_peg PK
+    string nama_peg
+    enum jabatan_peg "ENUM, bukan FK!"
+    enum departemen_peg "ENUM: HRD-Mkt-IT-Fin"
+    enum status_peg
+  }
+  DEPARTEMEN {
+    int id_departemen PK
+    string nama_departemen
+  }
+  JABATAN {
+    int id_jabatan PK
+    string nama_jabatan
+    int id_departemen FK
+  }
+  LOWONGAN {
+    int id_lowongan PK
+    int id_jabatan FK
+    enum status
+  }
+  PELAMAR {
+    int id_pelamar PK
+    int id_lowongan FK
+    enum status_pel
+  }
+  PENILAIAN_PELAMAR {
+    int id_penilaian_pel PK
+    int id_pelamar FK
+    int skor
+  }
+  ABSENSI {
+    int ID_Absensi PK
+    int ID_Pegawai FK
+    datetime Tanggal_Waktu
+    string Metode_Verifikasi
+  }
+  JADWAL_KEHADIRAN {
+    int ID_Jadwal PK
+    int ID_Pegawai FK
+    time Jam_Masuk
+    time Jam_Keluar
+  }
+  TABEL_CUTI {
+    int id_cuti PK
+    int id_karyawan FK
+    int id_jenis_cuti FK
+    string status_cuti
+  }
+  JENIS_CUTI {
+    int id_jenis_cuti PK
+    string nama_jenis_cuti
+  }
+  KONTRAK_PEGAWAI {
+    int id_pegawai "tanpa PK sendiri!"
+    date tgl_mulai
+    string gaji_bulanan "varchar!"
+  }
+  RIWAYAT_KONTRAK {
+    int id_perubahan PK
+    int id_kontrak FK
+    string gaji_setelah "varchar!"
+  }
+  SLIP_GAJI {
+    int id_slip_gaji PK
+    int id_peg FK
+    date bulan_tahun
+    decimal total_gaji
+  }
+  KPI {
+    int id_kpi PK
+    int id_peg FK
+    string target
+  }
+  PENILAIAN {
+    int id_penilaian PK
+    int id_pegawai FK
+    int id_KPI FK
+    int nilai
+  }
+  PENGHARGAAN {
+    int id_peng PK
+    int id_peg FK
+    string nama_peng
+  }
+  PENERIMA_PENGHARGAAN {
+    int id_penerima PK
+    int id_peng FK
+  }
+  NOMINASI {
+    int id_nominasi PK
+    int id_penerima FK
+  }
+  LOGIN_AKTIVITAS {
+    int id_login PK
+    int id_nominasi FK "aneh: login ke nominasi?"
+  }
+  PROMOSI {
+    int id_promosi PK
+    int id_peg FK
+    string jab_lama
+    string jab_baru
+  }
+  MUTASI {
+    int id_mutasi PK
+    int id_pegawai FK
+    string dep_lama
+    string dep_baru
+  }
+  PENGUNDURAN_DIRI {
+    int id_pengunduran PK
+    int id_karyawan FK
+    enum status_pengajuan
+  }
+  PHK {
+    int id_phk PK
+    int id_karyawan FK
+    decimal jumlah_kompensasi
+  }`);
+document.getElementById('erd').innerHTML = svg;
+
+document.querySelectorAll('#erd svg.erDiagram .node').forEach(node => {
+  const firstPath = node.querySelector('path[d]');
+  if (!firstPath) return;
+  const d = firstPath.getAttribute('d');
+  const nums = d.match(/-?[\d.]+/g)?.map(Number);
+  if (!nums || nums.length < 8) return;
+  const xs = [nums[0], nums[2], nums[4], nums[6]];
+  const ys = [nums[1], nums[3], nums[5], nums[7]];
+  const x = Math.min(...xs), y = Math.min(...ys);
+  const w = Math.max(...xs) - x, h = Math.max(...ys) - y;
+  const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+  rect.setAttribute('x', x); rect.setAttribute('y', y);
+  rect.setAttribute('width', w); rect.setAttribute('height', h);
+  rect.setAttribute('rx', '8');
+  for (const a of ['fill', 'stroke', 'stroke-width', 'class', 'style']) {
+    if (firstPath.hasAttribute(a)) rect.setAttribute(a, firstPath.getAttribute(a));
+  }
+  firstPath.replaceWith(rect);
+});
+
+document.querySelectorAll('#erd svg.erDiagram .row-rect-odd path, #erd svg.erDiagram .row-rect-even path').forEach(p => {
+  p.setAttribute('stroke', 'none');
+});
+
+// Setup Pan and Zoom
+let scale = 1;
+let pointX = 0;
+let pointY = 0;
+let start = { x: 0, y: 0 };
+let isPanning = false;
+
+const container = document.getElementById('container');
+const erd = document.getElementById('erd');
+
+function setTransform() {
+  erd.style.transform = `translate(${pointX}px, ${pointY}px) scale(${scale})`;
+}
+
+container.onmousedown = function (e) {
+  if (e.button !== 0) return; // Only left click pans
+  e.preventDefault();
+  start = { x: e.clientX - pointX, y: e.clientY - pointY };
+  isPanning = true;
+};
+
+window.addEventListener('mousemove', function (e) {
+  if (!isPanning) return;
+  pointX = e.clientX - start.x;
+  pointY = e.clientY - start.y;
+  setTransform();
+});
+
+window.addEventListener('mouseup', function (e) {
+  isPanning = false;
+});
+
+container.onwheel = function (e) {
+  e.preventDefault();
+  const rect = container.getBoundingClientRect();
+  const mouseX = e.clientX - rect.left;
+  const mouseY = e.clientY - rect.top;
+  
+  const xs = (mouseX - pointX) / scale;
+  const ys = (mouseY - pointY) / scale;
+  
+  const delta = -e.deltaY;
+  if (delta > 0) {
+    scale *= 1.15;
+  } else {
+    scale /= 1.15;
+  }
+  scale = Math.min(Math.max(0.05, scale), 15);
+  
+  pointX = mouseX - xs * scale;
+  pointY = mouseY - ys * scale;
+  setTransform();
+};
+
+function zoom(factor) {
+  const containerRect = container.getBoundingClientRect();
+  const centerX = containerRect.width / 2;
+  const centerY = containerRect.height / 2;
+  
+  const xs = (centerX - pointX) / scale;
+  const ys = (centerY - pointY) / scale;
+  
+  scale *= factor;
+  scale = Math.min(Math.max(0.05, scale), 15);
+  
+  pointX = centerX - xs * scale;
+  pointY = centerY - ys * scale;
+  setTransform();
+}
+
+function resetZoom() {
+  const svgEl = erd.querySelector('svg');
+  if (!svgEl) return;
+  
+  const viewBox = svgEl.getAttribute('viewBox');
+  let naturalWidth = 1000;
+  let naturalHeight = 800;
+  if (viewBox) {
+    const parts = viewBox.split(' ').map(Number);
+    if (parts.length === 4) {
+      naturalWidth = parts[2];
+      naturalHeight = parts[3];
+    }
+  } else {
+    const w = parseFloat(svgEl.getAttribute('width'));
+    const h = parseFloat(svgEl.getAttribute('height'));
+    if (!isNaN(w)) naturalWidth = w;
+    if (!isNaN(h)) naturalHeight = h;
+  }
+  
+  svgEl.style.width = '100%';
+  svgEl.style.height = '100%';
+  svgEl.style.maxWidth = 'none';
+  svgEl.style.maxHeight = 'none';
+  
+  erd.style.width = naturalWidth + 'px';
+  erd.style.height = naturalHeight + 'px';
+
+  const containerRect = container.getBoundingClientRect();
+  
+  const scaleX = containerRect.width / naturalWidth;
+  const scaleY = containerRect.height / naturalHeight;
+  scale = Math.min(scaleX, scaleY) * 0.95; // 5% padding
+  scale = Math.min(Math.max(0.05, scale), 2);
+  
+  pointX = (containerRect.width - naturalWidth * scale) / 2;
+  pointY = (containerRect.height - naturalHeight * scale) / 2;
+  
+  setTransform();
+}
+
+document.getElementById('zoom-in').onclick = function(e) {
+  e.stopPropagation();
+  zoom(1.25);
+};
+
+document.getElementById('zoom-out').onclick = function(e) {
+  e.stopPropagation();
+  zoom(1 / 1.25);
+};
+
+document.getElementById('reset').onclick = function(e) {
+  e.stopPropagation();
+  resetZoom();
+};
+
+// Initial reset to fit screen
+resetZoom();
+window.addEventListener('resize', resetZoom);
+</script>

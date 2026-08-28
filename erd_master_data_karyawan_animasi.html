@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ERD Master Data Karyawan — PT Supracor Sejahtera</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    color: #1f2937;
+    padding: 24px;
+    background: linear-gradient(-45deg, #fdf2f8, #eff6ff, #ecfdf5, #fffbeb, #f5f3ff);
+    background-size: 400% 400%;
+    animation: bgShift 18s ease infinite;
+    overflow-x: hidden;
+  }
+  @keyframes bgShift {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  .header {
+    text-align: center;
+    margin-bottom: 24px;
+    animation: dropIn 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  h1 {
+    font-size: 26px;
+    font-weight: 700;
+    margin: 0 0 6px;
+    background: linear-gradient(90deg, #1d4ed8, #7c3aed, #be185d, #c2410c, #1d4ed8);
+    background-size: 300% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shine 6s linear infinite;
+  }
+  @keyframes shine { to { background-position: 300% center; } }
+  p.subtitle {
+    margin: 0;
+    color: #374151;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+  }
+  @keyframes dropIn {
+    from { opacity: 0; transform: translateY(-24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .blob {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(60px);
+    opacity: 0.35;
+    z-index: -1;
+    animation: floatBlob 14s ease-in-out infinite alternate;
+  }
+  .blob.b1 { width: 320px; height: 320px; background: #93c5fd; top: -80px; left: -60px; }
+  .blob.b2 { width: 280px; height: 280px; background: #f9a8d4; bottom: -60px; right: -40px; animation-delay: -5s; }
+  .blob.b3 { width: 240px; height: 240px; background: #6ee7b7; top: 40%; left: 60%; animation-delay: -9s; }
+  @keyframes floatBlob {
+    from { transform: translate(0, 0) scale(1); }
+    to   { transform: translate(40px, 30px) scale(1.15); }
+  }
+
+  #erd {
+    background: rgba(255, 255, 255, 0.72);
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(229, 231, 235, 0.9);
+    border-radius: 20px;
+    padding: 20px;
+    overflow-x: auto;
+    box-shadow: 0 8px 32px rgba(31, 41, 55, 0.10);
+    animation: cardIn 0.9s 0.2s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  @keyframes cardIn {
+    from { opacity: 0; transform: translateY(30px) scale(0.98); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  #erd svg { display: block; margin: 0 auto; overflow: visible; }
+  #erd svg.erDiagram .divider path { stroke-opacity: 0.35; }
+  #erd svg text { fill: #1f2937 !important; }
+
+  #erd svg .node {
+    opacity: 0;
+    animation: nodeIn 0.7s cubic-bezier(0.34, 1.4, 0.64, 1) forwards;
+    transform-box: fill-box;
+    transform-origin: center;
+    transition: transform 0.25s ease, filter 0.25s ease;
+    cursor: pointer;
+  }
+  @keyframes nodeIn {
+    from { opacity: 0; transform: translateY(24px) scale(0.92); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  #erd svg .node:hover {
+    transform: scale(1.03);
+    filter: drop-shadow(0 6px 14px rgba(31, 41, 55, 0.25));
+  }
+
+  #erd svg .relationshipLine {
+    stroke-dasharray: 7 5;
+    animation: flow 1.2s linear infinite, lineIn 1s 0.8s both;
+  }
+  @keyframes flow  { to { stroke-dashoffset: -24; } }
+  @keyframes lineIn { from { opacity: 0; } to { opacity: 1; } }
+
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 18px;
+    justify-content: center;
+    margin-top: 18px;
+    font-size: 13px;
+    animation: dropIn 0.8s 0.6s both;
+  }
+  .legend span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255,255,255,0.8);
+    border-radius: 999px;
+    padding: 4px 12px;
+    border: 1px solid #e5e7eb;
+    transition: transform 0.2s ease;
+  }
+  .legend span:hover { transform: translateY(-2px); }
+  .legend i {
+    width: 12px; height: 12px;
+    border-radius: 4px;
+    display: inline-block;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+    #erd svg .node { opacity: 1; }
+  }
+</style>
+</head>
+<body>
+<div class="blob b1"></div>
+<div class="blob b2"></div>
+<div class="blob b3"></div>
+
+<div class="header">
+  <h1>ERD Master Data Karyawan</h1>
+  <p class="subtitle">HRIS PT Supracor Sejahtera — Fase 2: Database &amp; Auth</p>
+</div>
+
+<div id="erd"></div>
+
+<div class="legend">
+  <span><i style="background:#FDE047"></i>KARYAWAN</span>
+  <span><i style="background:#93C5FD"></i>DEPARTEMEN</span>
+  <span><i style="background:#C4B5FD"></i>JABATAN</span>
+  <span><i style="background:#F9A8D4"></i>USERS</span>
+  <span><i style="background:#6EE7B7"></i>KONTRAK</span>
+  <span><i style="background:#FDBA74"></i>PENDIDIKAN</span>
+  <span><i style="background:#A5B4FC"></i>KELUARGA</span>
+  <span><i style="background:#5EEAD4"></i>DOKUMEN</span>
+</div>
+
+<script type="module">
+import mermaid from 'https://esm.sh/mermaid@11/dist/mermaid.esm.min.mjs';
+await document.fonts.ready;
+mermaid.initialize({
+  startOnLoad: false,
+  theme: 'base',
+  fontFamily: '"Segoe UI", system-ui, sans-serif',
+  themeVariables: {
+    darkMode: false,
+    fontSize: '13px',
+    fontFamily: '"Segoe UI", system-ui, sans-serif',
+    lineColor: '#4b5563',
+    textColor: '#1f2937',
+    nodeTextColor: '#1f2937',
+  },
+});
+const { svg } = await mermaid.render('erd-svg', `erDiagram
+  DEPARTEMEN ||--o{ KARYAWAN : memiliki
+  JABATAN ||--o{ KARYAWAN : menempati
+  KARYAWAN ||--o| USERS : "akun login"
+  KARYAWAN ||--o{ KONTRAK_KERJA : punya
+  KARYAWAN ||--o{ PENDIDIKAN : punya
+  KARYAWAN ||--o{ KELUARGA : punya
+  KARYAWAN ||--o{ DOKUMEN_KARYAWAN : punya
+  KARYAWAN |o--o{ KARYAWAN : "atasan langsung"
+  DEPARTEMEN {
+    uuid id PK
+    string kode
+    string nama
+  }
+  JABATAN {
+    uuid id PK
+    string nama
+    int level
+  }
+  KARYAWAN {
+    uuid id PK
+    string nik "NIK perusahaan, unik"
+    string no_ktp
+    string nama_lengkap
+    string email
+    string no_hp
+    date tgl_lahir
+    string tempat_lahir
+    enum jenis_kelamin
+    string agama
+    enum status_nikah "TK-K3 utk PTKP"
+    text alamat
+    date tgl_masuk
+    enum status_karyawan "tetap-kontrak-harian"
+    string npwp
+    string no_bpjs_tk
+    string no_bpjs_kes
+    string no_rekening
+    string nama_bank
+    uuid departemen_id FK
+    uuid jabatan_id FK
+    uuid atasan_id FK
+    boolean is_aktif
+  }
+  USERS {
+    uuid id PK
+    uuid karyawan_id FK
+    string username
+    string password_hash
+    enum role "admin-hr-atasan-karyawan"
+    timestamp last_login
+  }
+  KONTRAK_KERJA {
+    uuid id PK
+    uuid karyawan_id FK
+    enum jenis "PKWT-PKWTT"
+    date tgl_mulai
+    date tgl_selesai
+    string file_path
+  }
+  PENDIDIKAN {
+    uuid id PK
+    uuid karyawan_id FK
+    enum jenjang
+    string institusi
+    string jurusan
+    int tahun_lulus
+  }
+  KELUARGA {
+    uuid id PK
+    uuid karyawan_id FK
+    string nama
+    enum hubungan
+    string no_hp
+    boolean is_kontak_darurat
+  }
+  DOKUMEN_KARYAWAN {
+    uuid id PK
+    uuid karyawan_id FK
+    enum jenis "KTP-ijazah-sertifikat"
+    string file_path
+    date tgl_upload
+  }`);
+document.getElementById('erd').innerHTML = svg;
+
+const palette = {
+  KARYAWAN:         { header: '#FDE047', odd: '#FEFCE8', even: '#FEF9C3', border: '#A16207' },
+  DEPARTEMEN:       { header: '#93C5FD', odd: '#EFF6FF', even: '#DBEAFE', border: '#1D4ED8' },
+  JABATAN:          { header: '#C4B5FD', odd: '#F5F3FF', even: '#EDE9FE', border: '#6D28D9' },
+  USERS:            { header: '#F9A8D4', odd: '#FDF2F8', even: '#FCE7F3', border: '#BE185D' },
+  KONTRAK_KERJA:    { header: '#6EE7B7', odd: '#ECFDF5', even: '#D1FAE5', border: '#047857' },
+  PENDIDIKAN:       { header: '#FDBA74', odd: '#FFF7ED', even: '#FFEDD5', border: '#C2410C' },
+  KELUARGA:         { header: '#A5B4FC', odd: '#EEF2FF', even: '#E0E7FF', border: '#4338CA' },
+  DOKUMEN_KARYAWAN: { header: '#5EEAD4', odd: '#F0FDFA', even: '#CCFBF1', border: '#0F766E' },
+};
+
+const nodes = document.querySelectorAll('#erd svg.erDiagram .node');
+nodes.forEach((node, i) => {
+  node.style.animationDelay = (0.15 + i * 0.12) + 's';
+
+  const name = Object.keys(palette).find(n => node.id.includes('-' + n + '-') || node.id.endsWith('-' + n));
+  const colors = name ? palette[name] : { header: '#E5E7EB', odd: '#FFFFFF', even: '#F3F4F6', border: '#6B7280' };
+
+  const firstPath = node.querySelector('path[d]');
+  if (firstPath) {
+    const d = firstPath.getAttribute('d');
+    const nums = d.match(/-?[\d.]+/g)?.map(Number);
+    if (nums && nums.length >= 8) {
+      const xs = [nums[0], nums[2], nums[4], nums[6]];
+      const ys = [nums[1], nums[3], nums[5], nums[7]];
+      const x = Math.min(...xs), y = Math.min(...ys);
+      const w = Math.max(...xs) - x, h = Math.max(...ys) - y;
+      const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+      rect.setAttribute('x', x); rect.setAttribute('y', y);
+      rect.setAttribute('width', w); rect.setAttribute('height', h);
+      rect.setAttribute('rx', '10');
+      rect.setAttribute('fill', colors.header);
+      rect.setAttribute('stroke', colors.border);
+      rect.setAttribute('stroke-width', '1.5');
+      firstPath.replaceWith(rect);
+    }
+  }
+
+  node.querySelectorAll('.row-rect-odd path, .row-rect-odd rect').forEach(el => {
+    el.setAttribute('fill', colors.odd);
+    el.setAttribute('stroke', 'none');
+  });
+  node.querySelectorAll('.row-rect-even path, .row-rect-even rect').forEach(el => {
+    el.setAttribute('fill', colors.even);
+    el.setAttribute('stroke', 'none');
+  });
+  node.querySelectorAll('text').forEach(t => t.setAttribute('fill', '#1f2937'));
+});
+
+document.querySelectorAll('#erd svg.erDiagram text').forEach(t => {
+  t.setAttribute('fill', '#1f2937');
+  t.style.fill = '#1f2937';
+});
+</script>
+</body>
+</html>

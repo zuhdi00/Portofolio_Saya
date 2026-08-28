@@ -1,0 +1,186 @@
+[2026-03-27T04:28:10+01:00] Date-range report start=2024-02-25 end=2026-03-27 status= rows=29963 duration=0.37483310699463
+[2026-03-27T04:28:21+01:00] Date-range report start=2024-02-25 end=2026-03-27 status= rows=29963 duration=0.39062595367432
+[2026-03-27T04:35:25+01:00] Date-range report start=2024-02-01 end=2026-03-27 status= rows=30706 duration=0.37810611724854
+[2026-03-27T04:36:21+01:00] Date-range report start=2024-02-01 end=2026-03-27 status= rows=30706 duration=0.38923788070679
+[2026-03-27T05:28:41+01:00] Date-range report start=2024-01-01 end=2026-03-27 status= rows=31808 duration=0.39324808120728
+[2026-04-01T04:24:46+02:00] Date-range report start=2026-03-02 end=2026-04-01 status= rows=1165 duration=0.020822048187256
+[2026-04-06T03:16:26+02:00] Date-range report start=2025-01-01 end=2025-12-31 status= rows=15380 duration=0.19259309768677
+[2026-04-06T03:17:58+02:00] Date-range report start=2026-01-01 end=2026-12-31 status= rows=3417 duration=0.059637784957886
+[2026-04-08T03:38:43+02:00] Date-range report start=2026-03-09 end=2026-04-08 status= rows=1168 duration=179.74459195137
+[2026-04-08T03:40:42+02:00] Date-range report start=2026-03-09 end=2026-04-08 status= rows=1168 duration=163.97621202469
+[2026-04-08T04:04:45+02:00] Date-range report start=2026-03-02 end=2026-03-06 status= rows=316 duration=40.682167053223
+[2026-04-08T04:04:47+02:00] FATAL: Maximum execution time of 300 seconds exceeded in C:\xampp\htdocs\stbtotal\report_backend.php:343
+[2026-04-08T04:04:58+02:00] Date-range report start=2026-03-02 end=2026-03-06 status=CLOSE rows=316 duration=0.0067698955535889
+[2026-04-08T04:05:06+02:00] Date-range report start=2026-03-02 end=2026-03-06 status=CLOSE rows=316 duration=0.012973070144653
+[2026-04-08T04:05:19+02:00] Date-range report start=2026-01-01 end=2026-03-31 status=CLOSE rows=3271 duration=0.056321859359741
+[2026-04-08T04:05:43+02:00] Date-range report start=2025-05-01 end=2025-12-31 status=CLOSE rows=10595 duration=0.27263402938843
+[2026-04-08T05:01:33+02:00] FATAL: Maximum execution time of 300 seconds exceeded in C:\xampp\htdocs\stbtotal\report_backend.php:343
+[2026-04-08T05:10:29+02:00] FATAL: Maximum execution time of 300 seconds exceeded in C:\xampp\htdocs\stbtotal\report_backend.php:348
+[2026-04-08T06:23:42+02:00] FATAL: Maximum execution time of 300 seconds exceeded in C:\xampp\htdocs\stbtotal\report_backend.php:348
+[2026-04-08T06:38:00+02:00] FATAL: Maximum execution time of 300 seconds exceeded in C:\xampp\htdocs\stbtotal\report_backend.php:348
+[2026-04-08T10:52:19+02:00] Date-range report start=2024-10-09 end=2026-04-08 status= rows=22081 duration=0.2705020904541
+[2026-04-08T10:58:04+02:00] Date-range report start=2026-03-09 end=2026-04-08 status= rows=1209 duration=0.019001007080078
+[2026-04-08T11:03:36+02:00] Date-range report start=2026-03-09 end=2026-04-08 status= rows=1210 duration=0.018795013427734 limit=all
+[2026-04-08T11:04:00+02:00] Date-range report start=2024-01-01 end=2026-04-08 status= rows=32363 duration=0.49753904342651 limit=all
+[2026-04-08T11:04:14+02:00] Date-range report start=2023-12-01 end=2026-04-08 status= rows=33097 duration=0.40895795822144 limit=all
+[2026-04-09T02:48:37+02:00] Date-range report start=2024-01-10 end=2026-04-09 status= rows=32132 duration=0.44420385360718 limit=all
+[2026-04-09T03:21:52+02:00] Date-range report start=2026-03-10 end=2026-04-09 status= rows=1191 duration=0.023964881896973 limit=all
+[2026-04-09T06:14:54+02:00] Date-range report start=2024-01-10 end=2026-04-09 status= rows=32157 duration=0.53920006752014 limit=all
+[2026-04-09T06:48:55+02:00] Date-range report start=2026-03-10 end=2026-04-09 status= rows=1221 duration=0.019846200942993 limit=all
+[2026-04-10T04:11:38+02:00] Date-range report start=2025-01-01 end=2026-12-31 status= rows=19152 duration=0.2847011089325 limit=all
+[2026-04-10T08:32:59+02:00] Date-range report start=2026-03-11 end=2026-04-10 status= rows=1207 duration=129.76840686798 limit=all
+[2026-04-10T11:05:01+02:00] Date-range report start=2026-03-11 end=2026-04-10 status= rows=1249 duration=562.72897291183 limit=all
+[2026-04-10T11:10:42+02:00] Date-range report start=2026-01-01 end=2026-02-01 status= rows=1022 duration=573.02919602394 limit=all
+[2026-04-10T11:18:36+02:00] Date-range report start=2026-01-01 end=2026-12-31 status= rows=3844 duration=1509.7173309326 limit=all
+[2026-04-10T11:19:48+02:00] Date-range report start=2026-01-01 end=2026-04-10 status= rows=3844 duration=1431.2454900742 limit=all
+[2026-04-10T11:34:12+02:00] Date-range report start=2026-01-01 end=2026-04-10 status= rows=3848 duration=456.70986795425 limit=all
+[2026-04-13T08:47:17+02:00] Date-range report start=2026-01-01 end=2026-04-10 status= rows=3855 duration=547.76755595207 limit=all
+[2026-04-16T03:14:22+02:00] Date-range report start=2025-01-01 end=2025-03-31 status= rows=3661 duration=0.058925151824951 limit=all
+[2026-04-16T03:15:03+02:00] Date-range report start=2025-04-01 end=2025-06-30 status= rows=3680 duration=0.067080974578857 limit=all
+[2026-04-16T03:19:28+02:00] Date-range report start=2025-04-01 end=2025-06-30 status= rows=3680 duration=0.047128915786743 limit=all
+[2026-04-16T03:19:47+02:00] Date-range report start=2025-07-01 end=2025-09-30 status= rows=4096 duration=0.053843021392822 limit=all
+[2026-04-16T03:20:00+02:00] Date-range report start=2025-10-01 end=2025-12-31 status= rows=3941 duration=0.065336942672729 limit=all
+[2026-04-20T04:04:36+02:00] Date-range report start=2026-03-21 end=2026-04-20 status= rows=1191 duration=288.16892290115 limit=all
+[2026-04-20T04:29:36+02:00] Date-range report start=2026-03-21 end=2026-04-20 status= rows=1191 duration=132.3437628746 limit=all
+[2026-04-20T04:42:43+02:00] Date-range report start=2026-03-21 end=2026-04-20 status= rows=1192 duration=156.37038493156 limit=all
+[2026-04-20T04:56:04+02:00] Date-range report start=2026-03-21 end=2026-04-20 status= rows=1192 duration=303.51449203491 limit=all
+[2026-04-20T05:13:34+02:00] Date-range report start=2026-01-01 end=2026-04-20 status= rows=4162 duration=739.35752296448 limit=all
+[2026-04-20T08:55:45+02:00] Date-range report start=2026-01-01 end=2026-04-20 status= rows=4182 duration=0.064049959182739 limit=all
+[2026-04-21T02:53:52+02:00] Date-range report start=2026-01-01 end=2026-04-20 status= rows=4220 duration=0.068530082702637 limit=all
+[2026-04-21T03:11:14+02:00] Date-range report start=2025-01-10 end=2026-04-20 status= rows=19280 duration=0.27198195457458 limit=all
+[2026-04-22T05:37:58+02:00] Date-range report start=2025-01-01 end=2025-03-12 status= rows=3133 duration=0.063253164291382 limit=all
+[2026-04-24T03:38:28+02:00] Date-range report start=2025-10-01 end=2026-04-24 status= rows=8338 duration=0.11733388900757 limit=all
+[2026-04-24T03:39:53+02:00] SLC lookup 'SLC/2509/00936' rows=1 duration=0.00019407272338867 limit=all
+[2026-04-24T03:41:11+02:00] Date-range report start=2025-09-01 end=2026-04-24 status= rows=9759 duration=0.14239287376404 limit=all
+[2026-04-24T03:41:13+02:00] SLC lookup 'SLC/2509/00936' rows=1 duration=0.00021791458129883 limit=all
+[2026-04-24T03:41:33+02:00] Date-range report start=2025-09-01 end=2026-04-24 status= rows=9759 duration=0.12828803062439 limit=all
+[2026-04-28T03:33:45+02:00] Date-range report start=2025-09-01 end=2026-04-24 status= rows=9822 duration=0.13367295265198 limit=all
+[2026-04-28T03:42:52+02:00] Date-range report start=2025-09-01 end=2026-04-28 status= rows=9925 duration=0.14229202270508 limit=all
+[2026-04-30T05:09:21+02:00] Date-range report start=2026-04-01 end=2026-04-30 status= rows=1402 duration=157.98590016365 limit=all
+[2026-04-30T05:11:22+02:00] SLC lookup 'SLC/2603/00381' rows=1 duration=9.2029571533203E-5 limit=all
+[2026-04-30T05:50:47+02:00] SLC lookup 'SLC/2603/00381' rows=1 duration=6.103515625E-5 limit=all
+[2026-04-30T05:50:48+02:00] SLC lookup 'SLC/2603/00381' rows=1 duration=6.2942504882812E-5 limit=all
+[2026-04-30T06:47:52+02:00] SLC lookup 'SLC/2603/00381' rows=1 duration=8.4877014160156E-5 limit=all
+[2026-04-30T07:01:45+02:00] Date-range report start=2026-03-31 end=2026-04-30 status= rows=1500 duration=356.42150592804 limit=all
+[2026-04-30T07:12:57+02:00] Date-range report start=2025-09-01 end=2026-04-30 status= rows=10032 duration=1438.9876849651 limit=all
+[2026-04-30T08:13:59+02:00] SLC lookup 'SLC/2603/00381' rows=1 duration=6.413459777832E-5 limit=all
+[2026-04-30T09:02:36+02:00] Date-range report start=2026-01-01 end=2026-04-30 status= rows=4675 duration=577.7193980217 limit=all
+[2026-05-04T03:43:09+02:00] Date-range report start=2026-04-04 end=2026-05-04 status= rows=1311 duration=314.60069084167 limit=all
+[2026-05-04T03:53:19+02:00] Date-range report start=2025-10-01 end=2026-05-04 status= rows=8658 duration=1303.7980399132 limit=all
+[2026-05-18T03:18:55+02:00] Date-range report start=2026-04-04 end=2026-05-04 status= rows=1386 duration=158.95262002945 limit=all
+[2026-05-19T05:49:31+02:00] Date-range report start=2026-04-19 end=2026-05-19 status= rows=1257 duration=263.70764183998 limit=all
+[2026-05-19T05:51:39+02:00] Date-range report start=2026-04-19 end=2026-05-19 status= rows=1257 duration=315.47372698784 limit=all
+[2026-05-20T08:21:32+02:00] Date-range report start=2026-04-20 end=2026-05-20 status= rows=1344 duration=0.02829384803772 limit=all
+[2026-05-20T08:21:45+02:00] Date-range report start=2026-04-01 end=2026-05-20 status= rows=2225 duration=0.031942844390869 limit=all
+[2026-05-20T09:46:30+02:00] Date-range report start=2026-01-01 end=2026-05-20 status= rows=5494 duration=0.1154088973999 limit=all
+[2026-05-22T08:13:38+02:00] Date-range report start=2026-04-22 end=2026-05-22 status= rows=1336 duration=0.023581981658936 limit=all
+[2026-05-25T06:16:46+02:00] Date-range report start=2026-04-01 end=2026-05-04 status= rows=1519 duration=0.49899220466614 limit=all
+[2026-05-25T11:38:03+02:00] Date-range report start=2026-01-01 end=2026-05-04 status= rows=4785 duration=0.078319072723389 limit=all
+[2026-05-26T03:38:57+02:00] Date-range report start=2025-10-01 end=2026-05-04 status= rows=8726 duration=0.11408305168152 limit=all
+[2026-05-26T03:40:12+02:00] Date-range report start=2025-10-01 end=2026-05-30 status= rows=9627 duration=0.13047790527344 limit=all
+[2026-06-02T06:23:08+02:00] Date-range report start=2025-10-01 end=2026-05-30 status= rows=9786 duration=0.13637804985046 limit=all
+[2026-06-22T04:38:17+02:00] Date-range report start=2026-05-23 end=2026-06-22 status= rows=1133 duration=394.29200005531 limit=all
+[2026-06-22T04:45:15+02:00] Date-range report start=2026-05-23 end=2026-06-22 status= rows=1133 duration=774.89118409157 limit=all
+[2026-06-22T04:45:25+02:00] Date-range report start=2026-05-23 end=2026-06-22 status= rows=1133 duration=764.42919993401 limit=all
+[2026-06-22T05:04:54+02:00] INCOMING GET /stbtotal/report_backend.php?action=minmax_date from 2001:448a:c0f0:4ea8:fdf8:4dc3:15fb:60d6
+[2026-06-22T05:04:55+02:00] INCOMING GET /stbtotal/report_backend.php?start=2004-12-23&end=2026-06-22 from 2001:448a:c0f0:4ea8:fdf8:4dc3:15fb:60d6
+[2026-06-22T05:04:56+02:00] Using literal VALUES for sc_list due to large count=100000
+[2026-06-22T05:05:03+02:00] INCOMING GET /stbtotal/report_backend.php?action=minmax_date from 2001:448a:c0f0:4ea8:fdf8:4dc3:15fb:60d6
+[2026-06-22T05:05:05+02:00] INCOMING GET /stbtotal/report_backend.php?start=2026-05-22&end=2026-06-22 from 2001:448a:c0f0:4ea8:fdf8:4dc3:15fb:60d6
+[2026-06-22T05:05:08+02:00] Date-range report start=2026-05-22 end=2026-06-22 status= rows=1187 duration=0.014187097549438 limit=100000 offset=0
+[2026-06-22T05:09:55+02:00] Date-range report start=2026-05-23 end=2026-06-22 status= rows=1136 duration=401.48445892334 limit=all
+[2026-06-22T05:11:42+02:00] SQL ERROR (date-range report): [{"0":"42000","SQLSTATE":"42000","1":8623,"code":8623,"2":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]The query processor ran out of internal resources and could not produce a query plan. This is a rare event and only expected for extremely complex queries or queries that reference a very large number of tables or partitions. Please simplify the query. If you believe you have received this message in error, contact Customer Support Services for more information.","message":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]The query processor ran out of internal resources and could not produce a query plan. This is a rare event and only expected for extremely complex queries or queries that reference a very large number of tables or partitions. Please simplify the query. If you believe you have received this message in error, contact Customer Support Services for more information."}]
+[2026-06-22T07:07:32+02:00] INCOMING GET /stbtotal/report_backend.php?action=minmax_date from fe80::9ccf:a4d2:2df8:abef
+[2026-06-22T07:07:37+02:00] INCOMING GET /stbtotal/report_backend.php?start=2026-05-22&end=2026-06-22 from fe80::9ccf:a4d2:2df8:abef
+[2026-06-22T07:07:37+02:00] Date-range report start=2026-05-22 end=2026-06-22 status= rows=1189 duration=0.014216899871826 limit=100000 offset=0
+[2026-06-22T07:08:04+02:00] INCOMING POST /stbtotal/report_backend.php from fe80::9ccf:a4d2:2df8:abef
+[2026-06-22T07:08:11+02:00] INCOMING POST /stbtotal/report_backend.php from fe80::9ccf:a4d2:2df8:abef
+[2026-06-22T07:36:13+02:00] INCOMING GET /stbtotal/report_backend.php?action=minmax_date from 2001:448a:c0f0:4ea8:fdf8:4dc3:15fb:60d6
+[2026-06-23T07:42:35+02:00] INCOMING GET /stbtotal/report_backend.php?action=minmax_date from fe80::8e1c:486b:4125:3a2b
+[2026-06-23T07:42:45+02:00] INCOMING GET /stbtotal/report_backend.php?start=2025-01-01&end=2026-12-01 from fe80::8e1c:486b:4125:3a2b
+[2026-06-23T07:42:45+02:00] Using literal VALUES for sc_list due to large count=22181
+[2026-06-23T07:42:57+02:00] SQL ERROR (date-range report): [{"0":"42000","SQLSTATE":"42000","1":8623,"code":8623,"2":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]The query processor ran out of internal resources and could not produce a query plan. This is a rare event and only expected for extremely complex queries or queries that reference a very large number of tables or partitions. Please simplify the query. If you believe you have received this message in error, contact Customer Support Services for more information.","message":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]The query processor ran out of internal resources and could not produce a query plan. This is a rare event and only expected for extremely complex queries or queries that reference a very large number of tables or partitions. Please simplify the query. If you believe you have received this message in error, contact Customer Support Services for more information."}]
+[2026-06-23T07:43:05+02:00] INCOMING GET /stbtotal/report_backend.php?start=2025-01-01&end=2026-06-30 from fe80::8e1c:486b:4125:3a2b
+[2026-06-23T07:43:05+02:00] Using literal VALUES for sc_list due to large count=22181
+[2026-06-23T07:43:13+02:00] SQL ERROR (date-range report): [{"0":"42000","SQLSTATE":"42000","1":8623,"code":8623,"2":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]The query processor ran out of internal resources and could not produce a query plan. This is a rare event and only expected for extremely complex queries or queries that reference a very large number of tables or partitions. Please simplify the query. If you believe you have received this message in error, contact Customer Support Services for more information.","message":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]The query processor ran out of internal resources and could not produce a query plan. This is a rare event and only expected for extremely complex queries or queries that reference a very large number of tables or partitions. Please simplify the query. If you believe you have received this message in error, contact Customer Support Services for more information."}]
+[2026-06-23T07:43:30+02:00] INCOMING GET /stbtotal/report_backend.php?start=2025-01-01&end=2025-03-31 from fe80::8e1c:486b:4125:3a2b
+[2026-06-23T07:43:30+02:00] Using literal VALUES for sc_list due to large count=3661
+[2026-06-23T07:43:31+02:00] Date-range report start=2025-01-01 end=2025-03-31 status= rows=3661 duration=0.080175876617432 limit=100000 offset=0
+[2026-06-23T07:43:41+02:00] INCOMING GET /stbtotal/report_backend.php?start=2025-01-01&end=2025-06-30 from fe80::8e1c:486b:4125:3a2b
+[2026-06-23T07:43:41+02:00] Using literal VALUES for sc_list due to large count=7340
+[2026-06-23T07:43:43+02:00] Date-range report start=2025-01-01 end=2025-06-30 status= rows=7340 duration=0.087322950363159 limit=100000 offset=0
+[2026-06-23T07:44:13+02:00] INCOMING GET /stbtotal/report_backend.php?start=2025-07-01&end=2025-12-31 from fe80::8e1c:486b:4125:3a2b
+[2026-06-23T07:44:13+02:00] Using literal VALUES for sc_list due to large count=8037
+[2026-06-23T07:44:15+02:00] Date-range report start=2025-07-01 end=2025-12-31 status= rows=8037 duration=0.096263885498047 limit=100000 offset=0
+[2026-06-23T07:48:25+02:00] INCOMING GET /stbtotal/report_backend.php?action=minmax_date from 2001:448a:c0f0:4ea8:fdf8:4dc3:15fb:60d6
+[2026-06-25T06:19:36+02:00] INCOMING GET /stbtotal/report_backend.php?start=2025-07-01&end=2025-12-31 from fe80::8e1c:486b:4125:3a2b
+[2026-06-25T06:19:36+02:00] Using literal VALUES for sc_list due to large count=8037
+[2026-06-25T06:19:39+02:00] Date-range report start=2025-07-01 end=2025-12-31 status= rows=8037 duration=0.095983982086182 limit=100000 offset=0
+[2026-06-25T06:19:58+02:00] INCOMING GET /stbtotal/report_backend.php?start=2025-07-01&end=2026-12-31 from fe80::8e1c:486b:4125:3a2b
+[2026-06-25T06:19:58+02:00] Using literal VALUES for sc_list due to large count=14921
+[2026-06-25T06:20:04+02:00] Date-range report start=2025-07-01 end=2026-12-31 status= rows=14921 duration=0.22387790679932 limit=100000 offset=0
+[2026-06-25T06:20:15+02:00] INCOMING POST /stbtotal/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-25T06:20:25+02:00] INCOMING POST /stbtotal/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-25T06:20:36+02:00] INCOMING POST /stbtotal/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-25T06:20:49+02:00] INCOMING POST /stbtotal/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-25T06:22:19+02:00] INCOMING POST /stbtotal/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-25T06:22:27+02:00] INCOMING POST /stbtotal/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-25T06:22:34+02:00] INCOMING POST /stbtotal/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-25T06:22:44+02:00] INCOMING POST /stbtotal/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-25T06:31:48+02:00] INCOMING POST /stbtotal/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-25T06:31:59+02:00] INCOMING POST /stbtotal/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-25T06:32:15+02:00] INCOMING POST /stbtotal/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-25T06:32:25+02:00] INCOMING POST /stbtotal/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-25T06:33:04+02:00] INCOMING POST /stbtotal/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-25T06:33:16+02:00] INCOMING POST /stbtotal/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-25T06:35:29+02:00] INCOMING POST /stbtotal/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-26T03:14:36+02:00] INCOMING POST /stbtotal/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-26T03:16:26+02:00] INCOMING POST /stbtotal/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-26T03:17:02+02:00] INCOMING POST /stbtotal/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-26T04:23:06+02:00] INCOMING POST /stbtotal/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-26T04:23:07+02:00] INCOMING POST /stbtotal/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-26T04:23:08+02:00] INCOMING POST /stbtotal/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-26T04:23:21+02:00] INCOMING GET /stbtotal/report_backend.php?action=minmax_date from 2001:448a:c0f0:4ea8:fdf8:4dc3:15fb:60d6
+[2026-06-26T04:23:23+02:00] INCOMING GET /stbtotal/report_backend.php?start=2026-05-26&end=2026-06-26 from 2001:448a:c0f0:4ea8:fdf8:4dc3:15fb:60d6
+[2026-06-26T04:23:23+02:00] Date-range report start=2026-05-26 end=2026-06-26 status= rows=1246 duration=0.018424034118652 limit=100000 offset=0
+[2026-06-26T05:10:59+02:00] INCOMING GET /stbtotal/report_backend.php?action=minmax_date from 2001:448a:c0f0:4ea8:fdf8:4dc3:15fb:60d6
+[2026-06-26T05:11:01+02:00] INCOMING GET /stbtotal/report_backend.php?start=2026-05-26&end=2026-06-26 from 2001:448a:c0f0:4ea8:fdf8:4dc3:15fb:60d6
+[2026-06-26T05:11:01+02:00] Date-range report start=2026-05-26 end=2026-06-26 status= rows=1251 duration=0.02003002166748 limit=100000 offset=0
+[2026-06-26T11:57:51+02:00] INCOMING POST /stbtotal/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-26T11:57:59+02:00] INCOMING POST /stbtotal/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-26T11:58:01+02:00] INCOMING POST /stbtotal/report_backend.php from fe80::8e1c:486b:4125:3a2b
+[2026-06-29T03:03:36+02:00] INCOMING GET /stbtotal/report_backend.php?start=2025-01-01&end=2026-12-31 from fe80::8e1c:486b:4125:3a2b
+[2026-06-29T03:03:36+02:00] Using literal VALUES for sc_list due to large count=22349
+[2026-06-29T03:03:44+02:00] SQL ERROR (date-range report): [{"0":"42000","SQLSTATE":"42000","1":8623,"code":8623,"2":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]The query processor ran out of internal resources and could not produce a query plan. This is a rare event and only expected for extremely complex queries or queries that reference a very large number of tables or partitions. Please simplify the query. If you believe you have received this message in error, contact Customer Support Services for more information.","message":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]The query processor ran out of internal resources and could not produce a query plan. This is a rare event and only expected for extremely complex queries or queries that reference a very large number of tables or partitions. Please simplify the query. If you believe you have received this message in error, contact Customer Support Services for more information."}]
+[2026-06-29T03:03:50+02:00] INCOMING GET /stbtotal/report_backend.php?start=2025-01-01&end=2025-12-31 from fe80::8e1c:486b:4125:3a2b
+[2026-06-29T03:03:50+02:00] Using literal VALUES for sc_list due to large count=15377
+[2026-06-29T03:03:55+02:00] Date-range report start=2025-01-01 end=2025-12-31 status= rows=15377 duration=0.18397998809814 limit=100000 offset=0
+[2026-06-29T03:04:14+02:00] INCOMING GET /stbtotal/report_backend.php?start=2025-01-01&end=2025-12-31&status=OPEN from fe80::8e1c:486b:4125:3a2b
+[2026-06-29T03:04:14+02:00] Using literal VALUES for sc_list due to large count=15377
+[2026-06-29T03:04:19+02:00] Date-range report start=2025-01-01 end=2025-12-31 status=OPEN rows=15377 duration=0.18374609947205 limit=100000 offset=0
+[2026-06-29T03:12:38+02:00] INCOMING GET /stbtotal/report_backend.php?action=minmax_date from 2001:448a:c0f0:2747:ce0f:9e6b:1d1f:c0fa
+[2026-07-12T14:38:28+02:00] INCOMING GET /stbtotal/report_backend.php?action=minmax_date from fe80::58c4:3f95:426d:5206
+[2026-07-15T11:14:17+02:00] INCOMING GET /stbtotal/report_backend.php?action=minmax_date from 2001:448a:c0f0:1c30:f9f0:33c7:6a1b:bb1a
+[2026-07-15T15:50:06+02:00] INCOMING GET /stbtotal/report_backend.php?action=minmax_date from 2001:448a:c0f0:1c8c:5615:2994:bd27:1112
+[2026-07-16T03:20:18+02:00] INCOMING GET /stbtotal/report_backend.php?start=2026-06-15&end=2026-07-15 from 2001:448a:c0f0:1c8c:5615:2994:bd27:1112
+[2026-07-16T03:20:20+02:00] Date-range report start=2026-06-15 end=2026-07-15 status= rows=1254 duration=0.019155979156494 limit=100000 offset=0
+[2026-07-16T11:05:35+02:00] INCOMING GET /stbtotal/report_backend.php?start=2026-01-01&end=2026-07-15 from 2001:448a:c0f0:1c8c:5615:2994:bd27:1112
+[2026-07-16T11:05:35+02:00] Using literal VALUES for sc_list due to large count=7698
+[2026-07-16T11:05:39+02:00] Date-range report start=2026-01-01 end=2026-07-15 status= rows=7698 duration=0.14854097366333 limit=100000 offset=0
+[2026-07-21T03:13:34+02:00] INCOMING GET /stbtotal/report_backend.php?action=minmax_date from 192.168.0.15
+[2026-07-23T09:58:29+02:00] INCOMING GET /stbtotal/report_backend.php?action=minmax_date from fe80::1111:d703:dc21:7bd6
+[2026-07-28T10:01:08+02:00] INCOMING GET /stbtotal/report_backend.php?action=minmax_date from fe80::d027:2129:8488:77a7
+[2026-08-14T03:55:03+02:00] INCOMING GET /stbtotal/report_backend.php?action=minmax_date from fe80::1111:d703:dc21:7bd6
+[2026-08-18T09:55:20+02:00] INCOMING GET /stbtotal/report_backend.php?action=minmax_date from 192.168.0.25
+[2026-08-20T07:03:18+02:00] INCOMING GET /stbtotal/report_backend.php?action=minmax_date from fe80::1111:d703:dc21:7bd6
+[2026-08-21T04:19:42+02:00] INCOMING GET /stbtotal/report_backend.php?action=minmax_date from 2001:448a:c0f0:5b3e:5e05:5219:5c63:b82e
+[2026-08-21T04:19:51+02:00] INCOMING GET /stbtotal/report_backend.php?start=2009-07-21&end=2009-08-21 from 2001:448a:c0f0:5b3e:5e05:5219:5c63:b82e
+[2026-08-21T04:19:51+02:00] Date-range report start=2009-07-21 end=2009-08-21 status= rows=930 duration=0.010313987731934 limit=100000 offset=0
+[2026-08-21T04:19:56+02:00] INCOMING POST /stbtotal/report_backend.php from 2001:448a:c0f0:5b3e:5e05:5219:5c63:b82e
+[2026-08-21T04:32:53+02:00] INCOMING GET /stbtotal/report_backend.php?action=minmax_date from 2001:448a:c0f0:5b3e:5e05:5219:5c63:b82e
+[2026-08-21T04:32:57+02:00] INCOMING GET /stbtotal/report_backend.php?start=2026-07-21&end=2026-08-21 from 2001:448a:c0f0:5b3e:5e05:5219:5c63:b82e
+[2026-08-21T04:32:58+02:00] Date-range report start=2026-07-21 end=2026-08-21 status= rows=1381 duration=0.016860008239746 limit=100000 offset=0
+[2026-08-21T04:33:04+02:00] INCOMING GET /stbtotal/report_backend.php?action=minmax_date from 2001:448a:c0f0:5b3e:5e05:5219:5c63:b82e
+[2026-08-21T04:33:06+02:00] INCOMING GET /stbtotal/report_backend.php?start=2026-07-21&end=2026-08-21 from 2001:448a:c0f0:5b3e:5e05:5219:5c63:b82e
+[2026-08-21T04:33:06+02:00] Date-range report start=2026-07-21 end=2026-08-21 status= rows=1381 duration=0.01665997505188 limit=100000 offset=0
+[2026-08-26T03:58:48+02:00] INCOMING GET /stbtotal/report_backend.php?action=minmax_date from fe80::1111:d703:dc21:7bd6

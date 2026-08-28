@@ -1,0 +1,381 @@
+[2026-03-27T04:28:10+01:00] Date-range report start=2024-02-25 end=2026-03-27 status= rows=29963 duration=0.37483310699463
+[2026-03-27T04:28:21+01:00] Date-range report start=2024-02-25 end=2026-03-27 status= rows=29963 duration=0.39062595367432
+[2026-03-27T04:35:25+01:00] Date-range report start=2024-02-01 end=2026-03-27 status= rows=30706 duration=0.37810611724854
+[2026-03-27T04:36:21+01:00] Date-range report start=2024-02-01 end=2026-03-27 status= rows=30706 duration=0.38923788070679
+[2026-03-27T05:28:41+01:00] Date-range report start=2024-01-01 end=2026-03-27 status= rows=31808 duration=0.39324808120728
+[2026-04-01T04:25:37+02:00] Date-range report start=2026-03-02 end=2026-04-01 status= rows=1165 duration=0.039270162582397
+[2026-04-01T04:49:44+02:00] Date-range report start=2025-11-01 end=2026-04-01 status= rows=5676 duration=0.11272692680359
+[2026-04-01T04:51:01+02:00] Date-range report start=2024-01-01 end=2026-04-01 status= rows=32008 duration=0.43221116065979
+[2026-04-01T04:51:17+02:00] Date-range report start=2023-12-01 end=2026-04-01 status= rows=32742 duration=0.41676807403564
+[2026-04-01T08:51:35+02:00] Date-range report start=2023-12-01 end=2026-04-01 status=CLOSE rows=32747 duration=3.3237569332123
+[2026-04-13T05:06:25+02:00] Date-range report start=2026-04-12 end=2026-04-13 status= rows=10 duration=0.00043988227844238
+[2026-04-13T05:06:32+02:00] Date-range report start=2026-03-14 end=2026-04-13 status= rows=1066 duration=109.77416682243
+[2026-04-13T05:09:18+02:00] Date-range report start=2026-04-01 end=2026-04-13 status= rows=600 duration=74.522289037704
+[2026-04-13T05:11:35+02:00] Date-range report start=2026-04-01 end=2026-04-13 status= rows=603 duration=50.630073070526 limit=all
+[2026-04-13T05:15:02+02:00] Date-range report start=2026-04-01 end=2026-04-13 status= rows=603 duration=56.995720148087 limit=all
+[2026-04-13T05:47:28+02:00] Date-range report start=2026-03-01 end=2026-04-13 status= rows=1749 duration=192.23285508156 limit=all
+[2026-04-13T09:16:14+02:00] Date-range report start=2026-03-14 end=2026-04-13 status= rows=1101 duration=117.05055093765 limit=all
+[2026-04-13T09:25:03+02:00] Date-range report start=2026-01-01 end=2026-04-13 status= rows=3900 duration=458.28016710281 limit=all
+[2026-04-15T03:27:33+02:00] Date-range report start=2026-01-01 end=2026-04-15 status= rows=3991 duration=0.051620960235596 limit=all
+[2026-04-16T04:52:06+02:00] Date-range report start=2026-03-17 end=2026-04-16 status= rows=1178 duration=0.017592906951904 limit=all
+[2026-04-16T04:53:30+02:00] Date-range report start=2026-03-17 end=2026-04-16 status= rows=1178 duration=0.01963996887207 limit=all
+[2026-04-17T08:45:00+02:00] Date-range report start=2026-03-18 end=2026-04-17 status= rows=1156 duration=125.20771098137 limit=all
+[2026-04-17T08:53:55+02:00] Date-range report start=2026-03-18 end=2026-04-17 status= rows=1160 duration=126.52374005318 limit=all
+[2026-04-18T06:45:36+02:00] Date-range report start=2026-03-19 end=2026-04-18 status= rows=1189 duration=126.83630490303 limit=all
+[2026-04-20T03:44:37+02:00] Date-range report start=2026-03-21 end=2026-04-20 status= rows=1189 duration=127.5716381073 limit=all
+[2026-04-20T04:06:07+02:00] Date-range report start=2026-03-21 end=2026-04-20 status= rows=1000 duration=347.85062408447 limit=1000 offset=0
+[2026-04-20T04:09:39+02:00] Date-range report start=2026-03-21 end=2026-04-20 status= rows=1000 duration=436.35007596016 limit=1000 offset=0
+[2026-04-20T04:12:14+02:00] Date-range report start=2026-03-21 end=2026-04-20 status= rows=1000 duration=459.77780199051 limit=1000 offset=0
+[2026-04-20T04:12:37+02:00] Date-range report start=2026-03-21 end=2026-04-20 status= rows=1000 duration=443.44977998734 limit=1000 offset=0
+[2026-04-20T04:13:09+02:00] Date-range report start=2026-03-21 end=2026-04-20 status= rows=1000 duration=353.17299294472 limit=1000 offset=0
+[2026-04-20T04:18:18+02:00] Date-range report start=2026-03-21 end=2026-04-20 status= rows=1000 duration=0.14618611335754 limit=1000 offset=0
+[2026-04-20T04:20:20+02:00] Date-range report start=2026-03-21 end=2026-04-20 status= rows=1000 duration=0.01521897315979 limit=1000 offset=0
+[2026-04-20T04:40:28+02:00] Date-range report start=2026-03-21 end=2026-04-20 status= rows=1000 duration=0.12459492683411 limit=1000 offset=0
+[2026-04-20T04:44:59+02:00] Date-range report start=2026-03-21 end=2026-04-20 status= rows=1000 duration=0.012883186340332 limit=1000 offset=0
+[2026-04-20T04:48:04+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-03-21&end=2026-04-20&limit=1000 from 2001:448a:c0f0:22fc:e307:6387:b97:7e7a
+[2026-04-20T04:50:59+02:00] Date-range report start=2026-03-21 end=2026-04-20 status= rows=1000 duration=0.13516283035278 limit=1000 offset=0
+[2026-04-20T04:51:46+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-03-21&end=2026-04-20&limit=1000 from 2001:448a:c0f0:22fc:e307:6387:b97:7e7a
+[2026-04-20T04:53:46+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-03-21&end=2026-04-20&limit=1000 from 2001:448a:c0f0:22fc:e307:6387:b97:7e7a
+[2026-04-20T04:57:57+02:00] Date-range report start=2026-03-21 end=2026-04-20 status= rows=1000 duration=0.14731097221375 limit=1000 offset=0
+[2026-04-20T04:58:40+02:00] Date-range report start=2026-03-21 end=2026-04-20 status= rows=1000 duration=0.012436151504517 limit=1000 offset=0
+[2026-04-20T04:59:46+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-03-21&end=2026-04-20&limit=1000 from 2001:448a:c0f0:22fc:e307:6387:b97:7e7a
+[2026-04-20T05:01:47+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-03-21&end=2026-04-20&limit=1000 from 2001:448a:c0f0:22fc:e307:6387:b97:7e7a
+[2026-04-20T05:05:07+02:00] Date-range report start=2026-03-21 end=2026-04-20 status= rows=1000 duration=0.23243284225464 limit=1000 offset=0
+[2026-04-20T05:08:01+02:00] Date-range report start=2026-03-21 end=2026-04-20 status= rows=1000 duration=0.12495517730713 limit=1000 offset=0
+[2026-04-20T05:37:27+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-03-21&end=2026-04-20&limit=1000 from 2001:448a:c0f0:22fc:e307:6387:b97:7e7a
+[2026-04-20T05:39:27+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-03-21&end=2026-04-20&limit=1000 from 2001:448a:c0f0:22fc:e307:6387:b97:7e7a
+[2026-04-20T05:40:22+02:00] Date-range report start=2026-03-21 end=2026-04-20 status= rows=1000 duration=0.12719416618347 limit=1000 offset=0
+[2026-04-20T05:42:23+02:00] Date-range report start=2026-03-21 end=2026-04-20 status= rows=1000 duration=0.012403011322021 limit=1000 offset=0
+[2026-04-20T06:02:39+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-03-21&end=2026-04-20&limit=1000 from 2001:448a:c0f0:22fc:e307:6387:b97:7e7a
+[2026-04-20T06:03:45+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-03-21&end=2026-04-20&limit=1000 from 2001:448a:c0f0:22fc:e307:6387:b97:7e7a
+[2026-04-20T06:06:21+02:00] Date-range report start=2026-03-21 end=2026-04-20 status= rows=1000 duration=0.1232271194458 limit=1000 offset=0
+[2026-04-20T06:07:25+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-03-21&end=2026-04-20&limit=1000 from 2001:448a:c0f0:22fc:e307:6387:b97:7e7a
+[2026-04-20T06:07:37+02:00] Date-range report start=2026-03-21 end=2026-04-20 status= rows=1000 duration=0.12480998039246 limit=1000 offset=0
+[2026-04-20T06:09:25+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-03-21&end=2026-04-20&limit=1000 from 2001:448a:c0f0:22fc:e307:6387:b97:7e7a
+[2026-04-20T06:10:35+02:00] Date-range report start=2026-03-21 end=2026-04-20 status= rows=1000 duration=0.12731194496155 limit=1000 offset=0
+[2026-04-20T06:12:29+02:00] Date-range report start=2026-03-21 end=2026-04-20 status= rows=1000 duration=0.014289855957031 limit=1000 offset=0
+[2026-04-20T06:30:14+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-03-21&end=2026-04-20&limit=1000 from 2001:448a:c0f0:22fc:e307:6387:b97:7e7a
+[2026-04-20T06:30:33+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-03-21&end=2026-04-20&limit=100 from 2001:448a:c0f0:22fc:e307:6387:b97:7e7a
+[2026-04-20T06:31:06+02:00] Date-range report start=2026-03-21 end=2026-04-20 status= rows=100 duration=0.016759157180786 limit=100 offset=0
+[2026-04-20T06:31:30+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-03-21&end=2026-04-20&limit=1000 from 2001:448a:c0f0:22fc:e307:6387:b97:7e7a
+[2026-04-20T06:31:30+02:00] SQL ERROR (date-range report): [{"0":"42000","SQLSTATE":"42000","1":4104,"code":4104,"2":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]The multi-part identifier \"d.nQty\" could not be bound.","message":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]The multi-part identifier \"d.nQty\" could not be bound."}]
+[2026-04-20T06:31:31+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-03-21&end=2026-04-20&limit=1000 from 2001:448a:c0f0:22fc:e307:6387:b97:7e7a
+[2026-04-20T06:31:31+02:00] SQL ERROR (date-range report): [{"0":"42000","SQLSTATE":"42000","1":4104,"code":4104,"2":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]The multi-part identifier \"d.nQty\" could not be bound.","message":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]The multi-part identifier \"d.nQty\" could not be bound."}]
+[2026-04-20T06:31:31+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-03-21&end=2026-04-20&limit=1000 from 2001:448a:c0f0:22fc:e307:6387:b97:7e7a
+[2026-04-20T06:31:31+02:00] SQL ERROR (date-range report): [{"0":"42000","SQLSTATE":"42000","1":4104,"code":4104,"2":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]The multi-part identifier \"d.nQty\" could not be bound.","message":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]The multi-part identifier \"d.nQty\" could not be bound."}]
+[2026-04-20T06:31:32+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-03-21&end=2026-04-20&limit=1000 from 2001:448a:c0f0:22fc:e307:6387:b97:7e7a
+[2026-04-20T06:31:32+02:00] SQL ERROR (date-range report): [{"0":"42000","SQLSTATE":"42000","1":4104,"code":4104,"2":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]The multi-part identifier \"d.nQty\" could not be bound.","message":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]The multi-part identifier \"d.nQty\" could not be bound."}]
+[2026-04-20T06:31:32+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-03-21&end=2026-04-20&limit=1000 from 2001:448a:c0f0:22fc:e307:6387:b97:7e7a
+[2026-04-20T06:31:32+02:00] SQL ERROR (date-range report): [{"0":"42000","SQLSTATE":"42000","1":4104,"code":4104,"2":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]The multi-part identifier \"d.nQty\" could not be bound.","message":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]The multi-part identifier \"d.nQty\" could not be bound."}]
+[2026-04-20T06:31:32+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-03-21&end=2026-04-20&limit=1000 from 2001:448a:c0f0:22fc:e307:6387:b97:7e7a
+[2026-04-20T06:31:32+02:00] SQL ERROR (date-range report): [{"0":"42000","SQLSTATE":"42000","1":4104,"code":4104,"2":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]The multi-part identifier \"d.nQty\" could not be bound.","message":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]The multi-part identifier \"d.nQty\" could not be bound."}]
+[2026-04-20T06:31:32+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-03-21&end=2026-04-20&limit=1000 from 2001:448a:c0f0:22fc:e307:6387:b97:7e7a
+[2026-04-20T06:31:32+02:00] SQL ERROR (date-range report): [{"0":"42000","SQLSTATE":"42000","1":4104,"code":4104,"2":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]The multi-part identifier \"d.nQty\" could not be bound.","message":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]The multi-part identifier \"d.nQty\" could not be bound."}]
+[2026-04-20T06:32:58+02:00] Date-range report start=2026-03-21 end=2026-04-20 status= rows=1000 duration=0.015751123428345 limit=1000 offset=0
+[2026-04-20T06:33:29+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-03-21&end=2026-04-20&limit=1000 from 2001:448a:c0f0:22fc:e307:6387:b97:7e7a
+[2026-04-20T06:33:36+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-03-21&end=2026-04-20&l from 2001:448a:c0f0:22fc:e307:6387:b97:7e7a
+[2026-04-20T06:33:39+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-03-21&end=2026-04-20 from 2001:448a:c0f0:22fc:e307:6387:b97:7e7a
+[2026-04-20T06:35:04+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-03-21&end=2026-04-20&limit=100 from 2001:448a:c0f0:22fc:e307:6387:b97:7e7a
+[2026-04-20T06:35:20+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-03-21&end=2026-04-20&limit=1000 from 2001:448a:c0f0:22fc:e307:6387:b97:7e7a
+[2026-04-20T06:36:18+02:00] Date-range report start=2026-03-21 end=2026-04-20 status= rows=100 duration=0.075347900390625 limit=100 offset=0
+[2026-04-20T06:37:21+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-03-21&end=2026-04-20&limit=1000 from 2001:448a:c0f0:22fc:e307:6387:b97:7e7a
+[2026-04-20T06:43:30+02:00] SQL ERROR (date-range report): [{"0":"08S01","SQLSTATE":"08S01","1":258,"code":258,"2":"[Microsoft][ODBC Driver 17 for SQL Server]TCP Provider: Timeout error [258]. ","message":"[Microsoft][ODBC Driver 17 for SQL Server]TCP Provider: Timeout error [258]. "},{"0":"08S01","SQLSTATE":"08S01","1":258,"code":258,"2":"[Microsoft][ODBC Driver 17 for SQL Server]Communication link failure","message":"[Microsoft][ODBC Driver 17 for SQL Server]Communication link failure"},{"0":"08S01","SQLSTATE":"08S01","1":-2147467259,"code":-2147467259,"2":"[Microsoft][ODBC Driver 17 for SQL Server]Communication link failure","message":"[Microsoft][ODBC Driver 17 for SQL Server]Communication link failure"}]
+[2026-04-20T06:43:36+02:00] SQL ERROR (date-range report): [{"0":"08S01","SQLSTATE":"08S01","1":258,"code":258,"2":"[Microsoft][ODBC Driver 17 for SQL Server]TCP Provider: Timeout error [258]. ","message":"[Microsoft][ODBC Driver 17 for SQL Server]TCP Provider: Timeout error [258]. "},{"0":"08S01","SQLSTATE":"08S01","1":258,"code":258,"2":"[Microsoft][ODBC Driver 17 for SQL Server]Communication link failure","message":"[Microsoft][ODBC Driver 17 for SQL Server]Communication link failure"},{"0":"08S01","SQLSTATE":"08S01","1":-2147467259,"code":-2147467259,"2":"[Microsoft][ODBC Driver 17 for SQL Server]Communication link failure","message":"[Microsoft][ODBC Driver 17 for SQL Server]Communication link failure"}]
+[2026-04-20T06:43:39+02:00] SQL ERROR (date-range report): [{"0":"HYT00","SQLSTATE":"HYT00","1":0,"code":0,"2":"[Microsoft][ODBC Driver 17 for SQL Server]Query timeout expired","message":"[Microsoft][ODBC Driver 17 for SQL Server]Query timeout expired"}]
+[2026-04-20T06:45:21+02:00] SQL ERROR (date-range report): [{"0":"HYT00","SQLSTATE":"HYT00","1":0,"code":0,"2":"[Microsoft][ODBC Driver 17 for SQL Server]Query timeout expired","message":"[Microsoft][ODBC Driver 17 for SQL Server]Query timeout expired"}]
+[2026-04-20T06:45:44+02:00] Date-range report start=2026-03-21 end=2026-04-20 status= rows=1000 duration=0.012139797210693 limit=1000 offset=0
+[2026-04-20T08:04:55+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-03-21&end=2026-04-20&limit=1000 from 2001:448a:c0f0:22fc:e307:6387:b97:7e7a
+[2026-04-20T08:06:56+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-03-21&end=2026-04-20&limit=1000 from 2001:448a:c0f0:22fc:e307:6387:b97:7e7a
+[2026-04-20T08:09:06+02:00] Date-range report start=2026-03-21 end=2026-04-20 status= rows=1000 duration=0.11682891845703 limit=1000 offset=0
+[2026-04-20T08:10:25+02:00] Date-range report start=2026-03-21 end=2026-04-20 status= rows=1000 duration=0.023504018783569 limit=1000 offset=0
+[2026-04-20T08:20:05+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-03-21&end=2026-04-20&limit=1000 from 2001:448a:c0f0:22fc:e307:6387:b97:7e7a
+[2026-04-20T08:20:05+02:00] Date-range report start=2026-03-21 end=2026-04-20 status= rows=1000 duration=0.035632848739624 limit=1000 offset=0
+[2026-04-20T08:20:25+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-01-01&end=2026-04-20&limit=1000 from 2001:448a:c0f0:22fc:e307:6387:b97:7e7a
+[2026-04-20T08:20:25+02:00] Date-range report start=2026-01-01 end=2026-04-20 status= rows=1000 duration=0.038650035858154 limit=1000 offset=0
+[2026-04-20T08:21:45+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-03-21&end=2026-04-20 from 2001:448a:c0f0:22fc:e307:6387:b97:7e7a
+[2026-04-20T08:23:00+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-03-21&end=2026-04-20 from 2001:448a:c0f0:22fc:e307:6387:b97:7e7a
+[2026-04-20T08:23:45+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-03-21&end=2026-04-20 from 2001:448a:c0f0:22fc:e307:6387:b97:7e7a
+[2026-04-20T08:25:21+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-03-21&end=2026-04-20 from 2001:448a:c0f0:22fc:e307:6387:b97:7e7a
+[2026-04-20T08:25:26+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-03-21&end=2026-04-20 from 2001:448a:c0f0:22fc:e307:6387:b97:7e7a
+[2026-04-20T08:25:46+02:00] Date-range report start=2026-03-21 end=2026-04-20 status= rows=1000 duration=10.200510025024 limit=1000 offset=0
+[2026-04-20T08:25:53+02:00] Date-range report start=2026-03-21 end=2026-04-20 status= rows=1000 duration=9.9904098510742 limit=1000 offset=0
+[2026-04-20T08:26:12+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-01-01&end=2026-04-20 from 2001:448a:c0f0:22fc:e307:6387:b97:7e7a
+[2026-04-20T08:26:38+02:00] Date-range report start=2026-01-01 end=2026-04-20 status= rows=1000 duration=10.900143861771 limit=1000 offset=0
+[2026-04-20T08:26:58+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-03-21&end=2026-04-20 from 2001:448a:c0f0:22fc:e307:6387:b97:7e7a
+[2026-04-20T08:27:19+02:00] Date-range report start=2026-03-21 end=2026-04-20 status= rows=1203 duration=7.4443271160126 limit=100000 offset=0
+[2026-04-20T08:27:25+02:00] Date-range report start=2026-03-21 end=2026-04-20 status= rows=1200 duration=316.7647550106 limit=all
+[2026-04-20T08:29:35+02:00] Date-range report start=2026-03-21 end=2026-04-20 status= rows=1200 duration=342.65492987633 limit=all
+[2026-04-20T08:29:57+02:00] Date-range report start=2026-03-21 end=2026-04-20 status= rows=1200 duration=293.47187399864 limit=all
+[2026-04-20T08:30:55+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-03-21&end=2026-04-20 from 2001:448a:c0f0:22fc:e307:6387:b97:7e7a
+[2026-04-20T08:30:55+02:00] Date-range report start=2026-03-21 end=2026-04-20 status= rows=1203 duration=0.049940824508667 limit=100000 offset=0
+[2026-04-20T08:34:21+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2025-01-01&end=2026-04-20 from 2001:448a:c0f0:22fc:e307:6387:b97:7e7a
+[2026-04-20T08:35:43+02:00] SQL ERROR (date-range report): [{"0":"IMSSP","SQLSTATE":"IMSSP","1":-52,"code":-52,"2":"Tried to bind parameter number 2101.  SQL Server supports a maximum of 2100 parameters.","message":"Tried to bind parameter number 2101.  SQL Server supports a maximum of 2100 parameters."}]
+[2026-04-20T08:37:12+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-03-21&end=2026-04-20 from 2001:448a:c0f0:22fc:e307:6387:b97:7e7a
+[2026-04-20T08:37:25+02:00] Date-range report start=2026-03-21 end=2026-04-20 status= rows=1204 duration=3.826404094696 limit=100000 offset=0
+[2026-04-20T08:41:24+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-03-21&end=2026-04-20 from 2001:448a:c0f0:22fc:e307:6387:b97:7e7a
+[2026-04-20T08:41:35+02:00] Date-range report start=2026-03-21 end=2026-04-20 status= rows=1204 duration=3.8096029758453 limit=100000 offset=0
+[2026-04-20T08:43:13+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-01-01&end=2026-04-20 from 2001:448a:c0f0:22fc:e307:6387:b97:7e7a
+[2026-04-20T08:43:13+02:00] SQL ERROR (date-range report): [{"0":"IMSSP","SQLSTATE":"IMSSP","1":-52,"code":-52,"2":"Tried to bind parameter number 2101.  SQL Server supports a maximum of 2100 parameters.","message":"Tried to bind parameter number 2101.  SQL Server supports a maximum of 2100 parameters."}]
+[2026-04-20T08:43:15+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-01-01&end=2026-04-20 from 2001:448a:c0f0:22fc:e307:6387:b97:7e7a
+[2026-04-20T08:43:15+02:00] SQL ERROR (date-range report): [{"0":"IMSSP","SQLSTATE":"IMSSP","1":-52,"code":-52,"2":"Tried to bind parameter number 2101.  SQL Server supports a maximum of 2100 parameters.","message":"Tried to bind parameter number 2101.  SQL Server supports a maximum of 2100 parameters."}]
+[2026-04-20T08:43:16+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-01-01&end=2026-04-20 from 2001:448a:c0f0:22fc:e307:6387:b97:7e7a
+[2026-04-20T08:43:16+02:00] SQL ERROR (date-range report): [{"0":"IMSSP","SQLSTATE":"IMSSP","1":-52,"code":-52,"2":"Tried to bind parameter number 2101.  SQL Server supports a maximum of 2100 parameters.","message":"Tried to bind parameter number 2101.  SQL Server supports a maximum of 2100 parameters."}]
+[2026-04-20T08:43:16+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-01-01&end=2026-04-20 from 2001:448a:c0f0:22fc:e307:6387:b97:7e7a
+[2026-04-20T08:43:16+02:00] SQL ERROR (date-range report): [{"0":"IMSSP","SQLSTATE":"IMSSP","1":-52,"code":-52,"2":"Tried to bind parameter number 2101.  SQL Server supports a maximum of 2100 parameters.","message":"Tried to bind parameter number 2101.  SQL Server supports a maximum of 2100 parameters."}]
+[2026-04-20T08:43:16+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-01-01&end=2026-04-20 from 2001:448a:c0f0:22fc:e307:6387:b97:7e7a
+[2026-04-20T08:43:16+02:00] SQL ERROR (date-range report): [{"0":"IMSSP","SQLSTATE":"IMSSP","1":-52,"code":-52,"2":"Tried to bind parameter number 2101.  SQL Server supports a maximum of 2100 parameters.","message":"Tried to bind parameter number 2101.  SQL Server supports a maximum of 2100 parameters."}]
+[2026-04-20T08:43:16+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-01-01&end=2026-04-20 from 2001:448a:c0f0:22fc:e307:6387:b97:7e7a
+[2026-04-20T08:43:17+02:00] SQL ERROR (date-range report): [{"0":"IMSSP","SQLSTATE":"IMSSP","1":-52,"code":-52,"2":"Tried to bind parameter number 2101.  SQL Server supports a maximum of 2100 parameters.","message":"Tried to bind parameter number 2101.  SQL Server supports a maximum of 2100 parameters."}]
+[2026-04-20T08:43:25+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-01-01&end=2026-04-20 from 2001:448a:c0f0:22fc:e307:6387:b97:7e7a
+[2026-04-20T08:43:25+02:00] SQL ERROR (date-range report): [{"0":"IMSSP","SQLSTATE":"IMSSP","1":-52,"code":-52,"2":"Tried to bind parameter number 2101.  SQL Server supports a maximum of 2100 parameters.","message":"Tried to bind parameter number 2101.  SQL Server supports a maximum of 2100 parameters."}]
+[2026-04-20T08:43:25+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-01-01&end=2026-04-20 from 2001:448a:c0f0:22fc:e307:6387:b97:7e7a
+[2026-04-20T08:43:25+02:00] SQL ERROR (date-range report): [{"0":"IMSSP","SQLSTATE":"IMSSP","1":-52,"code":-52,"2":"Tried to bind parameter number 2101.  SQL Server supports a maximum of 2100 parameters.","message":"Tried to bind parameter number 2101.  SQL Server supports a maximum of 2100 parameters."}]
+[2026-04-20T08:46:21+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2025-12-01&end=2026-04-20 from 2001:448a:c0f0:22fc:e307:6387:b97:7e7a
+[2026-04-20T08:46:21+02:00] Using literal VALUES for sc_list due to large count=5315
+[2026-04-20T08:46:23+02:00] Date-range report start=2025-12-01 end=2026-04-20 status= rows=5315 duration=0.13583302497864 limit=100000 offset=0
+[2026-04-20T08:47:01+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2025-01-01&end=2026-04-20 from 2001:448a:c0f0:22fc:e307:6387:b97:7e7a
+[2026-04-20T08:47:01+02:00] Using literal VALUES for sc_list due to large count=19553
+[2026-04-20T08:47:07+02:00] Date-range report start=2025-01-01 end=2026-04-20 status= rows=19553 duration=0.24903583526611 limit=100000 offset=0
+[2026-04-20T08:53:02+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-03-21&end=2026-04-20&limit=100 from 2001:448a:c0f0:22fc:e307:6387:b97:7e7a
+[2026-04-20T08:53:03+02:00] Date-range report start=2026-03-21 end=2026-04-20 status= rows=100 duration=0.0021789073944092 limit=100 offset=0
+[2026-04-20T08:53:04+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-03-21&end=2026-04-20&limit=100 from 2001:448a:c0f0:22fc:e307:6387:b97:7e7a
+[2026-04-20T08:53:04+02:00] Date-range report start=2026-03-21 end=2026-04-20 status= rows=100 duration=0.013744831085205 limit=100 offset=0
+[2026-04-20T08:53:05+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-03-21&end=2026-04-20&limit=100 from 2001:448a:c0f0:22fc:e307:6387:b97:7e7a
+[2026-04-20T08:53:06+02:00] Date-range report start=2026-03-21 end=2026-04-20 status= rows=100 duration=0.053972959518433 limit=100 offset=0
+[2026-04-20T09:31:04+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2025-01-01&end=2026-04-20 from 2001:448a:c0f0:22fc:e307:6387:b97:7e7a
+[2026-04-20T09:31:20+02:00] Using literal VALUES for sc_list due to large count=19563
+[2026-04-20T09:31:27+02:00] Date-range report start=2025-01-01 end=2026-04-20 status= rows=19563 duration=0.29431891441345 limit=100000 offset=0
+[2026-04-20T10:11:13+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2025-01-30&end=2026-04-20 from 2001:448a:c0f0:22fc:e307:6387:b97:7e7a
+[2026-04-20T10:11:13+02:00] Using literal VALUES for sc_list due to large count=18431
+[2026-04-20T10:11:18+02:00] Date-range report start=2025-01-30 end=2026-04-20 status= rows=18431 duration=0.26199793815613 limit=100000 offset=0
+[2026-04-22T02:48:54+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2025-01-30&end=2026-04-20 from 2001:448a:c0f0:22fc:e307:6387:b97:7e7a
+[2026-04-22T02:48:54+02:00] Using literal VALUES for sc_list due to large count=18456
+[2026-04-22T02:49:00+02:00] Date-range report start=2025-01-30 end=2026-04-20 status= rows=18456 duration=0.28471183776855 limit=100000 offset=0
+[2026-04-22T03:44:40+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-03-23&end=2026-04-22 from 2001:448a:c0f0:22fc:e307:6387:b97:7e7a
+[2026-04-22T03:44:41+02:00] Date-range report start=2026-03-23 end=2026-04-22 status= rows=1302 duration=0.084608793258667 limit=100000 offset=0
+[2026-04-22T03:44:48+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-03-01&end=2026-04-22 from 2001:448a:c0f0:22fc:e307:6387:b97:7e7a
+[2026-04-22T03:44:48+02:00] Using literal VALUES for sc_list due to large count=2151
+[2026-04-22T03:44:51+02:00] Date-range report start=2026-03-01 end=2026-04-22 status= rows=2151 duration=0.54027795791626 limit=100000 offset=0
+[2026-04-22T03:45:01+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2025-01-01&end=2026-04-22 from 2001:448a:c0f0:22fc:e307:6387:b97:7e7a
+[2026-04-22T03:45:01+02:00] Using literal VALUES for sc_list due to large count=19651
+[2026-04-22T03:45:07+02:00] Date-range report start=2025-01-01 end=2026-04-22 status= rows=19651 duration=0.28313088417053 limit=100000 offset=0
+[2026-04-22T03:45:34+02:00] INCOMING GET /stbtotalv1/report_backend.php?slc=SLC%2F2512%2F00514 from 2001:448a:c0f0:22fc:e307:6387:b97:7e7a
+[2026-04-22T03:45:35+02:00] SLC lookup 'SLC/2512/00514' rows=1 duration=0.00010204315185547 limit=100000 offset=0
+[2026-04-22T04:16:34+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2025-01-01&end=2026-04-22 from 2001:448a:c0f0:22fc:e307:6387:b97:7e7a
+[2026-04-22T04:16:34+02:00] Using literal VALUES for sc_list due to large count=19655
+[2026-04-22T04:16:41+02:00] Date-range report start=2025-01-01 end=2026-04-22 status= rows=19655 duration=0.34126996994019 limit=100000 offset=0
+[2026-04-22T05:14:40+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2025-01-01&end=2025-12-31 from 2001:448a:c0f0:22fc:e307:6387:b97:7e7a
+[2026-04-22T05:14:40+02:00] Using literal VALUES for sc_list due to large count=15378
+[2026-04-22T05:14:44+02:00] Date-range report start=2025-01-01 end=2025-12-31 status= rows=15378 duration=0.20467901229858 limit=100000 offset=0
+[2026-04-22T06:23:05+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2025-01-01&end=2026-04-22 from 2001:448a:c0f0:22fc:e307:6387:b97:7e7a
+[2026-04-22T06:23:06+02:00] Using literal VALUES for sc_list due to large count=19659
+[2026-04-22T06:23:13+02:00] Date-range report start=2025-01-01 end=2026-04-22 status= rows=19659 duration=0.26692080497742 limit=100000 offset=0
+[2026-04-22T06:23:28+02:00] INCOMING GET /stbtotalv1/report_backend.php?slc=SLC%2F2501%2F01243 from 2001:448a:c0f0:22fc:e307:6387:b97:7e7a
+[2026-04-22T06:23:28+02:00] SLC lookup 'SLC/2501/01243' rows=1 duration=0.0001220703125 limit=100000 offset=0
+[2026-04-22T08:22:12+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2025-01-01&end=2026-04-22 from 2001:448a:c0f0:22fc:e307:6387:b97:7e7a
+[2026-04-22T08:22:12+02:00] Using literal VALUES for sc_list due to large count=19671
+[2026-04-22T08:22:12+02:00] SQL ERROR (date-range report): [{"0":"42000","SQLSTATE":"42000","1":4104,"code":4104,"2":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]The multi-part identifier \"dtstock.total_nqty_dtstock\" could not be bound.","message":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]The multi-part identifier \"dtstock.total_nqty_dtstock\" could not be bound."},{"0":"42000","SQLSTATE":"42000","1":4104,"code":4104,"2":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]The multi-part identifier \"dtstock.total_nqty_dtstock\" could not be bound.","message":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]The multi-part identifier \"dtstock.total_nqty_dtstock\" could not be bound."},{"0":"42000","SQLSTATE":"42000","1":4104,"code":4104,"2":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]The multi-part identifier \"dtstock.total_nqty_dtstock\" could not be bound.","message":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]The multi-part identifier \"dtstock.total_nqty_dtstock\" could not be bound."}]
+[2026-04-22T08:22:19+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2025-01-01&end=2026-04-22 from 2001:448a:c0f0:22fc:e307:6387:b97:7e7a
+[2026-04-22T08:22:19+02:00] Using literal VALUES for sc_list due to large count=19671
+[2026-04-22T08:22:20+02:00] SQL ERROR (date-range report): [{"0":"42000","SQLSTATE":"42000","1":4104,"code":4104,"2":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]The multi-part identifier \"dtstock.total_nqty_dtstock\" could not be bound.","message":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]The multi-part identifier \"dtstock.total_nqty_dtstock\" could not be bound."},{"0":"42000","SQLSTATE":"42000","1":4104,"code":4104,"2":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]The multi-part identifier \"dtstock.total_nqty_dtstock\" could not be bound.","message":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]The multi-part identifier \"dtstock.total_nqty_dtstock\" could not be bound."},{"0":"42000","SQLSTATE":"42000","1":4104,"code":4104,"2":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]The multi-part identifier \"dtstock.total_nqty_dtstock\" could not be bound.","message":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]The multi-part identifier \"dtstock.total_nqty_dtstock\" could not be bound."}]
+[2026-04-22T08:22:20+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2025-01-01&end=2026-04-22 from 2001:448a:c0f0:22fc:e307:6387:b97:7e7a
+[2026-04-22T08:22:20+02:00] Using literal VALUES for sc_list due to large count=19671
+[2026-04-22T08:22:20+02:00] SQL ERROR (date-range report): [{"0":"42000","SQLSTATE":"42000","1":4104,"code":4104,"2":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]The multi-part identifier \"dtstock.total_nqty_dtstock\" could not be bound.","message":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]The multi-part identifier \"dtstock.total_nqty_dtstock\" could not be bound."},{"0":"42000","SQLSTATE":"42000","1":4104,"code":4104,"2":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]The multi-part identifier \"dtstock.total_nqty_dtstock\" could not be bound.","message":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]The multi-part identifier \"dtstock.total_nqty_dtstock\" could not be bound."},{"0":"42000","SQLSTATE":"42000","1":4104,"code":4104,"2":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]The multi-part identifier \"dtstock.total_nqty_dtstock\" could not be bound.","message":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]The multi-part identifier \"dtstock.total_nqty_dtstock\" could not be bound."}]
+[2026-04-22T08:22:21+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2025-01-01&end=2026-04-22 from 2001:448a:c0f0:22fc:e307:6387:b97:7e7a
+[2026-04-22T08:22:21+02:00] Using literal VALUES for sc_list due to large count=19671
+[2026-04-22T08:22:21+02:00] SQL ERROR (date-range report): [{"0":"42000","SQLSTATE":"42000","1":4104,"code":4104,"2":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]The multi-part identifier \"dtstock.total_nqty_dtstock\" could not be bound.","message":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]The multi-part identifier \"dtstock.total_nqty_dtstock\" could not be bound."},{"0":"42000","SQLSTATE":"42000","1":4104,"code":4104,"2":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]The multi-part identifier \"dtstock.total_nqty_dtstock\" could not be bound.","message":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]The multi-part identifier \"dtstock.total_nqty_dtstock\" could not be bound."},{"0":"42000","SQLSTATE":"42000","1":4104,"code":4104,"2":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]The multi-part identifier \"dtstock.total_nqty_dtstock\" could not be bound.","message":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]The multi-part identifier \"dtstock.total_nqty_dtstock\" could not be bound."}]
+[2026-04-22T08:22:21+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2025-01-01&end=2026-04-22 from 2001:448a:c0f0:22fc:e307:6387:b97:7e7a
+[2026-04-22T08:22:21+02:00] Using literal VALUES for sc_list due to large count=19671
+[2026-04-22T08:22:21+02:00] SQL ERROR (date-range report): [{"0":"42000","SQLSTATE":"42000","1":4104,"code":4104,"2":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]The multi-part identifier \"dtstock.total_nqty_dtstock\" could not be bound.","message":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]The multi-part identifier \"dtstock.total_nqty_dtstock\" could not be bound."},{"0":"42000","SQLSTATE":"42000","1":4104,"code":4104,"2":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]The multi-part identifier \"dtstock.total_nqty_dtstock\" could not be bound.","message":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]The multi-part identifier \"dtstock.total_nqty_dtstock\" could not be bound."},{"0":"42000","SQLSTATE":"42000","1":4104,"code":4104,"2":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]The multi-part identifier \"dtstock.total_nqty_dtstock\" could not be bound.","message":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]The multi-part identifier \"dtstock.total_nqty_dtstock\" could not be bound."}]
+[2026-04-22T08:22:22+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2025-01-01&end=2026-04-22 from 2001:448a:c0f0:22fc:e307:6387:b97:7e7a
+[2026-04-22T08:22:22+02:00] Using literal VALUES for sc_list due to large count=19671
+[2026-04-22T08:22:22+02:00] SQL ERROR (date-range report): [{"0":"42000","SQLSTATE":"42000","1":4104,"code":4104,"2":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]The multi-part identifier \"dtstock.total_nqty_dtstock\" could not be bound.","message":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]The multi-part identifier \"dtstock.total_nqty_dtstock\" could not be bound."},{"0":"42000","SQLSTATE":"42000","1":4104,"code":4104,"2":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]The multi-part identifier \"dtstock.total_nqty_dtstock\" could not be bound.","message":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]The multi-part identifier \"dtstock.total_nqty_dtstock\" could not be bound."},{"0":"42000","SQLSTATE":"42000","1":4104,"code":4104,"2":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]The multi-part identifier \"dtstock.total_nqty_dtstock\" could not be bound.","message":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]The multi-part identifier \"dtstock.total_nqty_dtstock\" could not be bound."}]
+[2026-04-22T08:22:22+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2025-01-01&end=2026-04-22 from 2001:448a:c0f0:22fc:e307:6387:b97:7e7a
+[2026-04-22T08:22:22+02:00] Using literal VALUES for sc_list due to large count=19671
+[2026-04-22T08:22:22+02:00] SQL ERROR (date-range report): [{"0":"42000","SQLSTATE":"42000","1":4104,"code":4104,"2":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]The multi-part identifier \"dtstock.total_nqty_dtstock\" could not be bound.","message":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]The multi-part identifier \"dtstock.total_nqty_dtstock\" could not be bound."},{"0":"42000","SQLSTATE":"42000","1":4104,"code":4104,"2":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]The multi-part identifier \"dtstock.total_nqty_dtstock\" could not be bound.","message":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]The multi-part identifier \"dtstock.total_nqty_dtstock\" could not be bound."},{"0":"42000","SQLSTATE":"42000","1":4104,"code":4104,"2":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]The multi-part identifier \"dtstock.total_nqty_dtstock\" could not be bound.","message":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]The multi-part identifier \"dtstock.total_nqty_dtstock\" could not be bound."}]
+[2026-04-22T08:22:23+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2025-01-01&end=2026-04-22 from 2001:448a:c0f0:22fc:e307:6387:b97:7e7a
+[2026-04-22T08:22:23+02:00] Using literal VALUES for sc_list due to large count=19671
+[2026-04-22T08:22:23+02:00] SQL ERROR (date-range report): [{"0":"42000","SQLSTATE":"42000","1":4104,"code":4104,"2":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]The multi-part identifier \"dtstock.total_nqty_dtstock\" could not be bound.","message":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]The multi-part identifier \"dtstock.total_nqty_dtstock\" could not be bound."},{"0":"42000","SQLSTATE":"42000","1":4104,"code":4104,"2":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]The multi-part identifier \"dtstock.total_nqty_dtstock\" could not be bound.","message":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]The multi-part identifier \"dtstock.total_nqty_dtstock\" could not be bound."},{"0":"42000","SQLSTATE":"42000","1":4104,"code":4104,"2":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]The multi-part identifier \"dtstock.total_nqty_dtstock\" could not be bound.","message":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]The multi-part identifier \"dtstock.total_nqty_dtstock\" could not be bound."}]
+[2026-04-22T08:22:23+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2025-01-01&end=2026-04-22 from 2001:448a:c0f0:22fc:e307:6387:b97:7e7a
+[2026-04-22T08:22:23+02:00] Using literal VALUES for sc_list due to large count=19671
+[2026-04-22T08:22:24+02:00] SQL ERROR (date-range report): [{"0":"42000","SQLSTATE":"42000","1":4104,"code":4104,"2":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]The multi-part identifier \"dtstock.total_nqty_dtstock\" could not be bound.","message":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]The multi-part identifier \"dtstock.total_nqty_dtstock\" could not be bound."},{"0":"42000","SQLSTATE":"42000","1":4104,"code":4104,"2":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]The multi-part identifier \"dtstock.total_nqty_dtstock\" could not be bound.","message":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]The multi-part identifier \"dtstock.total_nqty_dtstock\" could not be bound."},{"0":"42000","SQLSTATE":"42000","1":4104,"code":4104,"2":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]The multi-part identifier \"dtstock.total_nqty_dtstock\" could not be bound.","message":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]The multi-part identifier \"dtstock.total_nqty_dtstock\" could not be bound."}]
+[2026-04-22T08:26:26+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2025-01-01&end=2026-04-22 from 2001:448a:c0f0:22fc:e307:6387:b97:7e7a
+[2026-04-22T08:26:26+02:00] Using literal VALUES for sc_list due to large count=19671
+[2026-04-22T08:26:34+02:00] Date-range report start=2025-01-01 end=2026-04-22 status= rows=19671 duration=0.28000402450562 limit=100000 offset=0
+[2026-04-22T08:26:43+02:00] INCOMING GET /stbtotalv1/report_backend.php?slc=SLC%2F2501%2F01324 from 2001:448a:c0f0:22fc:e307:6387:b97:7e7a
+[2026-04-22T08:26:43+02:00] SLC lookup 'SLC/2501/01324' rows=1 duration=0.00017786026000977 limit=100000 offset=0
+[2026-04-22T08:28:08+02:00] INCOMING GET /stbtotalv1/report_backend.php?slc=SLC%2F2501%2F01243 from 2001:448a:c0f0:22fc:e307:6387:b97:7e7a
+[2026-04-22T08:28:08+02:00] SLC lookup 'SLC/2501/01243' rows=1 duration=7.4148178100586E-5 limit=100000 offset=0
+[2026-04-22T08:28:18+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2025-01-01&end=2026-04-22 from 2001:448a:c0f0:22fc:e307:6387:b97:7e7a
+[2026-04-22T08:28:18+02:00] Using literal VALUES for sc_list due to large count=19673
+[2026-04-22T08:28:26+02:00] Date-range report start=2025-01-01 end=2026-04-22 status= rows=19673 duration=0.24267601966858 limit=100000 offset=0
+[2026-04-22T09:04:39+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2025-01-01&end=2026-04-22 from 2001:448a:c0f0:22fc:e307:6387:b97:7e7a
+[2026-04-22T09:04:39+02:00] Using literal VALUES for sc_list due to large count=19677
+[2026-04-22T09:04:48+02:00] Date-range report start=2025-01-01 end=2026-04-22 status= rows=19677 duration=0.25706696510315 limit=100000 offset=0
+[2026-04-23T10:25:12+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2025-01-01&end=2026-04-23 from 2001:448a:c0f0:22fc:e307:6387:b97:7e7a
+[2026-04-23T10:25:12+02:00] Using literal VALUES for sc_list due to large count=19741
+[2026-04-23T10:25:19+02:00] Date-range report start=2025-01-01 end=2026-04-23 status= rows=19741 duration=0.24118494987488 limit=100000 offset=0
+[2026-04-23T10:27:09+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2025-01-01&end=2026-04-23 from 2001:448a:c0f0:22fc:e307:6387:b97:7e7a
+[2026-04-23T10:27:09+02:00] Using literal VALUES for sc_list due to large count=19741
+[2026-04-23T10:27:11+02:00] Date-range report start=2025-01-01 end=2026-04-23 status= rows=19741 duration=0.2720091342926 limit=100000 offset=0
+[2026-04-24T02:44:26+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-03-25&end=2026-04-24 from 2001:448a:c0f0:3728:c17d:137a:7f32:36b
+[2026-04-24T02:44:27+02:00] Date-range report start=2026-03-25 end=2026-04-24 status= rows=1426 duration=0.026912927627563 limit=100000 offset=0
+[2026-04-24T03:20:49+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-01-01&end=2026-04-24 from 2001:448a:c0f0:3728:c17d:137a:7f32:36b
+[2026-04-24T03:20:50+02:00] Using literal VALUES for sc_list due to large count=4397
+[2026-04-24T03:20:51+02:00] Date-range report start=2026-01-01 end=2026-04-24 status= rows=4397 duration=0.052595853805542 limit=100000 offset=0
+[2026-04-24T03:22:50+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-03-25&end=2026-04-24 from 2001:448a:c0f0:3728:c17d:137a:7f32:36b
+[2026-04-24T03:22:51+02:00] Date-range report start=2026-03-25 end=2026-04-24 status= rows=1426 duration=0.021189212799072 limit=100000 offset=0
+[2026-04-24T03:23:42+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-03-25&end=2026-04-24 from 2001:448a:c0f0:3728:c17d:137a:7f32:36b
+[2026-04-24T03:23:43+02:00] Date-range report start=2026-03-25 end=2026-04-24 status= rows=1426 duration=0.026229858398438 limit=100000 offset=0
+[2026-04-24T03:24:25+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-03-25&end=2026-04-24 from 2001:448a:c0f0:3728:c17d:137a:7f32:36b
+[2026-04-24T03:24:25+02:00] Date-range report start=2026-03-25 end=2026-04-24 status= rows=1426 duration=0.022692918777466 limit=100000 offset=0
+[2026-04-24T03:25:00+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-03-25&end=2026-04-24 from 2001:448a:c0f0:3728:c17d:137a:7f32:36b
+[2026-04-24T03:25:01+02:00] Date-range report start=2026-03-25 end=2026-04-24 status= rows=1426 duration=0.040209770202637 limit=100000 offset=0
+[2026-04-24T03:26:10+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-03-25&end=2026-04-24 from 2001:448a:c0f0:3728:c17d:137a:7f32:36b
+[2026-04-24T03:26:11+02:00] Date-range report start=2026-03-25 end=2026-04-24 status= rows=1426 duration=0.042834043502808 limit=100000 offset=0
+[2026-04-24T03:27:08+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-03-25&end=2026-04-24 from 2001:448a:c0f0:3728:c17d:137a:7f32:36b
+[2026-04-24T03:27:09+02:00] Date-range report start=2026-03-25 end=2026-04-24 status= rows=1426 duration=0.048177003860474 limit=100000 offset=0
+[2026-04-24T03:27:36+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-03-25&end=2026-04-24 from 2001:448a:c0f0:3728:c17d:137a:7f32:36b
+[2026-04-24T03:27:37+02:00] Date-range report start=2026-03-25 end=2026-04-24 status= rows=1426 duration=0.050295829772949 limit=100000 offset=0
+[2026-04-24T03:28:15+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-03-25&end=2026-04-24 from 2001:448a:c0f0:3728:c17d:137a:7f32:36b
+[2026-04-24T03:28:16+02:00] Date-range report start=2026-03-25 end=2026-04-24 status= rows=1426 duration=0.032583951950073 limit=100000 offset=0
+[2026-04-24T09:29:28+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-01-01&end=2026-04-24 from 2001:448a:c0f0:3728:c17d:137a:7f32:36b
+[2026-04-24T09:29:28+02:00] Using literal VALUES for sc_list due to large count=4434
+[2026-04-24T09:29:30+02:00] Date-range report start=2026-01-01 end=2026-04-24 status= rows=4434 duration=0.091932058334351 limit=100000 offset=0
+[2026-04-24T09:30:09+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-01-01&end=2026-04-24 from 2001:448a:c0f0:3728:c17d:137a:7f32:36b
+[2026-04-24T09:30:09+02:00] Using literal VALUES for sc_list due to large count=4434
+[2026-04-24T09:30:10+02:00] Date-range report start=2026-01-01 end=2026-04-24 status= rows=4434 duration=0.086212158203125 limit=100000 offset=0
+[2026-04-27T03:33:57+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-03-28&end=2026-04-27 from 2001:448a:c0f0:3728:c17d:137a:7f32:36b
+[2026-04-27T03:33:57+02:00] Date-range report start=2026-03-28 end=2026-04-27 status= rows=1335 duration=0.02516508102417 limit=100000 offset=0
+[2026-04-27T03:34:05+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-03-01&end=2026-04-27 from 2001:448a:c0f0:3728:c17d:137a:7f32:36b
+[2026-04-27T03:34:05+02:00] Using literal VALUES for sc_list due to large count=2343
+[2026-04-27T03:34:07+02:00] Date-range report start=2026-03-01 end=2026-04-27 status= rows=2343 duration=0.32305598258972 limit=100000 offset=0
+[2026-04-27T08:52:55+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-01-01&end=2026-04-27 from 2001:448a:c0f0:3728:c17d:137a:7f32:36b
+[2026-04-27T08:52:57+02:00] Using literal VALUES for sc_list due to large count=4500
+[2026-04-27T08:53:01+02:00] Date-range report start=2026-01-01 end=2026-04-27 status= rows=4500 duration=0.16805291175842 limit=100000 offset=0
+[2026-04-28T02:58:40+02:00] INCOMING GET /stbtotalv1/report_backend.php?slc=SLC%2F2511 from 192.168.0.169
+[2026-04-28T02:58:40+02:00] SLC lookup 'SLC/2511' rows=1 duration=5.9127807617188E-5 limit=100000 offset=0
+[2026-04-28T03:34:17+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-03-29&end=2026-04-28 from 192.168.0.169
+[2026-04-28T03:34:18+02:00] Date-range report start=2026-03-29 end=2026-04-28 status= rows=1433 duration=0.024174928665161 limit=100000 offset=0
+[2026-04-28T03:34:26+02:00] INCOMING GET /stbtotalv1/report_backend.php?slc=SLC%2F2512%2F00514 from 192.168.0.169
+[2026-04-28T03:34:27+02:00] SLC lookup 'SLC/2512/00514' rows=1 duration=5.9127807617188E-5 limit=100000 offset=0
+[2026-04-28T03:34:35+02:00] INCOMING GET /stbtotalv1/report_backend.php?slc=SLC%2F2511%2F00510 from 192.168.0.169
+[2026-04-28T03:34:35+02:00] SLC lookup 'SLC/2511/00510' rows=1 duration=0.00019192695617676 limit=100000 offset=0
+[2026-04-28T06:38:41+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-03-29&end=2026-04-28 from 192.168.0.169
+[2026-04-28T06:38:42+02:00] Date-range report start=2026-03-29 end=2026-04-28 status= rows=1445 duration=0.021948099136353 limit=100000 offset=0
+[2026-04-28T06:38:46+02:00] INCOMING GET /stbtotalv1/report_backend.php?slc=SLC%2F2512%2F00514 from 192.168.0.169
+[2026-04-28T06:38:46+02:00] SLC lookup 'SLC/2512/00514' rows=1 duration=0.00011587142944336 limit=100000 offset=0
+[2026-04-28T06:42:17+02:00] INCOMING GET /stbtotalv1/report_backend.php?slc=SLC%2F251%2F00514 from 192.168.0.169
+[2026-04-28T06:42:18+02:00] SLC lookup 'SLC/251/00514' rows=1 duration=5.9843063354492E-5 limit=100000 offset=0
+[2026-04-28T06:42:31+02:00] INCOMING GET /stbtotalv1/report_backend.php?slc=SLC%2F2511%2F00514 from 192.168.0.169
+[2026-04-28T06:42:32+02:00] SLC lookup 'SLC/2511/00514' rows=1 duration=0.00011706352233887 limit=100000 offset=0
+[2026-04-28T08:16:34+02:00] INCOMING GET /stbtotalv1/report_backend.php?slc=SLC%2F2510%2F00514 from 192.168.0.169
+[2026-04-28T08:16:35+02:00] SLC lookup 'SLC/2510/00514' rows=1 duration=7.0810317993164E-5 limit=100000 offset=0
+[2026-04-29T04:55:13+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-03-30&end=2026-04-29 from 192.168.0.169
+[2026-04-29T04:55:14+02:00] Date-range report start=2026-03-30 end=2026-04-29 status= rows=1480 duration=0.02065896987915 limit=100000 offset=0
+[2026-04-30T05:21:50+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-03-31&end=2026-04-30 from 192.168.0.169
+[2026-04-30T05:21:51+02:00] Date-range report start=2026-03-31 end=2026-04-30 status= rows=1498 duration=0.018696069717407 limit=100000 offset=0
+[2026-04-30T05:22:08+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-01-01&end=2026-04-30 from 192.168.0.169
+[2026-04-30T05:22:08+02:00] Using literal VALUES for sc_list due to large count=4668
+[2026-04-30T05:22:10+02:00] Date-range report start=2026-01-01 end=2026-04-30 status= rows=4668 duration=0.065449953079224 limit=100000 offset=0
+[2026-04-30T05:33:29+02:00] INCOMING GET /stbtotalv1/report_backend.php?action=minmax_date from 192.168.0.169
+[2026-04-30T05:33:52+02:00] INCOMING GET /stbtotalv1/report_backend.php?action=minmax_date from 192.168.0.169
+[2026-04-30T08:36:12+02:00] INCOMING GET /stbtotalv1/report_backend.php?action=minmax_date from 192.168.0.169
+[2026-04-30T08:36:56+02:00] INCOMING GET /stbtotalv1/report_backend.php?action=minmax_date from 192.168.0.169
+[2026-04-30T08:37:02+02:00] INCOMING GET /stbtotalv1/report_backend.php?action=minmax_date from 192.168.0.169
+[2026-04-30T08:39:11+02:00] INCOMING GET /stbtotalv1/report_backend.php?action=minmax_date from 192.168.0.169
+[2026-04-30T08:39:14+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-03-30&end=2026-04-30 from 192.168.0.169
+[2026-04-30T08:39:15+02:00] Date-range report start=2026-03-30 end=2026-04-30 status= rows=1545 duration=0.062350988388062 limit=100000 offset=0
+[2026-04-30T08:50:03+02:00] INCOMING GET /stbtotalv1/report_backend.php?action=minmax_date from 192.168.0.169
+[2026-04-30T08:50:06+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-03-30&end=2026-04-30 from 192.168.0.169
+[2026-04-30T08:50:06+02:00] Date-range report start=2026-03-30 end=2026-04-30 status= rows=1545 duration=0.029944896697998 limit=100000 offset=0
+[2026-04-30T08:50:13+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-01-01&end=2026-04-30 from 192.168.0.169
+[2026-04-30T08:50:13+02:00] Using literal VALUES for sc_list due to large count=4675
+[2026-04-30T08:50:15+02:00] Date-range report start=2026-01-01 end=2026-04-30 status= rows=4675 duration=0.066026926040649 limit=100000 offset=0
+[2026-04-30T08:53:01+02:00] INCOMING GET /stbtotalv1/report_backend.php?action=minmax_date from fe80::58c4:3f95:426d:5206
+[2026-04-30T08:53:07+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-01-01&end=2026-04-30 from fe80::58c4:3f95:426d:5206
+[2026-04-30T08:53:28+02:00] Using literal VALUES for sc_list due to large count=4675
+[2026-04-30T08:53:30+02:00] Date-range report start=2026-01-01 end=2026-04-30 status= rows=4675 duration=0.18406510353088 limit=100000 offset=0
+[2026-04-30T08:55:03+02:00] INCOMING GET /stbtotalv1/report_backend.php?slc=SLC%2F2603%2F00381 from fe80::58c4:3f95:426d:5206
+[2026-04-30T08:55:04+02:00] SLC lookup 'SLC/2603/00381' rows=1 duration=0.0002140998840332 limit=100000 offset=0
+[2026-04-30T09:47:19+02:00] INCOMING GET /stbtotalv1/report_backend.php?action=minmax_date from 192.168.0.169
+[2026-04-30T09:47:27+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-01-01&end=2026-04-30 from 192.168.0.169
+[2026-04-30T09:47:27+02:00] Using literal VALUES for sc_list due to large count=4698
+[2026-04-30T09:47:29+02:00] Date-range report start=2026-01-01 end=2026-04-30 status= rows=4698 duration=0.092265844345093 limit=100000 offset=0
+[2026-04-30T10:26:07+02:00] INCOMING GET /stbtotalv1/report_backend.php?slc=SLC%2F2603%2F00381 from fe80::58c4:3f95:426d:5206
+[2026-04-30T10:26:08+02:00] SLC lookup 'SLC/2603/00381' rows=1 duration=6.5088272094727E-5 limit=100000 offset=0
+[2026-04-30T10:26:11+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-03-01&end=2026-04-30 from fe80::58c4:3f95:426d:5206
+[2026-04-30T10:26:11+02:00] Using literal VALUES for sc_list due to large count=2577
+[2026-04-30T10:26:13+02:00] Date-range report start=2026-03-01 end=2026-04-30 status= rows=2577 duration=0.52134585380554 limit=100000 offset=0
+[2026-04-30T10:26:25+02:00] INCOMING GET /stbtotalv1/report_backend.php?slc=SLC%2F2603%2F00381 from fe80::58c4:3f95:426d:5206
+[2026-04-30T10:26:26+02:00] SLC lookup 'SLC/2603/00381' rows=1 duration=5.8889389038086E-5 limit=100000 offset=0
+[2026-04-30T10:26:26+02:00] INCOMING GET /stbtotalv1/report_backend.php?slc=SLC%2F2603%2F00381 from fe80::58c4:3f95:426d:5206
+[2026-04-30T10:26:27+02:00] SLC lookup 'SLC/2603/00381' rows=1 duration=5.9127807617188E-5 limit=100000 offset=0
+[2026-04-30T10:28:48+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-04-01&end=2026-04-30 from fe80::58c4:3f95:426d:5206
+[2026-04-30T10:28:49+02:00] Date-range report start=2026-04-01 end=2026-04-30 status= rows=1433 duration=0.018805980682373 limit=100000 offset=0
+[2026-04-30T10:29:04+02:00] INCOMING GET /stbtotalv1/report_backend.php?slc=SLC%2F2603%2F00381 from fe80::58c4:3f95:426d:5206
+[2026-04-30T10:29:05+02:00] SLC lookup 'SLC/2603/00381' rows=1 duration=6.5088272094727E-5 limit=100000 offset=0
+[2026-04-30T10:30:31+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-04-01&end=2026-04-30 from fe80::58c4:3f95:426d:5206
+[2026-04-30T10:30:32+02:00] Date-range report start=2026-04-01 end=2026-04-30 status= rows=1433 duration=0.024122953414917 limit=100000 offset=0
+[2026-05-02T06:06:51+02:00] INCOMING GET /stbtotalv1/report_backend.php?action=minmax_date from fe80::58c4:3f95:426d:5206
+[2026-05-03T12:21:44+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-03-30&end=2026-04-30 from fe80::58c4:3f95:426d:5206
+[2026-05-03T12:21:45+02:00] Date-range report start=2026-03-30 end=2026-04-30 status= rows=1587 duration=0.035884857177734 limit=100000 offset=0
+[2026-05-03T13:05:44+02:00] INCOMING GET /stbtotalv1/report_backend.php?slc=slc%2F2603%2F00381 from fe80::58c4:3f95:426d:5206
+[2026-05-03T13:05:45+02:00] SLC lookup 'slc/2603/00381' rows=1 duration=0.00019097328186035 limit=100000 offset=0
+[2026-05-04T05:40:28+02:00] INCOMING GET /stbtotalv1/report_backend.php?slc=slc%2F2603%2F00381 from fe80::58c4:3f95:426d:5206
+[2026-05-04T05:40:29+02:00] SLC lookup 'slc/2603/00381' rows=1 duration=6.9141387939453E-5 limit=100000 offset=0
+[2026-05-04T05:40:43+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-03-01&end=2026-04-30 from fe80::58c4:3f95:426d:5206
+[2026-05-04T05:40:43+02:00] Using literal VALUES for sc_list due to large count=2595
+[2026-05-04T05:40:45+02:00] Date-range report start=2026-03-01 end=2026-04-30 status= rows=2595 duration=0.54372191429138 limit=100000 offset=0
+[2026-05-04T05:40:47+02:00] INCOMING GET /stbtotalv1/report_backend.php?slc=slc%2F2603%2F00381 from fe80::58c4:3f95:426d:5206
+[2026-05-04T05:40:47+02:00] SLC lookup 'slc/2603/00381' rows=1 duration=0.00023198127746582 limit=100000 offset=0
+[2026-05-04T06:33:32+02:00] INCOMING GET /stbtotalv1/report_backend.php?slc=slc%2F2603%2F00381 from fe80::58c4:3f95:426d:5206
+[2026-05-04T06:33:32+02:00] SLC lookup 'slc/2603/00381' rows=1 duration=0.00030112266540527 limit=100000 offset=0
+[2026-05-04T08:28:17+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-03-01&end=2026-04-30 from fe80::58c4:3f95:426d:5206
+[2026-05-04T08:28:17+02:00] Using literal VALUES for sc_list due to large count=2595
+[2026-05-04T08:28:18+02:00] Date-range report start=2026-03-01 end=2026-04-30 status= rows=2595 duration=0.53713893890381 limit=100000 offset=0
+[2026-05-05T04:56:12+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-03-30&end=2026-04-30 from 2001:448a:c0f0:368a:7f08:85a7:623d:1942
+[2026-05-05T04:56:13+02:00] Date-range report start=2026-03-30 end=2026-04-30 status= rows=1587 duration=0.029202938079834 limit=100000 offset=0
+[2026-05-19T05:46:14+02:00] INCOMING GET /stbtotalv1/report_backend.php?action=minmax_date from fe80::410d:7442:a96c:4766
+[2026-05-19T05:46:18+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-04-19&end=2026-05-19 from fe80::410d:7442:a96c:4766
+[2026-05-19T05:46:33+02:00] Date-range report start=2026-04-19 end=2026-05-19 status= rows=1257 duration=0.07239294052124 limit=100000 offset=0
+[2026-05-19T05:47:25+02:00] INCOMING POST /stbtotalv1/report_backend.php from 192.168.0.53
+[2026-05-19T05:47:30+02:00] INCOMING POST /stbtotalv1/report_backend.php from fe80::410d:7442:a96c:4766
+[2026-05-19T10:52:28+02:00] INCOMING GET /stbtotalv1/report_backend.php?action=minmax_date from 192.168.0.169
+[2026-05-19T10:52:29+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-04-19&end=2026-05-19 from 192.168.0.169
+[2026-05-19T10:52:30+02:00] Date-range report start=2026-04-19 end=2026-05-19 status= rows=1309 duration=0.032651901245117 limit=100000 offset=0
+[2026-05-25T09:20:21+02:00] INCOMING GET /stbtotalv1/report_backend.php?action=minmax_date from 2001:448a:c0f0:375d:52f3:fd8:336:c15d
+[2026-05-25T09:20:23+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-04-25&end=2026-05-25 from 2001:448a:c0f0:375d:52f3:fd8:336:c15d
+[2026-05-25T09:20:24+02:00] Date-range report start=2026-04-25 end=2026-05-25 status= rows=1196 duration=0.019291162490845 limit=100000 offset=0
+[2026-05-26T03:04:44+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-04-25&end=2026-05-25 from 2001:448a:c0f0:375d:52f3:fd8:336:c15d
+[2026-05-26T03:04:44+02:00] Date-range report start=2026-04-25 end=2026-05-25 status= rows=1234 duration=0.029727220535278 limit=100000 offset=0
+[2026-05-26T03:04:45+02:00] INCOMING GET /stbtotalv1/report_backend.php?action=minmax_date from 2001:448a:c0f0:375d:52f3:fd8:336:c15d
+[2026-05-28T07:01:59+02:00] INCOMING GET /stbtotalv1/report_backend.php?action=minmax_date from 2001:448a:c0f0:375d:52f3:fd8:336:c15d
+[2026-05-29T08:51:53+02:00] INCOMING GET /stbtotalv1/report_backend.php?action=minmax_date from 2001:448a:c0f0:375d:52f3:fd8:336:c15d
+[2026-05-29T08:52:01+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-05-01&end=2026-05-29 from 2001:448a:c0f0:375d:52f3:fd8:336:c15d
+[2026-05-29T08:52:02+02:00] Date-range report start=2026-05-01 end=2026-05-29 status= rows=1123 duration=0.12552785873413 limit=100000 offset=0
+[2026-05-29T09:49:30+02:00] INCOMING POST /stbtotalv1/report_backend.php from 2001:448a:c0f0:375d:52f3:fd8:336:c15d
+[2026-05-29T09:49:32+02:00] INCOMING POST /stbtotalv1/report_backend.php from 2001:448a:c0f0:375d:52f3:fd8:336:c15d
+[2026-05-29T09:49:45+02:00] INCOMING POST /stbtotalv1/report_backend.php from 2001:448a:c0f0:375d:52f3:fd8:336:c15d
+[2026-06-02T02:29:57+02:00] INCOMING GET /stbtotalv1/report_backend.php?action=minmax_date from 2001:448a:c0f0:616c:1383:acbc:d8bf:34e7
+[2026-06-02T06:21:22+02:00] INCOMING GET /stbtotalv1/report_backend.php?action=minmax_date from 2001:448a:c0f0:7a1f:d2f:5fe8:f947:c450
+[2026-06-02T08:06:12+02:00] INCOMING GET /stbtotalv1/report_backend.php?action=minmax_date from 2001:448a:c0f0:7ccb:ea9d:2258:b463:c153
+[2026-06-02T08:06:14+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-05-02&end=2026-06-02 from 2001:448a:c0f0:7ccb:ea9d:2258:b463:c153
+[2026-06-02T08:06:15+02:00] Date-range report start=2026-05-02 end=2026-06-02 status= rows=1153 duration=0.020192861557007 limit=100000 offset=0
+[2026-06-22T04:32:28+02:00] INCOMING GET /stbtotalv1/report_backend.php?action=minmax_date from 2001:448a:c0f0:4ea8:fdf8:4dc3:15fb:60d6
+[2026-06-22T04:32:29+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-05-22&end=2026-06-22 from 2001:448a:c0f0:4ea8:fdf8:4dc3:15fb:60d6
+[2026-06-22T04:32:31+02:00] Date-range report start=2026-05-22 end=2026-06-22 status= rows=1184 duration=0.039596796035767 limit=100000 offset=0
+[2026-06-22T04:32:36+02:00] INCOMING POST /stbtotalv1/report_backend.php from 2001:448a:c0f0:4ea8:fdf8:4dc3:15fb:60d6
+[2026-06-22T04:32:38+02:00] INCOMING POST /stbtotalv1/report_backend.php from 2001:448a:c0f0:4ea8:fdf8:4dc3:15fb:60d6
+[2026-06-22T04:34:02+02:00] INCOMING POST /stbtotalv1/report_backend.php from 2001:448a:c0f0:4ea8:fdf8:4dc3:15fb:60d6
+[2026-06-22T05:03:11+02:00] INCOMING GET /stbtotalv1/report_backend.php?action=minmax_date from 2001:448a:c0f0:4ea8:fdf8:4dc3:15fb:60d6
+[2026-06-22T05:03:14+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-05-22&end=2026-06-22 from 2001:448a:c0f0:4ea8:fdf8:4dc3:15fb:60d6
+[2026-06-22T05:03:14+02:00] Date-range report start=2026-05-22 end=2026-06-22 status= rows=1187 duration=0.014223098754883 limit=100000 offset=0
+[2026-07-17T03:33:07+02:00] INCOMING GET /stbtotalv1/report_backend.php?action=minmax_date from 2001:448a:c0f0:1c8c:5615:2994:bd27:1112
+[2026-08-21T04:18:59+02:00] INCOMING GET /stbtotalv1/report_backend.php?action=minmax_date from 2001:448a:c0f0:5b3e:5e05:5219:5c63:b82e
+[2026-08-21T04:19:00+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2026-07-21&end=2026-08-21 from 2001:448a:c0f0:5b3e:5e05:5219:5c63:b82e
+[2026-08-21T04:19:01+02:00] Date-range report start=2026-07-21 end=2026-08-21 status= rows=1381 duration=0.016446113586426 limit=100000 offset=0
+[2026-08-21T04:19:28+02:00] INCOMING GET /stbtotalv1/report_backend.php?start=2009-07-21&end=2009-08-21 from 2001:448a:c0f0:5b3e:5e05:5219:5c63:b82e
+[2026-08-21T04:19:29+02:00] Date-range report start=2009-07-21 end=2009-08-21 status= rows=930 duration=0.01098895072937 limit=100000 offset=0
+[2026-08-21T04:19:34+02:00] INCOMING POST /stbtotalv1/report_backend.php from 2001:448a:c0f0:5b3e:5e05:5219:5c63:b82e
+[2026-08-21T04:19:36+02:00] INCOMING POST /stbtotalv1/report_backend.php from 2001:448a:c0f0:5b3e:5e05:5219:5c63:b82e

@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="sps_logo1.png">
+<title>Dashboard Beban Corr</title>
+<style>
+/* ── Reset & Base ─────────────────────────────────────────────── */
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
+  background:#f5f5f5;min-height:100vh;color:#222;font-size:13px;}
+
+/* ── Navbar ───────────────────────────────────────────────────── */
+.navbar{background:#d32f2f;padding:12px 24px;display:flex;
+  justify-content:space-between;align-items:center;
+  position:sticky;top:0;z-index:200;
+  box-shadow:0 2px 12px rgba(0,0,0,0.08);}
+.navbar-brand{font-size:1.2rem;font-weight:700;color:#fff;
+    display:flex;align-items:center;gap:8px;}
+.nav-links{display:flex;gap:8px;}
+.nav-link{color:#fff;text-decoration:none;padding:6px 14px;
+    border-radius:4px;font-size:0.82rem;transition:.2s;}
+.nav-link:hover,.nav-link.active{background:#c62828;color:#fff;}
+.nav-right{display:flex;align-items:center;gap:12px;}
+.badge-user{background:#f57c00;color:#fff;
+  padding:5px 14px;border-radius:20px;font-size:.8rem;font-weight:600;}
+.btn-logout{background:#1565c0;color:#fff;border:none;padding:6px 16px;
+  border-radius:16px;cursor:pointer;font-size:.8rem;font-weight:600;transition:.2s;}
+.btn-logout:hover{background:#0d47a1;}
+
+/* ── Layout ───────────────────────────────────────────────────── */
+.page-wrap{max-width:100%;padding:16px 20px;}
+
+/* ── Stats cards ──────────────────────────────────────────────── */
+.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+           gap:12px;margin-bottom:16px;}
+.stat-card{background:#fff;border:1px solid #d32f2f;border-radius:8px;
+           padding:14px 18px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,0.07);}
+.stat-num{font-size:1.8rem;font-weight:700;color:#d32f2f;}
+.stat-lbl{font-size:.72rem;color:#757575;margin-top:4px;text-transform:uppercase;
+          letter-spacing:.5px;}
+
+/* ── Controls ─────────────────────────────────────────────────── */
+.controls{background:#fff;border:1px solid #bdbdbd;border-radius:8px;
+          padding:14px 18px;margin-bottom:14px;box-shadow:0 2px 8px rgba(0,0,0,0.07);}
+.ctrl-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:10px;}
+.ctrl-row:last-child{margin-bottom:0;}
+.ctrl-input,.ctrl-select{background:#e0e0e0;border:1px solid #bdbdbd;color:#222;
+  padding:7px 11px;border-radius:5px;font-size:.82rem;outline:none;transition:.2s;}
+.ctrl-input:focus,.ctrl-select:focus{border-color:#d32f2f;box-shadow:0 0 0 2px #ffcdd2;}
+.ctrl-input{min-width:160px;}
+.ctrl-select{min-width:140px;}
+.btn{padding:7px 16px;border:none;border-radius:5px;cursor:pointer;
+     font-size:.82rem;font-weight:600;transition:.2s;display:inline-flex;
+     align-items:center;gap:6px;}
+.btn-primary{background:#d32f2f;color:#fff;}
+.btn-primary:hover{background:#c62828;}
+.btn-red{background:#bdbdbd;color:#222;}
+.btn-red:hover{background:#757575;color:#fff;}
+.btn-green{background:#388e3c;color:#fff;}
+.btn-green:hover{background:#2e7d32;}
+.btn-amber{background:#f57c00;color:#fff;}
+.btn-amber:hover{background:#e65100;}
+.lbl-filter{font-size:.78rem;color:#757575;white-space:nowrap;font-weight:600;}
+
+/* ── Legend ───────────────────────────────────────────────────── */
+.legend-row{display:flex;gap:14px;flex-wrap:wrap;align-items:center;
+            font-size:.75rem;margin-bottom:10px;}
+.leg-item{display:flex;align-items:center;gap:5px;}
+.leg-dot{width:10px;height:10px;border-radius:2px;}
+
+/* ── Table container ──────────────────────────────────────────── */
+.tbl-wrap{background:#fff;border:1px solid #bdbdbd;border-radius:12px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.06);}
+.tbl-header{padding:12px 18px;display:flex;justify-content:space-between;
+            align-items:center;border-bottom:1.5px solid #d32f2f;background:#ffebee;}
+.tbl-title{font-weight:700;font-size:.95rem;color:#d32f2f;}
+.tbl-count{font-size:.78rem;color:#d32f2f;}
+
+/* ── Scroll ───────────────────────────────────────────────────– */
+.scroll-main{overflow-x:auto;}
+.scroll-main::-webkit-scrollbar{height:6px;}
+.scroll-main::-webkit-scrollbar-track{background:#e0e0e0;}
+.scroll-main::-webkit-scrollbar-thumb{background:#d32f2f;border-radius:3px;}
+
+/* ── Table ────────────────────────────────────────────────────── */
+table{border-collapse:collapse;width:100%;background:#fff;}
+thead th,tbody td{white-space:nowrap;padding:6px 9px;
+                  border-right:1px solid #bdbdbd;border-bottom:1px solid #bdbdbd;}
+thead th{background:#ffebee;color:#d32f2f;font-size:.72rem;font-weight:700;
+         text-transform:uppercase;letter-spacing:.4px;position:sticky;top:0;z-index:10;}
+tbody tr:hover td{background:#ffebee!important;}
+.num-col{text-align:right;}
+.zero{color:#757575;}
+
+/* ── Pagination ───────────────────────────────────────────────── */
+.pagination{display:flex;justify-content:center;align-items:center;
+            gap:12px;padding:14px;border-top:1px solid #bdbdbd;font-size:.82rem;}
+.pagination button{background:#d32f2f;color:#fff;border:none;padding:5px 14px;
+                   border-radius:4px;cursor:pointer;}
+.pagination button:disabled{background:#e0e0e0;color:#bdbdbd;cursor:default;}
+.pager-info{color:#757575;}
+
+/* ── Loading ──────────────────────────────────────────────────– */
+.loading-row td{text-align:center;padding:30px;color:#757575;}
+.spinner{display:inline-block;width:20px;height:20px;border:3px solid #bdbdbd;
+         border-top:3px solid #d32f2f;border-radius:50%;animation:spin .8s linear infinite;
+         vertical-align:middle;margin-right:8px;}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.filter-tag{background:#ffebee;color:#d32f2f;border-radius:12px;
+            padding:3px 10px;font-size:.72rem;display:inline-flex;
+            align-items:center;gap:6px;}
+.filter-tag span{cursor:pointer;}
+.filter-tag span:hover{color:#c62828;}
+
+.note-box{background:#fff3e0;border:1px solid #f57c00;border-radius:6px;
+          padding:10px 14px;margin-bottom:12px;font-size:.78rem;color:#e65100;}
+</style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar">
+  <div class="navbar-brand">🏭 Dashboard Beban Corr</div>
+  <div class="nav-right">
+    <span class="badge-user">👤 <span id="userLabel">User</span></span>
+    <button class="btn-logout" onclick="if(confirm('Logout?'))window.location='index.html'">🚪 Logout</button>
+  </div>
+</nav>
+
+<div class="page-wrap">
+
+  <!-- Stats -->
+  <div class="stats-row">
+    <div class="stat-card"><div class="stat-num" id="statPlanCorr">-</div><div class="stat-lbl">Total Plan (pcs)</div></div>
+    <div class="stat-card"><div class="stat-num" id="statHslCorr">-</div><div class="stat-lbl">Total Hasil (pcs)</div></div>
+    <div class="stat-card"><div class="stat-num" id="statRusakCorr">-</div><div class="stat-lbl">Total Rusak (pcs)</div></div>
+    <div class="stat-card"><div class="stat-num" id="statEfisiensi">-</div><div class="stat-lbl">Efisiensi (%)</div></div>
+  </div>
+
+  <div class="note-box">
+    ℹ️ <strong>Catatan:</strong> Beban Corr menampilkan data Planning Corrugating (pesanan) vs Hasil Corrugating (realisasi). Efisiensi = (Hasil ÷ Plan) × 100%.
+  </div>
+
+  <!-- Controls -->
+  <div class="controls">
+    <div class="ctrl-row">
+      <span class="lbl-filter">MC No.:</span>
+      <input type="text" class="ctrl-input" id="inMC" placeholder="Cari MC…">
+
+      <span class="lbl-filter">Tgl Kirim:</span>
+      <input type="date" class="ctrl-input" id="inDateFrom">
+      <span class="lbl-filter">s/d</span>
+      <input type="date" class="ctrl-input" id="inDateTo">
+
+      <button class="btn btn-primary" onclick="loadData(1)">⚙️ Filter</button>
+      <button class="btn btn-red" onclick="clearFilters()">✖ Clear</button>
+      <button class="btn btn-green" onclick="loadData(1)">🔄 Refresh</button>
+      <button class="btn btn-amber" id="btnExcel" onclick="exportExcel()">📥 Excel</button>
+    </div>
+    <div id="activeTags" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px;"></div>
+  </div>
+
+  <!-- Table -->
+  <div class="tbl-wrap">
+    <div class="tbl-header">
+      <span class="tbl-title">🏭 Beban Corrugating — Data Planning vs Hasil</span>
+      <span class="tbl-count" id="tblCount">— records</span>
+    </div>
+    <div class="scroll-main" id="scrollMain" style="max-height:62vh;overflow-y:auto;">
+      <div id="tblContent">
+        <table><tbody><tr class="loading-row"><td colspan="10">
+          <span class="spinner"></span>Memuat data…
+        </td></tr></tbody></table>
+      </div>
+    </div>
+    <div class="pagination">
+      <button id="btnPrev" disabled onclick="goPage(-1)">◀ Prev</button>
+      <span class="pager-info">Hal <b id="pgCur">1</b> / <b id="pgTotal">1</b> — <span id="pgRec">0</span> records</span>
+      <button id="btnNext" disabled onclick="goPage(1)">Next ▶</button>
+    </div>
+  </div>
+
+</div><!-- /page-wrap -->
+
+<!-- SheetJS for XLSX export -->
+<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+<script>
+// ── Config ──────────────────────────────────────────────────────────────────
+const API_CANDIDATES = [
+  'get_beban_corr.php',
+  'get_realisasi_terpadu.php'
+];
+let API = null;
+
+async function resolveApi() {
+  if (API) return API;
+  for (const ep of API_CANDIDATES) {
+    try {
+      const probe = await fetch(ep + '?action=beban_corr&limit=1', { method: 'GET' });
+      if (!probe.ok) continue;
+      const j = await probe.json().catch(() => null);
+      if (j && typeof j.success !== 'undefined') { API = ep; return API; }
+    } catch (e) {}
+  }
+  throw new Error('Tidak dapat menemukan endpoint API. Periksa file get_beban_corr.php pada server.');
+}
+
+let currentPage = 1, totalPages = 1, totalRec = 0;
+const LIMIT = 200;
+
+// ── Utilities ───────────────────────────────────────────────────────────────
+const fmt = n => (+n||0).toLocaleString('id-ID');
+const fmtPct = n => Number(n||0).toLocaleString('id-ID', {minimumFractionDigits:1, maximumFractionDigits:1});
+const fmtDate = s => {
+  if (!s) return '-';
+  const d = new Date(s);
+  if (isNaN(d)) return s;
+  return `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`;
+};
+const parseNum = v => {
+  if (v === null || v === undefined || v === '') return 0;
+  const s = String(v).replace(/[ ,]+/g,'');
+  const n = parseFloat(s);
+  return Number.isFinite(n) ? n : 0;
+};
+const $ = id => document.getElementById(id);
+const cell = (v, cls='') => `<td class="${cls}">${v ?? '-'}</td>`;
+const numCell = (v) => `<td class="num-col">${fmt(v || 0)}</td>`;
+
+// ── Date helpers ─────────────────────────────────────────────────────────────
+function toIso(d) { return d.toISOString().slice(0, 10); }
+function today()     { return toIso(new Date()); }
+function monthStart(){ const d=new Date(); d.setDate(1); return toIso(d); }
+
+// ── Stats ────────────────────────────────────────────────────────────────────
+function updateStats(data) {
+  let totalPlan = 0, totalHsl = 0, totalRusak = 0;
+  
+  data.forEach(r => {
+    totalPlan += parseNum(r.plan_corr);
+    totalHsl += parseNum(r.hsl_corr);
+    totalRusak += parseNum(r.rsak_corr);
+  });
+  
+  const efisiensi = totalPlan > 0 ? (totalHsl / totalPlan * 100) : 0;
+  
+  $('statPlanCorr').textContent = fmt(totalPlan);
+  $('statHslCorr').textContent = fmt(totalHsl);
+  $('statRusakCorr').textContent = fmt(totalRusak);
+  $('statEfisiensi').textContent = fmtPct(efisiensi);
+}
+
+// ── Table render ─────────────────────────────────────────────────────────────
+function renderTable(rows) {
+  if (!rows.length) {
+    $('tblContent').innerHTML = `<table><tbody><tr class="loading-row">
+      <td colspan="10" style="color:#757575">Tidak ada data ditemukan.</td></tr></tbody></table>`;
+    updateStats([]);
+    return;
+  }
+
+  let html = `<table>
+  <thead>
+  <tr>
+    <th>No</th>
+    <th>MC No.</th>
+    <th>Tgl Kirim</th>
+    <th>Plan (pcs)</th>
+    <th>Hasil (pcs)</th>
+    <th>Rusak (pcs)</th>
+    <th>Efisiensi (%)</th>
+    <th>Selisih (pcs)</th>
+    <th>Keterangan</th>
+  </tr>
+  </thead><tbody>`;
+
+  rows.forEach(r => {
+    const plan = parseNum(r.plan_corr);
+    const hsl = parseNum(r.hsl_corr);
+    const rusak = parseNum(r.rsak_corr);
+    const selisih = plan - hsl;
+    const efisiensi = plan > 0 ? (hsl / plan * 100) : 0;
+    const ket = selisih > 0 ? '⚠️ Kurang' : (selisih < 0 ? '✓ Lebih' : '✓ Pas');
+
+    html += `<tr>
+      ${cell(r.no)}
+      ${cell(r.cNoMc || '-')}
+      ${cell(fmtDate(r.tgl_kirim))}
+      ${numCell(plan)}
+      ${numCell(hsl)}
+      ${numCell(rusak)}
+      <td class="num-col">${fmtPct(efisiensi)}</td>
+      <td class="num-col">${fmt(selisih)}</td>
+      ${cell(ket)}
+    </tr>`;
+  });
+
+  html += '</tbody></table>';
+  $('tblContent').innerHTML = html;
+  $('tblCount').textContent = `${rows.length} records`;
+  updateStats(rows);
+}
+
+// ── Load data ────────────────────────────────────────────────────────────────
+async function loadData(page) {
+  if (page) currentPage = page;
+  $('tblContent').innerHTML = `<table><tbody><tr class="loading-row"><td colspan="10">
+    <span class="spinner"></span>Memuat data…</td></tr></tbody></table>`;
+
+  try { await resolveApi(); }
+  catch (err) {
+    alert('API tidak tersedia: ' + err.message);
+    return;
+  }
+
+  const mc = $('inMC').value.trim();
+  const dateFrom = $('inDateFrom').value;
+  const dateTo = $('inDateTo').value;
+
+  const p = new URLSearchParams({ action: 'beban_corr', limit: LIMIT, offset: (currentPage - 1) * LIMIT });
+  
+  if (mc) p.append('mc', mc);
+  if (dateFrom) p.append('date_from', dateFrom);
+  if (dateTo) p.append('date_to', dateTo);
+
+  updateActiveTags({mc, dateFrom, dateTo});
+
+  try {
+    const res = await fetch(`${API}?${p}`);
+    const data = await res.json();
+    if (!data.success) throw new Error(data.message || 'Server error');
+
+    totalRec = data.pagination.total_records;
+    totalPages = data.pagination.total_pages;
+    currentPage = data.pagination.current_page;
+
+    $('pgCur').textContent = currentPage;
+    $('pgTotal').textContent = totalPages;
+    $('pgRec').textContent = fmt(totalRec);
+    $('btnPrev').disabled = !data.pagination.has_prev;
+    $('btnNext').disabled = !data.pagination.has_next;
+
+    renderTable(data.data || []);
+  } catch (e) {
+    $('tblContent').innerHTML = `<table><tbody><tr class="loading-row">
+      <td colspan="10" style="color:#ef5350">❌ Error: ${e.message}</td></tr></tbody></table>`;
+  }
+}
+
+function goPage(d) {
+  const np = currentPage + d;
+  if (np < 1 || np > totalPages) return;
+  currentPage = np; loadData();
+}
+
+// ── Active filter tags ───────────────────────────────────────────────────────
+function updateActiveTags(f) {
+  const labels = { mc: 'MC', dateFrom: 'Tgl Dari', dateTo: 'Tgl Sampai' };
+  const wrap = $('activeTags');
+  wrap.innerHTML = '';
+  Object.entries(f).forEach(([k,v]) => {
+    if (!v) return;
+    const tag = document.createElement('span');
+    tag.className = 'filter-tag';
+    tag.innerHTML = `${labels[k]||k}: <b>${v}</b> <span onclick="clearOne('${k}')">×</span>`;
+    wrap.appendChild(tag);
+  });
+}
+
+function clearOne(key) {
+  const map = {mc:'inMC', dateFrom:'inDateFrom', dateTo:'inDateTo'};
+  if (map[key]) $(map[key]).value = '';
+  loadData(1);
+}
+
+function clearFilters() {
+  ['inMC','inDateFrom','inDateTo'].forEach(id=>{ const el = $(id); if(el) el.value = ''; });
+  $('inDateFrom').value = monthStart();
+  $('inDateTo').value = today();
+  loadData(1);
+}
+
+// ── Export Excel ──────────────────────────────────────────────────────────────
+async function exportExcel() {
+  const btn = $('btnExcel');
+  const origLabel = btn.innerHTML;
+  btn.disabled = true;
+  btn.innerHTML = '⏳ Export…';
+
+  try {
+    const p = new URLSearchParams({ action: 'beban_corr', limit: 0, offset: 0 });
+    const mc = $('inMC').value.trim();
+    const dateFrom = $('inDateFrom').value;
+    const dateTo = $('inDateTo').value;
+    
+    if (mc) p.append('mc', mc);
+    if (dateFrom) p.append('date_from', dateFrom);
+    if (dateTo) p.append('date_to', dateTo);
+
+    const res = await fetch(`${API}?${p}`);
+    const data = await res.json();
+    
+    if (!data.success) throw new Error(data.message);
+
+    const rows = data.data || [];
+    const aoa = [['No','MC No.','Tgl Kirim','Plan (pcs)','Hasil (pcs)','Rusak (pcs)','Efisiensi (%)','Selisih (pcs)','Keterangan']];
+    
+    rows.forEach((r,i) => {
+      const plan = parseNum(r.plan_corr);
+      const hsl = parseNum(r.hsl_corr);
+      const rusak = parseNum(r.rsak_corr);
+      const selisih = plan - hsl;
+      const efisiensi = plan > 0 ? (hsl / plan * 100) : 0;
+      const ket = selisih > 0 ? 'Kurang' : (selisih < 0 ? 'Lebih' : 'Pas');
+      
+      aoa.push([i+1, r.cNoMc||'-', fmtDate(r.tgl_kirim), plan, hsl, rusak, efisiensi.toFixed(1), selisih, ket]);
+    });
+
+    const wb = XLSX.utils.book_new();
+    const ws = XLSX.utils.aoa_to_sheet(aoa);
+    ws['!cols'] = [{wch:5},{wch:12},{wch:12},{wch:12},{wch:12},{wch:12},{wch:14},{wch:12},{wch:14}];
+    XLSX.utils.book_append_sheet(wb, ws, 'Beban Corr');
+    XLSX.writeFile(wb, 'beban_corr_' + new Date().toISOString().slice(0,10) + '.xlsx');
+  } catch(e) {
+    alert('Export gagal: ' + e.message);
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = origLabel;
+  }
+}
+
+// ── Init ─────────────────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  $('inDateFrom').value = monthStart();
+  $('inDateTo').value = today();
+  loadData(1);
+});
+</script>
+</body>
+</html>

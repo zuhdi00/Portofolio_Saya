@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Perhitungan Bahan & Biaya Pemasangan Router/Extender</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f7f7f7; padding: 30px; }
+        h2 { color: #2d4a7c; }
+        table { border-collapse: collapse; width: 100%; background: #fff; }
+        th, td { border: 1px solid #ccc; padding: 8px 12px; text-align: left; }
+        th { background: #e3eafc; }
+        tfoot td { font-weight: bold; background: #f0f4ff; }
+        .export-btn { margin: 20px 0; padding: 10px 20px; background: #2d4a7c; color: #fff; border: none; border-radius: 5px; cursor: pointer; }
+        .export-btn:hover { background: #1a2e4b; }
+    </style>
+</head>
+<body>
+    <h2>Perhitungan Bahan & Biaya Pemasangan Router/Extender WiFi</h2>
+    <table id="biayaTable">
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Nama Barang</th>
+                <th>Spesifikasi</th>
+                <th>Jumlah</th>
+                <th>Harga Satuan (Rp)</th>
+                <th>Total (Rp)</th>
+                <th>Keterangan</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>Router/Extender WiFi</td>
+                <td>TP-Link / Tenda / Xiaomi</td>
+                <td contenteditable="true">2</td>
+                <td contenteditable="true">350000</td>
+                <td></td>
+                <td>Untuk area pabrik</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Kabel LAN</td>
+                <td>Cat5e/6, 10 meter</td>
+                <td contenteditable="true">3</td>
+                <td contenteditable="true">35000</td>
+                <td></td>
+                <td>Untuk koneksi antar perangkat</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Dongle WiFi USB</td>
+                <td>TP-Link / Tenda</td>
+                <td contenteditable="true">5</td>
+                <td contenteditable="true">75000</td>
+                <td></td>
+                <td>Untuk komputer tanpa WiFi</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>Adaptor Listrik</td>
+                <td>5V/9V sesuai router</td>
+                <td contenteditable="true">2</td>
+                <td contenteditable="true">40000</td>
+                <td></td>
+                <td>Cadangan adaptor</td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>Kabel Power Listrik</td>
+                <td>3 meter</td>
+                <td contenteditable="true">2</td>
+                <td contenteditable="true">25000</td>
+                <td></td>
+                <td>Untuk pemasangan di lokasi jauh</td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="5">Total Biaya</td>
+                <td id="totalBiaya"></td>
+                <td></td>
+            </tr>
+        </tfoot>
+    </table>
+    <button class="export-btn" onclick="exportToExcel()">Export to Excel (.xlsx)</button>
+
+    <!-- SheetJS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <script>
+        function updateTotals() {
+            let total = 0;
+            const rows = document.querySelectorAll('#biayaTable tbody tr');
+            rows.forEach(row => {
+                const jumlah = parseInt(row.cells[3].textContent) || 0;
+                const harga = parseInt(row.cells[4].textContent) || 0;
+                const subtotal = jumlah * harga;
+                row.cells[5].textContent = subtotal.toLocaleString('id-ID');
+                total += subtotal;
+            });
+            document.getElementById('totalBiaya').textContent = total.toLocaleString('id-ID');
+        }
+        document.querySelectorAll('#biayaTable tbody td[contenteditable]').forEach(cell => {
+            cell.addEventListener('input', updateTotals);
+        });
+        updateTotals();
+
+        function exportToExcel() {
+            updateTotals();
+            const table = document.getElementById('biayaTable');
+            const wb = XLSX.utils.table_to_book(table, {sheet: 'Biaya Router'});
+            XLSX.writeFile(wb, 'Perhitungan_Biaya_Router.xlsx');
+        }
+    </script>
+</body>
+</html>

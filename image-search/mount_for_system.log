@@ -1,0 +1,250 @@
+===== Mount run at 28/05/2026 12:15:09.40 =====
+Stopping Apache...
+Using net executable: C:\Windows\System32\net.exe
+Using PsExec to run net use as SYSTEM...
+
+PsExec v2.43 - Execute processes remotely
+Copyright (C) 2001-2023 Mark Russinovich
+Sysinternals - www.sysinternals.com
+
+Connecting to local system...Starting PSEXESVC service on local system...Copying authentication key to EDP2...Error creating key file on EDP2:
+The handle is invalid.
+Mapping status: 
+New connections will be remembered.
+
+
+Status       Local     Remote                    Network
+
+-------------------------------------------------------------------------------
+OK           N:        \\edp2\ee$                Microsoft Windows Network
+OK           O:        \\spsdmz\users$\Driver    Microsoft Windows Network
+OK           P:        \\spsdmz\users$           Microsoft Windows Network
+OK           Q:        \\donald\master$          Microsoft Windows Network
+Unavailable  R:        \\192.168.1.150\dd$       Microsoft Windows Network
+OK           S:        \\192.168.0.150\dd$       Microsoft Windows Network
+OK           T:        \\192.168.0.150\dd$       Microsoft Windows Network
+OK           U:        \\spsdmz\marketing$       Microsoft Windows Network
+OK           V:        \\192.168.0.169\Users\Public\Downloads 
+                                                Microsoft Windows Network
+OK           W:        \\192.168.0.100\ee$       Microsoft Windows Network
+OK           X:        \\spsdmz\ee$              Microsoft Windows Network
+OK           Y:        \\192.168.0.150\dd$       Microsoft Windows Network
+OK           Z:        \\192.168.0.204\Master Design 
+                                                Microsoft Windows Network
+The command completed successfully.
+
+Starting Apache...
+The requested service has already been started.
+
+More help is available by typing NET HELPMSG 2182.
+
+"net start Apache2.4" may have failed 
+Completed at 28/05/2026 12:15:09.64 
+===== Mount run at 28/05/2026 12:15:19.07 =====
+Stopping Apache...
+Using net executable: C:\Windows\System32\net.exe
+Using PsExec to run net use as SYSTEM...
+
+PsExec v2.43 - Execute processes remotely
+Copyright (C) 2001-2023 Mark Russinovich
+Sysinternals - www.sysinternals.com
+
+Connecting to local system...Starting PSEXESVC service on local system...Copying authentication key to EDP2...Error creating key file on EDP2:
+The handle is invalid.
+Mapping status: 
+New connections will be remembered.
+
+
+Status       Local     Remote                    Network
+
+-------------------------------------------------------------------------------
+OK           N:        \\edp2\ee$                Microsoft Windows Network
+OK           O:        \\spsdmz\users$\Driver    Microsoft Windows Network
+OK           P:        \\spsdmz\users$           Microsoft Windows Network
+OK           Q:        \\donald\master$          Microsoft Windows Network
+Unavailable  R:        \\192.168.1.150\dd$       Microsoft Windows Network
+OK           S:        \\192.168.0.150\dd$       Microsoft Windows Network
+OK           T:        \\192.168.0.150\dd$       Microsoft Windows Network
+OK           U:        \\spsdmz\marketing$       Microsoft Windows Network
+OK           V:        \\192.168.0.169\Users\Public\Downloads 
+                                                Microsoft Windows Network
+OK           W:        \\192.168.0.100\ee$       Microsoft Windows Network
+OK           X:        \\spsdmz\ee$              Microsoft Windows Network
+OK           Y:        \\192.168.0.150\dd$       Microsoft Windows Network
+OK           Z:        \\192.168.0.204\Master Design 
+                                                Microsoft Windows Network
+The command completed successfully.
+
+Starting Apache...
+The requested service has already been started.
+
+More help is available by typing NET HELPMSG 2182.
+
+"net start Apache2.4" may have failed 
+Completed at 28/05/2026 12:15:19.28 
+===== Mount run at 29/05/2026 12:38:44.92 =====
+Stopping Apache...
+Using net executable: C:\Windows\System32\net.exe
+Using PsExec to run net use as SYSTEM...
+
+PsExec v2.43 - Execute processes remotely
+Copyright (C) 2001-2023 Mark Russinovich
+Sysinternals - www.sysinternals.com
+
+Connecting to local system...Starting PSEXESVC service on local system...Copying authentication key to EDP2...Error creating key file on EDP2:
+The handle is invalid.
+Mapping status: 
+New connections will be remembered.
+
+
+Status       Local     Remote                    Network
+
+-------------------------------------------------------------------------------
+OK           N:        \\edp2\ee$                Microsoft Windows Network
+OK           O:        \\spsdmz\users$\Driver    Microsoft Windows Network
+OK           P:        \\spsdmz\users$           Microsoft Windows Network
+OK           Q:        \\donald\master$          Microsoft Windows Network
+Unavailable  R:        \\192.168.1.150\dd$       Microsoft Windows Network
+OK           S:        \\192.168.0.150\dd$       Microsoft Windows Network
+OK           T:        \\192.168.0.150\dd$       Microsoft Windows Network
+OK           U:        \\spsdmz\marketing$       Microsoft Windows Network
+OK           V:        \\192.168.0.169\Users\Public\Downloads 
+                                                Microsoft Windows Network
+OK           W:        \\192.168.0.100\ee$       Microsoft Windows Network
+OK           X:        \\spsdmz\ee$              Microsoft Windows Network
+OK           Y:        \\192.168.0.150\dd$       Microsoft Windows Network
+OK           Z:        \\192.168.0.204\Master Design 
+                                                Microsoft Windows Network
+The command completed successfully.
+
+Starting Apache...
+The requested service has already been started.
+
+More help is available by typing NET HELPMSG 2182.
+
+"net start Apache2.4" may have failed 
+Completed at 29/05/2026 12:38:45.48 
+===== Mount run at 29/05/2026 12:39:28.99 =====
+Stopping Apache...
+Using net executable: C:\Windows\System32\net.exe
+Using PsExec to run net use as SYSTEM...
+
+PsExec v2.43 - Execute processes remotely
+Copyright (C) 2001-2023 Mark Russinovich
+Sysinternals - www.sysinternals.com
+
+Connecting to local system...Couldn't install PSEXESVC service:
+The handle is invalid.
+Connecting to local system...Mapping status: 
+New connections will be remembered.
+
+
+Status       Local     Remote                    Network
+
+-------------------------------------------------------------------------------
+OK           N:        \\edp2\ee$                Microsoft Windows Network
+OK           O:        \\spsdmz\users$\Driver    Microsoft Windows Network
+OK           P:        \\spsdmz\users$           Microsoft Windows Network
+OK           Q:        \\donald\master$          Microsoft Windows Network
+Unavailable  R:        \\192.168.1.150\dd$       Microsoft Windows Network
+OK           S:        \\192.168.0.150\dd$       Microsoft Windows Network
+OK           T:        \\192.168.0.150\dd$       Microsoft Windows Network
+OK           U:        \\spsdmz\marketing$       Microsoft Windows Network
+OK           V:        \\192.168.0.169\Users\Public\Downloads 
+                                                Microsoft Windows Network
+OK           W:        \\192.168.0.100\ee$       Microsoft Windows Network
+OK           X:        \\spsdmz\ee$              Microsoft Windows Network
+OK           Y:        \\192.168.0.150\dd$       Microsoft Windows Network
+OK           Z:        \\192.168.0.204\Master Design 
+                                                Microsoft Windows Network
+The command completed successfully.
+
+Starting Apache...
+'net' is not recognized as an internal or external command,
+operable program or batch file.
+"net start Apache2.4" may have failed 
+Completed at 29/05/2026 12:39:29.16 
+===== Mount run at 29/05/2026 12:40:08.04 =====
+Stopping Apache...
+Using net executable: C:\Windows\System32\net.exe
+Using PsExec to run net use as SYSTEM...
+
+PsExec v2.43 - Execute processes remotely
+Copyright (C) 2001-2023 Mark Russinovich
+Sysinternals - www.sysinternals.com
+
+Connecting to local system...Starting PSEXESVC service on local system...Copying authentication key to EDP2...Error creating key file on EDP2:
+The handle is invalid.
+Mapping status: 
+New connections will be remembered.
+
+
+Status       Local     Remote                    Network
+
+-------------------------------------------------------------------------------
+OK           N:        \\edp2\ee$                Microsoft Windows Network
+OK           O:        \\spsdmz\users$\Driver    Microsoft Windows Network
+OK           P:        \\spsdmz\users$           Microsoft Windows Network
+OK           Q:        \\donald\master$          Microsoft Windows Network
+Unavailable  R:        \\192.168.1.150\dd$       Microsoft Windows Network
+OK           S:        \\192.168.0.150\dd$       Microsoft Windows Network
+OK           T:        \\192.168.0.150\dd$       Microsoft Windows Network
+OK           U:        \\spsdmz\marketing$       Microsoft Windows Network
+OK           V:        \\192.168.0.169\Users\Public\Downloads 
+                                                Microsoft Windows Network
+OK           W:        \\192.168.0.100\ee$       Microsoft Windows Network
+OK           X:        \\spsdmz\ee$              Microsoft Windows Network
+OK           Y:        \\192.168.0.150\dd$       Microsoft Windows Network
+OK           Z:        \\192.168.0.204\Master Design 
+                                                Microsoft Windows Network
+The command completed successfully.
+
+Starting Apache...
+The requested service has already been started.
+
+More help is available by typing NET HELPMSG 2182.
+
+"net start Apache2.4" may have failed 
+Completed at 29/05/2026 12:40:08.29 
+===== Mount run at 03/07/2026 14:47:58.13 =====
+Stopping Apache...
+Using net executable: C:\Windows\System32\net.exe
+Using PsExec to run net use as SYSTEM...
+
+PsExec v2.43 - Execute processes remotely
+Copyright (C) 2001-2023 Mark Russinovich
+Sysinternals - www.sysinternals.com
+
+Connecting to local system...Starting PSEXESVC service on local system...Copying authentication key to EDP2...Error creating key file on EDP2:
+The handle is invalid.
+Mapping status: 
+New connections will be remembered.
+
+
+Status       Local     Remote                    Network
+
+-------------------------------------------------------------------------------
+OK           N:        \\edp2\ee$                Microsoft Windows Network
+OK           O:        \\spsdmz\users$\Driver    Microsoft Windows Network
+OK           P:        \\spsdmz\users$           Microsoft Windows Network
+OK           Q:        \\donald\master$          Microsoft Windows Network
+OK           R:        \\192.168.1.150\dd$       Microsoft Windows Network
+OK           S:        \\192.168.0.150\dd$       Microsoft Windows Network
+OK           T:        \\192.168.0.150\dd$       Microsoft Windows Network
+OK           U:        \\spsdmz\marketing$       Microsoft Windows Network
+OK           V:        \\192.168.0.169\Users\Public\Downloads 
+                                                Microsoft Windows Network
+Unavailable  W:        \\192.168.0.100\ee$       Microsoft Windows Network
+OK           X:        \\spsdmz\ee$              Microsoft Windows Network
+OK           Y:        \\192.168.0.150\dd$       Microsoft Windows Network
+OK           Z:        \\192.168.0.204\Master Design 
+                                                Microsoft Windows Network
+The command completed successfully.
+
+Starting Apache...
+The requested service has already been started.
+
+More help is available by typing NET HELPMSG 2182.
+
+"net start Apache2.4" may have failed 
+Completed at 03/07/2026 14:47:58.40 

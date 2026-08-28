@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Label O.P</title>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+  <style>
+    /* ... (CSS tetap sama seperti versi kamu sebelumnya) ... */
+  </style>
+</head>
+
+<body>
+  <div class="search-area">
+    <h2>Cari Label Berdasarkan No. O.P</h2>
+    <input type="text" id="inputOP" placeholder="Contoh: 2503/00990-B06" />
+    <button onclick="fetchData()">Cari</button>
+  </div>
+
+  <div id="reportContainer" class="report" style="display:none;">
+    <!-- ... Header dan isi lainnya tetap ... -->
+
+    <div class="report-content">
+      <div class="vertical-numbers-wrapper"></div>
+      <div class="row"><span class="label">Tanggal Cetak:</span><span class="value" id="tanggalCetak"></span></div>
+      <div class="row"><span class="label">Tanggal Kirim:</span><span class="value" id="tglKirim"></span></div>
+      <div class="row"><span class="label">No. O.P:</span><span class="value" id="op"></span></div>
+      <div class="row"><span class="label">Nama Barang:</span><span class="value" id="namaBarang"></span></div>
+      <div class="row"><span class="label">Kode Barang:</span><span class="value" id="kodeBarang"></span></div>
+      <div class="row"><span class="label">Pemesan:</span><span class="value" id="pemesan"></span></div>
+      <div class="row"><span class="label">Ukuran:</span><span class="value" id="ukuran"></span></div>
+      <div class="row"><span class="label">Jumlah Order:</span><span class="value" id="qty"></span></div>
+
+      <div class="row manual-input">
+        <span class="label">Jumlah Koli :</span>
+        <span class="value"><input type="number" id="manualKoli" min="1" /></span>
+      </div>
+      <div class="row manual-input">
+        <span class="label">Jumlah Pallet :</span>
+        <span class="value"><input type="number" id="manualPalet" min="1" /></span>
+      </div>
+      <div class="row">
+        <span class="label">Jumlah Hasil Terbaik :</span>
+        <span class="value" id="qtyKG">0</span>
+      </div>
+    </div>
+
+    <div class="row lokasi-barang-row"><span class="label">Lokasi Barang:</span><span class="value" id="rak"></span></div>
+
+    <div class="signature-qrcode-wrapper">
+      <div class="signature-section">
+        <div class="signature-prod">PROD<br><br><br>________________</div>
+        <div class="signature-below">
+          <div class="signature-box">G. BJ<br><br><br>________________</div>
+          <div class="signature-box">QC<br><br><br>________________</div>
+        </div>
+      </div>
+      <div id="qrcode"></div>
+    </div>
+
+    <div class="print-btn">
+      <button onclick="saveAndPrint()">Simpan & Cetak</button>
+    </div>
+  </div>
+
+  <script>
+    let currentOp = "";
+
+    function formatDate(dateString) {
+      if (!dateString || dateString === '-' || dateString === '0000-00-00') return '-';
+
+      const date = new Date(dateString);
+      if (isNaN(date.getTime())) return '-';
+
+      const day = date.getDate();
+      const monthNames = [
+        'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+        'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+      ];
+      const month = monthNames[date.getMonth()];
+      const year = date.getFullYear();
+
+      return `${day} ${month} ${year}`;
+    }
+
+    function fetchData() {
+      let op = document.getElementById("inputOP").value.trim();
+      if (!op) {
+        alert("Silakan masukkan nomor O.P");
+        return;
+      }
+      if (!op.startsWith("SPS/")) {
+        op = "SPS/" + op;
+      }
+
+      axios.get(`proxy.php?barcode=${encodeURIComponent(op)}`)
+        .then(response => {
+          if (response.data.success) {
+            const d = response.data.data;
+            const today = new Date();
+            const formattedToday = formatDate(today.toISOString());
+
+            currentOp = d.cNoOp;
+
+            document.getElementById("tanggalCetak").textContent = formattedToday;
+            document.getElementById("tglKirim").textContent = formatDate(d.dTglkirim);
+            document.getElementById("op").textContent = d.cNoOp;
+            document.getElementById("namaBarang").textContent = d.cNamabrg;
+            document.getElementById("kodeBarang").textContent = d.cNoMC;
+            document.getElementById("pemesan").textContent = d.cNama;
+            document.getElementById("ukuran").textContent = `${d.nPanjang} x ${d.nLebar} x ${d.nTinggi}`;
+            document.getElementById("qty").textContent = d.nQty;
+            document.getElementById("qtyKG").textContent = '0';
+            document.getElementById("rak").textContent = d.cRak;
+
+            document.getElementById("manualPalet").value = '';
+            document.getElementById("manualKoli").value = '';
+
+            document.getElementById("reportContainer").style.display = "block";
+            generateQRCode(d.cNoOp);
+          } else {
+            alert(response.data.message);
+          }
+        })
+        .catch(error => {
+          alert("Gagal mengambil data: " + error);
+        });
+    }
+
+    function generateQRCode(text) {
+      const qrContainer = document.getElementById("qrcode");
+      qrContainer.innerHTML = "";
+      const canvas = document.createElement("canvas");
+      qrContainer.appendChild(canvas);
+      QRCode.toCanvas(canvas, text, {
+        width: 300, 
+        errorCorrectionLevel: 'H'
+      }, function (error) {
+        if (error) console.error(error);
+      });
+    }
+
+    function saveAndPrint() {
+      const pallet = parseInt(document.getElementById("manualPalet").value);
+      const koli = parseInt(document.getElementById("manualKoli").value);
+
+      if (!currentOp) {
+        alert("Data O.P belum dimuat");
+        return;
+      }
+      if (!pallet || pallet < 1 || isNaN(pallet)) {
+        alert("Masukkan jumlah pallet yang valid");
+        return;
+      }
+      if (!koli || koli < 1 || isNaN(koli)) {
+        alert("Masukkan jumlah koli yang valid");
+        return;
+      }
+
+      axios.post('https://supracor.co.id/proxy.php', {
+        op: currentOp,
+        pallet: pallet,
+        koli: koli
+      })
+      .then(response => {
+        if (response.data.success) {
+          document.getElementById("qtyKG").textContent = pallet * koli;
+          window.print();
+        } else {
+          alert("Gagal menyimpan data: " + response.data.message);
+        }
+      })
+      .catch(error => {
+        alert("Terjadi kesalahan saat menyimpan: " + error);
+      });
+    }
+  </script>
+</body>
+</html>

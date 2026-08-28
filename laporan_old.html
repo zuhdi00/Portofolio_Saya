@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Label O.P</title>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+  <style>
+    @page {
+      size: A4;
+      margin: 20mm 1mm 1mm 1mm;
+    }
+
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      font-size: 0.875rem;
+      background: #fff;
+      margin: 0;
+      padding: 0;
+      color: #000;
+    }
+
+    h2 {
+      font-size: 1.125rem;
+      margin: 1.5rem 0;
+      text-align: center;
+    }
+
+    input[type="text"],
+    input[type="number"] {
+      font-size: 0.875rem;
+      /* Original: padding: 0.5rem; */
+      padding: 0.5rem 0.5rem 0.5rem 0; /* Top, Right, Bottom padding 0.5rem, Left padding 0 */
+      width: 100%;
+      box-sizing: border-box;
+      text-align: left; /* Pastikan teks dalam input rata kiri */
+    }
+
+    button {
+      font-size: 0.875rem;
+      padding: 0.5rem 1rem;
+      margin-left: 0.5rem;
+      cursor: pointer;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+    }
+
+    .report {
+      border: 1px solid #000;
+      padding: 1.25rem 10mm 5mm 10mm;
+      width: 100%;
+      max-width: 180mm;
+      margin: 1rem auto;
+      background-color: #fff;
+      min-height: 230mm;
+      padding-bottom: 5mm;
+      position: relative;
+      box-sizing: border-box;
+    }
+
+    .header-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 0rem;
+      padding-top: 0.25rem;
+    }
+
+    .logo {
+      height: 60px;
+    }
+
+    .title-header-wrapper {
+      flex: 1;
+    }
+
+    .title-header {
+      font-size: 1.25rem;
+      font-weight: bold;
+      text-align: left;
+      text-transform: uppercase;
+    }
+
+    .report-content {
+      padding-top: 0.5rem;
+    }
+
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      margin-bottom: 0.375rem;
+      gap: 0.5rem;
+      align-items: center; /* Align items vertically in the row */
+    }
+
+    .label {
+      font-weight: 600;
+      width: 40%;
+      display: inline-block;
+      text-align: left;
+      box-sizing: border-box; /* Tambahkan untuk konsistensi */
+    }
+
+    .value {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      text-align: left;
+      padding-left: 0.5rem; /* <<< PERUBAHAN KUNCI: Tambahkan padding kiri ke semua .value */
+      box-sizing: border-box; /* Tambahkan untuk konsistensi */
+    }
+    
+    /* Tambahan untuk tanggal kirim bold */
+    #tglKirim {
+      font-weight: bold;
+    }
+
+    .manual-input {
+      display: flex;
+      align-items: center;
+    }
+
+    .manual-input .label {
+      width: 40%; /* Sudah ada, ini untuk referensi */
+      font-weight: 600;
+      display: inline-block;
+      text-align: left;
+    }
+
+    .manual-input input {
+      width: 100%;
+      text-align: left;
+      /* padding-left: 0; sudah diatur di style input global */
+    }
+
+    .signature-qrcode-wrapper {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      page-break-inside: avoid;
+      margin-top: 1.5rem;
+      max-width: 170mm;
+    }
+
+    .signature-section {
+      flex: 1 1 100mm;
+      text-align: center;
+      max-width: 90mm;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      margin-left: 5mm;
+    }
+
+    .signature-prod {
+      width: 50mm;
+      margin: 0 auto 1rem auto;
+      border: 1px solid #000;
+      padding: 3mm;
+      height: 20mm;
+      font-size: 0.65rem;
+      box-sizing: border-box;
+    }
+
+    .signature-below {
+      display: flex;
+      justify-content: center;
+      gap: 20mm;
+      margin-bottom: 1rem;
+    }
+
+    .signature-box {
+      width: 50mm;
+      border: 1px solid #000;
+      padding: 3mm;
+      height: 20mm;
+      font-size: 0.65rem;
+      box-sizing: border-box;
+    }
+
+    .lokasi-barang-row {
+      margin-bottom: 10mm;
+    }
+
+    .print-btn, #print-btn {
+      margin-top: 1rem;
+      text-align: center;
+    }
+
+    .print-btn button, #print-btn button {
+      background-color: #28a745;
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      border: none;
+    }
+
+    #qrcode {
+      flex: 0 0 70mm;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 60mm;
+    }
+
+    #qrcode canvas {
+      width: 70mm !important;
+      height: 70mm !important;
+      background: transparent !important;
+    }
+
+    .search-area {
+      padding: 1rem;
+      text-align: center;
+    }
+
+    .vertical-numbers-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      margin-top: 1rem;
+    }
+
+    /* Pastikan input di dalam vertical-numbers-wrapper juga mengikuti aturan padding */
+    .vertical-numbers-wrapper .row .value input[type="number"] {
+        /* padding-left: 0; sudah diatur di style input global */
+        /* Tidak perlu style spesifik di sini jika style global sudah cukup */
+    }
+
+
+    @media print {
+      body {
+        margin: 35mm 10mm 5mm 10mm;
+        padding: 0;
+      }
+
+      .print-btn,
+      .search-area,
+      h2 {
+        display: none !important;
+      }
+
+      .report {
+        box-shadow: none;
+        border: 1px solid #000 !important;
+      }
+
+      .manual-input {
+        align-items: baseline;
+        display: flex !important;
+      }
+
+      .manual-input .label {
+        width: 40%;
+        font-weight: 600;
+        display: inline-block;
+        text-align: left;
+      }
+
+      /* Pastikan .value di mode print juga mewarisi padding-left jika diperlukan, atau set secara eksplisit */
+      .manual-input .value,
+      .row .value {
+        display: flex;
+        align-items: baseline;
+        height: auto;
+        text-align: left;
+        /* padding-left: 0.5rem; akan diwarisi dari style dasar .row .value */
+      }
+      
+      /* Memastikan tglKirim tetap bold saat diprint */
+      #tglKirim {
+        font-weight: bold !important;
+      }
+
+      #manualPalet,
+      #manualKoli {
+        border: none;
+        outline: none;
+        background: transparent;
+        pointer-events: none;
+        font-weight: bold;
+        font-size: 0.875rem;
+        padding: 0; /* <<< PENTING: Di mode print, input ini tidak ada padding */
+        margin: 0;
+        line-height: 1;
+        display: inline-block;
+        vertical-align: baseline;
+        width: auto !important;
+        text-align: left;
+      }
+
+      .row{
+        align-items: baseline;
+      }
+
+      #manualPalet::-webkit-inner-spin-button,
+      #manualKoli::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+
+      .report-content {
+        margin-top: 5mm;
+      }
+
+      .vertical-numbers-wrapper {
+        display: flex !important;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .vertical-numbers-wrapper .row {
+        width: 100%;
+        margin-bottom: 0.1rem;
+        display: flex;
+        align-items: baseline;
+      }
+
+      .vertical-numbers-wrapper .row .label {
+        width: 40%;
+        margin-right: 0.5rem; /* Ini akan memberi jarak jika gap tidak berfungsi di print atau untuk override */
+        text-align: left;
+      }
+
+      .vertical-numbers-wrapper .row .value {
+        flex-grow: 1;
+        text-align: left;
+        /* padding-left: 0.5rem; akan diwarisi */
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="search-area">
+    <h2>Cari Label Berdasarkan No. O.P</h2>
+    <input type="text" id="inputOP" placeholder="Contoh: 2503/00990-B06" />
+    <button onclick="fetchData()">Cari</button>
+  </div>
+
+  <div id="reportContainer" class="report" style="display:none;">
+    <div class="header-wrapper">
+      <img src="http://supracor.co.id/SPS_Logo.png" class="logo" alt="SPS Logo" />
+      <div class="title-header-wrapper">
+        <div class="title-header">PT. Supracor Sejahtera</div>
+        <div class="title-header">Corrugated Carton Box</div>
+      </div>
+    </div>
+
+    <div class="report-content">
+      <div class="vertical-numbers-wrapper"></div>
+      <div class="row"><span class="label">Tanggal Cetak:</span><span class="value" id="tanggalCetak"></span></div>
+      <div class="row"><span class="label">Tanggal Kirim:</span><span class="value" id="tglKirim"></span></div>
+      <div class="row"><span class="label">No. O.P:</span><span class="value" id="op"></span></div>
+      <div class="row"><span class="label">Nama Barang:</span><span class="value" id="namaBarang"></span></div>
+      <div class="row"><span class="label">Kode Barang:</span><span class="value" id="kodeBarang"></span></div>
+      <div class="row"><span class="label">Pemesan:</span><span class="value" id="pemesan"></span></div>
+      <div class="row"><span class="label">Ukuran:</span><span class="value" id="ukuran"></span></div>
+      <div class="row"><span class="label">Jumlah Order:</span><span class="value" id="qty"></span></div>
+
+      <div class="row manual-input">
+        <span class="label">Jumlah Koli :</span>
+        <span class="value"><input type="number" id="manualKoli" min="1" /></span>
+      </div>
+      <div class="row manual-input">
+        <span class="label">Jumlah Pallet :</span>
+        <span class="value"><input type="number" id="manualPalet" min="1" /></span>
+      </div>
+      <div class="row">
+        <span class="label">Jumlah Hasil Terbaik :</span>
+        <span class="value" id="qtyKG">0</span>
+      </div>
+    </div>
+
+    <div class="row lokasi-barang-row"><span class="label">Lokasi Barang:</span><span class="value" id="rak"></span></div>
+
+    <div class="signature-qrcode-wrapper">
+      <div class="signature-section">
+        <div class="signature-prod">PROD<br><br><br>________________</div>
+        <div class="signature-below">
+          <div class="signature-box">G. BJ<br><br><br>________________</div>
+          <div class="signature-box">QC<br><br><br>________________</div>
+        </div>
+      </div>
+      <div id="qrcode"></div>
+    </div>
+
+    <div class="print-btn">
+      <button onclick="saveAndPrint()">Simpan & Cetak</button>
+    </div>
+  </div>
+
+  <script>
+    let currentOp = "";
+
+    function formatDate(dateString) {
+      if (!dateString || dateString === '-' || dateString === '0000-00-00') return '-';
+
+      const date = new Date(dateString);
+      if (isNaN(date.getTime())) return '-';
+
+      const day = date.getDate();
+      const monthNames = [
+        'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+        'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+      ];
+      const month = monthNames[date.getMonth()];
+      const year = date.getFullYear();
+
+      return `${day} ${month} ${year}`;
+    }
+
+    function fetchData() {
+      let op = document.getElementById("inputOP").value.trim();
+      if (!op) {
+        alert("Silakan masukkan nomor O.P");
+        return;
+      }
+      if (!op.startsWith("SPS/")) {
+        op = "SPS/" + op;
+      }
+
+      axios.get(`proxy.php?barcode=${encodeURIComponent(op)}`)
+        .then(response => {
+          if (response.data.success) {
+            const d = response.data.data;
+            const today = new Date();
+            const formattedToday = formatDate(today.toISOString());
+
+            currentOp = d.cNoOp;
+
+            document.getElementById("tanggalCetak").textContent = formattedToday;
+            document.getElementById("tglKirim").textContent = formatDate(d.dTglkirim);
+            document.getElementById("op").textContent = d.cNoOp;
+            document.getElementById("namaBarang").textContent = d.cNamabrg;
+            document.getElementById("kodeBarang").textContent = d.cNoMC;
+            document.getElementById("pemesan").textContent = d.cNama;
+            document.getElementById("ukuran").textContent = `${d.nPanjang} x ${d.nLebar} x ${d.nTinggi}`;
+            document.getElementById("qty").textContent = d.nQty;
+            document.getElementById("qtyKG").textContent = '0';
+            //document.getElementById("rak").textContent = d.cRak;
+
+            document.getElementById("manualPalet").value = '';
+            document.getElementById("manualKoli").value = '';
+
+            document.getElementById("reportContainer").style.display = "block";
+            generateQRCode(d.cNoOp);
+          } else {
+            alert(response.data.message);
+          }
+        })
+        .catch(error => {
+          alert("Gagal mengambil data: " + error);
+        });
+    }
+
+    function generateQRCode(text) {
+      const qrContainer = document.getElementById("qrcode");
+      qrContainer.innerHTML = "";
+      const canvas = document.createElement("canvas");
+      qrContainer.appendChild(canvas);
+      QRCode.toCanvas(canvas, text, {
+        width: 300, 
+        errorCorrectionLevel: 'H'
+      }, function (error) {
+        if (error) console.error(error);
+      });
+    }
+
+    function saveAndPrint() {
+      const pallet = parseInt(document.getElementById("manualPalet").value);
+      const koli = parseInt(document.getElementById("manualKoli").value);
+
+      if (!currentOp) {
+        alert("Data O.P belum dimuat");
+        return;
+      }
+      if (!pallet || pallet < 1 || isNaN(pallet)) {
+        alert("Masukkan jumlah pallet yang valid");
+        return;
+      }
+      if (!koli || koli < 1 || isNaN(koli)) {
+        alert("Masukkan jumlah koli yang valid");
+        return;
+      }
+
+      axios.post('https://supracor.co.id/proxy.php', {
+        op: currentOp,
+        pallet: pallet,
+        koli: koli
+      })
+      .then(response => {
+        if (response.data.success) {
+          document.getElementById("qtyKG").textContent = pallet * koli;
+          window.print();
+        } else {
+          alert("Gagal menyimpan data: " + response.data.message);
+        }
+      })
+      .catch(error => {
+        alert("Terjadi kesalahan saat menyimpan: " + error);
+      });
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Login - Image Search (New)</title>
+    <style>
+        body{font-family:Segoe UI,Arial;background:#f4f6f8;display:flex;align-items:center;justify-content:center;height:100vh;margin:0}
+        .card{background:white;padding:24px;border-radius:8px;box-shadow:0 6px 24px rgba(0,0,0,0.08);width:360px}
+        .card h2{margin:0 0 12px;font-size:18px}
+        .field{margin-bottom:10px}
+        input{width:100%;padding:10px;border:1px solid #dfe4ea;border-radius:6px}
+        button{width:100%;padding:10px;background:#4facfe;border:none;color:white;border-radius:6px;font-weight:600;cursor:pointer}
+        .error{color:#b71c1c;background:#fdecea;padding:8px;border-radius:6px;margin-bottom:8px;display:none}
+        .note{font-size:13px;color:#666;margin-top:8px}
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>Login (image-search)</h2>
+        <div id="error" class="error"></div>
+        <div class="field"><input id="username" placeholder="Username" autocomplete="username"></div>
+        <div class="field"><input id="password" type="password" placeholder="Password" autocomplete="current-password"></div>
+        <button id="loginBtn">Masuk</button>
+        <div class="note">Demo accounts: <strong>admin/admin123</strong> or <strong>user/user123</strong></div>
+    </div>
+
+    <script>
+        const loginBtn = document.getElementById('loginBtn');
+        const errorEl = document.getElementById('error');
+
+        async function doLogin() {
+            errorEl.style.display = 'none';
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+            if (!username || !password) {
+                showError('Isi username dan password');
+                return;
+            }
+
+            try {
+                const resp = await fetch('./auth_new.php?action=login', {
+                    method: 'POST',
+                    credentials: 'include',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action: 'login', username, password })
+                });
+                const data = await resp.json();
+                if (resp.ok && data.success) {
+                    // success -> go to index page
+                    window.location.href = 'index97_v1.html';
+                    return;
+                }
+                showError(data.error || 'Login gagal');
+            } catch (e) {
+                showError('Terjadi kesalahan jaringan');
+                console.error(e);
+            }
+        }
+
+        function showError(msg) {
+            errorEl.textContent = msg;
+            errorEl.style.display = 'block';
+        }
+
+        loginBtn.addEventListener('click', doLogin);
+        document.addEventListener('keydown', (e) => { if (e.key === 'Enter') doLogin(); });
+    </script>
+</body>
+</html>

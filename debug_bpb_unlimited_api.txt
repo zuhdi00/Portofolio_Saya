@@ -1,0 +1,1037 @@
+
+====
+2026-02-02 10:06:29
+SQL: SELECT 
+        d.cKodeBahan,
+        h.cNoBPB,
+        h.cNama AS supplier,
+        h.dTanggal,
+        d.cNama AS nama_barang,
+        d.cNoPP AS no_opb,
+        h.cKeterangan,
+        d.cUkuran AS ukuran,
+        d.nQtyK AS jumlah,
+        d.cSatK AS satuan
+    FROM tbBPBdtl d
+    LEFT JOIN tbBPB h ON d.cNoBPB = h.cNoBPB ORDER BY h.dTanggal DESC
+Params: Array
+(
+)
+
+====
+2026-02-02 10:06:40
+SQL: SELECT 
+        d.cKodeBahan,
+        h.cNoBPB,
+        h.cNama AS supplier,
+        h.dTanggal,
+        d.cNama AS nama_barang,
+        d.cNoPP AS no_opb,
+        h.cKeterangan,
+        d.cUkuran AS ukuran,
+        d.nQtyK AS jumlah,
+        d.cSatK AS satuan
+    FROM tbBPBdtl d
+    LEFT JOIN tbBPB h ON d.cNoBPB = h.cNoBPB WHERE (h.dTanggal >= ? AND h.dTanggal <= ?) ORDER BY h.dTanggal DESC
+Params: Array
+(
+    [0] => 2026-02-02 00:00:00.000
+    [1] => 2026-02-02 23:59:59.000
+)
+
+====
+2026-02-02 10:06:47
+SQL: SELECT 
+        d.cKodeBahan,
+        h.cNoBPB,
+        h.cNama AS supplier,
+        h.dTanggal,
+        d.cNama AS nama_barang,
+        d.cNoPP AS no_opb,
+        h.cKeterangan,
+        d.cUkuran AS ukuran,
+        d.nQtyK AS jumlah,
+        d.cSatK AS satuan
+    FROM tbBPBdtl d
+    LEFT JOIN tbBPB h ON d.cNoBPB = h.cNoBPB WHERE (d.cKodeBahan LIKE ? OR h.cNoBPB LIKE ? OR h.cNama LIKE ? OR d.cNama LIKE ? OR d.cNoPP LIKE ?) AND (h.dTanggal >= ? AND h.dTanggal <= ?) ORDER BY h.dTanggal DESC
+Params: Array
+(
+    [0] => %ANVIL%
+    [1] => %ANVIL%
+    [2] => %ANVIL%
+    [3] => %ANVIL%
+    [4] => %ANVIL%
+    [5] => 2026-02-02 00:00:00.000
+    [6] => 2026-02-02 23:59:59.000
+)
+
+====
+2026-02-02 10:06:48
+SQL: SELECT 
+        d.cKodeBahan,
+        h.cNoBPB,
+        h.cNama AS supplier,
+        h.dTanggal,
+        d.cNama AS nama_barang,
+        d.cNoPP AS no_opb,
+        h.cKeterangan,
+        d.cUkuran AS ukuran,
+        d.nQtyK AS jumlah,
+        d.cSatK AS satuan
+    FROM tbBPBdtl d
+    LEFT JOIN tbBPB h ON d.cNoBPB = h.cNoBPB WHERE (d.cKodeBahan LIKE ? OR h.cNoBPB LIKE ? OR h.cNama LIKE ? OR d.cNama LIKE ? OR d.cNoPP LIKE ?) AND (h.dTanggal >= ? AND h.dTanggal <= ?) ORDER BY h.dTanggal DESC
+Params: Array
+(
+    [0] => %ANVIL%
+    [1] => %ANVIL%
+    [2] => %ANVIL%
+    [3] => %ANVIL%
+    [4] => %ANVIL%
+    [5] => 2026-02-02 00:00:00.000
+    [6] => 2026-02-02 23:59:59.000
+)
+
+====
+2026-02-02 10:06:48
+SQL: SELECT 
+        d.cKodeBahan,
+        h.cNoBPB,
+        h.cNama AS supplier,
+        h.dTanggal,
+        d.cNama AS nama_barang,
+        d.cNoPP AS no_opb,
+        h.cKeterangan,
+        d.cUkuran AS ukuran,
+        d.nQtyK AS jumlah,
+        d.cSatK AS satuan
+    FROM tbBPBdtl d
+    LEFT JOIN tbBPB h ON d.cNoBPB = h.cNoBPB WHERE (d.cKodeBahan LIKE ? OR h.cNoBPB LIKE ? OR h.cNama LIKE ? OR d.cNama LIKE ? OR d.cNoPP LIKE ?) AND (h.dTanggal >= ? AND h.dTanggal <= ?) ORDER BY h.dTanggal DESC
+Params: Array
+(
+    [0] => %ANVIL%
+    [1] => %ANVIL%
+    [2] => %ANVIL%
+    [3] => %ANVIL%
+    [4] => %ANVIL%
+    [5] => 2026-02-02 00:00:00.000
+    [6] => 2026-02-02 23:59:59.000
+)
+
+====
+2026-02-02 10:06:48
+SQL: SELECT 
+        d.cKodeBahan,
+        h.cNoBPB,
+        h.cNama AS supplier,
+        h.dTanggal,
+        d.cNama AS nama_barang,
+        d.cNoPP AS no_opb,
+        h.cKeterangan,
+        d.cUkuran AS ukuran,
+        d.nQtyK AS jumlah,
+        d.cSatK AS satuan
+    FROM tbBPBdtl d
+    LEFT JOIN tbBPB h ON d.cNoBPB = h.cNoBPB WHERE (d.cKodeBahan LIKE ? OR h.cNoBPB LIKE ? OR h.cNama LIKE ? OR d.cNama LIKE ? OR d.cNoPP LIKE ?) AND (h.dTanggal >= ? AND h.dTanggal <= ?) ORDER BY h.dTanggal DESC
+Params: Array
+(
+    [0] => %ANVIL%
+    [1] => %ANVIL%
+    [2] => %ANVIL%
+    [3] => %ANVIL%
+    [4] => %ANVIL%
+    [5] => 2026-02-02 00:00:00.000
+    [6] => 2026-02-02 23:59:59.000
+)
+
+====
+2026-02-02 10:06:48
+SQL: SELECT 
+        d.cKodeBahan,
+        h.cNoBPB,
+        h.cNama AS supplier,
+        h.dTanggal,
+        d.cNama AS nama_barang,
+        d.cNoPP AS no_opb,
+        h.cKeterangan,
+        d.cUkuran AS ukuran,
+        d.nQtyK AS jumlah,
+        d.cSatK AS satuan
+    FROM tbBPBdtl d
+    LEFT JOIN tbBPB h ON d.cNoBPB = h.cNoBPB WHERE (d.cKodeBahan LIKE ? OR h.cNoBPB LIKE ? OR h.cNama LIKE ? OR d.cNama LIKE ? OR d.cNoPP LIKE ?) AND (h.dTanggal >= ? AND h.dTanggal <= ?) ORDER BY h.dTanggal DESC
+Params: Array
+(
+    [0] => %ANVIL%
+    [1] => %ANVIL%
+    [2] => %ANVIL%
+    [3] => %ANVIL%
+    [4] => %ANVIL%
+    [5] => 2026-02-02 00:00:00.000
+    [6] => 2026-02-02 23:59:59.000
+)
+
+====
+2026-02-02 10:06:49
+SQL: SELECT 
+        d.cKodeBahan,
+        h.cNoBPB,
+        h.cNama AS supplier,
+        h.dTanggal,
+        d.cNama AS nama_barang,
+        d.cNoPP AS no_opb,
+        h.cKeterangan,
+        d.cUkuran AS ukuran,
+        d.nQtyK AS jumlah,
+        d.cSatK AS satuan
+    FROM tbBPBdtl d
+    LEFT JOIN tbBPB h ON d.cNoBPB = h.cNoBPB WHERE (d.cKodeBahan LIKE ? OR h.cNoBPB LIKE ? OR h.cNama LIKE ? OR d.cNama LIKE ? OR d.cNoPP LIKE ?) AND (h.dTanggal >= ? AND h.dTanggal <= ?) ORDER BY h.dTanggal DESC
+Params: Array
+(
+    [0] => %ANVIL%
+    [1] => %ANVIL%
+    [2] => %ANVIL%
+    [3] => %ANVIL%
+    [4] => %ANVIL%
+    [5] => 2026-02-02 00:00:00.000
+    [6] => 2026-02-02 23:59:59.000
+)
+
+====
+2026-02-02 10:06:49
+SQL: SELECT 
+        d.cKodeBahan,
+        h.cNoBPB,
+        h.cNama AS supplier,
+        h.dTanggal,
+        d.cNama AS nama_barang,
+        d.cNoPP AS no_opb,
+        h.cKeterangan,
+        d.cUkuran AS ukuran,
+        d.nQtyK AS jumlah,
+        d.cSatK AS satuan
+    FROM tbBPBdtl d
+    LEFT JOIN tbBPB h ON d.cNoBPB = h.cNoBPB WHERE (d.cKodeBahan LIKE ? OR h.cNoBPB LIKE ? OR h.cNama LIKE ? OR d.cNama LIKE ? OR d.cNoPP LIKE ?) AND (h.dTanggal >= ? AND h.dTanggal <= ?) ORDER BY h.dTanggal DESC
+Params: Array
+(
+    [0] => %ANVIL%
+    [1] => %ANVIL%
+    [2] => %ANVIL%
+    [3] => %ANVIL%
+    [4] => %ANVIL%
+    [5] => 2026-02-02 00:00:00.000
+    [6] => 2026-02-02 23:59:59.000
+)
+
+====
+2026-02-02 10:06:49
+SQL: SELECT 
+        d.cKodeBahan,
+        h.cNoBPB,
+        h.cNama AS supplier,
+        h.dTanggal,
+        d.cNama AS nama_barang,
+        d.cNoPP AS no_opb,
+        h.cKeterangan,
+        d.cUkuran AS ukuran,
+        d.nQtyK AS jumlah,
+        d.cSatK AS satuan
+    FROM tbBPBdtl d
+    LEFT JOIN tbBPB h ON d.cNoBPB = h.cNoBPB WHERE (d.cKodeBahan LIKE ? OR h.cNoBPB LIKE ? OR h.cNama LIKE ? OR d.cNama LIKE ? OR d.cNoPP LIKE ?) AND (h.dTanggal >= ? AND h.dTanggal <= ?) ORDER BY h.dTanggal DESC
+Params: Array
+(
+    [0] => %ANVIL%
+    [1] => %ANVIL%
+    [2] => %ANVIL%
+    [3] => %ANVIL%
+    [4] => %ANVIL%
+    [5] => 2026-02-02 00:00:00.000
+    [6] => 2026-02-02 23:59:59.000
+)
+
+====
+2026-02-02 10:06:49
+SQL: SELECT 
+        d.cKodeBahan,
+        h.cNoBPB,
+        h.cNama AS supplier,
+        h.dTanggal,
+        d.cNama AS nama_barang,
+        d.cNoPP AS no_opb,
+        h.cKeterangan,
+        d.cUkuran AS ukuran,
+        d.nQtyK AS jumlah,
+        d.cSatK AS satuan
+    FROM tbBPBdtl d
+    LEFT JOIN tbBPB h ON d.cNoBPB = h.cNoBPB WHERE (d.cKodeBahan LIKE ? OR h.cNoBPB LIKE ? OR h.cNama LIKE ? OR d.cNama LIKE ? OR d.cNoPP LIKE ?) AND (h.dTanggal >= ? AND h.dTanggal <= ?) ORDER BY h.dTanggal DESC
+Params: Array
+(
+    [0] => %ANVIL%
+    [1] => %ANVIL%
+    [2] => %ANVIL%
+    [3] => %ANVIL%
+    [4] => %ANVIL%
+    [5] => 2026-02-02 00:00:00.000
+    [6] => 2026-02-02 23:59:59.000
+)
+
+====
+2026-02-02 10:06:52
+SQL: SELECT 
+        d.cKodeBahan,
+        h.cNoBPB,
+        h.cNama AS supplier,
+        h.dTanggal,
+        d.cNama AS nama_barang,
+        d.cNoPP AS no_opb,
+        h.cKeterangan,
+        d.cUkuran AS ukuran,
+        d.nQtyK AS jumlah,
+        d.cSatK AS satuan
+    FROM tbBPBdtl d
+    LEFT JOIN tbBPB h ON d.cNoBPB = h.cNoBPB WHERE (d.cKodeBahan LIKE ? OR h.cNoBPB LIKE ? OR h.cNama LIKE ? OR d.cNama LIKE ? OR d.cNoPP LIKE ?) AND (h.dTanggal >= ? AND h.dTanggal <= ?) ORDER BY h.dTanggal DESC
+Params: Array
+(
+    [0] => %ANVIL%
+    [1] => %ANVIL%
+    [2] => %ANVIL%
+    [3] => %ANVIL%
+    [4] => %ANVIL%
+    [5] => 2026-02-02 00:00:00.000
+    [6] => 2026-02-02 23:59:59.000
+)
+
+====
+2026-02-02 10:06:53
+SQL: SELECT 
+        d.cKodeBahan,
+        h.cNoBPB,
+        h.cNama AS supplier,
+        h.dTanggal,
+        d.cNama AS nama_barang,
+        d.cNoPP AS no_opb,
+        h.cKeterangan,
+        d.cUkuran AS ukuran,
+        d.nQtyK AS jumlah,
+        d.cSatK AS satuan
+    FROM tbBPBdtl d
+    LEFT JOIN tbBPB h ON d.cNoBPB = h.cNoBPB WHERE (d.cKodeBahan LIKE ? OR h.cNoBPB LIKE ? OR h.cNama LIKE ? OR d.cNama LIKE ? OR d.cNoPP LIKE ?) AND (h.dTanggal >= ? AND h.dTanggal <= ?) ORDER BY h.dTanggal DESC
+Params: Array
+(
+    [0] => %ANVIL%
+    [1] => %ANVIL%
+    [2] => %ANVIL%
+    [3] => %ANVIL%
+    [4] => %ANVIL%
+    [5] => 2026-02-02 00:00:00.000
+    [6] => 2026-02-02 23:59:59.000
+)
+
+====
+2026-02-02 10:06:53
+SQL: SELECT 
+        d.cKodeBahan,
+        h.cNoBPB,
+        h.cNama AS supplier,
+        h.dTanggal,
+        d.cNama AS nama_barang,
+        d.cNoPP AS no_opb,
+        h.cKeterangan,
+        d.cUkuran AS ukuran,
+        d.nQtyK AS jumlah,
+        d.cSatK AS satuan
+    FROM tbBPBdtl d
+    LEFT JOIN tbBPB h ON d.cNoBPB = h.cNoBPB WHERE (d.cKodeBahan LIKE ? OR h.cNoBPB LIKE ? OR h.cNama LIKE ? OR d.cNama LIKE ? OR d.cNoPP LIKE ?) AND (h.dTanggal >= ? AND h.dTanggal <= ?) ORDER BY h.dTanggal DESC
+Params: Array
+(
+    [0] => %ANVIL%
+    [1] => %ANVIL%
+    [2] => %ANVIL%
+    [3] => %ANVIL%
+    [4] => %ANVIL%
+    [5] => 2026-02-02 00:00:00.000
+    [6] => 2026-02-02 23:59:59.000
+)
+
+====
+2026-02-02 10:06:53
+SQL: SELECT 
+        d.cKodeBahan,
+        h.cNoBPB,
+        h.cNama AS supplier,
+        h.dTanggal,
+        d.cNama AS nama_barang,
+        d.cNoPP AS no_opb,
+        h.cKeterangan,
+        d.cUkuran AS ukuran,
+        d.nQtyK AS jumlah,
+        d.cSatK AS satuan
+    FROM tbBPBdtl d
+    LEFT JOIN tbBPB h ON d.cNoBPB = h.cNoBPB WHERE (d.cKodeBahan LIKE ? OR h.cNoBPB LIKE ? OR h.cNama LIKE ? OR d.cNama LIKE ? OR d.cNoPP LIKE ?) AND (h.dTanggal >= ? AND h.dTanggal <= ?) ORDER BY h.dTanggal DESC
+Params: Array
+(
+    [0] => %ANVIL%
+    [1] => %ANVIL%
+    [2] => %ANVIL%
+    [3] => %ANVIL%
+    [4] => %ANVIL%
+    [5] => 2026-02-02 00:00:00.000
+    [6] => 2026-02-02 23:59:59.000
+)
+
+====
+2026-02-02 10:06:53
+SQL: SELECT 
+        d.cKodeBahan,
+        h.cNoBPB,
+        h.cNama AS supplier,
+        h.dTanggal,
+        d.cNama AS nama_barang,
+        d.cNoPP AS no_opb,
+        h.cKeterangan,
+        d.cUkuran AS ukuran,
+        d.nQtyK AS jumlah,
+        d.cSatK AS satuan
+    FROM tbBPBdtl d
+    LEFT JOIN tbBPB h ON d.cNoBPB = h.cNoBPB WHERE (d.cKodeBahan LIKE ? OR h.cNoBPB LIKE ? OR h.cNama LIKE ? OR d.cNama LIKE ? OR d.cNoPP LIKE ?) AND (h.dTanggal >= ? AND h.dTanggal <= ?) ORDER BY h.dTanggal DESC
+Params: Array
+(
+    [0] => %ANVIL%
+    [1] => %ANVIL%
+    [2] => %ANVIL%
+    [3] => %ANVIL%
+    [4] => %ANVIL%
+    [5] => 2026-02-02 00:00:00.000
+    [6] => 2026-02-02 23:59:59.000
+)
+
+====
+2026-02-02 10:06:53
+SQL: SELECT 
+        d.cKodeBahan,
+        h.cNoBPB,
+        h.cNama AS supplier,
+        h.dTanggal,
+        d.cNama AS nama_barang,
+        d.cNoPP AS no_opb,
+        h.cKeterangan,
+        d.cUkuran AS ukuran,
+        d.nQtyK AS jumlah,
+        d.cSatK AS satuan
+    FROM tbBPBdtl d
+    LEFT JOIN tbBPB h ON d.cNoBPB = h.cNoBPB WHERE (d.cKodeBahan LIKE ? OR h.cNoBPB LIKE ? OR h.cNama LIKE ? OR d.cNama LIKE ? OR d.cNoPP LIKE ?) AND (h.dTanggal >= ? AND h.dTanggal <= ?) ORDER BY h.dTanggal DESC
+Params: Array
+(
+    [0] => %ANVIL%
+    [1] => %ANVIL%
+    [2] => %ANVIL%
+    [3] => %ANVIL%
+    [4] => %ANVIL%
+    [5] => 2026-02-02 00:00:00.000
+    [6] => 2026-02-02 23:59:59.000
+)
+
+====
+2026-02-02 10:08:28
+SQL: SELECT 
+        d.cKodeBahan,
+        h.cNoBPB,
+        h.cNama AS supplier,
+        h.dTanggal,
+        d.cNama AS nama_barang,
+        d.cNoPP AS no_opb,
+        h.cKeterangan,
+        d.cUkuran AS ukuran,
+        d.nQtyK AS jumlah,
+        d.cSatK AS satuan
+    FROM tbBPBdtl d
+    LEFT JOIN tbBPB h ON d.cNoBPB = h.cNoBPB WHERE (d.cKodeBahan LIKE ? OR h.cNoBPB LIKE ? OR h.cNama LIKE ? OR d.cNama LIKE ? OR d.cNoPP LIKE ?) AND (d.cKodeBahan LIKE ? OR h.cNoBPB LIKE ? OR h.cNama LIKE ? OR d.cNama LIKE ? OR d.cNoPP LIKE ?) AND (h.dTanggal >= ? AND h.dTanggal <= ?) ORDER BY h.dTanggal DESC
+Params: Array
+(
+    [0] => %15%
+    [1] => %15%
+    [2] => %15%
+    [3] => %15%
+    [4] => %15%
+    [5] => %ANVIL%
+    [6] => %ANVIL%
+    [7] => %ANVIL%
+    [8] => %ANVIL%
+    [9] => %ANVIL%
+    [10] => 2026-02-02 00:00:00.000
+    [11] => 2026-02-02 23:59:59.000
+)
+
+====
+2026-02-02 10:08:29
+SQL: SELECT 
+        d.cKodeBahan,
+        h.cNoBPB,
+        h.cNama AS supplier,
+        h.dTanggal,
+        d.cNama AS nama_barang,
+        d.cNoPP AS no_opb,
+        h.cKeterangan,
+        d.cUkuran AS ukuran,
+        d.nQtyK AS jumlah,
+        d.cSatK AS satuan
+    FROM tbBPBdtl d
+    LEFT JOIN tbBPB h ON d.cNoBPB = h.cNoBPB WHERE (d.cKodeBahan LIKE ? OR h.cNoBPB LIKE ? OR h.cNama LIKE ? OR d.cNama LIKE ? OR d.cNoPP LIKE ?) AND (d.cKodeBahan LIKE ? OR h.cNoBPB LIKE ? OR h.cNama LIKE ? OR d.cNama LIKE ? OR d.cNoPP LIKE ?) AND (h.dTanggal >= ? AND h.dTanggal <= ?) ORDER BY h.dTanggal DESC
+Params: Array
+(
+    [0] => %15%
+    [1] => %15%
+    [2] => %15%
+    [3] => %15%
+    [4] => %15%
+    [5] => %ANVIL%
+    [6] => %ANVIL%
+    [7] => %ANVIL%
+    [8] => %ANVIL%
+    [9] => %ANVIL%
+    [10] => 2026-02-02 00:00:00.000
+    [11] => 2026-02-02 23:59:59.000
+)
+
+====
+2026-02-02 10:08:29
+SQL: SELECT 
+        d.cKodeBahan,
+        h.cNoBPB,
+        h.cNama AS supplier,
+        h.dTanggal,
+        d.cNama AS nama_barang,
+        d.cNoPP AS no_opb,
+        h.cKeterangan,
+        d.cUkuran AS ukuran,
+        d.nQtyK AS jumlah,
+        d.cSatK AS satuan
+    FROM tbBPBdtl d
+    LEFT JOIN tbBPB h ON d.cNoBPB = h.cNoBPB WHERE (d.cKodeBahan LIKE ? OR h.cNoBPB LIKE ? OR h.cNama LIKE ? OR d.cNama LIKE ? OR d.cNoPP LIKE ?) AND (d.cKodeBahan LIKE ? OR h.cNoBPB LIKE ? OR h.cNama LIKE ? OR d.cNama LIKE ? OR d.cNoPP LIKE ?) AND (h.dTanggal >= ? AND h.dTanggal <= ?) ORDER BY h.dTanggal DESC
+Params: Array
+(
+    [0] => %15%
+    [1] => %15%
+    [2] => %15%
+    [3] => %15%
+    [4] => %15%
+    [5] => %ANVIL%
+    [6] => %ANVIL%
+    [7] => %ANVIL%
+    [8] => %ANVIL%
+    [9] => %ANVIL%
+    [10] => 2026-02-02 00:00:00.000
+    [11] => 2026-02-02 23:59:59.000
+)
+
+====
+2026-02-02 10:08:29
+SQL: SELECT 
+        d.cKodeBahan,
+        h.cNoBPB,
+        h.cNama AS supplier,
+        h.dTanggal,
+        d.cNama AS nama_barang,
+        d.cNoPP AS no_opb,
+        h.cKeterangan,
+        d.cUkuran AS ukuran,
+        d.nQtyK AS jumlah,
+        d.cSatK AS satuan
+    FROM tbBPBdtl d
+    LEFT JOIN tbBPB h ON d.cNoBPB = h.cNoBPB WHERE (d.cKodeBahan LIKE ? OR h.cNoBPB LIKE ? OR h.cNama LIKE ? OR d.cNama LIKE ? OR d.cNoPP LIKE ?) AND (d.cKodeBahan LIKE ? OR h.cNoBPB LIKE ? OR h.cNama LIKE ? OR d.cNama LIKE ? OR d.cNoPP LIKE ?) AND (h.dTanggal >= ? AND h.dTanggal <= ?) ORDER BY h.dTanggal DESC
+Params: Array
+(
+    [0] => %15%
+    [1] => %15%
+    [2] => %15%
+    [3] => %15%
+    [4] => %15%
+    [5] => %ANVIL%
+    [6] => %ANVIL%
+    [7] => %ANVIL%
+    [8] => %ANVIL%
+    [9] => %ANVIL%
+    [10] => 2026-02-02 00:00:00.000
+    [11] => 2026-02-02 23:59:59.000
+)
+
+====
+2026-02-02 10:08:34
+SQL: SELECT 
+        d.cKodeBahan,
+        h.cNoBPB,
+        h.cNama AS supplier,
+        h.dTanggal,
+        d.cNama AS nama_barang,
+        d.cNoPP AS no_opb,
+        h.cKeterangan,
+        d.cUkuran AS ukuran,
+        d.nQtyK AS jumlah,
+        d.cSatK AS satuan
+    FROM tbBPBdtl d
+    LEFT JOIN tbBPB h ON d.cNoBPB = h.cNoBPB ORDER BY h.dTanggal DESC
+Params: Array
+(
+)
+
+====
+2026-02-02 10:08:39
+SQL: SELECT 
+        d.cKodeBahan,
+        h.cNoBPB,
+        h.cNama AS supplier,
+        h.dTanggal,
+        d.cNama AS nama_barang,
+        d.cNoPP AS no_opb,
+        h.cKeterangan,
+        d.cUkuran AS ukuran,
+        d.nQtyK AS jumlah,
+        d.cSatK AS satuan
+    FROM tbBPBdtl d
+    LEFT JOIN tbBPB h ON d.cNoBPB = h.cNoBPB WHERE (d.cKodeBahan LIKE ? OR h.cNoBPB LIKE ? OR h.cNama LIKE ? OR d.cNama LIKE ? OR d.cNoPP LIKE ?) AND (d.cKodeBahan LIKE ? OR h.cNoBPB LIKE ? OR h.cNama LIKE ? OR d.cNama LIKE ? OR d.cNoPP LIKE ?) ORDER BY h.dTanggal DESC
+Params: Array
+(
+    [0] => %15%
+    [1] => %15%
+    [2] => %15%
+    [3] => %15%
+    [4] => %15%
+    [5] => %ANVIL%
+    [6] => %ANVIL%
+    [7] => %ANVIL%
+    [8] => %ANVIL%
+    [9] => %ANVIL%
+)
+
+====
+2026-02-02 10:08:40
+SQL: SELECT 
+        d.cKodeBahan,
+        h.cNoBPB,
+        h.cNama AS supplier,
+        h.dTanggal,
+        d.cNama AS nama_barang,
+        d.cNoPP AS no_opb,
+        h.cKeterangan,
+        d.cUkuran AS ukuran,
+        d.nQtyK AS jumlah,
+        d.cSatK AS satuan
+    FROM tbBPBdtl d
+    LEFT JOIN tbBPB h ON d.cNoBPB = h.cNoBPB WHERE (d.cKodeBahan LIKE ? OR h.cNoBPB LIKE ? OR h.cNama LIKE ? OR d.cNama LIKE ? OR d.cNoPP LIKE ?) AND (d.cKodeBahan LIKE ? OR h.cNoBPB LIKE ? OR h.cNama LIKE ? OR d.cNama LIKE ? OR d.cNoPP LIKE ?) ORDER BY h.dTanggal DESC
+Params: Array
+(
+    [0] => %15%
+    [1] => %15%
+    [2] => %15%
+    [3] => %15%
+    [4] => %15%
+    [5] => %ANVIL%
+    [6] => %ANVIL%
+    [7] => %ANVIL%
+    [8] => %ANVIL%
+    [9] => %ANVIL%
+)
+
+====
+2026-02-02 10:08:40
+SQL: SELECT 
+        d.cKodeBahan,
+        h.cNoBPB,
+        h.cNama AS supplier,
+        h.dTanggal,
+        d.cNama AS nama_barang,
+        d.cNoPP AS no_opb,
+        h.cKeterangan,
+        d.cUkuran AS ukuran,
+        d.nQtyK AS jumlah,
+        d.cSatK AS satuan
+    FROM tbBPBdtl d
+    LEFT JOIN tbBPB h ON d.cNoBPB = h.cNoBPB WHERE (d.cKodeBahan LIKE ? OR h.cNoBPB LIKE ? OR h.cNama LIKE ? OR d.cNama LIKE ? OR d.cNoPP LIKE ?) AND (d.cKodeBahan LIKE ? OR h.cNoBPB LIKE ? OR h.cNama LIKE ? OR d.cNama LIKE ? OR d.cNoPP LIKE ?) ORDER BY h.dTanggal DESC
+Params: Array
+(
+    [0] => %15%
+    [1] => %15%
+    [2] => %15%
+    [3] => %15%
+    [4] => %15%
+    [5] => %ANVIL%
+    [6] => %ANVIL%
+    [7] => %ANVIL%
+    [8] => %ANVIL%
+    [9] => %ANVIL%
+)
+
+====
+2026-02-02 10:08:40
+SQL: SELECT 
+        d.cKodeBahan,
+        h.cNoBPB,
+        h.cNama AS supplier,
+        h.dTanggal,
+        d.cNama AS nama_barang,
+        d.cNoPP AS no_opb,
+        h.cKeterangan,
+        d.cUkuran AS ukuran,
+        d.nQtyK AS jumlah,
+        d.cSatK AS satuan
+    FROM tbBPBdtl d
+    LEFT JOIN tbBPB h ON d.cNoBPB = h.cNoBPB WHERE (d.cKodeBahan LIKE ? OR h.cNoBPB LIKE ? OR h.cNama LIKE ? OR d.cNama LIKE ? OR d.cNoPP LIKE ?) AND (d.cKodeBahan LIKE ? OR h.cNoBPB LIKE ? OR h.cNama LIKE ? OR d.cNama LIKE ? OR d.cNoPP LIKE ?) ORDER BY h.dTanggal DESC
+Params: Array
+(
+    [0] => %15%
+    [1] => %15%
+    [2] => %15%
+    [3] => %15%
+    [4] => %15%
+    [5] => %ANVIL%
+    [6] => %ANVIL%
+    [7] => %ANVIL%
+    [8] => %ANVIL%
+    [9] => %ANVIL%
+)
+
+====
+2026-02-02 10:08:40
+SQL: SELECT 
+        d.cKodeBahan,
+        h.cNoBPB,
+        h.cNama AS supplier,
+        h.dTanggal,
+        d.cNama AS nama_barang,
+        d.cNoPP AS no_opb,
+        h.cKeterangan,
+        d.cUkuran AS ukuran,
+        d.nQtyK AS jumlah,
+        d.cSatK AS satuan
+    FROM tbBPBdtl d
+    LEFT JOIN tbBPB h ON d.cNoBPB = h.cNoBPB WHERE (d.cKodeBahan LIKE ? OR h.cNoBPB LIKE ? OR h.cNama LIKE ? OR d.cNama LIKE ? OR d.cNoPP LIKE ?) AND (d.cKodeBahan LIKE ? OR h.cNoBPB LIKE ? OR h.cNama LIKE ? OR d.cNama LIKE ? OR d.cNoPP LIKE ?) ORDER BY h.dTanggal DESC
+Params: Array
+(
+    [0] => %15%
+    [1] => %15%
+    [2] => %15%
+    [3] => %15%
+    [4] => %15%
+    [5] => %ANVIL%
+    [6] => %ANVIL%
+    [7] => %ANVIL%
+    [8] => %ANVIL%
+    [9] => %ANVIL%
+)
+
+====
+2026-02-02 10:08:41
+SQL: SELECT 
+        d.cKodeBahan,
+        h.cNoBPB,
+        h.cNama AS supplier,
+        h.dTanggal,
+        d.cNama AS nama_barang,
+        d.cNoPP AS no_opb,
+        h.cKeterangan,
+        d.cUkuran AS ukuran,
+        d.nQtyK AS jumlah,
+        d.cSatK AS satuan
+    FROM tbBPBdtl d
+    LEFT JOIN tbBPB h ON d.cNoBPB = h.cNoBPB WHERE (d.cKodeBahan LIKE ? OR h.cNoBPB LIKE ? OR h.cNama LIKE ? OR d.cNama LIKE ? OR d.cNoPP LIKE ?) AND (d.cKodeBahan LIKE ? OR h.cNoBPB LIKE ? OR h.cNama LIKE ? OR d.cNama LIKE ? OR d.cNoPP LIKE ?) ORDER BY h.dTanggal DESC
+Params: Array
+(
+    [0] => %15%
+    [1] => %15%
+    [2] => %15%
+    [3] => %15%
+    [4] => %15%
+    [5] => %ANVIL%
+    [6] => %ANVIL%
+    [7] => %ANVIL%
+    [8] => %ANVIL%
+    [9] => %ANVIL%
+)
+
+====
+2026-02-02 10:18:55
+SQL: SELECT 
+        d.cKodeBahan,
+        h.cNoBPB,
+        h.cNama AS supplier,
+        h.dTanggal,
+        d.cNama AS nama_barang,
+        d.cNoPP AS no_opb,
+        h.cKeterangan,
+        d.cUkuran AS ukuran,
+        d.nQtyK AS jumlah,
+        d.cSatK AS satuan
+    FROM tbBPBdtl d
+    LEFT JOIN tbBPB h ON d.cNoBPB = h.cNoBPB ORDER BY h.dTanggal DESC
+Params: Array
+(
+)
+
+====
+2026-02-02 10:22:03
+SQL: SELECT 
+        d.cKodeBahan,
+        h.cNoBPB,
+        h.cNama AS supplier,
+        h.dTanggal,
+        d.cNama AS nama_barang,
+        d.cNoPP AS no_opb,
+        h.cKeterangan,
+        d.cUkuran AS ukuran,
+        d.nQtyK AS jumlah,
+        d.cSatK AS satuan
+    FROM tbBPBdtl d
+    LEFT JOIN tbBPB h ON d.cNoBPB = h.cNoBPB WHERE (h.dTanggal >= ? AND h.dTanggal <= ?) ORDER BY h.dTanggal DESC
+Params: Array
+(
+    [0] => 2026-02-01 00:00:00.000
+    [1] => 2026-02-25 23:59:59.000
+)
+
+====
+2026-02-02 10:22:05
+SQL: SELECT 
+        d.cKodeBahan,
+        h.cNoBPB,
+        h.cNama AS supplier,
+        h.dTanggal,
+        d.cNama AS nama_barang,
+        d.cNoPP AS no_opb,
+        h.cKeterangan,
+        d.cUkuran AS ukuran,
+        d.nQtyK AS jumlah,
+        d.cSatK AS satuan
+    FROM tbBPBdtl d
+    LEFT JOIN tbBPB h ON d.cNoBPB = h.cNoBPB WHERE (h.dTanggal >= ? AND h.dTanggal <= ?) ORDER BY h.dTanggal DESC
+Params: Array
+(
+    [0] => 2026-02-01 00:00:00.000
+    [1] => 2026-02-25 23:59:59.000
+)
+
+====
+2026-02-02 10:22:06
+SQL: SELECT 
+        d.cKodeBahan,
+        h.cNoBPB,
+        h.cNama AS supplier,
+        h.dTanggal,
+        d.cNama AS nama_barang,
+        d.cNoPP AS no_opb,
+        h.cKeterangan,
+        d.cUkuran AS ukuran,
+        d.nQtyK AS jumlah,
+        d.cSatK AS satuan
+    FROM tbBPBdtl d
+    LEFT JOIN tbBPB h ON d.cNoBPB = h.cNoBPB WHERE (h.dTanggal >= ? AND h.dTanggal <= ?) ORDER BY h.dTanggal DESC
+Params: Array
+(
+    [0] => 2026-02-01 00:00:00.000
+    [1] => 2026-02-25 23:59:59.000
+)
+
+====
+2026-02-02 10:27:30
+SQL: SELECT 
+        d.cKodeBahan,
+        h.cNoBPB,
+        h.cNama AS supplier,
+        h.dTanggal,
+        d.cNama AS nama_barang,
+        d.cNoPP AS no_opb,
+        h.cKeterangan,
+        d.cUkuran AS ukuran,
+        d.nQtyK AS jumlah,
+        d.cSatK AS satuan
+    FROM tbBPBdtl d
+    LEFT JOIN tbBPB h ON d.cNoBPB = h.cNoBPB WHERE (d.cKodeBahan LIKE ? OR h.cNoBPB LIKE ? OR h.cNama LIKE ? OR d.cNama LIKE ? OR d.cNoPP LIKE ?) AND (h.dTanggal >= ? AND h.dTanggal <= ?) ORDER BY h.dTanggal DESC
+Params: Array
+(
+    [0] => %anvil%
+    [1] => %anvil%
+    [2] => %anvil%
+    [3] => %anvil%
+    [4] => %anvil%
+    [5] => 2025-12-01 00:00:00.000
+    [6] => 2026-02-25 23:59:59.000
+)
+
+====
+2026-02-02 10:27:35
+SQL: SELECT 
+        d.cKodeBahan,
+        h.cNoBPB,
+        h.cNama AS supplier,
+        h.dTanggal,
+        d.cNama AS nama_barang,
+        d.cNoPP AS no_opb,
+        h.cKeterangan,
+        d.cUkuran AS ukuran,
+        d.nQtyK AS jumlah,
+        d.cSatK AS satuan
+    FROM tbBPBdtl d
+    LEFT JOIN tbBPB h ON d.cNoBPB = h.cNoBPB WHERE (d.cKodeBahan LIKE ? OR h.cNoBPB LIKE ? OR h.cNama LIKE ? OR d.cNama LIKE ? OR d.cNoPP LIKE ?) AND (h.dTanggal >= ? AND h.dTanggal <= ?) ORDER BY h.dTanggal DESC
+Params: Array
+(
+    [0] => %ANVIL%
+    [1] => %ANVIL%
+    [2] => %ANVIL%
+    [3] => %ANVIL%
+    [4] => %ANVIL%
+    [5] => 2025-12-01 00:00:00.000
+    [6] => 2026-02-25 23:59:59.000
+)
+
+====
+2026-02-02 10:27:36
+SQL: SELECT 
+        d.cKodeBahan,
+        h.cNoBPB,
+        h.cNama AS supplier,
+        h.dTanggal,
+        d.cNama AS nama_barang,
+        d.cNoPP AS no_opb,
+        h.cKeterangan,
+        d.cUkuran AS ukuran,
+        d.nQtyK AS jumlah,
+        d.cSatK AS satuan
+    FROM tbBPBdtl d
+    LEFT JOIN tbBPB h ON d.cNoBPB = h.cNoBPB WHERE (d.cKodeBahan LIKE ? OR h.cNoBPB LIKE ? OR h.cNama LIKE ? OR d.cNama LIKE ? OR d.cNoPP LIKE ?) AND (h.dTanggal >= ? AND h.dTanggal <= ?) ORDER BY h.dTanggal DESC
+Params: Array
+(
+    [0] => %ANVIL%
+    [1] => %ANVIL%
+    [2] => %ANVIL%
+    [3] => %ANVIL%
+    [4] => %ANVIL%
+    [5] => 2025-12-01 00:00:00.000
+    [6] => 2026-02-25 23:59:59.000
+)
+
+====
+2026-02-02 10:27:36
+SQL: SELECT 
+        d.cKodeBahan,
+        h.cNoBPB,
+        h.cNama AS supplier,
+        h.dTanggal,
+        d.cNama AS nama_barang,
+        d.cNoPP AS no_opb,
+        h.cKeterangan,
+        d.cUkuran AS ukuran,
+        d.nQtyK AS jumlah,
+        d.cSatK AS satuan
+    FROM tbBPBdtl d
+    LEFT JOIN tbBPB h ON d.cNoBPB = h.cNoBPB WHERE (d.cKodeBahan LIKE ? OR h.cNoBPB LIKE ? OR h.cNama LIKE ? OR d.cNama LIKE ? OR d.cNoPP LIKE ?) AND (h.dTanggal >= ? AND h.dTanggal <= ?) ORDER BY h.dTanggal DESC
+Params: Array
+(
+    [0] => %ANVIL%
+    [1] => %ANVIL%
+    [2] => %ANVIL%
+    [3] => %ANVIL%
+    [4] => %ANVIL%
+    [5] => 2025-12-01 00:00:00.000
+    [6] => 2026-02-25 23:59:59.000
+)
+
+====
+2026-02-02 10:27:36
+SQL: SELECT 
+        d.cKodeBahan,
+        h.cNoBPB,
+        h.cNama AS supplier,
+        h.dTanggal,
+        d.cNama AS nama_barang,
+        d.cNoPP AS no_opb,
+        h.cKeterangan,
+        d.cUkuran AS ukuran,
+        d.nQtyK AS jumlah,
+        d.cSatK AS satuan
+    FROM tbBPBdtl d
+    LEFT JOIN tbBPB h ON d.cNoBPB = h.cNoBPB WHERE (d.cKodeBahan LIKE ? OR h.cNoBPB LIKE ? OR h.cNama LIKE ? OR d.cNama LIKE ? OR d.cNoPP LIKE ?) AND (h.dTanggal >= ? AND h.dTanggal <= ?) ORDER BY h.dTanggal DESC
+Params: Array
+(
+    [0] => %ANVIL%
+    [1] => %ANVIL%
+    [2] => %ANVIL%
+    [3] => %ANVIL%
+    [4] => %ANVIL%
+    [5] => 2025-12-01 00:00:00.000
+    [6] => 2026-02-25 23:59:59.000
+)
+
+====
+2026-02-02 10:27:36
+SQL: SELECT 
+        d.cKodeBahan,
+        h.cNoBPB,
+        h.cNama AS supplier,
+        h.dTanggal,
+        d.cNama AS nama_barang,
+        d.cNoPP AS no_opb,
+        h.cKeterangan,
+        d.cUkuran AS ukuran,
+        d.nQtyK AS jumlah,
+        d.cSatK AS satuan
+    FROM tbBPBdtl d
+    LEFT JOIN tbBPB h ON d.cNoBPB = h.cNoBPB WHERE (d.cKodeBahan LIKE ? OR h.cNoBPB LIKE ? OR h.cNama LIKE ? OR d.cNama LIKE ? OR d.cNoPP LIKE ?) AND (h.dTanggal >= ? AND h.dTanggal <= ?) ORDER BY h.dTanggal DESC
+Params: Array
+(
+    [0] => %ANVIL%
+    [1] => %ANVIL%
+    [2] => %ANVIL%
+    [3] => %ANVIL%
+    [4] => %ANVIL%
+    [5] => 2025-12-01 00:00:00.000
+    [6] => 2026-02-25 23:59:59.000
+)
+
+====
+2026-02-02 10:27:36
+SQL: SELECT 
+        d.cKodeBahan,
+        h.cNoBPB,
+        h.cNama AS supplier,
+        h.dTanggal,
+        d.cNama AS nama_barang,
+        d.cNoPP AS no_opb,
+        h.cKeterangan,
+        d.cUkuran AS ukuran,
+        d.nQtyK AS jumlah,
+        d.cSatK AS satuan
+    FROM tbBPBdtl d
+    LEFT JOIN tbBPB h ON d.cNoBPB = h.cNoBPB WHERE (d.cKodeBahan LIKE ? OR h.cNoBPB LIKE ? OR h.cNama LIKE ? OR d.cNama LIKE ? OR d.cNoPP LIKE ?) AND (h.dTanggal >= ? AND h.dTanggal <= ?) ORDER BY h.dTanggal DESC
+Params: Array
+(
+    [0] => %ANVIL%
+    [1] => %ANVIL%
+    [2] => %ANVIL%
+    [3] => %ANVIL%
+    [4] => %ANVIL%
+    [5] => 2025-12-01 00:00:00.000
+    [6] => 2026-02-25 23:59:59.000
+)
+
+====
+2026-02-02 10:27:37
+SQL: SELECT 
+        d.cKodeBahan,
+        h.cNoBPB,
+        h.cNama AS supplier,
+        h.dTanggal,
+        d.cNama AS nama_barang,
+        d.cNoPP AS no_opb,
+        h.cKeterangan,
+        d.cUkuran AS ukuran,
+        d.nQtyK AS jumlah,
+        d.cSatK AS satuan
+    FROM tbBPBdtl d
+    LEFT JOIN tbBPB h ON d.cNoBPB = h.cNoBPB WHERE (d.cKodeBahan LIKE ? OR h.cNoBPB LIKE ? OR h.cNama LIKE ? OR d.cNama LIKE ? OR d.cNoPP LIKE ?) AND (h.dTanggal >= ? AND h.dTanggal <= ?) ORDER BY h.dTanggal DESC
+Params: Array
+(
+    [0] => %ANVIL%
+    [1] => %ANVIL%
+    [2] => %ANVIL%
+    [3] => %ANVIL%
+    [4] => %ANVIL%
+    [5] => 2025-12-01 00:00:00.000
+    [6] => 2026-02-25 23:59:59.000
+)

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit Warna MC</title>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <style>
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #ccc; padding: 8px; }
+    input[type="text"] { width: 80px; }
+    button { padding: 4px 10px; }
+  </style>
+</head>
+<body>
+  <h2>Daftar MC (Edit Warna)</h2>
+  <table id="mcTable">
+    <thead>
+      <tr>
+        <th>No MC</th>
+        <th>Warna</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Data MC akan diisi di sini -->
+    </tbody>
+  </table>
+
+  <script>
+    // Ambil data MC dari backend (get_data_list.php)
+    function loadMCList() {
+      axios.get('get_data_list.php?limit=20')
+        .then(res => {
+          if (!res.data.success) return;
+          const tbody = document.querySelector('#mcTable tbody');
+          tbody.innerHTML = '';
+          res.data.data.forEach(row => {
+            tbody.innerHTML += `
+              <tr>
+                <td>${row.cNoMc}</td>
+                <td>
+                  <input type="text" value="${row.cWarna}" id="warna_${row.cNoMc}">
+                </td>
+                <td>
+                  <button onclick="updateWarna('${row.cNoMc}')">Simpan</button>
+                </td>
+              </tr>
+            `;
+          });
+        });
+    }
+
+    function updateWarna(cNoMc) {
+      const warna = document.getElementById('warna_' + cNoMc).value;
+      if (!warna) {
+        alert('Warna tidak boleh kosong!');
+        return;
+      }
+      axios.post('api_update_mc_color.php', 
+        new URLSearchParams({cNoMc: cNoMc, cWarna: warna})
+      ).then(res => {
+        if (res.data.success) {
+          alert('Berhasil update warna!');
+        } else {
+          alert('Gagal update warna: ' + res.data.message);
+        }
+      });
+    }
+
+    loadMCList();
+  </script>
+</body>
+</html>

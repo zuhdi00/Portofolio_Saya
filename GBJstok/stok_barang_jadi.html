@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stok Barang Jadi — PT Supracor Sejahtera</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+  :root{
+    --biru:#0d47a1; --biru-muda:#e3f0ff; --abu:#f4f6f8; --border:#dfe3e8;
+    --hijau:#d8f5d8; --hijau-teks:#1b7a1b; --kuning:#fff6cc; --kuning-teks:#8a6d00;
+    --merah:#ffe1e1; --merah-teks:#b30000;
+  }
+  *{box-sizing:border-box;}
+  body{
+    font-family:Segoe UI,Arial,sans-serif; margin:0; background:var(--abu); color:#1a1a1a;
+  }
+  header.topbar{
+    background:var(--biru); color:#fff; padding:14px 22px;
+  }
+  header.topbar h1{margin:0; font-size:18px; font-weight:600;}
+  header.topbar p{margin:2px 0 0; font-size:12px; opacity:.85;}
+  .container{padding:18px 22px 60px;}
+
+  .cards{display:flex; gap:14px; flex-wrap:wrap; margin-bottom:16px;}
+  .card{
+    background:#fff; border:1px solid var(--border); border-radius:8px; padding:12px 16px;
+    flex:1; min-width:200px; cursor:default;
+  }
+  .card.clickable{cursor:pointer;}
+  .card.clickable:hover{border-color:var(--biru); box-shadow:0 1px 6px rgba(0,0,0,.08);}
+  .card .label{font-size:12px; color:#666; margin-bottom:4px;}
+  .card .value{font-size:20px; font-weight:700; color:var(--biru);}
+  .card .sub{font-size:11px; color:#999; margin-top:2px;}
+
+  .filter-bar{
+    background:#fff; border:1px solid var(--border); border-radius:8px; padding:14px 16px;
+    display:flex; gap:12px; flex-wrap:wrap; align-items:flex-end; margin-bottom:14px;
+  }
+  .filter-item{display:flex; flex-direction:column; gap:4px;}
+  .filter-item label{font-size:11px; color:#555; font-weight:600;}
+  .filter-item input, .filter-item select{
+    padding:6px 8px; border:1px solid var(--border); border-radius:5px; font-size:13px; min-width:140px;
+  }
+  .filter-item.grow{flex:1; min-width:200px;}
+  .btn{
+    padding:7px 16px; border:none; border-radius:5px; font-size:13px; font-weight:600; cursor:pointer;
+  }
+  .btn-primary{background:var(--biru); color:#fff;}
+  .btn-primary:hover{background:#0a3a82;}
+  .btn-export{background:#1c8a4a; color:#fff;}
+  .btn-export:hover{background:#156a39;}
+  .btn-reset{background:#eee; color:#333;}
+  .btn-reset:hover{background:#ddd;}
+
+  .table-wrap{
+    background:#fff; border:1px solid var(--border); border-radius:8px; overflow:auto;
+    max-height:70vh; position:relative;
+  }
+  table{border-collapse:collapse; width:100%; font-size:12.5px; min-width:1500px;}
+  thead th{
+    background:#f0f3f7; border:1px solid var(--border); padding:6px 8px; text-align:center;
+    position:sticky; white-space:nowrap;
+  }
+  thead tr:nth-child(1) th{top:0; z-index:3; background:#e6ecf5; font-weight:700;}
+  thead tr:nth-child(2) th{top:31px; z-index:2; font-weight:600; color:#444;}
+  tbody td{
+    border:1px solid var(--border); padding:5px 8px; white-space:nowrap;
+  }
+  tbody td.num{text-align:right;}
+  tbody td.center{text-align:center;}
+  td.col-saldo-akhir{font-weight:700;}
+  tr.row-kosong{background:var(--hijau);}
+  tr.row-menumpuk{background:var(--kuning);}
+  tr.row-normal{background:#fff;}
+  tr:hover td{filter:brightness(0.97);}
+
+  tfoot td{
+    border:1px solid var(--border); padding:6px 8px; font-weight:700;
+    background:#f0f3f7; position:sticky; bottom:0; z-index:2;
+  }
+
+  .badge{
+    display:inline-block; padding:2px 8px; border-radius:10px; font-size:11px; font-weight:700;
+  }
+  .badge-kosong{background:var(--merah); color:var(--merah-teks);}
+  .badge-menumpuk{background:var(--kuning); color:var(--kuning-teks);}
+  .badge-normal{background:var(--hijau); color:var(--hijau-teks);}
+
+  .badge-umur{display:inline-block; padding:1px 7px; border-radius:8px; font-size:11px; font-weight:600; color:#fff;}
+  .umur-hijau{background:#2e9e44;}
+  .umur-biru{background:#1c6fd1;}
+  .umur-kuning{background:#c79b00;}
+  .umur-merah{background:#c0392b;}
+
+  .status-msg{padding:30px; text-align:center; color:#888; font-size:13px;}
+  .loading{padding:30px; text-align:center; color:var(--biru); font-size:13px;}
+
+  .legend{display:flex; gap:18px; font-size:12px; color:#555; margin:10px 2px 0; flex-wrap:wrap;}
+  .legend span{display:flex; align-items:center; gap:5px;}
+  .dot{width:12px; height:12px; border-radius:3px; display:inline-block; border:1px solid #ccc;}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <h1>PT Supracor Sejahtera — Laporan Stok Barang Jadi</h1>
+  <p>Modul Dashboard Intake · Saldo dihitung dari transaksi STB, SRJ, dan Retur</p>
+</header>
+
+<div class="container">
+
+  <!-- ===== Summary Cards ===== -->
+  <div class="cards">
+    <div class="card">
+      <div class="label">Total Saldo Stok Saat Ini (Pcs)</div>
+      <div class="value" id="cardSaldoPcs">0</div>
+      <div class="sub" id="cardSaldoKg">0,00 Kg</div>
+    </div>
+    <div class="card">
+      <div class="label">Total STB Periode</div>
+      <div class="value" id="cardStb">0</div>
+      <div class="sub">Pcs masuk dari produksi</div>
+    </div>
+    <div class="card">
+      <div class="label">Total DLV Periode</div>
+      <div class="value" id="cardDlv">0</div>
+      <div class="sub">Pcs terkirim ke customer</div>
+    </div>
+    <div class="card clickable" id="cardMenumpuk" title="Klik untuk filter status MENUMPUK">
+      <div class="label">Item Menumpuk (&gt;14 hari)</div>
+      <div class="value" id="cardMenumpukVal">0</div>
+      <div class="sub">Klik untuk filter</div>
+    </div>
+  </div>
+
+  <!-- ===== Filter Bar ===== -->
+  <div class="filter-bar">
+    <div class="filter-item">
+      <label>Dari Tanggal</label>
+      <input type="date" id="fTglMulai">
+    </div>
+    <div class="filter-item">
+      <label>Sampai Tanggal</label>
+      <input type="date" id="fTglAkhir">
+    </div>
+    <div class="filter-item">
+      <label>Status Stok</label>
+      <select id="fStatus">
+        <option value="">Semua</option>
+        <option value="NORMAL">NORMAL</option>
+        <option value="MENUMPUK">MENUMPUK</option>
+        <option value="KOSONG">KOSONG</option>
+      </select>
+    </div>
+    <div class="filter-item grow">
+      <label>Customer</label>
+      <input type="text" id="fCustomer" placeholder="Cari customer...">
+    </div>
+    <div class="filter-item grow">
+      <label>Item</label>
+      <input type="text" id="fItem" placeholder="Cari nama item...">
+    </div>
+    <div class="filter-item grow">
+      <label>No. OP / No. MC</label>
+      <input type="text" id="fOpMc" placeholder="Cari No. OP / No. MC...">
+    </div>
+    <div class="filter-item">
+      <label>&nbsp;</label>
+      <button class="btn btn-primary" id="btnLoad">Tampilkan</button>
+    </div>
+    <div class="filter-item">
+      <label>&nbsp;</label>
+      <button class="btn btn-reset" id="btnReset">Reset Filter</button>
+    </div>
+    <div class="filter-item" style="margin-left:auto;">
+      <label>&nbsp;</label>
+      <button class="btn btn-export" id="btnExport">⬇ Export Excel</button>
+    </div>
+  </div>
+
+  <!-- ===== Table ===== -->
+  <div class="table-wrap">
+    <table id="tblStok">
+      <thead>
+        <tr>
+          <th rowspan="2">No.</th>
+          <th rowspan="2">Customer</th>
+          <th rowspan="2">Item</th>
+          <th rowspan="2">Sales</th>
+          <th rowspan="2">Ukuran</th>
+          <th rowspan="2">No. MC</th>
+          <th rowspan="2">No. OP</th>
+          <th rowspan="2">No. SC</th>
+          <th rowspan="2">Tgl STB Terakhir</th>
+          <th rowspan="2">Lokasi</th>
+          <th colspan="2">Saldo Awal</th>
+          <th colspan="2">STB</th>
+          <th colspan="2">DLV</th>
+          <th colspan="2">Retur</th>
+          <th colspan="2">Saldo Akhir</th>
+          <th rowspan="2">Umur Stok</th>
+          <th rowspan="2">Status</th>
+        </tr>
+        <tr>
+          <th>Pcs</th><th>Kg</th>
+          <th>Pcs</th><th>Kg</th>
+          <th>Pcs</th><th>Kg</th>
+          <th>Pcs</th><th>Kg</th>
+          <th>Pcs</th><th>Kg</th>
+        </tr>
+      </thead>
+      <tbody id="tblBody">
+        <tr><td colspan="20" class="status-msg">Pilih rentang tanggal lalu klik "Tampilkan".</td></tr>
+      </tbody>
+      <tfoot>
+        <tr id="tfootRow" style="display:none;">
+          <td colspan="10" style="text-align:right;">TOTAL</td>
+          <td class="num" id="totSaldoAwalPcs">0</td>
+          <td class="num" id="totSaldoAwalKg">0,00</td>
+          <td class="num" id="totStbPcs">0</td>
+          <td class="num" id="totStbKg">0,00</td>
+          <td class="num" id="totDlvPcs">0</td>
+          <td class="num" id="totDlvKg">0,00</td>
+          <td class="num" id="totRtPcs">0</td>
+          <td class="num" id="totRtKg">0,00</td>
+          <td class="num" id="totSaldoAkhirPcs">0</td>
+          <td class="num" id="totSaldoAkhirKg">0,00</td>
+          <td colspan="2"></td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+
+  <div class="legend">
+    <span><span class="dot" style="background:var(--hijau);"></span> Saldo Akhir = 0 (stok kosong)</span>
+    <span><span class="dot" style="background:var(--kuning);"></span> Status MENUMPUK (umur &gt; 14 hari &amp; saldo &gt; 0)</span>
+    <span><span class="dot" style="background:#fff;"></span> Status NORMAL</span>
+  </div>
+
+</div>
+
+<script>
+// ====== Konfigurasi endpoint backend ======
+const API_URL = 'get_stok_barang_jadi.php';
+
+let rawData = [];      // data asli dari server (sudah difilter tanggal)
+let filteredData = []; // data setelah filter client-side (customer/item/op-mc/status)
+
+const elBody   = document.getElementById('tblBody');
+const elTfoot  = document.getElementById('tfootRow');
+
+// ---------- Util format ----------
+function fmtPcs(n){
+  n = Math.round(Number(n) || 0);
+  return n.toLocaleString('id-ID');
+}
+function fmtKg(n){
+  n = Number(n) || 0;
+  return n.toLocaleString('id-ID', {minimumFractionDigits:2, maximumFractionDigits:2});
+}
+function fmtTgl(s){
+  if(!s) return '-';
+  const d = new Date(s);
+  if (isNaN(d)) return s;
+  return d.toLocaleDateString('id-ID', {day:'2-digit', month:'2-digit', year:'numeric'});
+}
+
+function umurBadgeClass(hari){
+  if (hari === null || hari === undefined) return 'umur-merah';
+  if (hari <= 5) return 'umur-hijau';
+  if (hari <= 7) return 'umur-biru';
+  if (hari <= 14) return 'umur-kuning';
+  return 'umur-merah';
+}
+function statusBadgeClass(st){
+  if (st === 'KOSONG') return 'badge-kosong';
+  if (st === 'MENUMPUK') return 'badge-menumpuk';
+  return 'badge-normal';
+}
+function rowClass(st){
+  if (st === 'KOSONG') return 'row-kosong';
+  if (st === 'MENUMPUK') return 'row-menumpuk';
+  return 'row-normal';
+}
+
+// ---------- Default tanggal: awal bulan ini s/d hari ini ----------
+function setDefaultDates(){
+  const now = new Date();
+  const first = new Date(now.getFullYear(), now.getMonth(), 1);
+  document.getElementById('fTglMulai').value = first.toISOString().slice(0,10);
+  document.getElementById('fTglAkhir').value = now.toISOString().slice(0,10);
+}
+
+// ---------- Load dari backend ----------
+async function loadData(){
+  const tglMulai = document.getElementById('fTglMulai').value;
+  const tglAkhir = document.getElementById('fTglAkhir').value;
+
+  if (!tglMulai || !tglAkhir){
+    alert('Tanggal mulai dan tanggal akhir wajib diisi.');
+    return;
+  }
+
+  elBody.innerHTML = '<tr><td colspan="20" class="loading">Memuat data...</td></tr>';
+  elTfoot.style.display = 'none';
+
+  try {
+    const url = `${API_URL}?tgl_mulai=${encodeURIComponent(tglMulai)}&tgl_akhir=${encodeURIComponent(tglAkhir)}`;
+    const res = await fetch(url);
+    const json = await res.json();
+
+    if (!json.success) {
+      elBody.innerHTML = `<tr><td colspan="20" class="status-msg">Gagal memuat data: ${json.message || 'Unknown error'}</td></tr>`;
+      return;
+    }
+
+    rawData = json.data || [];
+    applyClientFilters();
+  } catch (e) {
+    elBody.innerHTML = `<tr><td colspan="20" class="status-msg">Terjadi kesalahan koneksi: ${e.message}</td></tr>`;
+  }
+}
+
+// ---------- Filter client-side (search box live + dropdown status) ----------
+function applyClientFilters(){
+  const customer = document.getElementById('fCustomer').value.trim().toLowerCase();
+  const item     = document.getElementById('fItem').value.trim().toLowerCase();
+  const opmc     = document.getElementById('fOpMc').value.trim().toLowerCase();
+  const status   = document.getElementById('fStatus').value;
+
+  filteredData = rawData.filter(r => {
+    if (customer && !(r.cCustomer || '').toLowerCase().includes(customer)) return false;
+    if (item && !(r.cItem || '').toLowerCase().includes(item)) return false;
+    if (opmc && !((r.cNoOp || '').toLowerCase().includes(opmc) || (r.cNoMc || '').toLowerCase().includes(opmc))) return false;
+    if (status && r.cStatus !== status) return false;
+    return true;
+  });
+
+  renderTable(filteredData);
+  renderSummary(rawData, filteredData);
+}
+
+// ---------- Render tabel ----------
+function renderTable(data){
+  if (!data.length){
+    elBody.innerHTML = '<tr><td colspan="20" class="status-msg">Tidak ada data untuk filter yang dipilih.</td></tr>';
+    elTfoot.style.display = 'none';
+    return;
+  }
+
+  let html = '';
+  let tot = {sa_p:0, sa_k:0, stb_p:0, stb_k:0, dlv_p:0, dlv_k:0, rt_p:0, rt_k:0, sak_p:0, sak_k:0};
+
+  data.forEach((r, idx) => {
+    tot.sa_p  += r.nSaldoAwalPcs;  tot.sa_k  += r.nSaldoAwalKg;
+    tot.stb_p += r.nStbPcs;        tot.stb_k += r.nStbKg;
+    tot.dlv_p += r.nDlvPcs;        tot.dlv_k += r.nDlvKg;
+    tot.rt_p  += r.nRtPcs;         tot.rt_k  += r.nRtKg;
+    tot.sak_p += r.nSaldoAkhirPcs; tot.sak_k += r.nSaldoAkhirKg;
+
+    html += `<tr class="${rowClass(r.cStatus)}">
+      <td class="center">${idx + 1}</td>
+      <td>${r.cCustomer || '-'}</td>
+      <td>${r.cItem || '-'}</td>
+      <td>${r.cSales || '-'}</td>
+      <td>${r.cUkuran || '-'}</td>
+      <td>${r.cNoMc || '-'}</td>
+      <td>${r.cNoOp || '-'}</td>
+      <td>${r.cNoSc || '-'}</td>
+      <td class="center">${fmtTgl(r.dTglStbTerakhir)}</td>
+      <td>${r.cLokasi || '-'}</td>
+      <td class="num">${fmtPcs(r.nSaldoAwalPcs)}</td>
+      <td class="num">${fmtKg(r.nSaldoAwalKg)}</td>
+      <td class="num">${fmtPcs(r.nStbPcs)}</td>
+      <td class="num">${fmtKg(r.nStbKg)}</td>
+      <td class="num">${fmtPcs(r.nDlvPcs)}</td>
+      <td class="num">${fmtKg(r.nDlvKg)}</td>
+      <td class="num">${fmtPcs(r.nRtPcs)}</td>
+      <td class="num">${fmtKg(r.nRtKg)}</td>
+      <td class="num col-saldo-akhir">${fmtPcs(r.nSaldoAkhirPcs)}</td>
+      <td class="num col-saldo-akhir">${fmtKg(r.nSaldoAkhirKg)}</td>
+      <td class="center"><span class="badge-umur ${umurBadgeClass(r.nUmurHari)}">${r.nUmurHari ?? '-'} hr</span></td>
+      <td class="center"><span class="badge ${statusBadgeClass(r.cStatus)}">${r.cStatus}</span></td>
+    </tr>`;
+  });
+
+  elBody.innerHTML = html;
+
+  document.getElementById('totSaldoAwalPcs').textContent  = fmtPcs(tot.sa_p);
+  document.getElementById('totSaldoAwalKg').textContent   = fmtKg(tot.sa_k);
+  document.getElementById('totStbPcs').textContent        = fmtPcs(tot.stb_p);
+  document.getElementById('totStbKg').textContent         = fmtKg(tot.stb_k);
+  document.getElementById('totDlvPcs').textContent        = fmtPcs(tot.dlv_p);
+  document.getElementById('totDlvKg').textContent         = fmtKg(tot.dlv_k);
+  document.getElementById('totRtPcs').textContent         = fmtPcs(tot.rt_p);
+  document.getElementById('totRtKg').textContent          = fmtKg(tot.rt_k);
+  document.getElementById('totSaldoAkhirPcs').textContent = fmtPcs(tot.sak_p);
+  document.getElementById('totSaldoAkhirKg').textContent  = fmtKg(tot.sak_k);
+  elTfoot.style.display = '';
+}
+
+// ---------- Render summary cards (selalu dari rawData, bukan dari filter) ----------
+function renderSummary(all, filtered){
+  let saldoPcs = 0, saldoKg = 0, stbPcs = 0, dlvPcs = 0, menumpuk = 0;
+  all.forEach(r => {
+    saldoPcs += r.nSaldoAkhirPcs;
+    saldoKg  += r.nSaldoAkhirKg;
+    stbPcs   += r.nStbPcs;
+    dlvPcs   += r.nDlvPcs;
+    if (r.cStatus === 'MENUMPUK') menumpuk++;
+  });
+  document.getElementById('cardSaldoPcs').textContent = fmtPcs(saldoPcs);
+  document.getElementById('cardSaldoKg').textContent  = fmtKg(saldoKg) + ' Kg';
+  document.getElementById('cardStb').textContent       = fmtPcs(stbPcs);
+  document.getElementById('cardDlv').textContent       = fmtPcs(dlvPcs);
+  document.getElementById('cardMenumpukVal').textContent = menumpuk;
+}
+
+// ---------- Export Excel — kolom HARUS identik dengan tampilan & urutannya ----------
+function exportExcel(){
+  if (!filteredData.length){
+    alert('Tidak ada data untuk diexport.');
+    return;
+  }
+
+  const header1 = ['No.','Customer','Item','Sales','Ukuran','No. MC','No. OP','No. SC',
+                    'Tgl STB Terakhir','Lokasi',
+                    'Saldo Awal','', 'STB','', 'DLV','', 'Retur','', 'Saldo Akhir','',
+                    'Umur Stok','Status'];
+  const header2 = ['','','','','','','','','','',
+                    'Pcs','Kg','Pcs','Kg','Pcs','Kg','Pcs','Kg','Pcs','Kg','',''];
+
+  const rows = filteredData.map((r, idx) => [
+    idx + 1,
+    r.cCustomer || '',
+    r.cItem || '',
+    r.cSales || '',
+    r.cUkuran || '',
+    r.cNoMc || '',
+    r.cNoOp || '',
+    r.cNoSc || '',
+    fmtTgl(r.dTglStbTerakhir),
+    r.cLokasi || '',
+    Math.round(r.nSaldoAwalPcs), r.nSaldoAwalKg,
+    Math.round(r.nStbPcs), r.nStbKg,
+    Math.round(r.nDlvPcs), r.nDlvKg,
+    Math.round(r.nRtPcs), r.nRtKg,
+    Math.round(r.nSaldoAkhirPcs), r.nSaldoAkhirKg,
+    r.nUmurHari ?? '',
+    r.cStatus
+  ]);
+
+  const ws = XLSX.utils.aoa_to_sheet([header1, header2, ...rows]);
+
+  // Merge sel header kelompok (baris pertama)
+  ws['!merges'] = [
+    {s:{r:0,c:10}, e:{r:0,c:11}}, // Saldo Awal
+    {s:{r:0,c:12}, e:{r:0,c:13}}, // STB
+    {s:{r:0,c:14}, e:{r:0,c:15}}, // DLV
+    {s:{r:0,c:16}, e:{r:0,c:17}}, // Retur
+    {s:{r:0,c:18}, e:{r:0,c:19}}, // Saldo Akhir
+  ];
+
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, 'Stok Barang Jadi');
+
+  const tglMulai = document.getElementById('fTglMulai').value;
+  const tglAkhir = document.getElementById('fTglAkhir').value;
+  XLSX.writeFile(wb, `Stok_Barang_Jadi_${tglMulai}_sd_${tglAkhir}.xlsx`);
+}
+
+// ---------- Event listeners ----------
+document.getElementById('btnLoad').addEventListener('click', loadData);
+document.getElementById('btnExport').addEventListener('click', exportExcel);
+document.getElementById('btnReset').addEventListener('click', () => {
+  document.getElementById('fCustomer').value = '';
+  document.getElementById('fItem').value = '';
+  document.getElementById('fOpMc').value = '';
+  document.getElementById('fStatus').value = '';
+  setDefaultDates();
+  loadData();
+});
+document.getElementById('cardMenumpuk').addEventListener('click', () => {
+  document.getElementById('fStatus').value = 'MENUMPUK';
+  applyClientFilters();
+});
+
+// Search box live (client-side), sesuai pola modul lain
+['fCustomer','fItem','fOpMc'].forEach(id => {
+  document.getElementById(id).addEventListener('input', applyClientFilters);
+});
+document.getElementById('fStatus').addEventListener('change', applyClientFilters);
+
+// ---------- Init ----------
+setDefaultDates();
+loadData();
+</script>
+
+</body>
+</html>

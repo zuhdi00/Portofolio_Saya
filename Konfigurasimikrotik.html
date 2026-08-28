@@ -1,0 +1,1223 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panduan Konfigurasi VLAN Mikrotik</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .container {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            border-bottom: 4px solid #3498db;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+        }
+        
+        h2 {
+            color: #2c3e50;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 5px;
+            margin-top: 30px;
+        }
+        
+        h3 {
+            color: #34495e;
+            border-left: 4px solid #3498db;
+            padding-left: 15px;
+            margin-top: 25px;
+        }
+        
+        .topology {
+            background: #f8f9fa;
+            border: 2px solid #3498db;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.8;
+        }
+        
+        .step {
+            background: #fff;
+            border-left: 4px solid #27ae60;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .step-number {
+            display: inline-block;
+            background: #27ae60;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        .command {
+            background: #2c3e50;
+            color: #2ecc71;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            border-left: 4px solid #3498db;
+        }
+        
+        .command-title {
+            color: #3498db;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .winbox-path {
+            background: #e8f4f8;
+            border-left: 4px solid #3498db;
+            padding: 12px 15px;
+            margin: 10px 0;
+            border-radius: 3px;
+            font-family: 'Segoe UI', sans-serif;
+            font-weight: 500;
+        }
+        
+        .info-box {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .info-box.warning {
+            background: #fff3cd;
+            border-color: #ffc107;
+        }
+        
+        .info-box.success {
+            background: #d4edda;
+            border-color: #28a745;
+        }
+        
+        .info-box.danger {
+            background: #f8d7da;
+            border-color: #dc3545;
+        }
+        
+        .icon {
+            font-size: 20px;
+            margin-right: 8px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        th {
+            background: #3498db;
+            color: white;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        tr:hover {
+            background: #f5f5f5;
+        }
+        
+        .checklist {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .checklist li {
+            padding: 10px;
+            margin: 5px 0;
+            background: #f8f9fa;
+            border-radius: 5px;
+        }
+        
+        .checklist li:before {
+            content: "✓";
+            color: #27ae60;
+            font-weight: bold;
+            margin-right: 10px;
+            font-size: 18px;
+        }
+        
+        .btn-print {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            z-index: 1000;
+        }
+        
+        .btn-print:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.4);
+        }
+        
+        @media print {
+            body {
+                background: white;
+            }
+            .btn-print {
+                display: none;
+            }
+        }
+        
+        .nav-menu {
+            background: #34495e;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        
+        .nav-menu a {
+            color: #3498db;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: 500;
+        }
+        
+        .nav-menu a:hover {
+            color: #2ecc71;
+        }
+        
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            color: #e74c3c;
+        }
+    </style>
+</head>
+<body>
+    <button class="btn-print" onclick="window.print()">🖨️ Print / Save PDF</button>
+    
+    <div class="container">
+        <h1>🔧 Panduan Konfigurasi VLAN Mikrotik via Winbox</h1>
+        <p style="text-align: center; font-size: 18px; color: #7f8c8d;">
+            Memisahkan Jaringan Office dan CCTV untuk Menghindari Traffic Collision
+        </p>
+        
+        <div class="nav-menu">
+            <strong>📚 Quick Navigation:</strong>
+            <a href="#topology">Topologi</a> |
+            <a href="#planning">Perencanaan</a> |
+            <a href="#config">Konfigurasi</a> |
+            <a href="#testing">Testing</a> |
+            <a href="#troubleshoot">Troubleshooting</a>
+        </div>
+        
+        <div class="info-box">
+            <span class="icon">💡</span>
+            <strong>Tujuan Konfigurasi:</strong>
+            <ul>
+                <li>Memisahkan traffic jaringan Office dan CCTV menggunakan VLAN</li>
+                <li>Mencegah bandwidth CCTV membebani jaringan Office</li>
+                <li>Meningkatkan keamanan dan performa jaringan</li>
+                <li>Mengelola QoS untuk prioritas traffic</li>
+            </ul>
+        </div>
+        
+        <h2 id="topology">📊 Topologi Jaringan</h2>
+        
+        <div class="topology">
+INTERNET
+   |
+   |
+[MIKROTIK ROUTER]
+   |
+   ├─── ether1: WAN (Internet)
+   ├─── ether2: Bridge (Trunk Port - Tagged)
+   |
+   |
+[MANAGED SWITCH]
+   |
+   ├─── Port 1-10: VLAN 10 (Office Network) - Untagged
+   ├─── Port 11-16: VLAN 20 (CCTV Network) - Untagged
+   └─── Port 24: Trunk ke Mikrotik - Tagged
+   
+<strong>VLAN 10 (Office Network)</strong>
+├─── Server
+├─── Komputer Client 1-10
+└─── Printer
+
+<strong>VLAN 20 (CCTV Network)</strong>
+├─── NVR/DVR
+└─── IP Camera 1-8
+        </div>
+        
+        <h2 id="planning">📋 Perencanaan IP Address</h2>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>VLAN</th>
+                    <th>Nama</th>
+                    <th>Network</th>
+                    <th>Gateway</th>
+                    <th>DHCP Range</th>
+                    <th>Fungsi</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>VLAN 10</strong></td>
+                    <td>Office</td>
+                    <td>192.168.10.0/24</td>
+                    <td>192.168.10.1</td>
+                    <td>192.168.10.100-200</td>
+                    <td>Server, Client, Printer</td>
+                </tr>
+                <tr>
+                    <td><strong>VLAN 20</strong></td>
+                    <td>CCTV</td>
+                    <td>192.168.20.0/24</td>
+                    <td>192.168.20.1</td>
+                    <td>192.168.20.100-200</td>
+                    <td>NVR, IP Camera</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <div class="info-box warning">
+            <span class="icon">⚠️</span>
+            <strong>Persiapan Sebelum Konfigurasi:</strong>
+            <ul>
+                <li>Backup konfigurasi Mikrotik yang ada</li>
+                <li>Siapkan managed switch yang support VLAN</li>
+                <li>Catat IP address dan port yang akan digunakan</li>
+                <li>Pastikan koneksi Winbox stabil</li>
+            </ul>
+        </div>
+        
+        <h2 id="config">⚙️ Langkah Konfigurasi via Winbox</h2>
+        
+        <!-- STEP 1 -->
+        <div class="step">
+            <h3><span class="step-number">1</span> Login ke Mikrotik via Winbox</h3>
+            
+            <ol>
+                <li>Buka aplikasi <strong>Winbox</strong></li>
+                <li>Connect ke Mikrotik menggunakan:
+                    <ul>
+                        <li>IP Address atau MAC Address</li>
+                        <li>Username: <code>admin</code></li>
+                        <li>Password: [password Anda]</li>
+                    </ul>
+                </li>
+                <li>Klik <strong>Connect</strong></li>
+            </ol>
+            
+            <div class="info-box">
+                💡 <strong>Tips:</strong> Gunakan MAC Address jika IP belum dikonfigurasi atau terjadi masalah koneksi
+            </div>
+        </div>
+        
+        <!-- STEP 2 -->
+        <div class="step">
+            <h3><span class="step-number">2</span> Membuat Bridge untuk VLAN</h3>
+            
+            <div class="winbox-path">
+                📂 Winbox → <strong>Bridge</strong> → Tab <strong>Bridge</strong> → Klik [+]
+            </div>
+            
+            <p><strong>Konfigurasi Bridge:</strong></p>
+            <table>
+                <tr>
+                    <td><strong>Name</strong></td>
+                    <td>bridge-vlan</td>
+                </tr>
+                <tr>
+                    <td><strong>VLAN Filtering</strong></td>
+                    <td>✓ Checked (Centang)</td>
+                </tr>
+            </table>
+            
+            <p>Klik <strong>OK</strong></p>
+            
+            <div class="info-box success">
+                ✓ Bridge berhasil dibuat dengan nama "bridge-vlan"
+            </div>
+        </div>
+        
+        <!-- STEP 3 -->
+        <div class="step">
+            <h3><span class="step-number">3</span> Menambahkan Port ke Bridge</h3>
+            
+            <div class="winbox-path">
+                📂 Winbox → <strong>Bridge</strong> → Tab <strong>Ports</strong> → Klik [+]
+            </div>
+            
+            <p><strong>Tambahkan Interface yang akan di-bridge:</strong></p>
+            
+            <p><strong>Port 1 - ether2 (ke Switch):</strong></p>
+            <table>
+                <tr>
+                    <td><strong>Interface</strong></td>
+                    <td>ether2</td>
+                </tr>
+                <tr>
+                    <td><strong>Bridge</strong></td>
+                    <td>bridge-vlan</td>
+                </tr>
+            </table>
+            
+            <p>Klik <strong>OK</strong></p>
+            
+            <div class="info-box">
+                💡 Ulangi untuk interface lain yang ingin dimasukkan ke bridge (ether3, ether4, dll)
+            </div>
+        </div>
+        
+        <!-- STEP 4 -->
+        <div class="step">
+            <h3><span class="step-number">4</span> Membuat VLAN Interface</h3>
+            
+            <div class="winbox-path">
+                📂 Winbox → <strong>Interfaces</strong> → Klik [+] → Pilih <strong>VLAN</strong>
+            </div>
+            
+            <p><strong>VLAN 10 - Office:</strong></p>
+            <table>
+                <tr>
+                    <td><strong>Name</strong></td>
+                    <td>vlan10-office</td>
+                </tr>
+                <tr>
+                    <td><strong>VLAN ID</strong></td>
+                    <td>10</td>
+                </tr>
+                <tr>
+                    <td><strong>Interface</strong></td>
+                    <td>bridge-vlan</td>
+                </tr>
+            </table>
+            
+            <p>Klik <strong>OK</strong></p>
+            
+            <hr>
+            
+            <p><strong>VLAN 20 - CCTV:</strong></p>
+            <table>
+                <tr>
+                    <td><strong>Name</strong></td>
+                    <td>vlan20-cctv</td>
+                </tr>
+                <tr>
+                    <td><strong>VLAN ID</strong></td>
+                    <td>20</td>
+                </tr>
+                <tr>
+                    <td><strong>Interface</strong></td>
+                    <td>bridge-vlan</td>
+                </tr>
+            </table>
+            
+            <p>Klik <strong>OK</strong></p>
+            
+            <div class="info-box success">
+                ✓ VLAN 10 dan VLAN 20 berhasil dibuat
+            </div>
+        </div>
+        
+        <!-- STEP 5 -->
+        <div class="step">
+            <h3><span class="step-number">5</span> Konfigurasi VLAN di Bridge</h3>
+            
+            <div class="winbox-path">
+                📂 Winbox → <strong>Bridge</strong> → Tab <strong>VLANs</strong> → Klik [+]
+            </div>
+            
+            <p><strong>VLAN 10 - Office:</strong></p>
+            <table>
+                <tr>
+                    <td><strong>Bridge</strong></td>
+                    <td>bridge-vlan</td>
+                </tr>
+                <tr>
+                    <td><strong>VLAN IDs</strong></td>
+                    <td>10</td>
+                </tr>
+                <tr>
+                    <td><strong>Tagged</strong></td>
+                    <td>ether2 (port ke switch)</td>
+                </tr>
+                <tr>
+                    <td><strong>Untagged</strong></td>
+                    <td>-</td>
+                </tr>
+            </table>
+            
+            <p>Klik <strong>OK</strong></p>
+            
+            <hr>
+            
+            <p><strong>VLAN 20 - CCTV:</strong></p>
+            <table>
+                <tr>
+                    <td><strong>Bridge</strong></td>
+                    <td>bridge-vlan</td>
+                </tr>
+                <tr>
+                    <td><strong>VLAN IDs</strong></td>
+                    <td>20</td>
+                </tr>
+                <tr>
+                    <td><strong>Tagged</strong></td>
+                    <td>ether2 (port ke switch)</td>
+                </tr>
+                <tr>
+                    <td><strong>Untagged</strong></td>
+                    <td>-</td>
+                </tr>
+            </table>
+            
+            <p>Klik <strong>OK</strong></p>
+        </div>
+        
+        <!-- STEP 6 -->
+        <div class="step">
+            <h3><span class="step-number">6</span> Konfigurasi IP Address untuk VLAN</h3>
+            
+            <div class="winbox-path">
+                📂 Winbox → <strong>IP</strong> → <strong>Addresses</strong> → Klik [+]
+            </div>
+            
+            <p><strong>IP Address VLAN 10 (Office):</strong></p>
+            <table>
+                <tr>
+                    <td><strong>Address</strong></td>
+                    <td>192.168.10.1/24</td>
+                </tr>
+                <tr>
+                    <td><strong>Interface</strong></td>
+                    <td>vlan10-office</td>
+                </tr>
+            </table>
+            
+            <p>Klik <strong>OK</strong></p>
+            
+            <hr>
+            
+            <p><strong>IP Address VLAN 20 (CCTV):</strong></p>
+            <table>
+                <tr>
+                    <td><strong>Address</strong></td>
+                    <td>192.168.20.1/24</td>
+                </tr>
+                <tr>
+                    <td><strong>Interface</strong></td>
+                    <td>vlan20-cctv</td>
+                </tr>
+            </table>
+            
+            <p>Klik <strong>OK</strong></p>
+        </div>
+        
+        <!-- STEP 7 -->
+        <div class="step">
+            <h3><span class="step-number">7</span> Konfigurasi DHCP Server untuk VLAN</h3>
+            
+            <h4>📌 DHCP Server untuk VLAN 10 (Office)</h4>
+            
+            <div class="winbox-path">
+                📂 Winbox → <strong>IP</strong> → <strong>DHCP Server</strong> → Klik <strong>DHCP Setup</strong>
+            </div>
+            
+            <ol>
+                <li><strong>DHCP Server Interface:</strong> vlan10-office → Next</li>
+                <li><strong>DHCP Address Space:</strong> 192.168.10.0/24 → Next</li>
+                <li><strong>Gateway for DHCP Network:</strong> 192.168.10.1 → Next</li>
+                <li><strong>Addresses to Give Out:</strong> 192.168.10.100-192.168.10.200 → Next</li>
+                <li><strong>DNS Servers:</strong> 8.8.8.8, 8.8.4.4 → Next</li>
+                <li><strong>Lease Time:</strong> 1d 00:00:00 → Next</li>
+            </ol>
+            
+            <hr>
+            
+            <h4>📌 DHCP Server untuk VLAN 20 (CCTV)</h4>
+            
+            <p>Ulangi proses yang sama dengan parameter:</p>
+            <ol>
+                <li><strong>DHCP Server Interface:</strong> vlan20-cctv</li>
+                <li><strong>DHCP Address Space:</strong> 192.168.20.0/24</li>
+                <li><strong>Gateway:</strong> 192.168.20.1</li>
+                <li><strong>Address Range:</strong> 192.168.20.100-192.168.20.200</li>
+                <li><strong>DNS:</strong> 8.8.8.8, 8.8.4.4</li>
+            </ol>
+        </div>
+        
+        <!-- STEP 8 -->
+        <div class="step">
+            <h3><span class="step-number">8</span> Konfigurasi NAT (Masquerade)</h3>
+            
+            <div class="winbox-path">
+                📂 Winbox → <strong>IP</strong> → <strong>Firewall</strong> → Tab <strong>NAT</strong> → Klik [+]
+            </div>
+            
+            <p><strong>Tab General:</strong></p>
+            <table>
+                <tr>
+                    <td><strong>Chain</strong></td>
+                    <td>srcnat</td>
+                </tr>
+                <tr>
+                    <td><strong>Out. Interface</strong></td>
+                    <td>ether1 (WAN/Internet)</td>
+                </tr>
+            </table>
+            
+            <p><strong>Tab Action:</strong></p>
+            <table>
+                <tr>
+                    <td><strong>Action</strong></td>
+                    <td>masquerade</td>
+                </tr>
+            </table>
+            
+            <p>Klik <strong>OK</strong></p>
+            
+            <div class="info-box">
+                💡 NAT rule ini memungkinkan kedua VLAN mengakses internet
+            </div>
+        </div>
+        
+        <!-- STEP 9 -->
+        <div class="step">
+            <h3><span class="step-number">9</span> Konfigurasi QoS - Membatasi Bandwidth CCTV</h3>
+            
+            <div class="info-box warning">
+                <span class="icon">⚠️</span>
+                <strong>Penting:</strong> QoS mencegah traffic CCTV membebani jaringan Office
+            </div>
+            
+            <div class="winbox-path">
+                📂 Winbox → <strong>Queues</strong> → Tab <strong>Simple Queues</strong> → Klik [+]
+            </div>
+            
+            <p><strong>Limit Bandwidth CCTV:</strong></p>
+            
+            <p><strong>Tab General:</strong></p>
+            <table>
+                <tr>
+                    <td><strong>Name</strong></td>
+                    <td>CCTV-Limit</td>
+                </tr>
+                <tr>
+                    <td><strong>Target</strong></td>
+                    <td>192.168.20.0/24</td>
+                </tr>
+                <tr>
+                    <td><strong>Max Limit (Download)</strong></td>
+                    <td>20M (20 Mbps)</td>
+                </tr>
+                <tr>
+                    <td><strong>Max Limit (Upload)</strong></td>
+                    <td>10M (10 Mbps)</td>
+                </tr>
+            </table>
+            
+            <p>Klik <strong>OK</strong></p>
+            
+            <div class="info-box">
+                💡 Sesuaikan limit bandwidth dengan kebutuhan CCTV Anda. Formula: Jumlah Kamera × 2-4 Mbps
+            </div>
+            
+            <hr>
+            
+            <p><strong>Prioritas Traffic Office (Opsional):</strong></p>
+            
+            <table>
+                <tr>
+                    <td><strong>Name</strong></td>
+                    <td>Office-Priority</td>
+                </tr>
+                <tr>
+                    <td><strong>Target</strong></td>
+                    <td>192.168.10.0/24</td>
+                </tr>
+                <tr>
+                    <td><strong>Priority</strong></td>
+                    <td>1 (highest)</td>
+                </tr>
+            </table>
+        </div>
+        
+        <!-- STEP 10 -->
+        <div class="step">
+            <h3><span class="step-number">10</span> Konfigurasi Firewall Rules (Isolasi VLAN)</h3>
+            
+            <div class="winbox-path">
+                📂 Winbox → <strong>IP</strong> → <strong>Firewall</strong> → Tab <strong>Filter Rules</strong> → Klik [+]
+            </div>
+            
+            <p><strong>Blokir CCTV mengakses Office (Keamanan):</strong></p>
+            
+            <p><strong>Tab General:</strong></p>
+            <table>
+                <tr>
+                    <td><strong>Chain</strong></td>
+                    <td>forward</td>
+                </tr>
+                <tr>
+                    <td><strong>Src. Address</strong></td>
+                    <td>192.168.20.0/24 (CCTV)</td>
+                </tr>
+                <tr>
+                    <td><strong>Dst. Address</strong></td>
+                    <td>192.168.10.0/24 (Office)</td>
+                </tr>
+            </table>
+            
+            <p><strong>Tab Action:</strong></p>
+            <table>
+                <tr>
+                    <td><strong>Action</strong></td>
+                    <td>drop</td>
+                </tr>
+            </table>
+            
+            <p>Klik <strong>OK</strong></p>
+            
+            <hr>
+            
+            <p><strong>Izinkan Office mengakses CCTV (untuk monitoring):</strong></p>
+            
+            <p><strong>Tab General:</strong></p>
+            <table>
+                <tr>
+                    <td><strong>Chain</strong></td>
+                    <td>forward</td>
+                </tr>
+                <tr>
+                    <td><strong>Src. Address</strong></td>
+                    <td>192.168.10.0/24 (Office)</td>
+                </tr>
+                <tr>
+                    <td><strong>Dst. Address</strong></td>
+                    <td>192.168.20.0/24 (CCTV)</td>
+                </tr>
+            </table>
+            
+            <p><strong>Tab Action:</strong></p>
+            <table>
+                <tr>
+                    <td><strong>Action</strong></td>
+                    <td>accept</td>
+                </tr>
+            </table>
+            
+            <p>Klik <strong>OK</strong></p>
+        </div>
+        
+        <!-- STEP 11 -->
+        <div class="step">
+            <h3><span class="step-number">11</span> Konfigurasi Switch - VLAN Tagging</h3>
+            
+            <div class="info-box warning">
+                <span class="icon">⚠️</span>
+                <strong>Catatan:</strong> Langkah ini dilakukan pada <strong>Managed Switch</strong> Anda (bukan di Mikrotik)
+            </div>
+            
+            <p><strong>Konfigurasi di Switch:</strong></p>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Port</th>
+                        <th>VLAN</th>
+                        <th>Mode</th>
+                        <th>Perangkat</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Port 1-10</td>
+                        <td>10</td>
+                        <td>Access/Untagged</td>
+                        <td>Server, Client Office</td>
+                    </tr>
+                    <tr>
+                        <td>Port 11-16</td>
+                        <td>20</td>
+                        <td>Access/Untagged</td>
+                        <td>NVR, IP Camera</td>
+                    </tr>
+                    <tr>
+                        <td>Port 24</td>
+                        <td>10, 20</td>
+                        <td>Trunk/Tagged</td>
+                        <td>Uplink ke Mikrotik</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <p><strong>Contoh konfigurasi pada switch berbeda:</strong></p>
+            
+            <div class="command">
+                <div class="command-title">TP-Link / D-Link:</div>
+                1. Masuk web interface switch<br>
+                2. VLAN → 802.1Q VLAN → Create VLAN 10 dan 20<br>
+                3. Port Config → Set port 1-10 ke VLAN 10 (Untagged)<br>
+                4. Port Config → Set port 11-16 ke VLAN 20 (Untagged)<br>
+                5. Port Config → Set port 24 ke VLAN 10,20 (Tagged/Trunk)
+            </div>
+            
+            <div class="command">
+                <div class="command-title">Cisco Switch:</div>
+                interface range gi0/1-10<br>
+                &nbsp;&nbsp;switchport mode access<br>
+                &nbsp;&nbsp;switchport access vlan 10<br>
+                !<br>
+                interface range gi0/11-16<br>
+                &nbsp;&nbsp;switchport mode access<br>
+                &nbsp;&nbsp;switchport access vlan 20<br>
+                !<br>
+                interface gi0/24<br>
+                &nbsp;&nbsp;switchport mode trunk<br>
+                &nbsp;&nbsp;switchport trunk allowed vlan 10,20
+            </div>
+        </div>
+        
+        <h2 id="testing">🧪 Testing dan Verifikasi</h2>
+        
+        <div class="step">
+            <h3><span class="step-number">12</span> Testing Konektivitas</h3>
+            
+            <p><strong>Test 1: Ping Gateway dari Client Office</strong></p>
+            <div class="command">
+                C:\> ping 192.168.10.1<br>
+                <br>
+                ✓ Reply dari 192.168.10.1: bytes=32 time<1ms TTL=64
+            </div>
+            
+            <p><strong>Test 2: Ping Gateway dari CCTV/NVR</strong></p>
+            <div class="command">
+                > ping 192.168.20.1<br>
+                <br>
+                ✓ Reply dari 192.168.20.1: bytes=32 time<1ms TTL=64
+            </div>
+            
+            <p><strong>Test 3: Ping Internet dari Office</strong></p>
+            <div class="command">
+                C:\> ping 8.8.8.8<br>
+                <br>
+                ✓ Reply dari 8.8.8.8: bytes=32 time=15ms TTL=118
+            </div>
+            
+            <p><strong>Test 4: Test Isolasi VLAN (dari CCTV ping ke Office)</strong></p>
+            <div class="command">
+                > ping 192.168.10.100<br>
+                <br>
+                ✗ Request timed out (ini yang diharapkan - CCTV tidak bisa akses Office)
+            </div>
+            
+            <p><strong>Test 5: Test Akses dari Office ke CCTV (untuk monitoring)</strong></p>
+            <div class="command">
+                C:\> ping 192.168.20.100<br>
+                <br>
+                ✓ Reply dari 192.168.20.100: bytes=32 time<1ms TTL=64
+            </div>
+        </div>
+        
+        <div class="step">
+            <h3><span class="step-number">13</span> Monitoring Traffic di Mikrotik</h3>
+            
+            <div class="winbox-path">
+                📂 Winbox → <strong>Interfaces</strong>
+            </div>
+            
+            <p>Perhatikan TX/RX pada setiap interface VLAN:</p>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Interface</th>
+                        <th>Yang Harus Dicek</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>vlan10-office</td>
+                        <td>Traffic data office normal, tidak terpengaruh CCTV</td>
+                    </tr>
+                    <tr>
+                        <td>vlan20-cctv</td>
+                        <td>Traffic CCTV terbatas sesuai QoS yang dikonfigurasi</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="winbox-path">
+                📂 Winbox → <strong>Queues</strong> → <strong>Simple Queues</strong>
+            </div>
+            
+            <p>Monitor bandwidth CCTV real-time untuk memastikan tidak melebihi limit</p>
+            
+            <div class="winbox-path">
+                📂 Winbox → <strong>IP</strong> → <strong>Firewall</strong> → Tab <strong>Filter Rules</strong>
+            </div>
+            
+            <p>Cek counter pada firewall rule untuk memastikan isolasi VLAN bekerja</p>
+        </div>
+        
+        <div class="step">
+            <h3><span class="step-number">14</span> Verifikasi DHCP</h3>
+            
+            <div class="winbox-path">
+                📂 Winbox → <strong>IP</strong> → <strong>DHCP Server</strong> → Tab <strong>Leases</strong>
+            </div>
+            
+            <p>Pastikan perangkat mendapat IP sesuai VLAN:</p>
+            
+            <ul class="checklist">
+                <li>Client Office mendapat IP 192.168.10.x</li>
+                <li>CCTV/NVR mendapat IP 192.168.20.x</li>
+                <li>Tidak ada IP conflict</li>
+                <li>Gateway dan DNS sudah benar</li>
+            </ul>
+        </div>
+        
+        <h2 id="troubleshoot">🔧 Troubleshooting</h2>
+        
+        <div class="step">
+            <h3>❌ Masalah 1: Client Tidak Dapat IP DHCP</h3>
+            
+            <p><strong>Penyebab:</strong></p>
+            <ul>
+                <li>DHCP Server belum aktif</li>
+                <li>VLAN tidak dikonfigurasi dengan benar di switch</li>
+                <li>Port switch tidak dalam mode yang benar</li>
+            </ul>
+            
+            <p><strong>Solusi:</strong></p>
+            <ol>
+                <li>Cek status DHCP Server di Mikrotik</li>
+                <li>Pastikan VLAN ID di switch sama dengan Mikrotik</li>
+                <li>Verifikasi port mode (Access vs Trunk)</li>
+                <li>Restart DHCP Server jika perlu</li>
+            </ol>
+            
+            <div class="command">
+                <div class="command-title">Cek DHCP Server via Terminal:</div>
+                /ip dhcp-server print<br>
+                /ip dhcp-server lease print
+            </div>
+        </div>
+        
+        <div class="step">
+            <h3>❌ Masalah 2: Tidak Bisa Akses Internet</h3>
+            
+            <p><strong>Penyebab:</strong></p>
+            <ul>
+                <li>NAT Masquerade belum dikonfigurasi</li>
+                <li>Default route belum ada</li>
+                <li>DNS Server tidak dikonfigurasi</li>
+            </ul>
+            
+            <p><strong>Solusi:</strong></p>
+            <ol>
+                <li>Cek NAT rule di Firewall → NAT</li>
+                <li>Cek default route di IP → Routes</li>
+                <li>Test ping ke 8.8.8.8 (IP) dan google.com (DNS)</li>
+            </ol>
+            
+            <div class="command">
+                <div class="command-title">Cek Routing via Terminal:</div>
+                /ip route print<br>
+                /ip firewall nat print<br>
+                /ping 8.8.8.8
+            </div>
+        </div>
+        
+        <div class="step">
+            <h3>❌ Masalah 3: VLAN Masih Bisa Saling Akses</h3>
+            
+            <p><strong>Penyebab:</strong></p>
+            <ul>
+                <li>Firewall rule belum dikonfigurasi</li>
+                <li>Urutan firewall rule salah</li>
+                <li>VLAN filtering di bridge belum diaktifkan</li>
+            </ul>
+            
+            <p><strong>Solusi:</strong></p>
+            <ol>
+                <li>Pastikan VLAN Filtering di Bridge = checked</li>
+                <li>Cek urutan firewall rules (drop rule harus di atas accept rule)</li>
+                <li>Test dengan ping antar VLAN</li>
+            </ol>
+        </div>
+        
+        <div class="step">
+            <h3>❌ Masalah 4: CCTV Masih Membebani Jaringan Office</h3>
+            
+            <p><strong>Penyebab:</strong></p>
+            <ul>
+                <li>QoS/Queue belum dikonfigurasi</li>
+                <li>Limit bandwidth terlalu besar</li>
+                <li>Queue tidak aktif</li>
+            </ul>
+            
+            <p><strong>Solusi:</strong></p>
+            <ol>
+                <li>Cek Simple Queue → pastikan ada dan aktif</li>
+                <li>Turunkan limit bandwidth CCTV jika perlu</li>
+                <li>Monitor real-time bandwidth di Queues</li>
+                <li>Adjust limit sesuai jumlah kamera</li>
+            </ol>
+            
+            <div class="command">
+                <div class="command-title">Formula Bandwidth CCTV:</div>
+                Bandwidth = Jumlah Kamera × Bitrate per Kamera<br>
+                <br>
+                Contoh:<br>
+                8 kamera × 2 Mbps = 16 Mbps<br>
+                Tambah buffer 20% = 19-20 Mbps
+            </div>
+        </div>
+        
+        <div class="step">
+            <h3>❌ Masalah 5: Loss Connection ke Mikrotik saat Konfigurasi</h3>
+            
+            <p><strong>Penyebab:</strong></p>
+            <ul>
+                <li>Interface Winbox terputus karena perubahan VLAN</li>
+                <li>IP management berubah</li>
+            </ul>
+            
+            <p><strong>Solusi Pencegahan:</strong></p>
+            <ol>
+                <li>Gunakan <strong>MAC Address</strong> untuk connect Winbox (bukan IP)</li>
+                <li>Backup konfigurasi sebelum mulai</li>
+                <li>Jangan matikan semua interface sekaligus</li>
+                <li>Siapkan akses console/serial sebagai backup</li>
+            </ol>
+            
+            <div class="info-box danger">
+                <span class="icon">🚨</span>
+                <strong>Tips Penting:</strong> Jika terputus, reconnect via MAC Address. MAC tetap terdeteksi meskipun IP berubah.
+            </div>
+        </div>
+        
+        <h2>✅ Checklist Konfigurasi Selesai</h2>
+        
+        <ul class="checklist">
+            <li>Bridge dengan VLAN Filtering sudah dibuat</li>
+            <li>Port sudah ditambahkan ke Bridge</li>
+            <li>VLAN Interface (vlan10, vlan20) sudah dibuat</li>
+            <li>VLAN sudah dikonfigurasi di Bridge VLANs</li>
+            <li>IP Address sudah di-assign ke setiap VLAN</li>
+            <li>DHCP Server aktif di kedua VLAN</li>
+            <li>NAT Masquerade sudah dikonfigurasi</li>
+            <li>QoS/Queue untuk limit bandwidth CCTV sudah aktif</li>
+            <li>Firewall rules untuk isolasi VLAN sudah dikonfigurasi</li>
+            <li>Switch sudah dikonfigurasi dengan VLAN tagging yang benar</li>
+            <li>Testing konektivitas berhasil</li>
+            <li>Monitoring traffic normal</li>
+        </ul>
+        
+        <h2>📊 Hasil yang Diharapkan</h2>
+        
+        <div class="info-box success">
+            <h3>✓ Setelah Konfigurasi Berhasil:</h3>
+            <ul>
+                <li><strong>Jaringan Office tidak terganggu</strong> oleh traffic CCTV</li>
+                <li><strong>Bandwidth CCTV terbatas</strong> sesuai kebutuhan (tidak menghabiskan semua bandwidth)</li>
+                <li><strong>Keamanan meningkat</strong> - CCTV tidak bisa akses jaringan Office</li>
+                <li><strong>Office bisa monitoring CCTV</strong> - akses satu arah dari Office ke CCTV</li>
+                <li><strong>Kedua jaringan bisa akses internet</strong> secara independen</li>
+                <li><strong>Mudah di-manage</strong> - traffic terpisah dan mudah dimonitor</li>
+            </ul>
+        </div>
+        
+        <h2>📝 Command Line Alternative (Terminal)</h2>
+        
+        <div class="info-box">
+            <span class="icon">💡</span>
+            Untuk yang lebih suka menggunakan Terminal, berikut command lengkapnya:
+        </div>
+        
+        <div class="command">
+            <div class="command-title"># 1. Buat Bridge dengan VLAN Filtering</div>
+/interface bridge add name=bridge-vlan vlan-filtering=yes
+
+<div class="command-title"># 2. Tambahkan Port ke Bridge</div>
+/interface bridge port add interface=ether2 bridge=bridge-vlan
+
+<div class="command-title"># 3. Buat VLAN Interface</div>
+/interface vlan add name=vlan10-office vlan-id=10 interface=bridge-vlan
+/interface vlan add name=vlan20-cctv vlan-id=20 interface=bridge-vlan
+
+<div class="command-title"># 4. Konfigurasi Bridge VLANs</div>
+/interface bridge vlan add bridge=bridge-vlan vlan-ids=10 tagged=ether2
+/interface bridge vlan add bridge=bridge-vlan vlan-ids=20 tagged=ether2
+
+<div class="command-title"># 5. Set IP Address</div>
+/ip address add address=192.168.10.1/24 interface=vlan10-office
+/ip address add address=192.168.20.1/24 interface=vlan20-cctv
+
+<div class="command-title"># 6. Konfigurasi DHCP Pool</div>
+/ip pool add name=pool-office ranges=192.168.10.100-192.168.10.200
+/ip pool add name=pool-cctv ranges=192.168.20.100-192.168.20.200
+
+<div class="command-title"># 7. Setup DHCP Server</div>
+/ip dhcp-server add name=dhcp-office interface=vlan10-office address-pool=pool-office disabled=no
+/ip dhcp-server add name=dhcp-cctv interface=vlan20-cctv address-pool=pool-cctv disabled=no
+
+<div class="command-title"># 8. Set DHCP Network</div>
+/ip dhcp-server network add address=192.168.10.0/24 gateway=192.168.10.1 dns-server=8.8.8.8,8.8.4.4
+/ip dhcp-server network add address=192.168.20.0/24 gateway=192.168.20.1 dns-server=8.8.8.8,8.8.4.4
+
+<div class="command-title"># 9. Konfigurasi NAT</div>
+/ip firewall nat add chain=srcnat out-interface=ether1 action=masquerade
+
+<div class="command-title"># 10. QoS - Limit Bandwidth CCTV</div>
+/queue simple add name=CCTV-Limit target=192.168.20.0/24 max-limit=20M/10M
+
+<div class="command-title"># 11. Firewall - Isolasi VLAN</div>
+/ip firewall filter add chain=forward src-address=192.168.20.0/24 dst-address=192.168.10.0/24 action=drop comment="Block CCTV to Office"
+/ip firewall filter add chain=forward src-address=192.168.10.0/24 dst-address=192.168.20.0/24 action=accept comment="Allow Office to CCTV"
+
+<div class="command-title"># 12. Aktifkan VLAN Filtering</div>
+/interface bridge set bridge-vlan vlan-filtering=yes
+        </div>
+        
+        <div class="info-box warning">
+            <span class="icon">⚠️</span>
+            <strong>Perhatian:</strong> Copy command satu per satu dan tunggu sampai selesai. Jangan paste semua sekaligus untuk menghindari error.
+        </div>
+        
+        <h2>🔄 Backup dan Restore Konfigurasi</h2>
+        
+        <div class="step">
+            <h3>Backup Konfigurasi</h3>
+            
+            <div class="winbox-path">
+                📂 Winbox → <strong>Files</strong> → Klik <strong>Backup</strong>
+            </div>
+            
+            <p>Atau via Terminal:</p>
+            <div class="command">
+/system backup save name=backup-vlan-config
+            </div>
+            
+            <p>Download file backup dari Files menu untuk disimpan di komputer</p>
+        </div>
+        
+        <div class="step">
+            <h3>Export Konfigurasi (Text Format)</h3>
+            
+            <div class="command">
+/export file=config-vlan
+            </div>
+            
+            <p>File akan tersimpan di Files dan bisa di-download</p>
+        </div>
+        
+        <h2>📚 Dokumentasi Tambahan</h2>
+        
+        <div class="info-box">
+            <h3>Diagram Topologi Lengkap:</h3>
+            <pre style="background: white; padding: 15px; border: 1px solid #ddd;">
+┌─────────────────────────────────────────────────────────────┐
+│                        INTERNET                              │
+└────────────────────────┬────────────────────────────────────┘
+                         │
+                         │ ether1 (WAN)
+                    ┌────┴─────┐
+                    │ MIKROTIK │
+                    │  ROUTER  │
+                    └────┬─────┘
+                         │ ether2 (Trunk - VLAN 10,20 Tagged)
+                         │
+                    ┌────┴──────┐
+                    │  MANAGED  │
+                    │  SWITCH   │
+                    └─────┬─────┘
+          ┌───────────────┴───────────────┐
+          │                               │
+   VLAN 10 (Untagged)              VLAN 20 (Untagged)
+   192.168.10.0/24                 192.168.20.0/24
+          │                               │
+    ┌─────┴─────┐                   ┌─────┴─────┐
+    │   Office  │                   │   CCTV    │
+    │  Network  │                   │  Network  │
+    │           │                   │           │
+    ├─ Server   │                   ├─ NVR/DVR  │
+    ├─ PC 1-10  │                   ├─ IP Cam 1 │
+    └─ Printer  │                   ├─ IP Cam 2 │
+                                    └─ ...      │
+            </pre>
+        </div>
+        
+        <h2>🎯 Best Practices</h2>
+        
+        <ul class="checklist">
+            <li><strong>Gunakan VLAN ID standar:</strong> Hindari VLAN 1 (default), mulai dari VLAN 10</li>
+            <li><strong>Dokumentasi:</strong> Catat semua VLAN ID, IP range, dan fungsinya</li>
+            <li><strong>Label kabel:</strong> Tandai kabel dengan label VLAN untuk memudahkan maintenance</li>
+            <li><strong>Regular backup:</strong> Backup konfigurasi Mikrotik setiap ada perubahan</li>
+            <li><strong>Monitor bandwidth:</strong> Pantau penggunaan bandwidth secara berkala</li>
+            <li><strong>Update firmware:</strong> Pastikan Mikrotik dan switch menggunakan firmware terbaru</li>
+            <li><strong>Testing berkala:</strong> Test isolasi VLAN dan QoS secara periodik</li>
+        </ul>
+        
+        <div class="footer" style="margin-top: 50px; padding-top: 30px; border-top: 3px solid #3498db; text-align: center;">
+            <h3>✅ Konfigurasi Selesai!</h3>
+            <p style="font-size: 16px; color: #7f8c8d;">
+                Jaringan Office dan CCTV sekarang terpisah dengan aman.<br>
+                Traffic tidak akan bertabrakan dan bandwidth terkontrol dengan baik.
+            </p>
+            <p style="margin-top: 20px; color: #95a5a6;">
+                📧 Jika ada pertanyaan atau kendala, dokumentasikan error message dan hubungi support IT Anda.
+            </p>
+        </div>
+    </div>
+</body>
+</html>

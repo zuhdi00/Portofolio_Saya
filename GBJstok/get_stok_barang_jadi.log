@@ -1,0 +1,10 @@
+[2026-06-30T03:54:18+02:00] INCOMING GET /gbjstok/get_stok_barang_jadi.php?tgl_mulai=2026-05-31&tgl_akhir=2026-06-30 from 2001:448a:c0f0:2747:ce0f:9e6b:1d1f:c0fa
+[2026-06-30T03:54:25+02:00] Stok Barang Jadi report start=2026-05-31 end=2026-06-30 rows=230892 duration=6.3960938453674
+[2026-06-30T05:30:16+02:00] INCOMING GET /gbjstok/get_stok_barang_jadi.php?tgl_mulai=2026-05-31&tgl_akhir=2026-06-30 from 2001:448a:c0f0:6bc:b86d:e456:a5ce:3383
+[2026-06-30T05:30:26+02:00] Stok Barang Jadi report start=2026-05-31 end=2026-06-30 rows=230892 duration=8.5252568721771
+[2026-06-30T05:34:08+02:00] INCOMING GET /gbjstok/get_stok_barang_jadi.php?tgl_mulai=2026-05-31&tgl_akhir=2026-06-30 from 2001:448a:c0f0:6bc:b86d:e456:a5ce:3383
+[2026-06-30T05:34:15+02:00] Stok Barang Jadi report start=2026-05-31 end=2026-06-30 rows=230892 duration=5.368225812912
+[2026-06-30T10:30:56+02:00] INCOMING GET /gbjstok/get_stok_barang_jadi.php?tgl_mulai=2026-05-31&tgl_akhir=2026-06-30 from 2001:448a:c0f0:6bc:b86d:e456:a5ce:3383
+[2026-06-30T10:31:03+02:00] Stok Barang Jadi report start=2026-05-31 end=2026-06-30 rows=230892 duration=5.219074010849
+[2026-06-30T10:58:20+02:00] INCOMING GET /gbjstok/get_stok_barang_jadi.php?tgl_mulai=2026-05-31&tgl_akhir=2026-06-30 from 2001:448a:c0f0:6bc:b86d:e456:a5ce:3383
+[2026-06-30T10:58:35+02:00] Stok Barang Jadi report start=2026-05-31 end=2026-06-30 rows=230892 duration=6.2141461372375

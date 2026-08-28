@@ -1,0 +1,401 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Batal Close - STB</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #020817;
+      font-family: 'Share Tech Mono', monospace;
+    }
+
+    /* ── canvas background ── */
+    #bg {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
+    }
+
+    /* ── grid overlay ── */
+    .grid-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      background-image:
+        linear-gradient(rgba(0,200,255,.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,200,255,.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+    }
+
+    /* ── vignette ── */
+    .vignette {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      background: radial-gradient(ellipse at center, transparent 40%, rgba(2,8,23,.85) 100%);
+      pointer-events: none;
+    }
+
+    /* ── main panel ── */
+    .panel {
+      position: relative;
+      z-index: 10;
+      width: 92%;
+      max-width: 500px;
+      background: rgba(2, 14, 36, 0.88);
+      border: 1px solid rgba(0,200,255,.2);
+      border-radius: 12px;
+      padding: 2.2rem 2rem;
+      backdrop-filter: blur(16px);
+    }
+
+    /* animated border glow */
+    .panel::after {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: 12px;
+      border: 1px solid transparent;
+      background: linear-gradient(135deg, rgba(0,200,255,.55), rgba(0,80,255,.15), transparent 55%) border-box;
+      -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: destination-out;
+      mask-composite: exclude;
+      pointer-events: none;
+    }
+
+    /* corner brackets */
+    .c { position: absolute; width: 16px; height: 16px; border-color: rgba(0,200,255,.6); }
+    .c.tl { top: 10px; left: 10px; border-top: 2px solid; border-left: 2px solid; }
+    .c.tr { top: 10px; right: 10px; border-top: 2px solid; border-right: 2px solid; }
+    .c.bl { bottom: 10px; left: 10px; border-bottom: 2px solid; border-left: 2px solid; }
+    .c.br { bottom: 10px; right: 10px; border-bottom: 2px solid; border-right: 2px solid; }
+
+    /* header */
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 1.2rem;
+    }
+
+    .dots { display: flex; gap: 6px; }
+    .dot {
+      width: 9px; height: 9px;
+      border-radius: 50%;
+      animation: blink 1.8s ease-in-out infinite;
+    }
+    .dot:nth-child(1) { background: #00c8ff; box-shadow: 0 0 8px #00c8ff; }
+    .dot:nth-child(2) { background: #0066ff; box-shadow: 0 0 8px #0066ff; animation-delay: .4s; }
+    .dot:nth-child(3) { background: #6600ff; box-shadow: 0 0 8px #6600ff; animation-delay: .8s; }
+    @keyframes blink {
+      0%,100% { opacity:1; transform:scale(1); }
+      50%      { opacity:.3; transform:scale(.65); }
+    }
+
+    .title {
+      font-family: 'Orbitron', monospace;
+      font-size: 1rem;
+      font-weight: 700;
+      color: #00c8ff;
+      letter-spacing: .14em;
+      text-shadow: 0 0 12px rgba(0,200,255,.5);
+    }
+
+    /* status bar */
+    .statusbar {
+      display: flex;
+      justify-content: space-between;
+      border-top: 1px solid rgba(0,200,255,.1);
+      border-bottom: 1px solid rgba(0,200,255,.1);
+      padding: .55rem 0;
+      margin-bottom: 1.4rem;
+    }
+    .si { font-size: .65rem; color: rgba(0,200,255,.45); letter-spacing: .1em; }
+    .si span { color: rgba(0,200,255,.85); }
+
+    /* sub text */
+    .sub {
+      font-size: .72rem;
+      color: rgba(0,200,255,.45);
+      letter-spacing: .06em;
+      margin-bottom: 1.2rem;
+    }
+
+    /* field */
+    .field-label {
+      font-size: .68rem;
+      color: rgba(0,200,255,.65);
+      letter-spacing: .16em;
+      margin-bottom: .5rem;
+    }
+    .field-label::before { content: '// '; color: rgba(0,200,255,.3); }
+
+    .inp-wrap { position: relative; margin-bottom: 1.4rem; }
+    .inp-wrap input {
+      width: 100%;
+      background: rgba(0,200,255,.04);
+      border: 1px solid rgba(0,200,255,.22);
+      border-radius: 6px;
+      padding: 11px 14px;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: .92rem;
+      color: #d0f4ff;
+      outline: none;
+      letter-spacing: .06em;
+      transition: border-color .25s, box-shadow .25s;
+    }
+    .inp-wrap input::placeholder { color: rgba(0,200,255,.28); }
+    .inp-wrap input:focus {
+      border-color: rgba(0,200,255,.6);
+      box-shadow: 0 0 20px rgba(0,200,255,.1);
+    }
+    .scan {
+      position: absolute;
+      bottom: 0; left: 0;
+      height: 1px; width: 0;
+      background: #00c8ff;
+      border-radius: 1px;
+      transition: width .3s;
+    }
+    .inp-wrap input:focus ~ .scan { width: 100%; box-shadow: 0 0 8px #00c8ff; }
+
+    /* buttons */
+    .btns { display: flex; gap: 10px; }
+
+    .btn-ok {
+      flex: 1;
+      padding: 12px 0;
+      background: rgba(0,200,255,.1);
+      border: 1px solid rgba(0,200,255,.45);
+      border-radius: 6px;
+      color: #00c8ff;
+      font-family: 'Orbitron', monospace;
+      font-size: .75rem;
+      font-weight: 700;
+      letter-spacing: .16em;
+      cursor: pointer;
+      transition: background .2s, box-shadow .2s;
+      text-shadow: 0 0 8px rgba(0,200,255,.5);
+    }
+    .btn-ok:hover:not(:disabled) {
+      background: rgba(0,200,255,.18);
+      box-shadow: 0 0 24px rgba(0,200,255,.2);
+    }
+    .btn-ok:disabled { opacity: .4; cursor: not-allowed; }
+
+    .btn-clr {
+      padding: 12px 18px;
+      background: transparent;
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 6px;
+      color: rgba(255,255,255,.4);
+      font-family: 'Share Tech Mono', monospace;
+      font-size: .82rem;
+      letter-spacing: .1em;
+      cursor: pointer;
+      transition: border-color .2s, color .2s;
+    }
+    .btn-clr:hover { border-color: rgba(255,255,255,.28); color: rgba(255,255,255,.75); }
+
+    /* message */
+    #msg {
+      display: none;
+      margin-top: 1rem;
+      padding: 10px 14px;
+      border-radius: 6px;
+      font-size: .76rem;
+      letter-spacing: .04em;
+      border-left: 2px solid;
+    }
+    #msg.ok  { display:block; background:rgba(0,255,140,.06); color:#00ff96; border-color:#00ff96; }
+    #msg.err { display:block; background:rgba(255,60,60,.06);  color:#ff6464; border-color:#ff4444; }
+
+    /* scan line sweep animation */
+    @keyframes sweep {
+      0%   { top: -2px; opacity:.6; }
+      100% { top: 100%; opacity:0; }
+    }
+    .sweep {
+      position: fixed;
+      left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, rgba(0,200,255,.25), transparent);
+      animation: sweep 5s linear infinite;
+      z-index: 2;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="bg"></canvas>
+  <div class="grid-overlay"></div>
+  <div class="vignette"></div>
+  <div class="sweep"></div>
+
+  <div class="panel">
+    <div class="c tl"></div><div class="c tr"></div>
+    <div class="c bl"></div><div class="c br"></div>
+
+    <div class="header">
+      <div class="dots">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+      <span class="title">BATAL CLOSE — SLC</span>
+    </div>
+
+    <div class="statusbar">
+      <span class="si">SYS <span id="clk">--:--:--</span></span>
+      <span class="si">STATUS <span>ONLINE</span></span>
+      <span class="si">MODULE <span>STB-v2</span></span>
+    </div>
+
+    <p class="sub">// INPUT NO. SLC UNTUK MEMBATALKAN STATUS CLOSE</p>
+
+    <div class="field-label">NO SLC</div>
+    <div class="inp-wrap">
+      <input id="sc" type="text" placeholder="SLC/2605/00785" autocomplete="off">
+      <div class="scan"></div>
+    </div>
+
+    <div class="btns">
+      <button class="btn-ok" id="okBtn">[ EXECUTE ]</button>
+      <button class="btn-clr" id="clearBtn">CLR</button>
+    </div>
+
+    <div id="msg"></div>
+  </div>
+
+  <script>
+    /* ── Clock ── */
+    function tick() {
+      document.getElementById('clk').textContent =
+        new Date().toLocaleTimeString('id-ID', { hour12: false });
+    }
+    tick(); setInterval(tick, 1000);
+
+    /* ── Particle canvas ── */
+    const canvas = document.getElementById('bg');
+    const ctx = canvas.getContext('2d');
+    let W, H;
+
+    function resize() {
+      W = canvas.width  = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    const NUM = 80;
+    const particles = Array.from({ length: NUM }, () => ({
+      x: Math.random() * 1600,
+      y: Math.random() * 900,
+      vx: (Math.random() - .5) * .45,
+      vy: (Math.random() - .5) * .45,
+      r: Math.random() * 1.6 + .4,
+      a: Math.random() * .7 + .3,
+    }));
+
+    const hLines = Array.from({ length: 7 }, () => ({
+      y: Math.random() * 900,
+      v: (.25 + Math.random() * .35) * (Math.random() < .5 ? 1 : -1),
+      a: Math.random() * .1 + .03,
+    }));
+
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+
+      /* horizontal drifting lines */
+      for (const h of hLines) {
+        h.y += h.v;
+        if (h.y < 0) h.y = H;
+        if (h.y > H) h.y = 0;
+        const g = ctx.createLinearGradient(0, 0, W, 0);
+        g.addColorStop(0,   'rgba(0,200,255,0)');
+        g.addColorStop(.35, `rgba(0,200,255,${h.a})`);
+        g.addColorStop(.65, `rgba(0,200,255,${h.a})`);
+        g.addColorStop(1,   'rgba(0,200,255,0)');
+        ctx.strokeStyle = g;
+        ctx.lineWidth = .6;
+        ctx.beginPath(); ctx.moveTo(0, h.y); ctx.lineTo(W, h.y); ctx.stroke();
+      }
+
+      /* particles & connectors */
+      for (let i = 0; i < NUM; i++) {
+        const p = particles[i];
+        p.x += p.vx; p.y += p.vy;
+        if (p.x < 0) p.x = W; if (p.x > W) p.x = 0;
+        if (p.y < 0) p.y = H; if (p.y > H) p.y = 0;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(0,180,255,${p.a * .55})`;
+        ctx.fill();
+
+        for (let j = i + 1; j < NUM; j++) {
+          const q = particles[j];
+          const dx = p.x - q.x, dy = p.y - q.y;
+          const d = Math.sqrt(dx * dx + dy * dy);
+          if (d < 100) {
+            ctx.strokeStyle = `rgba(0,160,255,${(1 - d / 100) * .13})`;
+            ctx.lineWidth = .5;
+            ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(q.x, q.y); ctx.stroke();
+          }
+        }
+      }
+      requestAnimationFrame(draw);
+    }
+    draw();
+
+    /* ── Form logic ── */
+    const scEl  = document.getElementById('sc');
+    const okBtn = document.getElementById('okBtn');
+    const clrBtn= document.getElementById('clearBtn');
+    const msg   = document.getElementById('msg');
+
+    function show(type, text) {
+      msg.className   = type;
+      msg.textContent = (type === 'ok' ? '> ' : '! ') + text;
+    }
+
+    okBtn.addEventListener('click', async () => {
+      const sc = (scEl.value || '').trim();
+      if (!sc) { show('err', 'MASUKKAN NO SLC TERLEBIH DAHULU'); scEl.focus(); return; }
+      okBtn.disabled   = true;
+      okBtn.textContent = '[ PROCESSING… ]';
+      try {
+        const fd = new URLSearchParams(); fd.append('sc', sc);
+        const res = await fetch('batal_close_action.php', { method: 'POST', body: fd });
+        const j   = await res.json();
+        if (res.ok && j.success) show('ok',  j.message || 'BATAL CLOSE BERHASIL');
+        else                     show('err', j.message || 'HTTP ' + res.status);
+      } catch (e) { show('err', 'KONEKSI GAGAL: ' + e.message); }
+      okBtn.disabled   = false;
+      okBtn.textContent = '[ EXECUTE ]';
+    });
+
+    clrBtn.addEventListener('click', () => {
+      scEl.value = ''; scEl.focus();
+      msg.style.display = 'none'; msg.className = '';
+    });
+  </script>
+</body>
+</html>

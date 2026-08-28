@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard BPB - Pencarian & Filter</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .search-section {
+            padding: 30px;
+            background: #f8f9fa;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .search-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #495057;
+            font-size: 0.9em;
+        }
+
+        .form-group input,
+        .form-group select {
+            padding: 12px;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #218838;
+            transform: translateY(-2px);
+        }
+
+        .stats-section {
+            padding: 20px 30px;
+            background: white;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .stat-card {
+            padding: 20px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 10px;
+            text-align: center;
+            border: 2px solid #dee2e6;
+        }
+
+        .stat-card h3 {
+            font-size: 2em;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+
+        .stat-card p {
+            color: #6c757d;
+            font-size: 0.9em;
+        }
+
+        .table-section {
+            padding: 30px;
+            overflow-x: auto;
+        }
+
+        .table-container {
+            border-radius: 10px;
+            overflow: hidden;
+            border: 2px solid #dee2e6;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        thead {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        thead th {
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85em;
+            letter-spacing: 0.5px;
+        }
+
+        tbody tr {
+            border-bottom: 1px solid #dee2e6;
+            transition: background 0.2s ease;
+        }
+
+        tbody tr:hover {
+            background: #f8f9fa;
+        }
+
+        tbody td {
+            padding: 12px 15px;
+            color: #495057;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            font-size: 1.2em;
+            color: #6c757d;
+        }
+
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 30px;
+            border: 1px solid #f5c6cb;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 60px 20px;
+            color: #6c757d;
+            font-size: 1.2em;
+        }
+
+        .pagination {
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f8f9fa;
+        }
+
+        .pagination-info {
+            color: #6c757d;
+            font-size: 0.9em;
+        }
+
+        .pagination-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .search-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            table {
+                font-size: 0.85em;
+            }
+
+            thead th,
+            tbody td {
+                padding: 8px;
+            }
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            font-weight: 600;
+        }
+
+        .badge-success {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .badge-warning {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .badge-danger {
+            background: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📦 Dashboard BPB</h1>
+            <p>Sistem Pencarian & Monitoring Bukti Penerimaan Barang</p>
+        </div>
+
+        <div class="search-section">
+            <div class="search-grid">
+                <div class="form-group">
+                    <label for="search">🔍 Pencarian Umum</label>
+                    <input type="text" id="search" placeholder="Cari No BPB, Supplier, Barang...">
+                </div>
+
+                <div class="form-group">
+                    <label for="keyword1">🔑 Keyword 1</label>
+                    <input type="text" id="keyword1" placeholder="No BPB, Kode Bahan...">
+                </div>
+
+                <div class="form-group">
+                    <label for="keyword2">🔑 Keyword 2</label>
+                    <input type="text" id="keyword2" placeholder="Supplier, Nama Barang...">
+                </div>
+
+                <div class="form-group">
+                    <label for="dateFrom">📅 Tanggal Dari</label>
+                    <input type="date" id="dateFrom">
+                </div>
+
+                <div class="form-group">
+                    <label for="dateTo">📅 Tanggal Sampai</label>
+                    <input type="date" id="dateTo">
+                </div>
+
+                <div class="form-group">
+                    <label for="limit">📊 Jumlah Data</label>
+                    <select id="limit">
+                        <option value="50">50 Data</option>
+                        <option value="100" selected>100 Data</option>
+                        <option value="200">200 Data</option>
+                        <option value="500">500 Data</option>
+                        <option value="1000">1000 Data</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="searchData()">
+                    🔍 Cari Data
+                </button>
+                <button class="btn btn-secondary" onclick="resetFilters()">
+                    🔄 Reset Filter
+                </button>
+                <button class="btn btn-success" onclick="exportToExcel()">
+                    📥 Export Excel
+                </button>
+            </div>
+        </div>
+
+        <div class="stats-section" id="statsSection" style="display: none;">
+            <div class="stat-card">
+                <h3 id="totalRecords">0</h3>
+                <p>Total Records</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="totalSuppliers">0</h3>
+                <p>Suppliers</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="totalItems">0</h3>
+                <p>Items</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="dateRange">-</h3>
+                <p>Date Range</p>
+            </div>
+        </div>
+
+        <div class="table-section">
+            <div id="loadingMessage" class="loading" style="display: none;">
+                ⏳ Memuat data...
+            </div>
+
+            <div id="errorMessage" class="error" style="display: none;"></div>
+
+            <div id="tableContainer" style="display: none;">
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>No BPB</th>
+                                <th>Tanggal</th>
+                                <th>Kode Bahan</th>
+                                <th>Supplier</th>
+                                <th>Nama Barang</th>
+                                <th>No OPB</th>
+                                <th>Ukuran</th>
+                                <th>Jumlah</th>
+                                <th>Satuan</th>
+                                <th>Keterangan</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="noDataMessage" class="no-data" style="display: none;">
+                📭 Tidak ada data yang ditemukan
+            </div>
+        </div>
+
+        <div class="pagination" id="paginationSection" style="display: none;">
+            <div class="pagination-info" id="paginationInfo"></div>
+            <div class="pagination-buttons">
+                <button class="btn btn-secondary" id="prevBtn" onclick="previousPage()" disabled>
+                    ← Previous
+                </button>
+                <button class="btn btn-secondary" id="nextBtn" onclick="nextPage()" disabled>
+                    Next →
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE_URL = 'http://localhost'; // Sesuaikan dengan URL server Anda
+        let currentOffset = 0;
+        let currentLimit = 100;
+        let totalRecords = 0;
+
+        // Set default dates (last 30 days)
+        window.onload = function() {
+            const today = new Date();
+            const thirtyDaysAgo = new Date(today.getTime() - (30 * 24 * 60 * 60 * 1000));
+            
+            document.getElementById('dateTo').valueAsDate = today;
+            document.getElementById('dateFrom').valueAsDate = thirtyDaysAgo;
+            
+            // Auto load data on page load
+            searchData();
+        };
+
+        function searchData() {
+            const search = document.getElementById('search').value;
+            const keyword1 = document.getElementById('keyword1').value;
+            const keyword2 = document.getElementById('keyword2').value;
+            const dateFrom = document.getElementById('dateFrom').value;
+            const dateTo = document.getElementById('dateTo').value;
+            const limit = document.getElementById('limit').value;
+
+            currentLimit = parseInt(limit);
+            currentOffset = 0;
+
+            const params = new URLSearchParams({
+                search: search,
+                keyword1: keyword1,
+                keyword2: keyword2,
+                date_from: dateFrom,
+                date_to: dateTo,
+                limit: limit,
+                offset: currentOffset
+            });
+
+            console.log('Search Parameters:', {
+                search: search,
+                keyword1: keyword1,
+                keyword2: keyword2,
+                date_from: dateFrom,
+                date_to: dateTo,
+                limit: limit,
+                offset: currentOffset
+            });
+
+            fetchData(params);
+        }
+
+        function fetchData(params) {
+            showLoading();
+
+            const url = `${API_BASE_URL}/get_bpb_list.php?${params}`;
+            console.log('Fetching URL:', url);
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    hideLoading();
+                    
+                    console.log('Response Data:', data);
+                    
+                    if (data.success) {
+                        if (data.debug) {
+                            console.log('Debug Info:', data.debug);
+                        }
+                        displayData(data);
+                        updateStats(data);
+                        updatePagination(data.pagination);
+                    } else {
+                        showError(data.message || 'Terjadi kesalahan saat memuat data');
+                    }
+                })
+                .catch(error => {
+                    hideLoading();
+                    console.error('Fetch Error:', error);
+                    showError('Error: ' + error.message);
+                });
+        }
+
+        function displayData(data) {
+            const tbody = document.getElementById('tableBody');
+            tbody.innerHTML = '';
+
+            if (data.data && data.data.length > 0) {
+                data.data.forEach((row, index) => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${currentOffset + index + 1}</td>
+                        <td><strong>${row.cNoBPB || '-'}</strong></td>
+                        <td>${formatDate(row.dTanggal)}</td>
+                        <td><code>${row.cKodeBahan || '-'}</code></td>
+                        <td>${row.supplier || '-'}</td>
+                        <td>${row.nama_barang || '-'}</td>
+                        <td>${row.no_opb || '-'}</td>
+                        <td>${row.ukuran || '-'}</td>
+                        <td><strong>${formatNumber(row.jumlah)}</strong></td>
+                        <td>${row.satuan || '-'}</td>
+                        <td>${row.cKeterangan || '-'}</td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+
+                document.getElementById('tableContainer').style.display = 'block';
+                document.getElementById('noDataMessage').style.display = 'none';
+            } else {
+                document.getElementById('tableContainer').style.display = 'none';
+                document.getElementById('noDataMessage').style.display = 'block';
+            }
+        }
+
+        function updateStats(data) {
+            if (data.stats) {
+                document.getElementById('totalRecords').textContent = data.pagination.total_records || 0;
+                document.getElementById('totalSuppliers').textContent = data.stats.total_suppliers || 0;
+                document.getElementById('totalItems').textContent = data.stats.total_items || 0;
+                document.getElementById('dateRange').textContent = data.stats.date_range || '-';
+                document.getElementById('statsSection').style.display = 'grid';
+            }
+        }
+
+        function updatePagination(pagination) {
+            if (!pagination) return;
+
+            totalRecords = pagination.total_records;
+            
+            const info = `Menampilkan ${currentOffset + 1} - ${Math.min(currentOffset + currentLimit, totalRecords)} dari ${totalRecords} data`;
+            document.getElementById('paginationInfo').textContent = info;
+
+            document.getElementById('prevBtn').disabled = !pagination.has_prev;
+            document.getElementById('nextBtn').disabled = !pagination.has_next;
+            
+            document.getElementById('paginationSection').style.display = 'flex';
+        }
+
+        function previousPage() {
+            if (currentOffset >= currentLimit) {
+                currentOffset -= currentLimit;
+                const params = buildSearchParams();
+                params.set('offset', currentOffset);
+                fetchData(params);
+            }
+        }
+
+        function nextPage() {
+            if (currentOffset + currentLimit < totalRecords) {
+                currentOffset += currentLimit;
+                const params = buildSearchParams();
+                params.set('offset', currentOffset);
+                fetchData(params);
+            }
+        }
+
+        function buildSearchParams() {
+            return new URLSearchParams({
+                search: document.getElementById('search').value,
+                keyword1: document.getElementById('keyword1').value,
+                keyword2: document.getElementById('keyword2').value,
+                date_from: document.getElementById('dateFrom').value,
+                date_to: document.getElementById('dateTo').value,
+                limit: currentLimit,
+                offset: currentOffset
+            });
+        }
+
+        function resetFilters() {
+            document.getElementById('search').value = '';
+            document.getElementById('keyword1').value = '';
+            document.getElementById('keyword2').value = '';
+            
+            const today = new Date();
+            const thirtyDaysAgo = new Date(today.getTime() - (30 * 24 * 60 * 60 * 1000));
+            
+            document.getElementById('dateTo').valueAsDate = today;
+            document.getElementById('dateFrom').valueAsDate = thirtyDaysAgo;
+            document.getElementById('limit').value = '100';
+            
+            searchData();
+        }
+
+        function exportToExcel() {
+            const params = buildSearchParams();
+            params.set('export', 'excel');
+            
+            window.location.href = `${API_BASE_URL}/get_bpb_list.php?${params}`;
+        }
+
+        function showLoading() {
+            document.getElementById('loadingMessage').style.display = 'block';
+            document.getElementById('errorMessage').style.display = 'none';
+            document.getElementById('tableContainer').style.display = 'none';
+            document.getElementById('noDataMessage').style.display = 'none';
+        }
+
+        function hideLoading() {
+            document.getElementById('loadingMessage').style.display = 'none';
+        }
+
+        function showError(message) {
+            document.getElementById('errorMessage').textContent = message;
+            document.getElementById('errorMessage').style.display = 'block';
+            document.getElementById('tableContainer').style.display = 'none';
+            document.getElementById('noDataMessage').style.display = 'none';
+        }
+
+        function formatDate(dateString) {
+            if (!dateString) return '-';
+            const date = new Date(dateString);
+            return date.toLocaleDateString('id-ID', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric'
+            });
+        }
+
+        function formatNumber(num) {
+            if (!num) return '0';
+            return parseFloat(num).toLocaleString('id-ID', {
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 2
+            });
+        }
+
+        // Enter key to search
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputs = ['search', 'keyword1', 'keyword2', 'dateFrom', 'dateTo'];
+            inputs.forEach(id => {
+                document.getElementById(id).addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        searchData();
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

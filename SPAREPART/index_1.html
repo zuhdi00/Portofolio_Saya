@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Master Dashboard — Menu</title>
+  <style>
+    :root{--card:#fff;--bg:#f4f6f9;--accent:#2b6cb0}
+    body{font-family:Inter,system-ui,Arial;margin:0;background:var(--bg);color:#1f2937}
+    .wrap{max-width:980px;margin:40px auto;padding:20px}
+    header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+    h1{font-size:1.25rem;margin:0}
+    p{margin:0;color:#6b7280}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-top:18px}
+    .card{background:var(--card);padding:18px;border-radius:10px;box-shadow:0 6px 18px rgba(15,23,42,0.06);border:1px solid rgba(15,23,42,0.04);text-align:center}
+    .card h2{margin:0 0 8px;font-size:1.05rem}
+    .card p{margin:0 0 14px;color:#6b7280}
+    .btn{display:inline-block;padding:10px 14px;border-radius:8px;text-decoration:none;color:#fff;background:var(--accent);font-weight:600}
+    .note{margin-top:16px;font-size:0.9rem;color:#6b7280}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div>
+        <h1>Master Dashboard</h1>
+        <p>Pilih dashboard untuk membuka: BPB, BPJ, OPB, atau PJS</p>
+      </div>
+      <div class="note">Server: local webroot</div>
+    </header>
+
+    <div class="grid">
+      <div class="card">
+        <h2>BPB</h2>
+        <p>Dashboard Bukti Penerimaan Barang</p>
+        <a class="btn" href="BPB/index.html">Buka BPB</a>
+      </div>
+
+      <div class="card">
+        <h2>BPJ</h2>
+        <p>Dashboard Bukti Permintaan Barang</p>
+        <a class="btn" href="BPJ/index.html">Buka BPJ</a>
+      </div>
+
+      <div class="card">
+        <h2>OPB</h2>
+        <p>Dashboard OPB (Order Penerimaan Barang)</p>
+        <a class="btn" href="OPB/index.html">Buka OPB</a>
+      </div>
+
+      <div class="card">
+        <h2>PJS</h2>
+        <p>Dashboard PJS</p>
+        <a class="btn" href="PJS/index.html">Buka PJS</a>
+      </div>
+    </div>
+
+    <p class="note">Jika salah satu tautan mengembalikan halaman kosong atau error, buka file debug di folder masing-masing (mis. <code>BPJ/debug_bpj_list_query.txt</code>).</p>
+  </div>
+</body>
+</html>

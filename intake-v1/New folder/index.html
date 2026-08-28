@@ -1,0 +1,1280 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="SPS_Logo1.png">
+<title>Dashboard Intake – Production Orders</title>
+<style>
+/* ── SAP Design System ─────────────────────────────────────────── */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+:root {
+  --sap-shell-bg: #354a5e;
+  --sap-shell-text: #fff;
+  --sap-shell-icon: #d1e8ff;
+  --sap-blue: #0070f2;
+  --sap-blue-dark: #0a6ed1;
+  --sap-blue-light: #e8f4ff;
+  --sap-header-bg: #f5f6f7;
+  --sap-header-border: #d9dce1;
+  --sap-bg: #f5f6f7;
+  --sap-tile-bg: #fff;
+  --sap-tile-border: #d9dce1;
+  --sap-text: #32363a;
+  --sap-text-muted: #6a7585;
+  --sap-text-label: #6a7585;
+  --sap-success: #107e3e;
+  --sap-success-bg: #f1fdf6;
+  --sap-warning: #e9730c;
+  --sap-warning-bg: #fef7f1;
+  --sap-error: #b00;
+  --sap-error-bg: #fff1f1;
+  --sap-info: #0070f2;
+  --sap-neutral: #354a5e;
+  --sap-table-head: #f2f4f5;
+  --sap-table-row-alt: #fafafa;
+  --sap-table-hover: #e8f1fc;
+  --sap-table-border: #d9dce1;
+  --sap-filter-bg: #fff;
+  --sap-filter-header: #e8eaee;
+  --sap-radius: 4px;
+  --sap-shadow: 0 1px 4px rgba(0,0,0,.12);
+  --sap-shadow-lg: 0 4px 16px rgba(0,0,0,.14);
+  --font: 'Segoe UI', '72', Arial, sans-serif;
+}
+
+body {
+  font-family: var(--font);
+  font-size: 13px;
+  background: var(--sap-bg);
+  color: var(--sap-text);
+  min-height: 100vh;
+}
+
+/* ── Page Header ──────────────────────────────────────────────────────── */
+.page-header {
+  background: var(--sap-tile-bg);
+  border-bottom: 1px solid var(--sap-header-border);
+  padding: 0 24px;
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  min-height: 52px;
+}
+.page-header-back {
+  display: flex;
+  align-items: center;
+  padding: 0 12px 0 0;
+  margin-right: 12px;
+  border-right: 1px solid var(--sap-header-border);
+  color: var(--sap-blue);
+  cursor: pointer;
+  font-size: 1.1rem;
+}
+.page-header-back:hover { color: var(--sap-blue-dark); }
+.page-header-info { display: flex; flex-direction: column; justify-content: center; flex: 1; }
+.page-header-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--sap-text);
+  line-height: 1.3;
+}
+.page-header-sub {
+  font-size: .75rem;
+  color: var(--sap-text-muted);
+  margin-top: 1px;
+}
+.page-header-actions { display: flex; align-items: center; gap: 8px; }
+
+/* ── KPI Tiles ────────────────────────────────────────────────────────── */
+.kpi-strip {
+  display: flex;
+  gap: 0;
+  padding: 12px 24px 0;
+  overflow-x: auto;
+}
+.kpi-strip::-webkit-scrollbar { height: 4px; }
+.kpi-strip::-webkit-scrollbar-thumb { background: #ccc; border-radius: 2px; }
+.kpi-tile {
+  background: var(--sap-tile-bg);
+  border: 1px solid var(--sap-tile-border);
+  border-radius: var(--sap-radius);
+  padding: 14px 20px;
+  min-width: 130px;
+  flex: 1;
+  margin-right: -1px;
+  cursor: pointer;
+  transition: box-shadow .15s, z-index 0s;
+  position: relative;
+}
+.kpi-tile:first-child { border-radius: var(--sap-radius) 0 0 var(--sap-radius)); }
+.kpi-tile:last-child { border-radius: 0 var(--sap-radius) var(--sap-radius) 0; margin-right: 0; }
+.kpi-tile:hover { box-shadow: var(--sap-shadow); z-index: 2; }
+.kpi-tile.active {
+  border-top: 3px solid var(--sap-blue);
+  padding-top: 11px;
+  z-index: 3;
+  box-shadow: var(--sap-shadow);
+}
+.kpi-tile.active-warn { border-top: 3px solid var(--sap-warning); padding-top: 11px; z-index: 3; }
+.kpi-tile.active-error { border-top: 3px solid var(--sap-error); padding-top: 11px; z-index: 3; }
+.kpi-tile.active-success { border-top: 3px solid var(--sap-success); padding-top: 11px; z-index: 3; }
+.kpi-num { font-size: 1.6rem; font-weight: 300; color: var(--sap-text); line-height: 1; }
+.kpi-num.error { color: var(--sap-error); }
+.kpi-num.warn { color: var(--sap-warning); }
+.kpi-num.success { color: var(--sap-success); }
+.kpi-num.info { color: var(--sap-info); }
+.kpi-lbl {
+  font-size: .72rem;
+  color: var(--sap-text-muted);
+  margin-top: 5px;
+  text-transform: uppercase;
+  letter-spacing: .4px;
+  font-weight: 600;
+}
+
+/* ── Filter Panel ─────────────────────────────────────────────────────── */
+.filter-panel {
+  background: var(--sap-filter-bg);
+  border: 1px solid var(--sap-tile-border);
+  border-radius: var(--sap-radius);
+  margin: 10px 24px 0;
+  box-shadow: var(--sap-shadow);
+}
+.filter-panel-header {
+  background: var(--sap-filter-header);
+  border-bottom: 1px solid var(--sap-tile-border);
+  padding: 8px 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: var(--sap-radius) var(--sap-radius) 0 0;
+  cursor: pointer;
+  user-select: none;
+}
+.filter-panel-header .fph-title {
+  font-size: .82rem;
+  font-weight: 600;
+  color: var(--sap-text);
+  flex: 1;
+}
+.fph-toggle { font-size: .8rem; color: var(--sap-blue); transition: transform .2s; }
+.filter-panel-header.collapsed .fph-toggle { transform: rotate(-90deg); }
+.filter-body {
+  padding: 12px 14px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: flex-end;
+}
+.filter-body.hidden { display: none; }
+.filter-group { display: flex; flex-direction: column; gap: 3px; }
+.filter-label { font-size: .72rem; color: var(--sap-text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: .3px; }
+.filter-input, .filter-select {
+  border: 1px solid var(--sap-tile-border);
+  border-radius: var(--sap-radius);
+  padding: 5px 9px;
+  font-size: .82rem;
+  color: var(--sap-text);
+  background: #fff;
+  outline: none;
+  transition: border-color .15s, box-shadow .15s;
+  height: 32px;
+}
+.filter-input:focus, .filter-select:focus {
+  border-color: var(--sap-blue);
+  box-shadow: 0 0 0 2px rgba(0,112,242,.12);
+}
+.filter-input { min-width: 150px; }
+.filter-input.wide { min-width: 200px; }
+.filter-input.date { min-width: 130px; }
+.filter-select { min-width: 140px; }
+.filter-separator { align-self: center; color: var(--sap-text-muted); font-size: .75rem; padding-top: 18px; }
+
+/* ── SAP Buttons ──────────────────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 14px;
+  border-radius: var(--sap-radius);
+  font-size: .82rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background .15s, border-color .15s;
+  height: 32px;
+  white-space: nowrap;
+}
+.btn-emphasized {
+  background: var(--sap-blue);
+  color: #fff;
+  border-color: var(--sap-blue-dark);
+}
+.btn-emphasized:hover { background: var(--sap-blue-dark); }
+.btn-standard {
+  background: #fff;
+  color: var(--sap-text);
+  border-color: var(--sap-tile-border);
+}
+.btn-standard:hover { background: #e8eaee; border-color: #babec7; }
+.btn-ghost {
+  background: transparent;
+  color: var(--sap-blue);
+  border-color: transparent;
+}
+.btn-ghost:hover { background: var(--sap-blue-light); }
+.btn-success { background: var(--sap-success); color: #fff; border-color: #0d6e35; }
+.btn-success:hover { background: #0d6e35; }
+.btn-actions { display: flex; gap: 6px; align-items: center; padding-top: 18px; }
+
+/* Filter tags */
+.active-tags { display: flex; gap: 6px; flex-wrap: wrap; padding: 6px 14px 10px; }
+.filter-tag {
+  background: var(--sap-blue-light);
+  color: var(--sap-blue-dark);
+  border: 1px solid #b5d4f7;
+  border-radius: 12px;
+  padding: 2px 8px;
+  font-size: .72rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.filter-tag .ft-x { cursor: pointer; font-size: .9rem; opacity: .7; }
+.filter-tag .ft-x:hover { opacity: 1; }
+
+/* ── Table Section ────────────────────────────────────────────────────── */
+.table-section {
+  margin: 10px 24px 24px;
+  background: var(--sap-tile-bg);
+  border: 1px solid var(--sap-tile-border);
+  border-radius: var(--sap-radius);
+  box-shadow: var(--sap-shadow);
+}
+.table-toolbar {
+  padding: 10px 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--sap-tile-border);
+  background: var(--sap-filter-header);
+  border-radius: var(--sap-radius) var(--sap-radius) 0 0;
+}
+.table-title {
+  font-size: .88rem;
+  font-weight: 700;
+  color: var(--sap-text);
+}
+.table-count {
+  font-size: .78rem;
+  color: var(--sap-text-muted);
+  margin-left: 6px;
+}
+.table-actions { display: flex; gap: 6px; align-items: center; }
+
+/* scroll bars */
+.scroll-top, .scroll-main {
+  overflow-x: auto;
+}
+.scroll-main { max-height: 55vh; overflow-y: auto; }
+.scroll-main::-webkit-scrollbar { width: 7px; height: 7px; }
+.scroll-main::-webkit-scrollbar-track { background: #f0f0f0; }
+.scroll-main::-webkit-scrollbar-thumb { background: #b0b5bd; border-radius: 4px; }
+.scroll-top::-webkit-scrollbar { height: 5px; }
+.scroll-top::-webkit-scrollbar-thumb { background: #ccc; border-radius: 3px; }
+
+/* ── Table ────────────────────────────────────────────────────────────── */
+table { border-collapse: collapse; width: max-content; min-width: 100%; }
+thead th, tbody td {
+  white-space: nowrap;
+  padding: 6px 10px;
+  border-right: 1px solid var(--sap-table-border);
+  border-bottom: 1px solid var(--sap-table-border);
+  font-size: .78rem;
+}
+thead th {
+  background: var(--sap-table-head);
+  color: var(--sap-text);
+  font-weight: 700;
+  font-size: .72rem;
+  text-transform: uppercase;
+  letter-spacing: .3px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  cursor: pointer;
+  user-select: none;
+}
+thead th:hover { background: #e2e5ea; }
+thead th.sort-asc::after { content: ' ▲'; font-size: .6rem; color: var(--sap-blue); }
+thead th.sort-desc::after { content: ' ▼'; font-size: .6rem; color: var(--sap-blue); }
+
+/* Sticky columns */
+thead th:nth-child(1) { position: sticky; left: 0; z-index: 20; }
+thead th:nth-child(2) { position: sticky; left: 36px; z-index: 20; }
+thead th:nth-child(3) { position: sticky; left: 90px; z-index: 20; }
+thead th:nth-child(4) { position: sticky; left: 188px; z-index: 20; }
+tbody td:nth-child(1) { position: sticky; left: 0; background: #f6f7f8; z-index: 5; }
+tbody td:nth-child(2) { position: sticky; left: 36px; background: #f6f7f8; z-index: 5; }
+tbody td:nth-child(3) { position: sticky; left: 90px; background: #f6f7f8; z-index: 5; }
+tbody td:nth-child(4) { position: sticky; left: 188px; background: #f6f7f8; z-index: 5; }
+
+/* Row states */
+tr.row-belum td { background: #fff9f0; }
+tr.row-belum td:nth-child(-n+4) { background: #fff3e0; }
+tbody tr.row-belum:hover td { background: #ffe8c0 !important; }
+tr.row-ok td { background: #fff; }
+tr.row-ok:nth-child(even) td { background: var(--sap-table-row-alt); }
+tr.row-warn td { background: #fffaf0; }
+tr.row-warn td:nth-child(-n+4) { background: #fff5e0; }
+tr.row-done td { background: #f0faf4; }
+tr.row-done td:nth-child(-n+4) { background: #e8f5ee; }
+
+tbody tr:hover td { background: var(--sap-table-hover) !important; }
+tbody tr:hover td:nth-child(-n+4) { background: #d8eafb !important; }
+
+.grp-divider { border-left: 2px solid #bbbfc6 !important; }
+
+/* Group header row */
+.grp-th {
+  text-align: center;
+  background: #e4e7ed !important;
+  color: var(--sap-text) !important;
+  font-size: .68rem !important;
+  font-weight: 700 !important;
+  letter-spacing: .4px !important;
+  cursor: default !important;
+}
+.grp-th:hover { background: #e4e7ed !important; }
+
+/* Badges */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 2px 7px;
+  border-radius: 10px;
+  font-size: .68rem;
+  font-weight: 700;
+}
+.badge-done { background: #e8f5ee; color: var(--sap-success); border: 1px solid #b3dfc5; }
+.badge-proc { background: #e8f4ff; color: var(--sap-blue); border: 1px solid #b5d4f7; }
+.badge-warn { background: #fff3e0; color: var(--sap-warning); border: 1px solid #ffd0a0; }
+.badge-error { background: #fff1f1; color: var(--sap-error); border: 1px solid #f5b0b0; }
+
+.num-col { text-align: right; font-variant-numeric: tabular-nums; }
+.zero { color: #b0b5bd; }
+.miss { color: var(--sap-error); font-weight: 700; }
+
+/* Detail btn */
+.btn-detail {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: 1px solid var(--sap-tile-border);
+  color: var(--sap-blue);
+  width: 24px; height: 22px;
+  border-radius: var(--sap-radius);
+  cursor: pointer;
+  font-size: .78rem;
+  transition: background .15s;
+}
+.btn-detail:hover { background: var(--sap-blue-light); border-color: var(--sap-blue); }
+
+/* ── Pagination ───────────────────────────────────────────────────────── */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  border-top: 1px solid var(--sap-table-border);
+  background: var(--sap-filter-header);
+  border-radius: 0 0 var(--sap-radius) var(--sap-radius);
+}
+.pager-btn {
+  background: #fff;
+  border: 1px solid var(--sap-tile-border);
+  color: var(--sap-text);
+  padding: 4px 12px;
+  border-radius: var(--sap-radius);
+  cursor: pointer;
+  font-size: .78rem;
+  transition: background .15s;
+}
+.pager-btn:hover:not(:disabled) { background: #e8eaee; }
+.pager-btn:disabled { opacity: .4; cursor: default; }
+.pager-info { font-size: .78rem; color: var(--sap-text-muted); }
+.pager-info b { color: var(--sap-text); }
+
+/* ── Loading & Empty ──────────────────────────────────────────────────── */
+.loading-row td { text-align: center; padding: 40px; color: var(--sap-text-muted); }
+.spinner {
+  display: inline-block;
+  width: 18px; height: 18px;
+  border: 2px solid #d9dce1;
+  border-top: 2px solid var(--sap-blue);
+  border-radius: 50%;
+  animation: spin .8s linear infinite;
+  vertical-align: middle;
+  margin-right: 8px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── Autocomplete ─────────────────────────────────────────────────────── */
+.ac-wrap { position: relative; }
+.ac-list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: #fff;
+  border: 1px solid var(--sap-tile-border);
+  border-radius: var(--sap-radius);
+  z-index: 200;
+  min-width: 260px;
+  max-height: 220px;
+  overflow-y: auto;
+  display: none;
+  box-shadow: var(--sap-shadow-lg);
+  margin-top: 2px;
+}
+.ac-item {
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: .8rem;
+  border-bottom: 1px solid #f0f0f0;
+}
+.ac-item:last-child { border-bottom: none; }
+.ac-item:hover, .ac-item.active { background: var(--sap-blue-light); }
+.ac-mc { font-weight: 700; color: var(--sap-text); }
+.ac-info { font-size: .7rem; color: var(--sap-text-muted); margin-top: 1px; }
+
+/* ── Modal ────────────────────────────────────────────────────────────── */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(32,40,50,.35);
+  z-index: 500;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 40px 20px;
+  overflow-y: auto;
+  backdrop-filter: blur(1px);
+}
+.modal-overlay.show { display: flex; }
+.modal-box {
+  background: var(--sap-tile-bg);
+  border: 1px solid var(--sap-tile-border);
+  border-radius: var(--sap-radius);
+  width: 100%;
+  max-width: 920px;
+  box-shadow: var(--sap-shadow-lg);
+}
+.modal-head {
+  background: var(--sap-shell-bg);
+  border-radius: var(--sap-radius) var(--sap-radius) 0 0;
+  padding: 12px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.modal-head h3 { color: #fff; font-size: .95rem; font-weight: 600; }
+.modal-close {
+  background: none;
+  border: none;
+  color: rgba(255,255,255,.7);
+  font-size: 1.3rem;
+  cursor: pointer;
+  line-height: 1;
+  padding: 2px 6px;
+  border-radius: 3px;
+}
+.modal-close:hover { background: rgba(255,255,255,.12); color: #fff; }
+.modal-body { padding: 20px; max-height: 72vh; overflow-y: auto; }
+
+/* Detail grid */
+.detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 16px; }
+.detail-item {
+  background: #f8f9fa;
+  border: 1px solid var(--sap-tile-border);
+  border-radius: var(--sap-radius);
+  padding: 8px 12px;
+}
+.detail-lbl { font-size: .68rem; color: var(--sap-text-muted); text-transform: uppercase; letter-spacing: .4px; font-weight: 600; }
+.detail-val { font-size: .88rem; color: var(--sap-text); font-weight: 600; margin-top: 2px; }
+
+.section-title {
+  font-size: .78rem;
+  color: var(--sap-text-muted);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  border-bottom: 1px solid var(--sap-tile-border);
+  padding-bottom: 6px;
+  margin-bottom: 8px;
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.section-title::before {
+  content: '';
+  display: inline-block;
+  width: 3px;
+  height: 14px;
+  background: var(--sap-blue);
+  border-radius: 2px;
+}
+
+.mini-table { width: 100%; border-collapse: collapse; font-size: .78rem; margin-bottom: 16px; }
+.mini-table th {
+  background: var(--sap-table-head);
+  color: var(--sap-text);
+  padding: 6px 9px;
+  font-size: .7rem;
+  font-weight: 700;
+  text-align: left;
+  border-bottom: 2px solid var(--sap-table-border);
+}
+.mini-table td { padding: 5px 9px; border-bottom: 1px solid var(--sap-table-border); }
+.mini-table tr:hover td { background: var(--sap-table-hover); }
+.mini-table .total-row td { background: #e8eaee; font-weight: 700; }
+
+/* Status indicator dot */
+.status-dot {
+  display: inline-block;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  margin-right: 4px;
+}
+.dot-ok { background: var(--sap-success); }
+.dot-warn { background: var(--sap-warning); }
+.dot-err { background: var(--sap-error); }
+.dot-info { background: var(--sap-blue); }
+.dot-neutral { background: #b0b5bd; }
+
+/* Legend */
+.legend-bar {
+  margin: 8px 24px 0;
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  align-items: center;
+  font-size: .72rem;
+  color: var(--sap-text-muted);
+}
+.leg-item { display: flex; align-items: center; gap: 5px; }
+.leg-swatch {
+  width: 12px; height: 12px;
+  border-radius: 2px;
+  border: 1px solid rgba(0,0,0,.1);
+}
+
+/* Info banner */
+.info-note {
+  margin: 6px 24px 0;
+  padding: 8px 12px;
+  background: #f0f7ff;
+  border: 1px solid #b5d4f7;
+  border-left: 3px solid var(--sap-blue);
+  border-radius: var(--sap-radius);
+  font-size: .76rem;
+  color: var(--sap-text-muted);
+}
+</style>
+</head>
+<body>
+
+<!-- ── Page Header ──────────────────────────────────────────────────── -->
+<div class="page-header">
+  <div class="page-header-back" title="Kembali">&#8592;</div>
+  <div class="page-header-info">
+    <div class="page-header-title">Monitor Production Orders — Dashboard Intake</div>
+  </div>
+  <div class="page-header-actions">
+    <button class="btn btn-success" onclick="exportExcel()">&#8595; Export Excel</button>
+    <button class="btn btn-standard" onclick="loadData(1)">&#8635; Refresh</button>
+  </div>
+</div>
+
+<!-- ── KPI Tiles ─────────────────────────────────────────────────────── -->
+<div class="kpi-strip">
+  <div class="kpi-tile active">
+    <div class="kpi-num info" id="statTotal">—</div>
+    <div class="kpi-lbl">Total OP</div>
+  </div>
+  <div class="kpi-tile">
+    <div class="kpi-num" id="statQty">—</div>
+    <div class="kpi-lbl">Total Order (pcs)</div>
+  </div>
+  <div class="kpi-tile">
+    <div class="kpi-num" id="statKirim">—</div>
+    <div class="kpi-lbl">Total Terkirim</div>
+  </div>
+  <div class="kpi-tile active-success">
+    <div class="kpi-num success" id="statSelesai">—</div>
+    <div class="kpi-lbl">Selesai</div>
+  </div>
+  <div class="kpi-tile active-warn">
+    <div class="kpi-num warn" id="statKurang">—</div>
+    <div class="kpi-lbl">Pcs Kurang</div>
+  </div>
+  <div class="kpi-tile active-error">
+    <div class="kpi-num error" id="statMissing">—</div>
+    <div class="kpi-lbl">Data Belum Lengkap</div>
+  </div>
+  <div class="kpi-tile active-warn">
+    <div class="kpi-num warn" id="statBelumOP">—</div>
+    <div class="kpi-lbl">SC Belum OP</div>
+  </div>
+</div>
+
+<!-- ── Info Note ─────────────────────────────────────────────────────── -->
+<div class="info-note">
+  <strong>Catatan:</strong> "Data Belum Lengkap" berarti salah satu tahap produksi (Corrugating / Converting), serah terima, atau pengiriman belum tercatat padahal ada order (&gt;0).
+  Silakan cek MCList untuk detail tahap yang hilang.
+</div>
+
+<!-- ── Filter Panel ───────────────────────────────────────────────────── -->
+<div class="filter-panel">
+  <div class="filter-panel-header" onclick="toggleFilter(this)">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color:var(--sap-blue)">
+      <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
+    </svg>
+    <span class="fph-title">Filters &amp; Selection Criteria</span>
+    <span id="filterTagCount" style="font-size:.72rem;color:var(--sap-blue);font-weight:600;"></span>
+    <span class="fph-toggle">&#9660;</span>
+  </div>
+  <div class="filter-body" id="filterBody">
+    <!-- Row 1 -->
+    <div class="filter-group">
+      <label class="filter-label">MC No.</label>
+      <div class="ac-wrap">
+        <input type="text" class="filter-input" id="inMC" placeholder="Ketik untuk cari MC…" autocomplete="off">
+        <div class="ac-list" id="acList"></div>
+      </div>
+    </div>
+
+    <div class="filter-group">
+      <label class="filter-label">SC No.</label>
+      <input type="text" class="filter-input" id="inScNo" placeholder="No. SC…">
+    </div>
+
+    <div class="filter-group">
+      <label class="filter-label">Tgl SC Dari</label>
+      <input type="date" class="filter-input date" id="inScFrom">
+    </div>
+    <div class="filter-separator">s/d</div>
+    <div class="filter-group">
+      <label class="filter-label">&nbsp;</label>
+      <input type="date" class="filter-input date" id="inScTo">
+    </div>
+
+    <div class="filter-group">
+      <label class="filter-label">Flexo / Proses</label>
+      <select class="filter-select" id="inFlexo">
+        <option value="">Semua Flexo</option>
+        <option>FLEXO 1</option><option>FLEXO 2</option><option>FLEXO 3</option>
+        <option>FLEXO 4</option><option>FLEXO 5</option><option>FLEXO 6</option>
+        <option>FLEXO 7</option><option>FLEXO 8</option><option>FLEXO 9</option>
+        <option>WONDER</option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <label class="filter-label">Order Status</label>
+      <select class="filter-select" id="inStatus">
+        <option value="">Semua Status</option>
+        <option value="SELESAI">✅ Selesai</option>
+        <option value="PROSES">🔄 Proses</option>
+        <option value="INCOMPLETE">⚠️ Data Belum Lengkap</option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <label class="filter-label">DT (Tgl Kirim) Dari</label>
+      <input type="date" class="filter-input date" id="inShipFrom">
+    </div>
+    <div class="filter-separator">s/d</div>
+    <div class="filter-group">
+      <label class="filter-label">&nbsp;</label>
+      <input type="date" class="filter-input date" id="inShipTo">
+    </div>
+
+    <!-- Hidden but present in DOM -->
+    <input type="date" id="inDateFrom" style="display:none">
+    <input type="date" id="inDateTo" style="display:none">
+
+    <div class="btn-actions">
+      <button class="btn btn-emphasized" onclick="loadData(1)">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        Search
+      </button>
+      <button class="btn btn-standard" onclick="clearFilters()">&#10005; Clear</button>
+    </div>
+  </div>
+  <div class="active-tags" id="activeTags"></div>
+</div>
+
+<!-- ── Legend ─────────────────────────────────────────────────────────── -->
+<div class="legend-bar">
+  <strong style="color:var(--sap-text)">Legend:</strong>
+  <div class="leg-item"><div class="leg-swatch" style="background:#fff9f0;border-color:#e65100"></div> SC Belum OP</div>
+  <div class="leg-item"><div class="leg-swatch" style="background:#f0faf4;border-color:#107e3e"></div> Selesai</div>
+  <div class="leg-item"><div class="leg-swatch" style="background:#fff;border-color:#d9dce1"></div> Proses Normal</div>
+  <div class="leg-item"><div class="leg-swatch" style="background:#fffaf0;border-color:#f5c070"></div> Ada Data Kosong</div>
+  <span style="margin-left:4px;"><span style="color:var(--sap-error);font-weight:700">Merah</span> = nilai 0 padahal qty order &gt; 0 (perlu dicek MCList)</span>
+</div>
+
+<!-- ── Table Section ──────────────────────────────────────────────────── -->
+<div class="table-section">
+  <div class="table-toolbar">
+    <div>
+      <span class="table-title">Production Order List</span>
+      <span class="table-count" id="tblCount">— records</span>
+    </div>
+    <div class="table-actions">
+      <button class="btn btn-standard" onclick="exportExcel()">&#8595; Export</button>
+      <button class="btn btn-ghost" onclick="loadData(1)">&#8635;</button>
+    </div>
+  </div>
+
+  <!-- Scroll sync top -->
+  <div class="scroll-top" id="scrollTop"><div id="dummyTop" style="height:1px"></div></div>
+
+  <!-- Main scroll -->
+  <div class="scroll-main" id="scrollMain">
+    <div id="tblContent">
+      <table><tbody><tr class="loading-row"><td colspan="40">
+        <span class="spinner"></span>Memuat data…
+      </td></tr></tbody></table>
+    </div>
+  </div>
+
+  <!-- Pagination -->
+  <div class="pagination">
+    <button class="pager-btn" id="btnPrev" disabled onclick="goPage(-1)">&#9664; Prev</button>
+    <span class="pager-info">Page <b id="pgCur">1</b> / <b id="pgTotal">1</b> &mdash; <b id="pgRec">0</b> records</span>
+    <button class="pager-btn" id="btnNext" disabled onclick="goPage(1)">Next &#9654;</button>
+  </div>
+</div>
+
+<!-- ── Detail Modal ────────────────────────────────────────────────────── -->
+<div class="modal-overlay" id="modal">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h3 id="modalTitle">Production Order Detail</h3>
+      <button class="modal-close" onclick="closeModal()">&#10005;</button>
+    </div>
+    <div class="modal-body" id="modalBody">Loading…</div>
+  </div>
+</div>
+
+<!-- SheetJS -->
+<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+<script>
+// ── Config ─────────────────────────────────────────────────────────────
+// FIX #1: Nama file PHP yang benar (tanpa "-5")
+const API = 'get_realisasi_terpadu.php';
+let currentPage = 1, totalPages = 1, totalRec = 0;
+const LIMIT = 200;
+let allRows = [], sortCol = null, sortDir = 1;
+let acTimer;
+
+// ── Utils ───────────────────────────────────────────────────────────────
+const fmt = n => (+n||0).toLocaleString('id-ID');
+const fmtDate = s => {
+  if (!s) return '-';
+  const d = new Date(s);
+  if (isNaN(d)) return s;
+  return `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`;
+};
+const $ = id => document.getElementById(id);
+const cell = (v, cls='') => `<td class="${cls}">${v ?? '-'}</td>`;
+const numCell = (v, warn=false) => {
+  const n = +v || 0;
+  const cls = 'num-col' + (warn && n===0 ? ' miss' : (n===0 ? ' zero' : ''));
+  return `<td class="${cls}">${n===0 ? '0' : fmt(n)}</td>`;
+};
+
+// ── Filter toggle ───────────────────────────────────────────────────────
+function toggleFilter(hdr) {
+  const body = $('filterBody');
+  hdr.classList.toggle('collapsed');
+  body.classList.toggle('hidden');
+}
+
+// ── Stats ───────────────────────────────────────────────────────────────
+function updateStats(rows) {
+  $('statTotal').textContent   = fmt(rows.length);
+  $('statQty').textContent     = fmt(rows.reduce((s,r)=>s+(+r.total_order_eff||+r.total_order||0),0));
+  $('statKirim').textContent   = fmt(rows.reduce((s,r)=>s+(+r.jml_kirim||0),0));
+  $('statKurang').textContent  = fmt(rows.reduce((s,r)=>s+(+r.pcs_kurang||0),0));
+  $('statSelesai').textContent = rows.filter(r=>r.status_lengkap==='SELESAI').length;
+  $('statMissing').textContent = rows.filter(r=>r.data_incomplete).length;
+  if($('statBelumOP')) $('statBelumOP').textContent = rows.filter(r=>r.op_belum).length;
+}
+
+// ── Sort ────────────────────────────────────────────────────────────────
+function sortTable(col) {
+  if (sortCol === col) sortDir *= -1;
+  else { sortCol = col; sortDir = 1; }
+  const sorted = [...allRows].sort((a, b) => {
+    let va = a[col], vb = b[col];
+    if (!isNaN(va) && !isNaN(vb)) { va = +va||0; vb = +vb||0; }
+    if (va < vb) return -sortDir;
+    if (va > vb) return sortDir;
+    return 0;
+  });
+  renderTable(sorted, true);
+}
+
+// ── Table render ────────────────────────────────────────────────────────
+function renderTable(rows, skipSortReset) {
+  if (!skipSortReset) { sortCol = null; sortDir = 1; }
+  allRows = rows;
+  updateStats(rows);
+
+  if (!rows.length) {
+    $('tblContent').innerHTML = `<table><tbody><tr class="loading-row">
+      <td colspan="40" style="color:var(--sap-text-muted)">No data found. Please adjust your filter criteria.</td></tr></tbody></table>`;
+    $('tblCount').textContent = '0 records';
+    return;
+  }
+
+  const statusFilter = $('inStatus').value;
+  let filtered = statusFilter
+    ? rows.filter(r => {
+        if (statusFilter === 'INCOMPLETE') return r.data_incomplete;
+        return r.status_lengkap === statusFilter;
+      })
+    : rows;
+
+  const sc = col => sortCol===col ? (sortDir>0?'sort-asc':'sort-desc') : '';
+
+  let html = `<table id="mainTable">
+  <thead>
+  <tr>
+    <th class="grp-th" colspan="4">Identifikasi</th>
+    <th class="grp-th grp-divider" colspan="7">Informasi Order</th>
+    <th class="grp-th grp-divider" colspan="3">Dimensi &amp; Mutu</th>
+    <th class="grp-th grp-divider" colspan="5">Kualitas Kertas</th>
+    <th class="grp-th grp-divider" colspan="4">Jadwal &amp; Warna</th>
+    <th class="grp-th grp-divider" colspan="4">Realisasi Produksi</th>
+    <th class="grp-th grp-divider" colspan="6">Serah Terima &amp; Kirim</th>
+    <th class="grp-th grp-divider" colspan="3">Status</th>
+  </tr>
+  <tr>
+    <th onclick="sortTable('no')" class="${sc('no')}">No</th>
+    <th style="cursor:default">Detail</th>
+    <th onclick="sortTable('cNoSc')" class="${sc('cNoSc')}">SC No.</th>
+    <th onclick="sortTable('cNoOp')" class="${sc('cNoOp')}">No. OP</th>
+    <th onclick="sortTable('tgl_sc')" class="${sc('tgl_sc')}">Tgl SC</th>
+    <th class="grp-divider" onclick="sortTable('cNoMc')">MC No.</th>
+    <th onclick="sortTable('nama_brg')" class="${sc('nama_brg')}">Nama Barang</th>
+    <th onclick="sortTable('customer')" class="${sc('customer')}">Customer</th>
+    <th onclick="sortTable('cTipe')" class="${sc('cTipe')}">Tipe</th>
+    <th onclick="sortTable('ukuran_dalam')" class="${sc('ukuran_dalam')}">Ukuran Dalam</th>
+    <th onclick="sortTable('total_order')" class="${sc('total_order')}">Jml Order DT</th>
+    <th class="grp-divider" onclick="sortTable('flute')" class="${sc('flute')}">Flute</th>
+    <th onclick="sortTable('kualitas')" class="${sc('kualitas')}">Kualitas</th>
+    <th onclick="sortTable('cWarna')" class="${sc('cWarna')}">Warna</th>
+    <th class="grp-divider" onclick="sortTable('ckd_b1')">K-1</th>
+    <th onclick="sortTable('ckd_b2')">K-2</th>
+    <th onclick="sortTable('ckd_b3')">K-3</th>
+    <th onclick="sortTable('ckd_b4')">K-4</th>
+    <th onclick="sortTable('ckd_b5')">K-5</th>
+    <th class="grp-divider" onclick="sortTable('tgl_op')" class="${sc('tgl_op')}">Tgl OP</th>
+    <th onclick="sortTable('tgl_kirim_awal')">Tgl Kirim Awal</th>
+    <th onclick="sortTable('tgl_kirim')">Tgl Kirim</th>
+    <th onclick="sortTable('cFlexo')">Flexo/Proses</th>
+    <th class="grp-divider num-col" onclick="sortTable('plan_corr')">Plan Corr</th>
+    <th class="num-col" onclick="sortTable('hsl_corr')">Hasil Corr</th>
+    <th class="num-col" onclick="sortTable('rsak_corr')">Rusak Corr</th>
+    <th class="num-col" onclick="sortTable('hsl_conv')">Hasil Conv</th>
+    <th class="num-col" onclick="sortTable('stock_awal_gudang')">Stock Awal</th>
+    <th class="num-col" onclick="sortTable('stock_akhir_gudang')">Stock Akhir</th>
+    <th class="grp-divider num-col" onclick="sortTable('jml_serah_trm')">Serah Trm</th>
+    <th class="num-col" onclick="sortTable('jml_kirim')">Jml Kirim</th>
+    <th class="num-col" onclick="sortTable('jml_rsj')">Jml RSJ</th>
+    <th class="num-col" onclick="sortTable('jml_retur')">Retur</th>
+    <th class="grp-divider num-col" onclick="sortTable('pcs_kurang')">Pcs Kurang</th>
+    <th class="num-col" onclick="sortTable('net_kirim')">Net Kirim</th>
+    <th onclick="sortTable('status_lengkap')">Status</th>
+  </tr>
+  </thead><tbody>`;
+
+  filtered.forEach(r => {
+    const hasOrder = (+r.total_order||0) > 0;
+    let rowCls = 'row-ok';
+    if (r.op_belum)                          rowCls = 'row-belum';
+    else if (r.status_lengkap === 'SELESAI') rowCls = 'row-done';
+    else if (r.data_incomplete)              rowCls = 'row-warn';
+
+    const statusBadge = r.op_belum
+      ? `<span class="badge badge-warn">Belum OP</span>`
+      : r.status_lengkap === 'SELESAI'
+        ? `<span class="badge badge-done"><span class="status-dot dot-ok"></span>Selesai</span>`
+        : r.data_incomplete
+          ? `<span class="badge badge-warn"><span class="status-dot dot-warn"></span>Cek Data</span>`
+          : `<span class="badge badge-proc"><span class="status-dot dot-info"></span>Proses</span>`;
+
+    const ukuran = `${Math.round(+r.nPanjang||0)}×${Math.round(+r.nLebar||0)}×${Math.round(+r.nTinggi||0)}`;
+
+    // FIX #2: showDetail sekarang memakai cNoSc (bukan cNoOp) karena PHP action=detail pakai parameter 'sc'
+    const scKey = (r.cNoSc||'').replace(/'/g,"\\'");
+
+    html += `<tr class="${rowCls}">
+      ${cell(r.no)}
+      <td><button class="btn-detail" onclick="showDetail('${scKey}')">&#128269;</button></td>
+      ${cell(`<strong>${r.cNoSc||'-'}</strong>`)}
+      ${r.op_belum
+        ? `<td><span style="color:var(--sap-warning);font-weight:700;font-size:.75rem;">BELUM OP</span></td>`
+        : cell(r.cNoOp||'-')}
+      ${cell(fmtDate(r.tgl_sc))}
+      <td class="grp-divider">${r.cNoMc||'-'}</td>
+      ${cell(r.nama_brg||'-')}
+      ${cell(r.customer||'-')}
+      ${cell(r.cTipe||'-')}
+      ${cell(ukuran)}
+      ${numCell(r.total_order)}
+      <td class="grp-divider">${r.flute||'-'}</td>
+      ${cell(r.kualitas||'-')}
+      ${cell(r.cWarna||'-')}
+      <td class="grp-divider">${r.ckd_b1||'-'}</td>
+      ${cell(r.ckd_b2||'-')}
+      ${cell(r.ckd_b3||'-')}
+      ${cell(r.ckd_b4||'-')}
+      ${cell(r.ckd_b5||'-')}
+      <td class="grp-divider">${fmtDate(r.tgl_op)}</td>
+      ${cell(fmtDate(r.tgl_kirim_awal))}
+      ${cell(fmtDate(r.tgl_kirim))}
+      ${cell(r.cFlexo||'-')}
+      <td class="grp-divider num-col">${fmt(r.plan_corr)}</td>
+      ${numCell(r.hsl_corr, hasOrder && r.missing_corr)}
+      ${numCell(r.rsak_corr)}
+      ${numCell(r.hsl_conv, hasOrder && r.missing_conv)}
+      ${numCell(r.stock_awal_gudang)}
+      ${numCell(r.stock_akhir_gudang)}
+      <td class="grp-divider num-col">${fmt(r.jml_serah_trm)}</td>
+      ${numCell(r.jml_kirim, hasOrder && r.missing_kirim)}
+      ${numCell(r.jml_rsj)}
+      ${numCell(r.jml_retur)}
+      <td class="grp-divider num-col ${(+r.pcs_kurang||0)>0?'miss':''}">${fmt(r.pcs_kurang)}</td>
+      <td class="num-col">${fmt(r.net_kirim)}</td>
+      <td>${statusBadge}</td>
+    </tr>`;
+  });
+
+  html += '</tbody></table>';
+  $('tblContent').innerHTML = html;
+
+  // Sync scroll
+  const st = $('scrollTop'), sm = $('scrollMain');
+  $('dummyTop').style.width = (document.getElementById('mainTable')?.offsetWidth||2000)+'px';
+  st.onscroll = () => { sm.scrollLeft = st.scrollLeft; };
+  sm.onscroll = () => { st.scrollLeft = sm.scrollLeft; };
+
+  $('tblCount').textContent = `${filtered.length} of ${rows.length} records`;
+}
+
+// ── Load data ───────────────────────────────────────────────────────────
+async function loadData(page) {
+  if (page) currentPage = page;
+  $('tblContent').innerHTML = `<table><tbody><tr class="loading-row"><td colspan="40">
+    <span class="spinner"></span>Loading data…</td></tr></tbody></table>`;
+
+  const p = new URLSearchParams({ action:'list', offset:(currentPage-1)*LIMIT, limit:LIMIT });
+  const mc       = $('inMC').value.trim();
+  const flexo    = $('inFlexo').value;
+  const scNo     = $('inScNo')?.value.trim();
+  const scFrom   = $('inScFrom')?.value;
+  const scTo     = $('inScTo')?.value;
+  const dateFrom = $('inDateFrom')?.value;
+  const dateTo   = $('inDateTo')?.value;
+  const shipFrom = $('inShipFrom')?.value;
+  const shipTo   = $('inShipTo')?.value;
+
+  if (mc)       p.append('mc', mc);
+  if (flexo)    p.append('flexo', flexo);
+  if (scNo)     p.append('sc_no', scNo);
+  if (scFrom)   p.append('date_sc_from', scFrom);
+  if (scTo)     p.append('date_sc_to', scTo);
+  if (dateFrom) p.append('date_from', dateFrom);
+  if (dateTo)   p.append('date_to', dateTo);
+  if (shipFrom) p.append('ship_from', shipFrom);
+  if (shipTo)   p.append('ship_to', shipTo);
+
+  // FIX #3: Hilangkan referensi variabel 'dt' yang tidak terdefinisi
+  updateActiveTags({mc, flexo, scNo, scFrom, scTo, dateFrom, dateTo, shipFrom, shipTo});
+
+  try {
+    const res  = await fetch(`${API}?${p}`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+    const data = await res.json();
+    if (!data.success) throw new Error(data.message || 'Server error');
+
+    totalRec   = data.pagination.total_records;
+    totalPages = data.pagination.total_pages;
+    currentPage= data.pagination.current_page;
+
+    $('pgCur').textContent   = currentPage;
+    $('pgTotal').textContent = totalPages;
+    $('pgRec').textContent   = fmt(totalRec);
+    $('btnPrev').disabled    = !data.pagination.has_prev;
+    $('btnNext').disabled    = !data.pagination.has_next;
+
+    renderTable(data.data);
+  } catch (e) {
+    $('tblContent').innerHTML = `<table><tbody><tr class="loading-row">
+      <td colspan="40" style="color:var(--sap-error)">&#9888; Error: ${e.message}</td></tr></tbody></table>`;
+  }
+}
+
+function goPage(d) {
+  const np = currentPage + d;
+  if (np < 1 || np > totalPages) return;
+  currentPage = np;
+  loadData();
+}
+
+// ── Active Filter Tags ──────────────────────────────────────────────────
+function updateActiveTags(f) {
+  const labels = {mc:'MC', flexo:'Flexo', scNo:'SC No.', scFrom:'Tgl SC Dari', scTo:'s/d SC', dateFrom:'Tgl OP Dari', dateTo:'s/d OP', shipFrom:'Tgl Kirim Dari', shipTo:'s/d Kirim'};
+  const wrap = $('activeTags');
+  wrap.innerHTML = '';
+  let count = 0;
+  Object.entries(f).forEach(([k,v]) => {
+    if (!v) return;
+    count++;
+    const tag = document.createElement('span');
+    tag.className = 'filter-tag';
+    tag.innerHTML = `${labels[k]||k}: <b>${v}</b> <span class="ft-x" onclick="clearOne('${k}')">×</span>`;
+    wrap.appendChild(tag);
+  });
+  $('filterTagCount').textContent = count ? `(${count} active)` : '';
+}
+
+function clearOne(key) {
+  const map = {mc:'inMC', flexo:'inFlexo', scNo:'inScNo', scFrom:'inScFrom', scTo:'inScTo', dateFrom:'inDateFrom', dateTo:'inDateTo', shipFrom:'inShipFrom', shipTo:'inShipTo'};
+  if (map[key]) $(map[key]).value = '';
+  loadData(1);
+}
+
+function clearFilters() {
+  ['inMC','inFlexo','inScNo','inStatus','inDateFrom','inDateTo','inShipFrom','inShipTo'].forEach(id=>{
+    const el = $(id); if (el) el.value = '';
+  });
+  const today = new Date().toISOString().slice(0,10);
+  $('inScFrom').value = today;
+  $('inScTo').value   = today;
+  loadData(1);
+}
+
+// ── MC Autocomplete ─────────────────────────────────────────────────────
+$('inMC').addEventListener('input', () => {
+  clearTimeout(acTimer);
+  acTimer = setTimeout(fetchMC, 280);
+});
+
+async function fetchMC() {
+  const q = $('inMC').value.trim();
+  const acList = $('acList');
+  if (q.length < 2) { acList.style.display='none'; return; }
+  acList.innerHTML = '<div class="ac-item" style="color:var(--sap-text-muted)">Mencari…</div>';
+  acList.style.display = 'block';
+  try {
+    const res = await fetch(`${API}?action=mc_suggest&search=${encodeURIComponent(q)}`);
+    const data = await res.json();
+    acList.innerHTML = '';
+    if (!data.data?.length) {
+      acList.innerHTML = '<div class="ac-item" style="color:var(--sap-text-muted)">Tidak ditemukan.</div>';
+    } else {
+      data.data.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'ac-item';
+        div.innerHTML = `<div class="ac-mc">${item.cNoMc}</div>
+          <div class="ac-info">Used ${item.usage_count}× &middot; Last: ${fmtDate(item.last_used)}</div>`;
+        div.onclick = () => {
+          $('inMC').value = item.cNoMc;
+          acList.style.display = 'none';
+          loadData(1);
+        };
+        acList.appendChild(div);
+      });
+    }
+  } catch (e) { acList.style.display='none'; }
+}
+document.addEventListener('click', e => {
+  if (!e.target.closest('.ac-wrap')) $('acList').style.display='none';
+});
+
+
+async function showDetail(noSc) {
+  $('modal').classList.add('show');
+  $('modalTitle').textContent = `Production Order Detail — SC: ${noSc}`;
+  $('modalBody').innerHTML = `<div style="text-align:center;padding:30px;color:var(--sap-text-muted)">
+    <span class="spinner"></span>Loading detail…</div>`;
+  try {
+    // PHP menggunakan parameter 'sc' bukan 'no_op'
+    const res = await fetch(`${API}?action=detail&sc=${encodeURIComponent(noSc)}`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    if (!data.success) throw new Error(data.message || 'Gagal memuat detail');
+
+    // PHP mengembalikan data.sc (header SC), data.op (list OP), bukan data.data
+    const sc  = data.sc  || {};
+    const ops = data.op  || [];
+    const corrHasil = data.corr_hasil || [];
+    const stb       = data.stb        || [];
+    const srj       = data.srj        || [];
+    const retur     = data.retur      || [];
+    const totals    = data.totals     || {};
+
+    let html = `<div class="detail-grid">
+      <div class="detail-item"><div class="detail-lbl">SC No.</div><div class="detail-val">${sc.cNoSc||'-'}</div></div>
+      <div class="detail-item"><div class="detail-lbl">Customer</div><div class="detail-val">${sc.cNama||'-'}</div></div>
+      <div class="detail-item"><div class="detail-lbl">Nama Barang</div><div class="detail-val">${sc.cJenis||'-'}</div></div>
+      <div class="detail-item"><div class="detail-lbl">Tgl SC</div><div class="detail-val">${fmtDate(sc.dTanggal)}</div></div>
+      <div class="detail-item"><div class="detail-lbl">Tgl Kirim</div><div class="detail-val">${sc.lTK==1?'Tunggu Kabar':fmtDate(sc.dTglKirim)}</div></div>
+      <div class="detail-item"><div class="detail-lbl">Sales</div><div class="detail-val">${sc.cSales||'-'}</div></div>
+      <div class="detail-item"><div class="detail-lbl">Qty SC</div><div class="detail-val">${fmt(sc.nQty)}</div></div>
+      <div class="detail-item"><div class="detail-lbl">Keterangan</div><div class="detail-val">${sc.cKeterangan||'-'}</div></div>
+    </div>`;
+
+    // OP list
+    if (ops.length) {
+      html += `<div class="section-title">Daftar OP</div>
+      <table class="mini-table">
+        <thead><tr><th>No. OP</th><th>MC No.</th><th>Tgl OP</th><th>Flexo</th><th class="num-col">Qty Order</th><th class="num-col">Last Plan</th></tr></thead><tbody>`;
+      ops.forEach(r => {
+        html += `<tr><td>${r.cNoOp||'-'}</td><td>${r.cNoMc||'-'}</td>
+          <td>${fmtDate(r.dTgl)}</td><td>${r.cFlexo||'-'}</td>
+          <td class="num-col">${fmt(r.nQty)}</td>
+          <td class="num-col">${fmt(r.nQtyStok)}</td></tr>`;
+      });
+      html += `</tbody></table>`;
+    }
+
+    // Hasil Corrugating
+    if (corrHasil.length) {
+      html += `<div class="section-title">Hasil Corrugating</div>
+      <table class="mini-table">
+        <thead><tr><th>Kode Corr</th><th>No. MC</th><th>Tanggal</th><th class="num-col">Hasil</th><th class="num-col">Rusak</th><th class="num-col">Berat</th></tr></thead><tbody>`;
+      corrHasil.forEach(r => {
+        html += `<tr><td>${r.cKodeCorr||r.cNoCorr||'-'}</td><td>${r.cNoMc||'-'}</td>
+          <td>${fmtDate(r.dTanggal)}</td>
+          <td class="num-col">${fmt(r.nHasil)}</td>
+          <td class="num-col">${fmt(r.nRusak)}</td>
+          <td class="num-col">${fmt(r.nBerat)}</td></tr>`;
+      });
+      html += `<tr class="total-row"><td colspan="3">Total</td>
+        <td class="num-col">${fmt(totals.hsl_corr)}</td>
+        <td class="num-col">${fmt(totals.rusak_corr)}</td>
+        <td class="num-col">${fmt(totals.berat_corr)}</td></tr>
+      </tbody></table>`;
+    }
+
+    // Serah Terima
+    if (stb.length) {
+      html += `<div class="section-title">Serah Terima</div>
+      <table class="mini-table">
+        <thead><tr><th>No. STB</th><th>Tgl Serah</th><th>Rack</th><th>Shift</th><th class="num-col">Qty</th></tr></thead><tbody>`;
+      stb.forEach(r => {
+        html += `<tr><td>${r.cNoStb||'-'}</td><td>${fmtDate(r.dTglSerah)}</td>
+          <td>${r.cRak||'-'}</td><td>${r.cShift||'-'}</td>
+          <td class="num-col">${fmt(r.nQty)}</td></tr>`;
+      });
+      html += `<tr class="total-row"><td colspan="4">Total</td><td class="num-col">${fmt(totals.stb)}</td></tr>
+      </tbody></table>`;
+    }
+
+    // Pengiriman
+    if (srj.length) {
+      html += `<div class="section-title">Pengiriman</div>
+      <table class="mini-table">
+        <thead><tr><th>No. SRJ</th><th>Tanggal</th><th>Tujuan</th><th>No. Pol</th><th class="num-col">Qty</th></tr></thead><tbody>`;
+      srj.forEach(r => {
+        html += `<tr><td>${r.cNoSRJ||'-'}</td><td>${fmtDate(r.dTanggal)}</td>
+          <td>${r.cTujuanKirim||'-'}</td><td>${r.cNoPol||'-'}</td>
+          <td class="num-col">${fmt(r.nQty)}</td></tr>`;
+      });
+      html += `<tr class="total-row"><td colspan="4">Total</td><td class="num-col">${fmt(totals.srj)}</td></tr>
+      </tbody></table>`;
+    }
+
+    // Retur
+    if (retur.length) {
+      html += `<div class="section-title">Retur</div>
+      <table class="mini-table">
+        <thead><tr><th>No. Retur</th><th>Tgl</th><th>Item</th><th class="num-col">Qty</th><th>Keterangan</th></tr></thead><tbody>`;
+      retur.forEach(r => {
+        html += `<tr><td>${r.cNoRetur||'-'}</td><td>${fmtDate(r.dTgl)}</td>
+          <td>${r.cItem||'-'}</td><td class="num-col">${fmt(r.nQty)}</td>
+          <td>${r.cKetRetur||'-'}</td></tr>`;
+      });
+      html += `<tr class="total-row"><td colspan="3">Total</td><td class="num-col">${fmt(totals.retur)}</td><td></td></tr>
+      </tbody></table>`;
+    }
+
+    // Ringkasan totals
+    html += `<div class="section-title">Ringkasan</div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px;">
+      ${[
+        ['Plan Corr', totals.plan_corr],['Hasil Corr', totals.hsl_corr],['Rusak Corr', totals.rusak_corr],['Hasil Conv', totals.conv_hasil],
+        ['Serah Trm', totals.stb],['Jml Kirim', totals.srj],['Retur', totals.retur],['Net Kirim', totals.net_kirim]
+      ].map(([l,v])=>`<div class="detail-item"><div class="detail-lbl">${l}</div><div class="detail-val">${fmt(v)}</div></div>`).join('')}
+    </div>`;
+
+    $('modalBody').innerHTML = html;
+  } catch (e) {
+    $('modalBody').innerHTML = `<p style="color:var(--sap-error)">&#9888; Error: ${e.message}</p>`;
+  }
+}
+
+function closeModal() { $('modal').classList.remove('show'); }
+$('modal').addEventListener('click', e => { if(e.target===$('modal')) closeModal(); });
+document.addEventListener('keydown', e => { if(e.key==='Escape') closeModal(); });
+
+// ── Export Excel ────────────────────────────────────────────────────────
+async function exportExcel() {
+  // Server-side download: request all rows and let PHP return a file
+  const p = new URLSearchParams({ action:'list', limit:'all', offset:0, export:'excel' });
+  const vals = {
+    mc:$('inMC')?.value, flexo:$('inFlexo')?.value,
+    sc_no:$('inScNo')?.value,
+    date_sc_from:$('inScFrom')?.value, date_sc_to:$('inScTo')?.value,
+    date_from:$('inDateFrom')?.value, date_to:$('inDateTo')?.value,
+    ship_from:$('inShipFrom')?.value, ship_to:$('inShipTo')?.value
+  };
+  Object.entries(vals).forEach(([k,v])=>{ if(v) p.append(k,v); });
+
+  // Trigger browser download
+  window.location.href = `${API}?${p}`;
+}
+
+$('inStatus').addEventListener('change', () => renderTable(allRows));
+
+document.addEventListener('DOMContentLoaded', () => {
+  const today = new Date().toISOString().slice(0,10);
+  $('inScFrom').value = $('inScFrom').value || today;
+  $('inScTo').value   = $('inScTo').value   || today;
+  $('inMC')?.addEventListener('keypress', e => { if(e.key==='Enter') loadData(1); });
+  $('inScNo')?.addEventListener('keypress', e => { if(e.key==='Enter') loadData(1); });
+  loadData(1);
+});
+
+// Hilangkan referensi variabel 'dt' yang tidak terdefinisi pada fungsi clearFilters
+function clearFilters() {
+  const today = new Date().toISOString().slice(0,10);
+  ['inMC','inFlexo','inScNo','inStatus','inDateFrom','inDateTo','inShipFrom','inShipTo'].forEach(id=>{
+    const el = $(id); if (el) el.value = '';
+  });
+}
+</script>
+</body>
+</html>

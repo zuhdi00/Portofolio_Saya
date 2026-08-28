@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="sps_logo1.png">
+<title>Dashboard Intake</title>
+<style>
+/* ── Reset & Base ─────────────────────────────────────────────── */
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
+  background:#f5f5f5;min-height:100vh;color:#222;font-size:13px;}
+
+/* ── Navbar ───────────────────────────────────────────────────── */
+.navbar{background:#e0e0e0;padding:12px 24px;display:flex;
+  justify-content:space-between;align-items:center;
+  position:sticky;top:0;z-index:200;
+  box-shadow:0 2px 12px rgba(0,0,0,0.08);}
+.navbar-brand{font-size:1.2rem;font-weight:700;color:#222;
+    display:flex;align-items:center;gap:8px;}
+.nav-links{display:flex;gap:8px;}
+.nav-link{color:#222;text-decoration:none;padding:6px 14px;
+    border-radius:4px;font-size:0.82rem;transition:.2s;}
+.nav-link:hover,.nav-link.active{background:#bdbdbd;color:#222;}
+.nav-right{display:flex;align-items:center;gap:12px;}
+.badge-user{background:#bdbdbd;color:#222;
+  padding:5px 14px;border-radius:20px;font-size:.8rem;font-weight:600;}
+.btn-logout{background:#757575;color:#fff;border:none;padding:6px 16px;
+  border-radius:16px;cursor:pointer;font-size:.8rem;font-weight:600;transition:.2s;}
+.btn-logout:hover{background:#212121;}
+
+/* ── Layout ───────────────────────────────────────────────────── */
+.page-wrap{max-width:100%;padding:16px 20px;}
+
+/* ── Stats cards ──────────────────────────────────────────────── */
+.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+           gap:12px;margin-bottom:16px;}
+.stat-card{background:#fff;border:1px solid #bdbdbd;border-radius:8px;
+           padding:14px 18px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,0.07);}
+.stat-num{font-size:1.4rem;font-weight:700;color:#222;}
+.stat-lbl{font-size:.7rem;color:#757575;margin-top:4px;text-transform:uppercase;
+          letter-spacing:.5px;}
+
+/* ── Controls ─────────────────────────────────────────────────── */
+.controls{background:#fff;border:1px solid #bdbdbd;border-radius:8px;
+          padding:14px 18px;margin-bottom:14px;box-shadow:0 2px 8px rgba(0,0,0,0.07);}
+.ctrl-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:8px;}
+.ctrl-row:last-child{margin-bottom:0;}
+.ctrl-input,.ctrl-select{background:#e0e0e0;border:1px solid #bdbdbd;color:#222;
+  padding:7px 11px;border-radius:5px;font-size:.82rem;outline:none;transition:.2s;}
+.ctrl-input:focus,.ctrl-select:focus{border-color:#757575;box-shadow:0 0 0 2px #bdbdbd;}
+.ctrl-input{min-width:160px;}
+.ctrl-select{min-width:140px;}
+.btn{padding:7px 16px;border:none;border-radius:5px;cursor:pointer;
+     font-size:.82rem;font-weight:600;transition:.2s;display:inline-flex;
+     align-items:center;gap:6px;}
+.btn-primary{background:#222;color:#fff;}
+.btn-primary:hover{background:#757575;}
+.btn-green{background:#757575;color:#fff;}
+.btn-green:hover{background:#222;}
+.btn-red{background:#bdbdbd;color:#222;}
+.btn-red:hover{background:#757575;color:#fff;}
+.btn-amber{background:#9e9e9e;color:#fff;}
+.btn-amber:hover{background:#616161;}
+.lbl-filter{font-size:.78rem;color:#757575;white-space:nowrap;}
+
+/* ── Table container ──────────────────────────────────────────── */
+.tbl-wrap{background:#fff;border:1px solid #bdbdbd;border-radius:12px;
+          overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.06);}
+.tbl-header{padding:12px 18px;display:flex;justify-content:space-between;
+            align-items:center;border-bottom:1.5px solid #bdbdbd;background:#e0e0e0;}
+.tbl-title{font-weight:700;font-size:.95rem;color:#222;}
+.tbl-count{font-size:.78rem;color:#1976d2;}
+
+/* scroll wrappers */
+.scroll-top,.scroll-main{overflow-x:auto;}
+.scroll-main::-webkit-scrollbar{height:6px;}
+.scroll-main::-webkit-scrollbar-track{background:#d0d0d0;}
+.scroll-main::-webkit-scrollbar-thumb{background:#888;border-radius:3px;}
+
+/* ── Table ────────────────────────────────────────────────────── */
+table{border-collapse:collapse;width:max-content;min-width:100%;background:#fff;}
+thead th,tbody td{
+  white-space:nowrap;padding:6px 10px;
+  border-right:1px solid #ddd;border-bottom:1px solid #ddd;
+  font-size:.78rem;overflow:hidden;text-overflow:ellipsis;}
+thead th{
+  background:#e0e0e0;color:#222;font-size:.7rem;font-weight:700;
+  text-transform:uppercase;letter-spacing:.4px;
+  position:sticky;top:0;z-index:30;border-top:none;}
+
+/* ── Sticky kolom: No | No OP | No SC | MC ────────────────────── */
+/* Estimasi lebar: No=38px, No OP=120px, SC=115px, MC=110px */
+thead th:nth-child(1){position:sticky;left:0;      z-index:31;background:#d4d4d4;min-width:38px;overflow:hidden;}
+thead th:nth-child(2){position:sticky;left:38px;   z-index:31;background:#d4d4d4;min-width:120px;overflow:hidden;}
+thead th:nth-child(3){position:sticky;left:158px;  z-index:31;background:#d4d4d4;min-width:115px;overflow:hidden;}
+thead th:nth-child(4){position:sticky;left:273px;  z-index:31;background:#d4d4d4;min-width:110px;overflow:hidden;}
+
+tbody td:nth-child(1){position:sticky;left:0;      z-index:5;background:#f8f8f8;overflow:hidden;}
+tbody td:nth-child(2){position:sticky;left:38px;   z-index:5;background:#efefef;overflow:hidden;}
+tbody td:nth-child(3){position:sticky;left:158px;  z-index:5;background:#f4f4f4;overflow:hidden;}
+tbody td:nth-child(4){position:sticky;left:273px;  z-index:5;background:#efefef;overflow:hidden;}
+
+/* ── Row colours ──────────────────────────────────────────────── */
+tr.row-ok   td{background:#fafafa;}
+tr.row-warn td{background:#fff8e1;}
+tr.row-warn td:nth-child(1){background:#fff3cd!important;}
+tr.row-warn td:nth-child(2){background:#fff3cd!important;}
+tr.row-warn td:nth-child(3){background:#fff3cd!important;}
+tr.row-warn td:nth-child(4){background:#fff3cd!important;}
+tr.row-done td{background:#e8f5e9;}
+tr.row-done td:nth-child(1){background:#d7f0da!important;}
+tr.row-done td:nth-child(2){background:#d7f0da!important;}
+tr.row-done td:nth-child(3){background:#d7f0da!important;}
+tr.row-done td:nth-child(4){background:#d7f0da!important;}
+
+tbody tr:hover td{background:#c8dff5!important;}
+tbody tr:hover td:nth-child(1){background:#b3d4ef!important;}
+tbody tr:hover td:nth-child(2){background:#b3d4ef!important;}
+tbody tr:hover td:nth-child(3){background:#b3d4ef!important;}
+tbody tr:hover td:nth-child(4){background:#b3d4ef!important;}
+
+/* ── Group header ─────────────────────────────────────────────── */
+.grp-th{
+  text-align:center;background:#6e6e6e!important;color:#fff!important;
+  font-size:.67rem!important;letter-spacing:.5px;
+  border-bottom:2px solid #444!important;padding:4px 8px!important;}
+.grp-th.grp-div{border-left:2px solid #444!important;}
+.grp-div{border-left:2px solid #aaa!important;}
+
+/* ── Numbers ──────────────────────────────────────────────────── */
+.num-col{text-align:right;font-variant-numeric:tabular-nums;}
+.zero{color:#bbb;}
+.neg {color:#c62828;font-weight:700;}
+.pos {color:#2e7d32;font-weight:700;}
+
+/* ── Autocomplete ─────────────────────────────────────────────── */
+.ac-wrap{position:relative;}
+.ac-list{position:absolute;top:100%;left:0;background:#fff;
+         border:1px solid #bdbdbd;border-radius:6px;z-index:100;
+         min-width:240px;max-height:220px;overflow-y:auto;display:none;
+         box-shadow:0 4px 16px rgba(0,0,0,.12);}
+.ac-item{padding:7px 12px;cursor:pointer;font-size:.8rem;border-bottom:1px solid #eee;}
+.ac-item:hover{background:#e8f0fe;}
+.ac-mc{font-weight:700;color:#222;}
+.ac-info{font-size:.69rem;color:#888;margin-top:1px;}
+
+/* ── Loading ──────────────────────────────────────────────────── */
+.loading-row td{text-align:center;padding:32px;color:#757575;}
+.spinner{display:inline-block;width:20px;height:20px;border:3px solid #ccc;
+         border-top-color:#555;border-radius:50%;
+         animation:spin .8s linear infinite;vertical-align:middle;margin-right:8px;}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ── Filter tags ──────────────────────────────────────────────── */
+.filter-tag{background:#e0e0e0;color:#222;border-radius:12px;
+            padding:3px 10px;font-size:.72rem;display:inline-flex;
+            align-items:center;gap:6px;}
+.filter-tag span{cursor:pointer;color:#757575;}
+.filter-tag span:hover{color:#c00;}
+
+/* ── Pagination ───────────────────────────────────────────────── */
+.pagination{display:flex;justify-content:center;align-items:center;
+            gap:12px;padding:12px;border-top:1px solid #ddd;font-size:.82rem;}
+.pagination button{background:#555;color:#fff;border:none;padding:5px 14px;
+                   border-radius:4px;cursor:pointer;}
+.pagination button:disabled{background:#ddd;color:#aaa;cursor:default;}
+.pager-info{color:#666;}
+</style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar">
+  <div class="navbar-brand">📋 Dashboard Intake Order Production</div>
+  <div class="nav-links">
+    <a href="https://supracor.co.id/op_report" class="nav-link">📋 MC List</a>
+    <a href="#" class="nav-link active">📋 Dashboard Intake OP</a>
+  </div>
+  <div class="nav-right">
+    <span class="badge-user">👤 <span id="userLabel">User</span></span>
+    <button class="btn-logout" onclick="if(confirm('Logout?'))window.location='index.html'">🚪 Logout</button>
+  </div>
+</nav>
+
+<div class="page-wrap">
+
+  <!-- Stats -->
+  <div class="stats-row">
+    <!-- Intake Order Card with 2 sub-metrics -->
+    <div class="stat-card" style="grid-column: span 2;">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+        <div>
+          <div class="stat-num" id="statIntakePcs" style="font-size: 1.2rem;">-</div>
+          <div class="stat-lbl">Intake (pcs)</div>
+        </div>
+        <div>
+          <div class="stat-num" id="statIntakeTonase" style="font-size: 1.2rem;">-</div>
+          <div class="stat-lbl">Intake (kg)</div>
+        </div>
+      </div>
+    </div>
+    <!-- Beban Corr Card -->
+    <div class="stat-card" style="grid-column: span 2;">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+        <div>
+          <div class="stat-num" id="statBebanCorrPcs" style="font-size: 1.2rem;">-</div>
+          <div class="stat-lbl">Beban Corr (pcs)</div>
+        </div>
+        <div>
+          <div class="stat-num" id="statBebanCorrKg" style="font-size: 1.2rem;">-</div>
+          <div class="stat-lbl">Beban Corr (kg)</div>
+        </div>
+      </div>
+    </div>
+    <!-- Beban Conv Card -->
+    <div class="stat-card" style="grid-column: span 2;">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+        <div>
+          <div class="stat-num" id="statBebanConvPcs" style="font-size: 1.2rem;">-</div>
+          <div class="stat-lbl">Beban Conv (pcs)</div>
+        </div>
+        <div>
+          <div class="stat-num" id="statBebanConvKg" style="font-size: 1.2rem;">-</div>
+          <div class="stat-lbl">Beban Conv (kg)</div>
+        </div>
+      </div>
+    </div>
+    <!-- Beban JO Card -->
+    <div class="stat-card">
+      <div class="stat-num" id="statBebanJoCount" style="font-size: 1.4rem;">-</div>
+      <div class="stat-lbl">Beban JO</div>
+    </div>
+    <!-- Total STB Card -->
+    <div class="stat-card" style="grid-column: span 2;">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+        <div>
+          <div class="stat-num" id="statTotalStbPcs" style="font-size: 1.2rem;">-</div>
+          <div class="stat-lbl">Total STB (pcs)</div>
+        </div>
+        <div>
+          <div class="stat-num" id="statTotalStbKg" style="font-size: 1.2rem;">-</div>
+          <div class="stat-lbl">Total STB (kg)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Controls -->
+  <div class="controls">
+    <div class="ctrl-row">
+      <!-- MC autocomplete -->
+      <span class="lbl-filter">MC No.:</span>
+      <div class="ac-wrap">
+        <input type="text" class="ctrl-input" id="inMC"
+               placeholder="🏭 Ketik MC…" autocomplete="off" style="min-width:180px;">
+        <div class="ac-list" id="acList"></div>
+      </div>
+
+      <!-- Flexo -->
+      <span class="lbl-filter">Flexo:</span>
+      <select class="ctrl-select" id="inFlexo">
+        <option value="">Semua Flexo</option>
+        <option>FLEXO 1</option><option>FLEXO 2</option><option>FLEXO 3</option>
+        <option>FLEXO 4</option><option>FLEXO 5</option><option>FLEXO 6</option>
+        <option>FLEXO 7</option><option>FLEXO 8</option><option>FLEXO 9</option>
+        <option>WONDER</option>
+      </select>
+
+      <!-- SC No. -->
+      <span class="lbl-filter">SC No.:</span>
+      <input type="text" class="ctrl-input" id="inScNo" placeholder="Cari No. SLC…">
+
+      <!-- Tgl Kirim -->
+      <span class="lbl-filter">Tgl Kirim:</span>
+      <input type="date" class="ctrl-input" id="inScFrom">
+      <span class="lbl-filter">s/d</span>
+      <input type="date" class="ctrl-input" id="inScTo">
+
+      <!-- Hidden inputs agar tidak error di loadData -->
+      <input type="date" id="inDateFrom" style="display:none">
+      <input type="date" id="inDateTo"   style="display:none">
+      <input type="date" id="inShipFrom" style="display:none">
+      <input type="date" id="inShipTo"   style="display:none">
+      <select id="inStatus" style="display:none"><option value="">Semua</option></select>
+
+      <button class="btn btn-primary" onclick="loadData(1)">⚙️ Filter</button>
+      <button class="btn btn-red"     onclick="clearFilters()">✖ Clear</button>
+      <button class="btn btn-green"   onclick="loadData(1)">🔄 Refresh</button>
+      <button class="btn btn-amber"   onclick="exportExcel()">📥 Excel</button>
+    </div>
+    <!-- Active filters -->
+    <div id="activeTags" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px;"></div>
+  </div>
+
+  <!-- Table -->
+  <div class="tbl-wrap">
+    <div class="tbl-header">
+      <span class="tbl-title">📋 Dashboard Intake — Daftar Order Produksi</span>
+      <span class="tbl-count" id="tblCount">— records</span>
+    </div>
+    <div class="scroll-top" id="scrollTop"><div id="dummyTop" style="height:1px"></div></div>
+    <div class="scroll-main" id="scrollMain" style="max-height:64vh;overflow-y:auto;">
+      <div id="tblContent">
+        <table><tbody><tr class="loading-row"><td colspan="20">
+          <span class="spinner"></span>Memuat data…
+        </td></tr></tbody></table>
+      </div>
+    </div>
+    <div class="pagination">
+      <button id="btnPrev" disabled onclick="goPage(-1)">◀ Prev</button>
+      <span class="pager-info">Hal <b id="pgCur">1</b> / <b id="pgTotal">1</b> — <span id="pgRec">0</span> records</span>
+      <button id="btnNext" disabled onclick="goPage(1)">Next ▶</button>
+    </div>
+  </div>
+
+</div><!-- /page-wrap -->
+
+<!-- SheetJS -->
+<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+<script>
+// ── Config ────────────────────────────────────────────────────────────────────
+const API = 'get_realisasi_terpadu_min.php';
+let currentPage = 1, totalPages = 1, totalRec = 0;
+const LIMIT = 200;
+let allRows = [];
+let allData = [];  // Store ALL fetched data for stat calculation
+let acTimer;
+
+// ── Utilities ─────────────────────────────────────────────────────────────────
+const fmt     = n  => (+n||0).toLocaleString('id-ID');
+const fmtDec  = n  => (+n||0).toLocaleString('id-ID', {minimumFractionDigits:2, maximumFractionDigits:2});
+const fmtDate = s  => {
+  if (!s) return '-';
+  const d = new Date(s);
+  if (isNaN(d)) return s;
+  return `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`;
+};
+const $       = id => document.getElementById(id);
+const cell    = v  => `<td>${v ?? '-'}</td>`;
+const numCell = (v, cls='') => {
+  const n = +v || 0;
+  const c = 'num-col' + (cls ? ' '+cls : (n === 0 ? ' zero' : ''));
+  return `<td class="${c}">${fmt(n)}</td>`;
+};
+const decCell = (v, style) => {
+  const n = +v || 0;
+  const styleAttr = style ? ` style="${style}"` : '';
+  return `<td class="num-col${n===0?' zero':''}"${styleAttr}>${fmtDec(n)}</td>`;
+};
+
+// ── Stats ─────────────────────────────────────────────────────────────────────
+function updateStats(rows) {
+  // Intake Order stats: total pcs (qty_prod) and total tonase
+  const intakePcs = rows.reduce((s,r) => s + (+r.qty_prod||0), 0);
+  const intakeTonase = rows.reduce((s,r) => s + (+r.tonase||0), 0);
+  $('statIntakePcs').textContent = fmt(intakePcs);
+  $('statIntakeTonase').textContent = fmtDec(intakeTonase);
+  
+  // Beban Corr: plan_corr - hsl_corr (pcs dan kg)
+  const bebanCorrPcs = rows.reduce((s,r) => s + (+r.beban_corr_pcs||0), 0);
+  const bebanCorrKg = rows.reduce((s,r) => s + (+r.beban_corr_kg||0), 0);
+  $('statBebanCorrPcs').textContent = fmt(bebanCorrPcs);
+  $('statBebanCorrKg').textContent = fmtDec(bebanCorrKg);
+  
+  // Beban Conv: hsl_corr - stb (pcs dan kg)
+  const bebanConvPcs = rows.reduce((s,r) => s + (+r.beban_conv_pcs||0), 0);
+  const bebanConvKg = rows.reduce((s,r) => s + (+r.beban_conv_kg||0), 0);
+  $('statBebanConvPcs').textContent = fmt(bebanConvPcs);
+  $('statBebanConvKg').textContent = fmtDec(bebanConvKg);
+  
+  // Beban JO: count dari rows dimana plan_corr=0 AND hsl_corr=0 AND stb=0
+  const bebanJoCount = rows.reduce((s,r) => s + (+r.is_beban_jo||0), 0);
+  $('statBebanJoCount').textContent = fmt(bebanJoCount);
+  
+  // Total STB (pcs dan kg)
+  const totalStbPcs = rows.reduce((s,r) => s + (+r.jml_stb_filtered||0), 0);
+  const totalStbKg = rows.reduce((s,r) => s + (+r.jml_stb_filtered_kg||0), 0);
+  $('statTotalStbPcs').textContent = fmt(totalStbPcs);
+  $('statTotalStbKg').textContent = fmtDec(totalStbKg);
+}
+
+// ── Sort ──────────────────────────────────────────────────────────────────────
+let sortCol = null, sortDir = 1;
+function sortTable(col) {
+  if (sortCol === col) sortDir *= -1; else { sortCol = col; sortDir = 1; }
+  const sorted = [...allRows].sort((a,b) => {
+    const va = a[col] ?? '', vb = b[col] ?? '';
+    if (!isNaN(+va) && !isNaN(+vb)) return (+va - +vb) * sortDir;
+    return String(va).localeCompare(String(vb)) * sortDir;
+  });
+  renderTable(sorted, allData, true);
+}
+
+// ── Render Table ──────────────────────────────────────────────────────────────
+function renderTable(pageRows, fullDataOrSkipSort, skipSortResetParam) {
+  // Handle both old and new calling conventions:
+  // Old: renderTable(rows, skipSortReset) - from sortTable
+  // New: renderTable(pageRows, fullData) - from loadData
+  
+  let fullData = pageRows;
+  let skipSortReset = false;
+  
+  if (typeof fullDataOrSkipSort === 'boolean') {
+    // Old convention: renderTable(rows, skipSortReset)
+    fullData = pageRows;
+    skipSortReset = fullDataOrSkipSort;
+  } else if (Array.isArray(fullDataOrSkipSort)) {
+    // New convention: renderTable(pageRows, fullData, skipSortReset)
+    fullData = fullDataOrSkipSort;
+    skipSortReset = skipSortResetParam || false;
+  }
+  
+  if (!skipSortReset) { sortCol = null; sortDir = 1; }
+  allRows = pageRows;
+  
+  // Calculate stats from FULL data (all matching records), not just this page
+  updateStats(fullData);
+
+  if (!pageRows.length) {
+    $('tblContent').innerHTML = `<table><tbody><tr class="loading-row">
+      <td colspan="20" style="color:#888">Tidak ada data ditemukan.</td>
+      </tr></tbody></table>`;
+    return;
+  }
+
+  // Kolom tabel:
+  // No | No OP | No SC | MC No | Customer | Nama Item | Sales |
+  // Tgl OP | Qty Prod | Net (gram) | Tonase (kg) | Tinase (kg) |
+  // Flexo | DC | Plan Corr | Hasil Corr | STB | Sisa | Sisa Pcs Netto
+  let html = `<table id="mainTable">
+  <thead>
+  <tr>
+    <th class="grp-th" colspan="4">Identifikasi</th>
+    <th class="grp-th grp-div" colspan="3">Informasi Order</th>
+    <th class="grp-th grp-div" colspan="5">Produksi</th>
+    <th class="grp-th grp-div" colspan="2">Proses</th>
+    <th class="grp-th grp-div" colspan="5">Realisasi</th>
+  </tr>
+  <tr>
+    <th onclick="sortTable('no')"      style="cursor:pointer" title="Urutan">No</th>
+    <th onclick="sortTable('cNoOp')"   style="cursor:pointer">No. OP</th>
+    <th onclick="sortTable('cNoSc')"   style="cursor:pointer">No. SC</th>
+    <th onclick="sortTable('cNoMc')"   style="cursor:pointer">MC No.</th>
+
+    <th class="grp-div" onclick="sortTable('customer')"  style="cursor:pointer">Customer</th>
+    <th onclick="sortTable('nama_brg')" style="cursor:pointer">Nama Item</th>
+    <th onclick="sortTable('sales')"    style="cursor:pointer">Sales</th>
+
+    <th class="grp-div" onclick="sortTable('tgl_op')"    style="cursor:pointer">Tgl OP</th>
+    <th onclick="sortTable('qty_prod')" style="cursor:pointer">Qty Prod</th>
+    <th onclick="sortTable('netto')"    style="cursor:pointer">Net (gr)</th>
+    <th onclick="sortTable('tonase')"   style="cursor:pointer">Tonase (kg)</th>
+    <th onclick="sortTable('tinase')"   style="cursor:pointer;display:none">Tinase (kg)</th>
+
+    <th class="grp-div" onclick="sortTable('cFlexo')"    style="cursor:pointer">Flexo</th>
+    <th onclick="sortTable('cDC')"      style="cursor:pointer">DC</th>
+
+    <th class="grp-div" onclick="sortTable('plan_corr')" style="cursor:pointer">Plan Corr</th>
+    <th onclick="sortTable('hsl_corr')" style="cursor:pointer">Hasil Corr</th>
+    <th onclick="sortTable('jml_stb')"  style="cursor:pointer">STB (pcs)</th>
+    <th onclick="sortTable('sisa_qty')" style="cursor:pointer">Sisa</th>
+    <th onclick="sortTable('sisa_pcs_netto')" style="cursor:pointer">Sisa Pcs Netto</th>
+  </tr>
+  </thead><tbody>`;
+
+  pageRows.forEach(r => {
+    const qty     = +r.qty_prod  || 0;
+    const stb     = +r.jml_stb   || 0;
+    const sisa    = +r.sisa_qty  || 0;
+    const sisaNetto = +r.sisa_pcs_netto || 0;
+    const hslCorr = +r.hsl_corr  || 0;
+    const planCorr= +r.plan_corr || 0;
+
+    // Warnai baris: kuning = ada sisa, hijau = sisa=0 & hsl_corr>0
+    let rowCls = 'row-ok';
+    if (sisa > 0)              rowCls = 'row-warn';
+    if (sisa === 0 && stb > 0) rowCls = 'row-done';
+
+    // class untuk nilai negatif (sisa pcs netto bisa negatif)
+    const sisaNettoClass = sisaNetto < 0 ? 'neg' : (sisaNetto === 0 ? 'zero' : '');
+
+    html += `<tr class="${rowCls}">
+      ${cell(r.no)}
+      <td><b>${r.cNoOp || '-'}</b></td>
+      ${cell(r.cNoSc   || '-')}
+      ${cell(r.cNoMc   || '-')}
+
+      <td class="grp-div">${r.customer  || '-'}</td>
+      ${cell(r.nama_brg || '-')}
+      ${cell(r.sales    || '-')}
+
+      <td class="grp-div">${fmtDate(r.tgl_op)}</td>
+      ${numCell(qty)}
+      ${numCell(r.netto)}
+      ${decCell(r.tonase)}
+      ${decCell(r.tinase, 'display:none')}
+
+      <td class="grp-div">${r.cFlexo || '-'}</td>
+      ${cell(r.cDC || '-')}
+
+      <td class="grp-div num-col${planCorr===0?' zero':''}">${fmt(planCorr)}</td>
+      ${numCell(hslCorr, hslCorr===0&&qty>0?'zero':'')}
+      ${numCell(stb,     stb===0&&qty>0?'zero':'')}
+      ${numCell(sisa,    sisa>0?'neg':'')}
+      <td class="num-col ${sisaNettoClass}">${fmt(sisaNetto)}</td>
+    </tr>`;
+  });
+
+  html += '</tbody></table>';
+  $('tblContent').innerHTML = html;
+
+  // Sync horizontal scroll
+  const st = $('scrollTop'), sm = $('scrollMain');
+  $('dummyTop').style.width = (document.getElementById('mainTable')?.offsetWidth || 2000) + 'px';
+  st.onscroll = () => { sm.scrollLeft = st.scrollLeft; };
+  sm.onscroll = () => { st.scrollLeft = sm.scrollLeft; };
+
+  $('tblCount').textContent = `${pageRows.length} records (halaman ini)`;
+}
+
+// ── Load Data ─────────────────────────────────────────────────────────────────
+async function loadData(page) {
+  if (page) currentPage = page;
+  $('tblContent').innerHTML = `<table><tbody><tr class="loading-row">
+    <td colspan="20"><span class="spinner"></span>Memuat data…</td>
+    </tr></tbody></table>`;
+
+  // Build params
+  const mc      = $('inMC').value.trim();
+  const flexo   = $('inFlexo').value;
+  const scNo    = $('inScNo')?.value.trim();
+  const scFrom  = $('inScFrom')?.value;
+  const scTo    = $('inScTo')?.value;
+
+  const p = new URLSearchParams({
+    action: 'list',
+    limit:  100000,  // Fetch ALL data (up to 100k) for stat calculation
+    offset: 0
+  });
+
+  if (mc)     p.append('mc',           mc);
+  if (flexo)  p.append('flexo',        flexo);
+  if (scNo)   p.append('sc_no',        scNo);
+  if (scFrom) p.append('date_sc_from', scFrom);
+  if (scTo)   p.append('date_sc_to',   scTo);
+
+  updateActiveTags({ mc, flexo, scNo, scFrom, scTo });
+
+  try {
+    const res  = await fetch(`${API}?${p}`);
+    const data = await res.json();
+    if (!data.success) throw new Error(data.message);
+
+    allData = data.data;  // Store ALL fetched data
+    totalRec = data.pagination.total_records;
+    
+    // Calculate total pages based on LIMIT (200 per page)
+    totalPages = Math.ceil(totalRec / LIMIT) || 1;
+    if (currentPage > totalPages) currentPage = totalPages;
+    if (currentPage < 1) currentPage = 1;
+
+    $('pgCur').textContent   = currentPage;
+    $('pgTotal').textContent = totalPages;
+    $('pgRec').textContent   = fmt(totalRec);
+    $('btnPrev').disabled    = (currentPage <= 1);
+    $('btnNext').disabled    = (currentPage >= totalPages);
+
+    // Get paginated data for display
+    const startIdx = (currentPage - 1) * LIMIT;
+    const endIdx = startIdx + LIMIT;
+    const pageData = allData.slice(startIdx, endIdx);
+
+    renderTable(pageData, allData);  // Pass both paginated data and all data
+  } catch (e) {
+    $('tblContent').innerHTML = `<table><tbody><tr class="loading-row">
+      <td colspan="20" style="color:#c00">Error: ${e.message}</td>
+      </tr></tbody></table>`;
+  }
+}
+
+function goPage(d) {
+  const np = currentPage + d;
+  if (np < 1 || np > totalPages) return;
+  currentPage = np;
+  loadData();
+}
+
+// ── Active filter tags ────────────────────────────────────────────────────────
+function updateActiveTags(f) {
+  const labels = { mc:'MC', flexo:'Flexo', scNo:'SC/OP', scFrom:'Tgl OP dari', scTo:'s/d' };
+  const wrap = $('activeTags');
+  wrap.innerHTML = '';
+  Object.entries(f).forEach(([k, v]) => {
+    if (!v) return;
+    const tag = document.createElement('span');
+    tag.className = 'filter-tag';
+    tag.innerHTML = `${labels[k]||k}: <b>${v}</b> <span onclick="clearOne('${k}')">×</span>`;
+    wrap.appendChild(tag);
+  });
+}
+
+function clearOne(key) {
+  const map = { mc:'inMC', flexo:'inFlexo', scNo:'inScNo', scFrom:'inScFrom', scTo:'inScTo' };
+  if (map[key]) $(map[key]).value = '';
+  loadData(1);
+}
+
+function clearFilters() {
+  ['inMC','inFlexo','inScNo','inScFrom','inScTo'].forEach(id => {
+    const el = $(id); if (el) el.value = '';
+  });
+  loadData(1);
+}
+
+// ── MC Autocomplete ───────────────────────────────────────────────────────────
+$('inMC').addEventListener('input', () => {
+  clearTimeout(acTimer);
+  acTimer = setTimeout(fetchMC, 280);
+});
+
+async function fetchMC() {
+  const q = $('inMC').value.trim();
+  const acList = $('acList');
+  if (q.length < 2) { acList.style.display = 'none'; return; }
+  acList.innerHTML = '<div class="ac-item" style="color:#888">Mencari…</div>';
+  acList.style.display = 'block';
+  try {
+    const res  = await fetch(`${API}?action=mc_suggest&search=${encodeURIComponent(q)}`);
+    const data = await res.json();
+    acList.innerHTML = '';
+    if (!data.data?.length) {
+      acList.innerHTML = '<div class="ac-item" style="color:#888">Tidak ditemukan.</div>';
+    } else {
+      data.data.forEach(item => {
+        const mc  = (typeof item === 'object') ? (item.cNoMc || item) : item;
+        const cnt = (typeof item === 'object' && item.usage_count)
+          ? `Dipakai ${item.usage_count}× · Terakhir: ${fmtDate(item.last_used)}` : '';
+        const div = document.createElement('div');
+        div.className = 'ac-item';
+        div.innerHTML = `<div class="ac-mc">${mc}</div>${cnt ? `<div class="ac-info">${cnt}</div>` : ''}`;
+        div.onclick = () => {
+          $('inMC').value = mc;
+          acList.style.display = 'none';
+          loadData(1);
+        };
+        acList.appendChild(div);
+      });
+    }
+  } catch { acList.style.display = 'none'; }
+}
+
+document.addEventListener('click', e => {
+  if (!$('acList').contains(e.target) && e.target !== $('inMC'))
+    $('acList').style.display = 'none';
+});
+
+$('inMC').addEventListener('keypress', e => { if (e.key === 'Enter') loadData(1); });
+$('inScNo').addEventListener('keypress', e => { if (e.key === 'Enter') loadData(1); });
+
+// ── Export Excel ──────────────────────────────────────────────────────────────
+async function exportExcel() {
+  const p = new URLSearchParams({
+    action: 'list', limit: 100000, offset: 0
+  });
+  const mc     = $('inMC').value.trim();
+  const flexo  = $('inFlexo').value;
+  const scNo   = $('inScNo')?.value.trim();
+  const scFrom = $('inScFrom')?.value;
+  const scTo   = $('inScTo')?.value;
+  if (mc)     p.append('mc',           mc);
+  if (flexo)  p.append('flexo',        flexo);
+  if (scNo)   p.append('sc_no',        scNo);
+  if (scFrom) p.append('date_sc_from', scFrom);
+  if (scTo)   p.append('date_sc_to',   scTo);
+
+  try {
+    const res  = await fetch(`${API}?${p}`);
+    const data = await res.json();
+    if (!data.success || !data.data.length) { alert('Tidak ada data.'); return; }
+
+    const cols  = ['no','cNoOp','cNoSc','cNoMc','customer','nama_brg','sales',
+                   'tgl_op','qty_prod','netto','tonase','tinase',
+                   'cFlexo','cDC','plan_corr','hsl_corr','jml_stb','sisa_qty','sisa_pcs_netto'];
+    const heads = ['No','No. OP','No. SC','MC No.','Customer','Nama Item','Sales',
+                   'Tgl OP','Qty Prod','Net (gr)','Tonase (kg)','Tinase (kg)',
+                   'Flexo','DC','Plan Corr','Hasil Corr','STB (pcs)','Sisa','Sisa Pcs Netto'];
+    const numCols = new Set(['no','qty_prod','netto','tonase','tinase','plan_corr','hsl_corr','jml_stb','sisa_qty','sisa_pcs_netto']);
+    const dateCols = new Set(['tgl_op']);
+
+    // Sheet 1: Data Detail + Total Row
+    const aoa = [heads];
+    const totals = {};
+    numCols.forEach(c => totals[c] = 0);
+    
+    data.data.forEach(r => {
+      const row = cols.map(c => {
+        if (dateCols.has(c)) return r[c] ? fmtDate(r[c]) : '';
+        if (numCols.has(c)) {
+          const val = r[c] !== null && r[c] !== undefined ? +r[c] : 0;
+          totals[c] += val;
+          return val || null;
+        }
+        return r[c] ?? '';
+      });
+      aoa.push(row);
+    });
+
+    // Add total row
+    const totalRow = cols.map((c, i) => {
+      if (i === 0) return 'TOTAL';
+      if (numCols.has(c)) return totals[c];
+      return '';
+    });
+    aoa.push(totalRow);
+
+    const wb  = XLSX.utils.book_new();
+    const ws  = XLSX.utils.aoa_to_sheet(aoa);
+    
+    // Format total row: bold background
+    const totalRowIdx = aoa.length - 1;
+    for (let i = 0; i < cols.length; i++) {
+      const cellAddr = XLSX.utils.encode_col(i) + (totalRowIdx + 1);
+      if (!ws[cellAddr]) ws[cellAddr] = {};
+      ws[cellAddr].s = { 
+        font: { bold: true }, 
+        fill: { fgColor: { rgb: "FFFF00" } },
+        alignment: { horizontal: "right" }
+      };
+    }
+
+    ws['!cols'] = heads.map((h, i) => ({
+      wch: Math.min(40, Math.max(10, Math.max(...aoa.map(row => String(row[i] ?? '').length))))
+    }));
+
+    XLSX.utils.book_append_sheet(wb, ws, 'Data Detail');
+
+    // Sheet 2: Summary/Ringkasan
+    const summaryAoa = [
+      ['RINGKASAN DASHBOARD INTAKE'],
+      [],
+      ['Metric', 'Value'],
+      ['Total Records', data.data.length],
+      ['Intake (pcs)', totals['qty_prod'] || 0],
+      ['Intake (kg)', totals['tonase'] || 0],
+      ['Beban Corr (pcs)', data.data.reduce((s,r) => s + (+r.beban_corr_pcs||0), 0)],
+      ['Beban Corr (kg)', data.data.reduce((s,r) => s + (+r.beban_corr_kg||0), 0)],
+      ['Beban Conv (pcs)', data.data.reduce((s,r) => s + (+r.beban_conv_pcs||0), 0)],
+      ['Beban Conv (kg)', data.data.reduce((s,r) => s + (+r.beban_conv_kg||0), 0)],
+      ['Beban JO (count)', data.data.reduce((s,r) => s + (+r.is_beban_jo||0), 0)],
+      ['Total STB (pcs)', totals['jml_stb'] || 0],
+      ['Total Plan Corr', totals['plan_corr'] || 0],
+      ['Total Hasil Corr', totals['hsl_corr'] || 0],
+      [],
+      ['Filter Applied:'],
+      ['MC', mc || '-'],
+      ['Flexo', flexo || '-'],
+      ['SC No', scNo || '-'],
+      ['Date From', scFrom || '-'],
+      ['Date To', scTo || '-']
+    ];
+
+    const ws2 = XLSX.utils.aoa_to_sheet(summaryAoa);
+    ws2['!cols'] = [{ wch: 25 }, { wch: 20 }];
+
+    // Format summary sheet
+    for (let i = 0; i < summaryAoa.length; i++) {
+      const cellAddr = 'A' + (i + 1);
+      if (!ws2[cellAddr]) ws2[cellAddr] = {};
+      
+      if (i === 0) {
+        // Header
+        ws2[cellAddr].s = { font: { bold: true, size: 14 }, fill: { fgColor: { rgb: "4472C4" } }, font: { color: { rgb: "FFFFFF" } } };
+      } else if (i === 2) {
+        // Column header
+        ws2[cellAddr].s = { font: { bold: true }, fill: { fgColor: { rgb: "D9E1F2" } } };
+        if (ws2['B' + (i + 1)]) ws2['B' + (i + 1)].s = { font: { bold: true }, fill: { fgColor: { rgb: "D9E1F2" } } };
+      }
+    }
+
+    XLSX.utils.book_append_sheet(wb, ws2, 'Ringkasan');
+
+    XLSX.writeFile(wb, `intake_${new Date().toISOString().slice(0,10)}.xlsx`);
+  } catch (e) {
+    alert('Export gagal: ' + e.message);
+  }
+}
+
+// ── Init ──────────────────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  const today = new Date().toISOString().slice(0, 10);
+  $('inScFrom').value = $('inScFrom').value || today;
+  $('inScTo').value   = $('inScTo').value   || today;
+  loadData(1);
+});
+</script>
+</body>
+</html>

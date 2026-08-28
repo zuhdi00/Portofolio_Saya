@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pencarian Data STB</title>
+    <!-- Memuat Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Memuat font Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Menggunakan font Inter sebagai default */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Menyembunyikan elemen secara default */
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
+
+    <div class="bg-white w-full max-w-4xl shadow-lg rounded-lg p-6 md:p-8">
+        <header class="mb-6">
+            <h1 class="text-2xl md:text-3xl font-bold text-gray-800">Tracking Stock by MC - STB</h1>
+            <p class="text-gray-500">Masukkan Kode MC untuk melihat detail STB.</p>
+        </header>
+
+        <!-- Form Pencarian -->
+        <form id="searchForm" class="flex flex-col sm:flex-row gap-3 mb-6">
+            <div class="flex-grow">
+                <label for="mcCodeInput" class="sr-only">Kode MC</label>
+                <input type="text" id="mcCodeInput" placeholder="Masukkan Kode MC..." class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200" required>
+            </div>
+            <button type="submit" id="searchButton" class="flex items-center justify-center bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-200">
+                <!-- Ikon SVG untuk pencarian -->
+                <svg class="w-5 h-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                </svg>
+                Cari
+            </button>
+        </form>
+
+        <!-- Kontainer Hasil -->
+        <div id="resultContainer">
+            <!-- Status Loading -->
+            <div id="loadingIndicator" class="hidden text-center py-6">
+                <div class="inline-block w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin" role="status">
+                    <span class="sr-only">Memuat...</span>
+                </div>
+                <p class="mt-2 text-gray-600 font-medium">Mencari data...</p>
+            </div>
+
+            <!-- Pesan Error -->
+            <div id="errorMessage" class="hidden p-4 bg-red-100 text-red-700 border border-red-300 rounded-lg">
+                <p><strong>Gagal!</strong> <span id="errorText"></span></p>
+            </div>
+
+            <!-- Pesan Tidak Ditemukan -->
+            <div id="noDataMessage" class="hidden p-4 bg-yellow-100 text-yellow-700 border border-yellow-300 rounded-lg">
+                <p><strong>Info:</strong> Data tidak ditemukan untuk Kode MC yang dimasukkan.</p>
+            </div>
+
+            <!-- Tabel Hasil -->
+            <div id="resultTableContainer" class="hidden overflow-x-auto">
+                <table class="w-full min-w-max text-left border-collapse">
+                    <thead class="bg-gray-50 border-b border-gray-200">
+                        <tr>
+                            <th class="px-5 py-3 text-sm font-semibold text-gray-600 uppercase tracking-wider">No.</th>
+                            <th class="px-5 py-3 text-sm font-semibold text-gray-600 uppercase tracking-wider">Kode MC</th>
+                             <th class="px-5 py-3 text-sm font-semibold text-gray-600 uppercase tracking-wider">No. OP</th>
+                            <th class="px-5 py-3 text-sm font-semibold text-gray-600 uppercase tracking-wider">No. STB</th>
+                            <th class="px-5 py-3 text-sm font-semibold text-gray-600 uppercase tracking-wider">No. SC</th>
+                            <th class="px-5 py-3 text-sm font-semibold text-gray-600 uppercase tracking-wider">No. SRJ</th>
+                            <th class="px-5 py-3 text-sm font-semibold text-gray-600 uppercase tracking-wider">Nama</th>
+                            <th class="px-5 py-3 text-sm font-semibold text-gray-600 uppercase tracking-wider">Qty STB</th>
+                            <th class="px-5 py-3 text-sm font-semibold text-gray-600 uppercase tracking-wider">Qty SRJ Dtl</th>
+                        </tr>
+                    </thead>
+                    <tbody id="resultTableBody" class="bg-white divide-y divide-gray-200">
+                        <!-- Baris data akan dimasukkan di sini oleh JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Ambil elemen DOM
+        const searchForm = document.getElementById('searchForm');
+        const mcCodeInput = document.getElementById('mcCodeInput');
+        const searchButton = document.getElementById('searchButton');
+        
+        const loadingIndicator = document.getElementById('loadingIndicator');
+        const errorMessage = document.getElementById('errorMessage');
+        const errorText = document.getElementById('errorText');
+        const noDataMessage = document.getElementById('noDataMessage');
+        const resultTableContainer = document.getElementById('resultTableContainer');
+        const resultTableBody = document.getElementById('resultTableBody');
+
+        const API_BASE_URL = 'http://edp2:8081/trackMC/api.php'; // SESUAIKAN INI
+
+        // Fungsi untuk menampilkan status
+        function showLoading() {
+            loadingIndicator.classList.remove('hidden');
+            errorMessage.classList.add('hidden');
+            noDataMessage.classList.add('hidden');
+            resultTableContainer.classList.add('hidden');
+            searchButton.disabled = true;
+            searchButton.classList.add('opacity-50', 'cursor-not-allowed');
+        }
+
+        function showError(message) {
+            loadingIndicator.classList.add('hidden');
+            errorText.textContent = message;
+            errorMessage.classList.remove('hidden');
+            searchButton.disabled = false;
+            searchButton.classList.remove('opacity-50', 'cursor-not-allowed');
+        }
+
+        function showNoData() {
+            loadingIndicator.classList.add('hidden');
+            noDataMessage.classList.remove('hidden');
+            searchButton.disabled = false;
+            searchButton.classList.remove('opacity-50', 'cursor-not-allowed');
+        }
+
+        function showTable(data) {
+            loadingIndicator.classList.add('hidden');
+            
+            // Kosongkan tabel sebelum diisi
+            resultTableBody.innerHTML = '';
+
+            // Isi tabel dengan data
+            data.forEach(item => {
+                const row = document.createElement('tr');
+                row.classList.add('hover:bg-gray-50');
+                
+                row.innerHTML = `
+                    <td class="px-5 py-4 whitespace-nowrap text-sm text-gray-700">${item.RowNum}</td>
+                    <td class="px-5 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">${item.cNoMC || '-'}</td>
+                    <td class="px-5 py-4 whitespace-nowrap text-sm text-gray-700">${item.cNoOp || '-'}</td>
+                    <td class="px-5 py-4 whitespace-nowrap text-sm text-gray-700">${item.cNoSTB || '-'}</td>
+                    <td class="px-5 py-4 whitespace-nowrap text-sm text-gray-700">${item.cNoSc || '-'}</td>
+                    <td class="px-5 py-4 whitespace-nowrap text-sm text-gray-700">${item.cNoSRJ || '-'}</td>
+                    <td class="px-5 py-4 whitespace-nowrap text-sm text-gray-700">${item.cNama || '-'}</td>
+                    <td class="px-5 py-4 whitespace-nowrap text-sm text-gray-700">${item.Qty_STB || '0'}</td>
+                    <td class="px-5 py-4 whitespace-nowrap text-sm text-gray-700">${item.Qty_SRJDtl || '0'}</td>
+                `;
+                resultTableBody.appendChild(row);
+            });
+
+            resultTableContainer.classList.remove('hidden');
+            searchButton.disabled = false;
+            searchButton.classList.remove('opacity-50', 'cursor-not-allowed');
+        }
+
+        // Event listener untuk form submission
+        searchForm.addEventListener('submit', async (e) => {
+            e.preventDefault(); // Mencegah form submit default
+            
+            const mcCode = mcCodeInput.value.trim();
+            if (!mcCode) {
+                showError('Kode MC tidak boleh kosong.');
+                return;
+            }
+
+            showLoading();
+
+            try {
+                // Buat URL dengan parameter query
+                const url = `${API_BASE_URL}/api/searchMC?cNoMC=${encodeURIComponent(mcCode)}`;
+
+                const response = await fetch(url);
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status} ${response.statusText}`);
+                }
+
+                const result = await response.json();
+
+                if (result.success === false) {
+                    // Tangani error dari API
+                    throw new Error(result.message || 'API mengembalikan error.');
+                }
+
+                if (result.data && result.data.length > 0) {
+                    // Data ditemukan
+                    showTable(result.data);
+                } else {
+                    // Data tidak ditemukan
+                    showNoData();
+                }
+
+            } catch (error) {
+                console.error('Fetch error:', error);
+                showError(`Terjadi kesalahan: ${error.message}. Pastikan API URL sudah benar dan server berjalan.`);
+            }
+        });
+
+    </script>
+</body>
+</html>

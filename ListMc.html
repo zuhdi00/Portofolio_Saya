@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Production Orders - Activity Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            min-height: 100vh;
+            color: #ecf0f1;
+        }
+
+        .navbar {
+            background: #2c3e50;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ecf0f1;
+            text-decoration: none;
+        }
+
+        .navbar-nav {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-link {
+            color: #bdc3c7;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: #3498db;
+            color: white;
+        }
+
+        .admin-badge {
+            background: #1abc9c;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #3498db, #1abc9c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .page-subtitle {
+            font-size: 1.1rem;
+            opacity: 0.8;
+        }
+
+        .controls-panel {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+        }
+
+        .search-row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .search-container {
+            flex: 1;
+            min-width: 250px;
+            position: relative;
+        }
+
+        .mc-search-container {
+            min-width: 200px;
+            position: relative;
+        }
+
+        .search-input, .mc-input {
+            width: 100%;
+            padding: 15px 50px 15px 20px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .search-input::placeholder, .mc-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .search-input:focus, .mc-input:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.3);
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .controls-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .status-indicators {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .status-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        .status-online {
+            background: #2ecc71;
+        }
+
+        .status-loading {
+            background: #f39c12;
+        }
+
+        .status-error {
+            background: #e74c3c;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        .refresh-btn, .clear-btn {
+            background: linear-gradient(45deg, #3498db, #2980b9);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .clear-btn {
+            background: linear-gradient(45deg, #e74c3c, #c0392b);
+        }
+
+        .refresh-btn:hover, .clear-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+        }
+
+        .clear-btn:hover {
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4);
+        }
+
+        .data-table-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+        }
+
+        .table-header {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .table-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        .table-head {
+            background: #3498db;
+            color: white;
+        }
+
+        .table-head th {
+            padding: 15px 12px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid #2980b9;
+        }
+
+        .table-row {
+            transition: all 0.3s ease;
+            border-bottom: 1px solid #ecf0f1;
+        }
+
+        .table-row:hover {
+            background: #f8f9fa;
+            transform: scale(1.01);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .table-row:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .table-row:nth-child(even):hover {
+            background: #e9ecef;
+        }
+
+        .table-cell {
+            padding: 15px 12px;
+            color: #2c3e50;
+            font-size: 0.9rem;
+            vertical-align: top;
+        }
+
+        .order-number {
+            font-weight: bold;
+            color: #3498db;
+            font-size: 1rem;
+        }
+
+        .date-cell {
+            color: #7f8c8d;
+            font-size: 0.85rem;
+        }
+
+        .client-name {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .product-name {
+            color: #27ae60;
+            font-weight: 500;
+        }
+
+        .quantity-badge {
+            background: #3498db;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .currency {
+            color: #27ae60;
+            font-weight: 600;
+        }
+
+        .dimensions {
+            font-size: 0.8rem;
+            color: #7f8c8d;
+            line-height: 1.3;
+        }
+
+        .color-indicator {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            margin-right: 8px;
+            vertical-align: middle;
+            border: 2px solid #ddd;
+        }
+
+        .loading-spinner {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 60px;
+            color: #2c3e50;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #ecf0f1;
+            border-top: 5px solid #3498db;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error-message {
+            text-align: center;
+            padding: 40px;
+            color: #e74c3c;
+            background: rgba(231, 76, 60, 0.1);
+            border-radius: 10px;
+            margin: 20px;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 60px;
+            color: #7f8c8d;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #3498db;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .filter-info {
+            background: rgba(52, 152, 219, 0.1);
+            color: #3498db;
+            padding: 10px 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: none;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .filter-info.active {
+            display: flex;
+        }
+
+        @media (max-width: 768px) {
+            .navbar-nav {
+                display: none;
+            }
+            
+            .search-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .search-container, .mc-search-container {
+                min-width: auto;
+            }
+            
+            .controls-bottom {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .data-table-container {
+                overflow-x: auto;
+            }
+            
+            .table-cell {
+                padding: 10px 8px;
+                font-size: 0.8rem;
+            }
+            
+            .page-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <a href="#" class="navbar-brand">Sample Site</a>
+        <ul class="navbar-nav">
+            <li><a href="#" class="nav-link">Home</a></li>
+            <li><a href="#" class="nav-link">Customers</a></li>
+            <li><a href="#" class="nav-link active">Activity Logs</a></li>
+        </ul>
+        <div class="admin-badge">Administrator ▼</div>
+    </nav>
+
+    <div class="container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1 class="page-title">📋 Production Orders Dashboard</h1>
+            <p class="page-subtitle">Real-time monitoring sistem order produksi - Data dari Order Produksi</p>
+        </div>
+
+        <!-- Statistics -->
+        <div class="stats-grid" id="statsGrid">
+            <div class="stat-card">
+                <div class="stat-number" id="totalOrders">-</div>
+                <div class="stat-label">Total Orders</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="totalQuantity">-</div>
+                <div class="stat-label">Total Quantity</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="totalValue">-</div>
+                <div class="stat-label">Total Value (M)</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="activeClients">-</div>
+                <div class="stat-label">Active Clients</div>
+            </div>
+        </div>
+
+        <!-- Filter Info -->
+        <div class="filter-info" id="filterInfo">
+            <span>🔍</span>
+            <span id="filterText">Filter aktif</span>
+            <button class="clear-btn" onclick="clearFilters()">
+                ❌ Clear Filter
+            </button>
+        </div>
+
+        <!-- Controls Panel -->
+        <div class="controls-panel">
+            <div class="search-row">
+                <div class="search-container">
+                    <input type="text" class="search-input" id="searchInput" placeholder="Cari berdasarkan No Order, Client, Produk, atau Warna...">
+                    <span class="search-icon">🔍</span>
+                </div>
+                <div class="mc-search-container">
+                    <input type="text" class="mc-input" id="mcInput" placeholder="Cari berdasarkan Kode MC...">
+                    <span class="search-icon">🏭</span>
+                </div>
+            </div>
+            <div class="controls-bottom">
+                <div class="status-indicators">
+                    <div class="status-dot status-online" id="statusDot"></div>
+                    <span id="statusText">Connecting...</span>
+                </div>
+                <div style="display: flex; gap: 10px;">
+                    <button class="clear-btn" onclick="clearFilters()">
+                        ❌ Clear All
+                    </button>
+                    <button class="refresh-btn" onclick="loadData()">
+                        <span id="refreshIcon">🔄</span>
+                        Refresh Data
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Data Table -->
+        <div class="data-table-container">
+            <div class="table-header">
+                <h2 class="table-title">List of Production Orders</h2>
+            </div>
+            
+            <div id="tableContent">
+                <div class="loading-spinner">
+                    <div class="spinner"></div>
+                    <span>Memuat data dari server...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://110.138.181.148:8081/api_get_data_list.php';
+        let allData = [];
+        let filteredData = [];
+        let currentMcFilter = '';
+
+        // Color mapping untuk indikator warna
+        const colorMap = {
+            'merah': '#e74c3c',
+            'biru': '#3498db',
+            'hijau': '#2ecc71',
+            'kuning': '#f1c40f',
+            'hitam': '#2c3e50',
+            'putih': '#ecf0f1',
+            'orange': '#e67e22',
+            'ungu': '#9b59b6',
+            'pink': '#e91e63',
+            'coklat': '#8d6e63'
+        };
+
+        function getColorCode(colorName) {
+            const color = colorName.toLowerCase();
+            return colorMap[color] || '#95a5a6';
+        }
+
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR',
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+            }).format(amount);
+        }
+
+        function formatDate(dateString) {
+            if (!dateString) return '-';
+            const date = new Date(dateString);
+            return date.toLocaleDateString('id-ID', {
+                day: '2-digit',
+                month: 'short',
+                year: 'numeric'
+            });
+        }
+
+        function formatDateTime(dateString) {
+            if (!dateString) return '-';
+            const date = new Date(dateString);
+            return date.toLocaleString('id-ID', {
+                day: '2-digit',
+                month: 'short',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        function updateStatus(status, message) {
+            const statusDot = document.getElementById('statusDot');
+            const statusText = document.getElementById('statusText');
+            
+            statusDot.className = `status-dot status-${status}`;
+            statusText.textContent = message;
+        }
+
+        function updateStats(data) {
+            const totalOrders = data.length;
+            const totalQuantity = data.reduce((sum, item) => sum + (parseInt(item.nQty) || 0), 0);
+            const totalValue = data.reduce((sum, item) => sum + (parseFloat(item.nTot_netto) || 0), 0);
+            const uniqueClients = new Set(data.map(item => item.cnm_c)).size;
+
+            document.getElementById('totalOrders').textContent = totalOrders.toLocaleString('id-ID');
+            document.getElementById('totalQuantity').textContent = totalQuantity.toLocaleString('id-ID');
+            document.getElementById('totalValue').textContent = (totalValue / 1000000).toFixed(1);
+            document.getElementById('activeClients').textContent = uniqueClients;
+        }
+
+        function updateFilterInfo() {
+            const filterInfo = document.getElementById('filterInfo');
+            const filterText = document.getElementById('filterText');
+            const searchTerm = document.getElementById('searchInput').value.trim();
+            const mcTerm = document.getElementById('mcInput').value.trim();
+
+            if (searchTerm || mcTerm || currentMcFilter) {
+                let filterTexts = [];
+                if (currentMcFilter) filterTexts.push(`MC: "${currentMcFilter}"`);
+                if (searchTerm) filterTexts.push(`Search: "${searchTerm}"`);
+                if (mcTerm && mcTerm !== currentMcFilter) filterTexts.push(`MC Search: "${mcTerm}"`);
+                
+                filterText.textContent = `Filter aktif - ${filterTexts.join(', ')}`;
+                filterInfo.classList.add('active');
+            } else {
+                filterInfo.classList.remove('active');
+            }
+        }
+
+        function createTableRow(item) {
+            const colorIndicator = item.cWarna ? 
+                `<span class="color-indicator" style="background-color: ${getColorCode(item.cWarna)}" title="${item.cWarna}"></span>${item.cWarna}` : 
+                '-';
+
+            return `
+                <tr class="table-row">
+                    <td class="table-cell">
+                        <div class="order-number">${item.cNoOp || '-'}</div>
+                        <div class="date-cell">${formatDate(item.dTgl)}</div>
+                    </td>
+                    <td class="table-cell">
+                        <div class="client-name">${item.cnm_c || '-'}</div>
+                        <div style="font-size: 0.8rem; color: #7f8c8d;">${item.cNoSc || '-'}</div>
+                    </td>
+                    <td class="table-cell">
+                        <div class="product-name">${item.cnm_brg || '-'}</div>
+                        <div style="font-size: 0.8rem; color: #7f8c8d;">${item.cLayer || '-'} | ${item.cTipe || '-'}</div>
+                    </td>
+                    <td class="table-cell">
+                        <span class="quantity-badge">${(item.nQty || 0).toLocaleString('id-ID')}</span>
+                        <div class="date-cell">Kirim: ${formatDate(item.dTglkirim)}</div>
+                    </td>
+                    <td class="table-cell">
+                        <div class="currency">${formatCurrency(item.nTot_netto || 0)}</div>
+                        <div style="font-size: 0.8rem; color: #7f8c8d;">RM: ${formatCurrency(item.nRm || 0)}</div>
+                    </td>
+                    <td class="table-cell">
+                        <div class="dimensions">
+                            📏 ${item.nPanjang || 0} × ${item.nLebar || 0} × ${item.nTinggi || 0} cm
+                        </div>
+                    </td>
+                    <td class="table-cell">
+                        ${colorIndicator}
+                    </td>
+                    <td class="table-cell">
+                        <div style="font-size: 0.85rem;">${item.cMengetahui || '-'}</div>
+                        <div class="date-cell">MC: ${item.cNoMc || '-'}</div>
+                    </td>
+                </tr>
+            `;
+        }
+
+        function renderTable(data) {
+            const tableContent = document.getElementById('tableContent');
+            
+            if (data.length === 0) {
+                tableContent.innerHTML = `
+                    <div class="no-data">
+                        <h3>📄 Tidak ada data yang ditemukan</h3>
+                        <p>Silakan coba dengan kata kunci pencarian yang berbeda atau refresh data.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const tableHTML = `
+                <table class="data-table">
+                    <thead class="table-head">
+                        <tr>
+                            <th>Order Info</th>
+                            <th>Client</th>
+                            <th>Product</th>
+                            <th>Quantity</th>
+                            <th>Value</th>
+                            <th>Dimensions</th>
+                            <th>Color</th>
+                            <th>PIC</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${data.map(item => createTableRow(item)).join('')}
+                    </tbody>
+                </table>
+            `;
+
+            tableContent.innerHTML = tableHTML;
+        }
+
+        function clearFilters() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('mcInput').value = '';
+            currentMcFilter = '';
+            filteredData = allData;
+            renderTable(filteredData);
+            updateStats(filteredData);
+            updateFilterInfo();
+        }
+
+        async function loadData() {
+            const refreshIcon = document.getElementById('refreshIcon');
+            refreshIcon.style.animation = 'spin 1s linear infinite';
+            
+            updateStatus('loading', 'Mengambil data...');
+
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const result = await response.json();
+                console.log('API Response:', result); // Debug log
+                
+                // Handle both formats - direct array or object with data property
+                let data;
+                if (Array.isArray(result)) {
+                    data = result;
+                } else if (result.success && Array.isArray(result.data)) {
+                    data = result.data;
+                } else if (result.data && Array.isArray(result.data)) {
+                    data = result.data;
+                } else {
+                    throw new Error('Format data tidak valid - expected array or object with data property');
+                }
+
+                allData = data;
+                filteredData = data;
+                renderTable(data);
+                updateStats(data);
+                updateStatus('online', `Data berhasil dimuat (${data.length} records)`);
+
+            } catch (error) {
+                console.error('Error loading data:', error);
+                updateStatus('error', 'Gagal memuat data');
+                document.getElementById('tableContent').innerHTML = `
+                    <div class="error-message">
+                        <h3>❌ Gagal Memuat Data</h3>
+                        <p>Error: ${error.message}</p>
+                        <p>Pastikan server API berjalan dan dapat diakses.</p>
+                        <br>
+                        <button class="refresh-btn" onclick="loadData()">
+                            🔄 Coba Lagi
+                        </button>
+                    </div>
+                `;
+            } finally {
+                refreshIcon.style.animation = '';
+            }
+        }
+
+        function searchData() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const mcTerm = document.getElementById('mcInput').value.toLowerCase();
+            
+            if (!searchTerm.trim() && !mcTerm.trim()) {
+                filteredData = allData;
+            } else {
+                filteredData = allData.filter(item => {
+                    const matchesSearch = !searchTerm.trim() || (
+                        (item.cNoOp && item.cNoOp.toLowerCase().includes(searchTerm)) ||
+                        (item.cnm_c && item.cnm_c.toLowerCase().includes(searchTerm)) ||
+                        (item.cnm_brg && item.cnm_brg.toLowerCase().includes(searchTerm)) ||
+                        (item.cWarna && item.cWarna.toLowerCase().includes(searchTerm)) ||
+                        (item.cNoSc && item.cNoSc.toLowerCase().includes(searchTerm)) ||
+                        (item.cMengetahui && item.cMengetahui.toLowerCase().includes(searchTerm))
+                    );
+                    
+                    const matchesMc = !mcTerm.trim() || (
+                        item.cNoMc && item.cNoMc.toLowerCase().includes(mcTerm)
+                    );
+                    
+                    return matchesSearch && matchesMc;
+                });
+            }
+            
+            renderTable(filteredData);
+            updateStats(filteredData);
+            updateFilterInfo();
+        }
+
+        // Event Listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            loadData();
+            
+            // Setup search with debounce
+            let searchTimeout;
+            document.getElementById('searchInput').addEventListener('input', function() {
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(searchData, 300);
+            });
+            
+            document.getElementById('mcInput').addEventListener('input', function() {
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(searchData, 300);
+            });
+        });
+
+        // Auto refresh setiap 5 menit
+        setInterval(loadData, 300000);
+    </script>
+</body>
+</html>

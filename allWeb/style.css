@@ -1,0 +1,344 @@
+/* 1. VARIABEL CSS UNTUK TEMA (THEMING) */
+:root {
+    /* Default: Light Mode */
+    --bg-body: #f4f7f9;
+    --bg-header: #ffffff;
+    --bg-card: #ffffff;
+    --color-text-primary: #1f2937;
+    --color-text-secondary: #6b7280;
+    --color-accent: #3b82f6;
+    /* Biru Primer */
+    --color-accent-hover: #1d4ed8;
+    --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
+    --theme-transition: 0.5s ease;
+}
+
+/* Dark Mode */
+.dark-mode {
+    --bg-body: #111827;
+    --bg-header: #1f2937;
+    --bg-card: #1f2937;
+    --color-text-primary: #f3f4f6;
+    --color-text-secondary: #9ca3af;
+    --color-accent: #22c55e;
+    /* Hijau neon */
+    --color-accent-hover: #16a34a;
+    --shadow-card: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -4px rgba(0, 0, 0, 0.5);
+}
+
+/* 2. BASE STYLES & TRANSITIONS */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    transition: background-color var(--theme-transition), color var(--theme-transition), box-shadow var(--theme-transition);
+}
+
+body {
+    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: var(--bg-body);
+    color: var(--color-text-primary);
+    min-height: 100vh;
+}
+
+/* 3. HEADER */
+.header {
+    background-color: var(--bg-header);
+    padding: 20px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    margin-bottom: 30px;
+}
+
+.header h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    flex-grow: 1;
+    /* Membuat h1 mengisi ruang yang tersedia */
+    text-align: center;
+    /* Menengahkan teks di dalam h1 */
+    transition: color var(--theme-transition);
+}
+
+.header-logo {
+    height: 40px;
+    margin-right: 20px;
+    object-fit: contain;
+    /* Agar logo tidak gepeng */
+}
+
+.header-controls {
+    display: flex;
+    align-items: center;
+}
+
+#logout-button {
+    background-color: #ef4444;
+    /* Red */
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    margin-left: 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+#logout-button:hover {
+    background-color: #dc2626;
+    /* Darker Red */
+    transform: translateY(-2px);
+}
+
+
+/* Tombol Toggle Tema */
+.theme-toggle button {
+    background-color: var(--color-accent);
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    margin-left: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.theme-toggle button:hover {
+    background-color: var(--color-accent-hover);
+    transform: translateY(-2px);
+    /* Animasi angkat */
+}
+
+/* 4. MAIN CONTENT & GRID CARD MENU */
+.main-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 30px 30px;
+}
+
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    margin-bottom: 40px;
+}
+
+/* CARD MENU STYLES */
+.menu-card {
+    background-color: var(--bg-card);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: var(--shadow-card);
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.27), box-shadow 0.3s ease;
+    /* Animasi spring/bounce */
+    text-decoration: none;
+    color: inherit;
+    border: 2px solid transparent;
+    /* Untuk efek border saat hover */
+}
+
+/* ANIMASI CARD HOVER (Memanjakan Mata) */
+.menu-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+    border-color: var(--color-accent);
+}
+
+.menu-card i {
+    font-size: 3rem;
+    color: var(--color-accent);
+    margin-bottom: 15px;
+    display: block;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.menu-card:hover i {
+    transform: rotate(5deg) scale(1.1);
+    /* Animasi putar ringan */
+}
+
+.menu-card h3 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.menu-card p {
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+}
+
+/* 5. KONTEN DETAIL (SImulasi Halaman Kedua) */
+.detail-card {
+    background-color: var(--bg-card);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: var(--shadow-card);
+    min-height: 400px;
+}
+
+.back-button {
+    display: inline-flex;
+    align-items: center;
+    background: none;
+    border: none;
+    color: var(--color-accent);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-bottom: 20px;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.back-button:hover {
+    color: var(--color-accent-hover);
+    transform: translateX(-5px);
+}
+
+.back-button i {
+    margin-right: 8px;
+}
+
+/* 6. RESPONSIFITAS */
+@media (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        align-items: center;
+        /* Pusatkan item saat vertikal */
+    }
+
+    .header-logo {
+        margin-right: 0;
+        margin-bottom: 15px;
+    }
+
+    .header h1 {
+        margin-bottom: 15px;
+        text-align: center;
+        /* Pastikan judul tetap di tengah */
+    }
+
+    .menu-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .main-content {
+        padding: 0 15px 15px;
+    }
+}
+
+/* 7. Login Screen Styles */
+body.login-page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-box {
+    background: var(--bg-card);
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: var(--shadow-card);
+    text-align: center;
+    width: 100%;
+    max-width: 400px;
+}
+
+.login-logo {
+    height: 60px;
+    margin-bottom: 20px;
+}
+
+.login-box h2 {
+    margin-bottom: 10px;
+    color: var(--color-text-primary);
+}
+
+.login-box p {
+    margin-bottom: 30px;
+    color: var(--color-text-secondary);
+}
+
+.input-group {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.input-group i {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-text-secondary);
+}
+
+#role-input,
+#password-input {
+    width: 100%;
+    padding: 15px 15px 15px 45px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: var(--bg-body);
+    color: var(--color-text-primary);
+    font-size: 1rem;
+}
+
+#login-button {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 8px;
+    background-color: var(--color-accent);
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#login-button:hover {
+    background-color: var(--color-accent-hover);
+    transform: translateY(-2px);
+}
+
+.login-error {
+    color: #ef4444;
+    margin-top: 15px;
+    height: 20px;
+    font-size: 0.9rem;
+}
+
+/* Animasi Shake untuk Error */
+@keyframes shake {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    10%,
+    30%,
+    50%,
+    70%,
+    90% {
+        transform: translateX(-5px);
+    }
+
+    20%,
+    40%,
+    60%,
+    80% {
+        transform: translateX(5px);
+    }
+}
+
+.shake {
+    animation: shake 0.5s ease-in-out;
+}

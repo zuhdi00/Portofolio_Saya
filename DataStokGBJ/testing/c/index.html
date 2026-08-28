@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Perbandingan Stok Excel vs Sistem — PT Supracor Sejahtera</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+:root{
+  --bg:#f0f2f8; --white:#fff; --surface:#f8f9fc; --border:#e2e6f0; --border2:#d0d6e8;
+  --accent:#3b6ef8; --accent-lt:#eef2ff; --accent-dk:#2553d8;
+  --green:#16a34a; --green-lt:#dcfce7; --red:#dc2626; --red-lt:#fee2e2;
+  --amber:#d97706; --amber-lt:#fef3c7; --violet:#7c3aed; --violet-lt:#f3e8ff;
+  --text:#111827; --text2:#374151; --muted:#6b7280; --muted2:#9ca3af;
+  --mono:'JetBrains Mono',monospace; --sans:'Plus Jakarta Sans',sans-serif;
+  --radius:12px; --shadow:0 1px 3px rgba(0,0,0,.06),0 1px 2px rgba(0,0,0,.04);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--sans);background:var(--bg);color:var(--text);min-height:100vh;padding:0 0 56px;font-size:14px}
+.wrap{max-width:1480px;margin:0 auto;padding:0 20px}
+header{background:var(--white);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:20;box-shadow:var(--shadow)}
+.hd{display:flex;align-items:center;gap:14px;padding:13px 0;flex-wrap:wrap}
+.brand{margin-right:auto}
+.brand h1{font-size:1.05rem;font-weight:700;letter-spacing:-.01em}
+.brand span{font-size:.74rem;color:var(--muted);font-weight:500}
+.pill{display:inline-flex;align-items:center;gap:6px;padding:5px 11px;border-radius:999px;font-size:.72rem;font-weight:600;background:var(--surface);border:1px solid var(--border);color:var(--text2)}
+.pill.ro{background:var(--green-lt);border-color:#86efac;color:#166534}
+.btn{font-family:var(--sans);font-size:.78rem;font-weight:600;padding:8px 14px;border-radius:9px;border:1px solid var(--border2);background:var(--white);color:var(--text2);cursor:pointer;transition:.15s}
+.btn:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-lt)}
+.btn.pri{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn.pri:hover{background:var(--accent-dk)}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
+input,select{font-family:var(--sans);font-size:.79rem;padding:8px 11px;border-radius:9px;border:1px solid var(--border2);background:var(--white);color:var(--text)}
+input[type=search]{min-width:260px}
+.drop{margin:18px 0 0;background:var(--white);border:2px dashed var(--border2);border-radius:var(--radius);padding:34px 24px;text-align:center;transition:.15s;cursor:pointer}
+.drop:hover,.drop.on{border-color:var(--accent);background:var(--accent-lt)}
+.drop h3{font-size:.95rem;font-weight:700;margin-bottom:5px}
+.drop p{font-size:.8rem;color:var(--muted);line-height:1.6}
+.drop b{color:var(--text2)}
+.banner{margin:16px 0 0;padding:12px 16px;border-radius:var(--radius);font-size:.82rem;font-weight:500;display:none;line-height:1.6}
+.banner.err{display:block;background:var(--red-lt);border:1px solid #fca5a5;color:#991b1b}
+.banner.warn{display:block;background:var(--amber-lt);border:1px solid #fcd34d;color:#92400e}
+.banner.ok{display:block;background:var(--green-lt);border:1px solid #86efac;color:#166534}
+.banner.info{display:block;background:var(--accent-lt);border:1px solid #bfdbfe;color:var(--accent-dk)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin:16px 0}
+.kpi{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;box-shadow:var(--shadow)}
+.kpi .lbl{font-size:.68rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.kpi .val{font-family:var(--mono);font-size:1.55rem;font-weight:600;letter-spacing:-.02em;margin-top:7px;line-height:1.1}
+.kpi .sub{font-size:.71rem;color:var(--muted);margin-top:4px;font-weight:500;line-height:1.45}
+.kpi.acc{border-left:3px solid var(--accent)}
+.kpi.grn .val{color:var(--green)} .kpi.red .val{color:var(--red)} .kpi.amb .val{color:var(--amber)}
+.card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;margin-bottom:14px}
+.card>h2{font-size:.8rem;font-weight:700;padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;justify-content:space-between;flex-wrap:wrap}
+.card>h2 em{font-style:normal;font-size:.7rem;font-weight:500;color:var(--muted)}
+.tools{display:flex;gap:9px;flex-wrap:wrap;align-items:center}
+.tw{overflow-x:auto;max-height:620px}
+table{width:100%;border-collapse:collapse;font-size:.78rem}
+thead th{position:sticky;top:0;background:var(--surface);border-bottom:1px solid var(--border2);padding:10px 11px;text-align:left;font-weight:700;font-size:.69rem;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);white-space:nowrap;z-index:2;cursor:pointer}
+thead th:hover{color:var(--accent)}
+tbody td{padding:9px 11px;border-bottom:1px solid var(--border);vertical-align:top}
+tbody tr:hover{background:var(--accent-lt)}
+tfoot td{padding:11px;border-top:2px solid var(--border2);background:var(--surface);font-weight:700}
+.num{font-family:var(--mono);text-align:right;white-space:nowrap}
+.pos{color:var(--green);font-weight:600} .neg{color:var(--red);font-weight:600}
+.tag{display:inline-block;padding:2px 8px;border-radius:999px;font-size:.66rem;font-weight:700;white-space:nowrap}
+.t-sama{background:var(--green-lt);color:#166534}
+.t-kecil{background:var(--accent-lt);color:var(--accent-dk)}
+.t-besar{background:var(--red-lt);color:#991b1b}
+.t-xl{background:var(--amber-lt);color:#92400e}
+.t-sy{background:var(--violet-lt);color:#5b21b6}
+.empty{padding:44px;text-align:center;color:var(--muted);font-size:.85rem}
+.bars{display:flex;flex-direction:column;gap:10px;padding:16px 18px}
+.bar{display:grid;grid-template-columns:180px 1fr 110px 60px;gap:11px;align-items:center;font-size:.77rem;cursor:pointer}
+.bar:hover .track{outline:2px solid var(--accent-lt)}
+.bar .nm{font-weight:600;color:var(--text2)}
+.track{height:9px;background:var(--surface);border-radius:999px;overflow:hidden}
+.fill{height:100%;border-radius:999px;transition:width .4s}
+.bar .qt{font-family:var(--mono);font-size:.74rem;text-align:right;color:var(--text2)}
+.bar .op{font-family:var(--mono);font-size:.71rem;text-align:right;color:var(--muted)}
+.load{display:none;padding:26px;text-align:center}
+.load.on{display:block}
+.load p{font-size:.85rem;color:var(--muted);margin-top:10px}
+.spin{width:34px;height:34px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;margin:0 auto;animation:sp .8s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.note{font-size:.78rem;color:var(--muted);line-height:1.65;margin-top:12px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap hd">
+    <div class="brand">
+      <h1>Perbandingan Stok Excel vs Sistem</h1>
+      <span>PT Supracor Sejahtera — alat pemeriksaan, tidak mengubah data</span>
+    </div>
+    <span class="pill ro">Hanya membaca</span>
+    <span class="pill" id="patPill" style="display:none"></span>
+    <button class="btn" id="btnXls" disabled>Unduh hasil</button>
+    <button class="btn pri" id="btnPilih">Pilih file Excel</button>
+    <input type="file" id="file" accept=".xlsx,.xlsm" style="display:none">
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="banner" id="ban"></div>
+
+  <div class="drop" id="drop">
+    <h3>Letakkan file BOX_AGUSTUS.xlsx di sini</h3>
+    <p>File dibaca langsung di browser, tidak diunggah ke server.<br>
+       Sistem membaca sheet <b>BOX</b> dan <b>PART+LAYER</b>, lalu mencari sendiri
+       tanggal terakhir yang sudah terisi.</p>
+  </div>
+
+  <div class="load" id="load">
+    <div class="spin"></div>
+    <p id="loadTeks">Membaca file…</p>
+  </div>
+
+  <div id="hasil" style="display:none">
+    <div class="kpis" id="kpis"></div>
+
+    <div class="card">
+      <h2><span>Per kategori</span><em>klik untuk menyaring tabel</em></h2>
+      <div class="bars" id="bars"></div>
+    </div>
+
+    <div class="card">
+      <h2>
+        <span>Rincian per nomor OP</span>
+        <div class="tools">
+          <input type="search" id="q" placeholder="Cari nomor OP, customer, item…">
+          <select id="fKel"><option value="">Semua kategori</option></select>
+          <select id="fHasil"><option value="">Semua kecocokan</option></select>
+          <button class="btn" id="btnClr">Bersihkan</button>
+        </div>
+      </h2>
+      <div class="tw">
+        <table>
+          <thead><tr>
+            <th data-k="sc">No. OP</th>
+            <th data-k="customer">Customer</th>
+            <th data-k="item">Item</th>
+            <th data-k="kelompok">Kategori</th>
+            <th data-k="excel" class="num">Excel</th>
+            <th data-k="sistem" class="num">Sistem</th>
+            <th data-k="selisih" class="num">Selisih</th>
+            <th data-k="hasil">Kecocokan</th>
+          </tr></thead>
+          <tbody id="tb"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <p class="note">
+      Perbandingan hanya setara bila tanggal posisi sama. Sistem otomatis dihitung ulang
+      pada tanggal terakhir yang terisi di file Excel. Barang lembaran (SHEET) tidak dicatat
+      di file gudang, jadi selalu muncul sebagai "hanya di sistem".
+    </p>
+  </div>
+</div>
+
+<script>
+var API = 'banding_backend.php';
+var HASIL = null, VIEW = [], sortK = 'selisih', sortDir = -1;
+
+function $(id){ return document.getElementById(id); }
+function nf(n){ return (n===null||n===undefined)?'—':Number(n).toLocaleString('id-ID'); }
+function esc(t){ return String(t===null||t===undefined?'':t).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
+function banner(t,c){ var b=$('ban'); if(!t){b.className='banner';b.innerHTML='';return;} b.className='banner '+c; b.innerHTML=t; }
+function loading(on,teks){ $('load').className='load'+(on?' on':''); if(teks) $('loadTeks').textContent=teks; }
+
+window.onerror = function (msg, url, line, col) {
+  loading(false);
+  banner('Kesalahan program: ' + esc(msg) + ' (baris ' + line + ':' + col + ')', 'err');
+  return false;
+};
+
+/* Letak kolom pada tiap sheet, memakai nomor kolom mulai dari 0.
+   BOX        : NO.OP kolom 12, saldo awal 16, harian mulai 18 (4 kolom per hari)
+   PART+LAYER : NO.OP kolom 3,  saldo awal 10, harian mulai 12 */
+var PETA = {
+  'BOX':        { op: 12, opLama: 9, cust: 1, item: 2, awal: 16, hari: 18, akhir: 142 },
+  'PART+LAYER': { op: 3,  opLama: 3, cust: 1, item: 2, awal: 10, hari: 12, akhir: 136 }
+};
+
+function angka(v) { var n = Number(v); return isFinite(n) ? n : 0; }
+
+function bacaSheet(wb, nama) {
+  var ws = wb.Sheets[nama];
+  if (!ws) return null;
+  var p = PETA[nama];
+  var baris = XLSX.utils.sheet_to_json(ws, { header: 1, defval: null, blankrows: false });
+  var data = {}, tglTerisi = 0, totalAwal = 0, totalAkhir = 0;
+
+  for (var i = 6; i < baris.length; i++) {          // data mulai baris ke-7
+    var r = baris[i];
+    if (!r || !r[p.cust]) continue;
+    var op = String(r[p.op] || r[p.opLama] || '').trim();
+    if (!op) continue;
+
+    var awal = angka(r[p.awal]);
+    var akhir = angka(r[p.akhir]);
+    if (awal === 0 && akhir === 0) continue;
+
+    if (!data[op]) data[op] = { op: op, cust: String(r[p.cust]).trim(),
+                                item: String(r[p.item] || '').trim(), awal: 0, akhir: 0 };
+    data[op].awal += awal;
+    data[op].akhir += akhir;
+    totalAwal += awal; totalAkhir += akhir;
+  }
+
+  // Cari tanggal terakhir yang STB atau DLV-nya sudah terisi, dari baris total
+  var total = baris[2] || [];
+  for (var h = 0; h < 31; h++) {
+    var c = p.hari + h * 4;
+    if (angka(total[c]) !== 0 || angka(total[c + 2]) !== 0) tglTerisi = h + 1;
+  }
+
+  return { data: data, awal: totalAwal, akhir: totalAkhir, tglTerisi: tglTerisi };
+}
+
+function prosesFile(f) {
+  banner(''); $('hasil').style.display = 'none';
+  loading(true, 'Membaca ' + f.name + '… file besar bisa memakan waktu.');
+
+  var fr = new FileReader();
+  fr.onerror = function () { loading(false); banner('Gagal membaca file.', 'err'); };
+  fr.onload = function (ev) {
+    setTimeout(function () {
+      var wb;
+      try {
+        loading(true, 'Membongkar isi file…');
+        wb = XLSX.read(new Uint8Array(ev.target.result), { type: 'array', sheets: ['BOX', 'PART+LAYER'] });
+      } catch (e) { loading(false); banner('File tidak bisa dibaca: ' + esc(e.message), 'err'); return; }
+
+      var box = bacaSheet(wb, 'BOX');
+      var prt = bacaSheet(wb, 'PART+LAYER');
+      if (!box && !prt) { loading(false); banner('Sheet BOX maupun PART+LAYER tidak ditemukan di file ini.', 'err'); return; }
+
+      var maxHari = Math.max(box ? box.tglTerisi : 0, prt ? prt.tglTerisi : 0);
+      if (!maxHari) { loading(false); banner('Kolom harian di file ini masih kosong semua.', 'err'); return; }
+
+      // Bulan diambil dari nama sheet Agustus. Tahun dan bulan disamakan dengan
+      // patokan yang berlaku, jadi cukup nomor harinya yang dipakai.
+      var tgl = tanggalPosisi(maxHari);
+      loading(true, 'Menghitung stok sistem pada ' + tgl + '…');
+      ambilSistem(tgl, box, prt);
+    }, 60);
+  };
+  fr.readAsArrayBuffer(f);
+}
+
+function tanggalPosisi(hari) {
+  var d = new Date();
+  var s = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(hari).padStart(2, '0');
+  return s;
+}
+
+function ambilSistem(tgl, box, prt) {
+  fetch(API + '?tanggal=' + encodeURIComponent(tgl) + '&_=' + Date.now(), { cache: 'no-store' })
+    .then(function (r) { return r.text().then(function (t) {
+      try { return JSON.parse(t); }
+      catch (e) { return { success: false, message: 'Server membalas bukan JSON (HTTP ' + r.status + '): ' + t.substring(0, 300) }; }
+    }); })
+    .then(function (j) {
+      loading(false);
+      if (!j.success) { banner(esc(j.message) + (j.hint ? ' — ' + esc(j.hint) : ''), 'err'); return; }
+      bandingkan(tgl, box, prt, j);
+    })
+    .catch(function (e) { loading(false); banner('Tidak bisa menghubungi ' + esc(API) + '. ' + esc(e.message), 'err'); });
+}
+
+function bandingkan(tgl, box, prt, sis) {
+  // Susun sisi Excel
+  var xl = {};
+  function masuk(sumber, kel) {
+    if (!sumber) return;
+    Object.keys(sumber.data).forEach(function (op) {
+      var d = sumber.data[op];
+      var sc = 'SLC/' + op.split('-')[0];
+      var k = sc + '|' + kel;
+      if (!xl[k]) xl[k] = { sc: sc, kelompok: kel, customer: d.cust, item: d.item, pc: 0 };
+      xl[k].pc += d.akhir;
+    });
+  }
+  masuk(box, 'BOX');
+  masuk(prt, 'PART+LAYER');
+
+  // Susun sisi sistem
+  var sy = {};
+  sis.rows.forEach(function (r) {
+    sy[r.sc + '|' + r.kelompok] = r;
+  });
+
+  var kunci = {};
+  Object.keys(xl).forEach(function (k) { kunci[k] = 1; });
+  Object.keys(sy).forEach(function (k) { kunci[k] = 1; });
+
+  var rows = [];
+  Object.keys(kunci).forEach(function (k) {
+    var a = xl[k], b = sy[k];
+    var ex = a ? a.pc : null, sysv = b ? b.pc : null;
+    var e = ex || 0, s = sysv || 0, sel = s - e;
+    var hasil;
+    if (ex === null)            hasil = 'HANYA DI SISTEM';
+    else if (sysv === null)     hasil = 'HANYA DI EXCEL';
+    else if (sel === 0)         hasil = 'SAMA PERSIS';
+    else if (Math.abs(sel) <= 100) hasil = 'BEDA <= 100 pc';
+    else                        hasil = 'BEDA > 100 pc';
+
+    rows.push({
+      sc: (a || b).sc, kelompok: (a || b).kelompok,
+      customer: (a && a.customer) || (b && b.customer) || '',
+      item: (a && a.item) || (b && b.item) || '',
+      excel: e, sistem: s, selisih: sel, hasil: hasil
+    });
+  });
+
+  HASIL = { tgl: tgl, rows: rows, sis: sis,
+            xlBox: box ? box.akhir : 0, xlPart: prt ? prt.akhir : 0,
+            xlAwalBox: box ? box.awal : 0, xlAwalPart: prt ? prt.awal : 0 };
+
+  gambar();
+  $('hasil').style.display = '';
+  $('btnXls').disabled = false;
+}
+
+function gambar() {
+  var h = HASIL, sis = h.sis;
+  var totXl = h.xlBox + h.xlPart;
+  var totSy = sis.total_pc;
+  var akurasi = totXl ? Math.round(1000 * (1 - Math.abs(totSy - totXl) / totXl)) / 10 : null;
+
+  var cocok = h.rows.filter(function (r) { return r.hasil === 'SAMA PERSIS' || r.hasil === 'BEDA <= 100 pc'; }).length;
+
+  $('patPill').style.display = '';
+  $('patPill').textContent = 'Patokan ' + (sis.patokan ? sis.patokan.cut_off : '—') +
+                             ' · dihitung ' + sis.detik + ' dtk';
+
+  $('kpis').innerHTML =
+    kartu('Menurut Excel', nf(totXl), 'pc &mdash; posisi ' + h.tgl, 'acc') +
+    kartu('Menurut Sistem', nf(totSy), 'pc &mdash; posisi ' + h.tgl, 'acc') +
+    kartu('Selisih', (totSy - totXl > 0 ? '+' : '') + nf(totSy - totXl),
+          'sistem dikurangi excel', Math.abs(totSy - totXl) <= 5000 ? 'grn' : (Math.abs(totSy - totXl) <= 50000 ? 'amb' : 'red')) +
+    kartu('Akurasi', (akurasi === null ? '—' : akurasi + '%'), 'berdasarkan jumlah pc',
+          akurasi >= 97 ? 'grn' : (akurasi >= 90 ? 'amb' : 'red')) +
+    kartu('Nomor OP cocok', nf(cocok) + ' / ' + nf(h.rows.length), 'selisih maksimal 100 pc', '');
+
+  // Peringatan kalau saldo awal Excel tidak sama dengan patokan
+  var pk = sis.patokan_kat || {};
+  var pesanAwal = [];
+  if (pk['BOX'] && h.xlAwalBox && pk['BOX'].pc !== h.xlAwalBox)
+    pesanAwal.push('BOX: patokan ' + nf(pk['BOX'].pc) + ' pc, Excel ' + nf(h.xlAwalBox) + ' pc');
+  if (pk['PART+LAYER'] && h.xlAwalPart && pk['PART+LAYER'].pc !== h.xlAwalPart)
+    pesanAwal.push('PART+LAYER: patokan ' + nf(pk['PART+LAYER'].pc) + ' pc, Excel ' + nf(h.xlAwalPart) + ' pc');
+
+  if (pesanAwal.length) {
+    banner('<b>Saldo awal di file Excel berbeda dengan patokan yang terpasang.</b><br>' +
+           pesanAwal.join('<br>') +
+           '<br>Selisih yang muncul di bawah sebagian besar berasal dari sini. Perbarui patokan supaya perbandingannya bermakna.', 'warn');
+  } else if (akurasi >= 97) {
+    banner('Saldo awal cocok dan akurasinya ' + akurasi + '%. Angka sistem bisa dipercaya.', 'ok');
+  }
+
+  // Bar per kategori
+  var perKel = {};
+  h.rows.forEach(function (r) {
+    if (!perKel[r.kelompok]) perKel[r.kelompok] = { kel: r.kelompok, excel: 0, sistem: 0, op: 0 };
+    perKel[r.kelompok].excel += r.excel;
+    perKel[r.kelompok].sistem += r.sistem;
+    perKel[r.kelompok].op += 1;
+  });
+  var arr = Object.keys(perKel).map(function (k) { return perKel[k]; });
+  arr.sort(function (a, b) { return b.sistem - a.sistem; });
+  var maks = 1;
+  arr.forEach(function (x) { maks = Math.max(maks, x.excel, Math.abs(x.sistem)); });
+
+  $('bars').innerHTML = arr.map(function (x) {
+    var sel = x.sistem - x.excel;
+    return '<div class="bar" data-kel="' + esc(x.kel) + '">' +
+      '<span class="nm">' + esc(x.kel) + '</span>' +
+      '<span class="track"><span class="fill" style="width:' + (100 * Math.abs(x.sistem) / maks) +
+      '%;background:' + (Math.abs(sel) <= 1000 ? 'var(--green)' : 'var(--amber)') + '"></span></span>' +
+      '<span class="qt">' + nf(x.excel) + ' → ' + nf(x.sistem) + '</span>' +
+      '<span class="op ' + (sel > 0 ? 'pos' : (sel < 0 ? 'neg' : '')) + '">' + (sel > 0 ? '+' : '') + nf(sel) + '</span>' +
+      '</div>';
+  }).join('');
+
+  isiFilter(arr);
+  saring();
+}
+
+function kartu(lbl, val, sub, cls) {
+  return '<div class="kpi ' + cls + '"><div class="lbl">' + lbl + '</div><div class="val">' + val + '</div><div class="sub">' + sub + '</div></div>';
+}
+
+function isiFilter(arr) {
+  var s1 = $('fKel'), l1 = s1.value;
+  s1.innerHTML = '<option value="">Semua kategori</option>';
+  arr.forEach(function (x) {
+    var o = document.createElement('option');
+    o.value = x.kel; o.textContent = x.kel + ' (' + x.op + ')';
+    s1.appendChild(o);
+  });
+  s1.value = l1;
+
+  var hit = {};
+  HASIL.rows.forEach(function (r) { hit[r.hasil] = (hit[r.hasil] || 0) + 1; });
+  var s2 = $('fHasil'), l2 = s2.value;
+  s2.innerHTML = '<option value="">Semua kecocokan</option>';
+  Object.keys(hit).forEach(function (k) {
+    var o = document.createElement('option');
+    o.value = k; o.textContent = k + ' (' + hit[k] + ')';
+    s2.appendChild(o);
+  });
+  s2.value = l2;
+}
+
+var TAG = { 'SAMA PERSIS':'t-sama', 'BEDA <= 100 pc':'t-kecil', 'BEDA > 100 pc':'t-besar',
+            'HANYA DI EXCEL':'t-xl', 'HANYA DI SISTEM':'t-sy' };
+
+function saring() {
+  if (!HASIL) return;
+  var q = $('q').value.trim().toLowerCase();
+  var kel = $('fKel').value, hs = $('fHasil').value;
+  VIEW = HASIL.rows.filter(function (r) {
+    if (kel && r.kelompok !== kel) return false;
+    if (hs && r.hasil !== hs) return false;
+    if (q) {
+      var t = (r.sc + ' ' + r.customer + ' ' + r.item).toLowerCase();
+      if (t.indexOf(q) < 0) return false;
+    }
+    return true;
+  });
+  VIEW.sort(function (a, b) {
+    var x = a[sortK], y = b[sortK];
+    if (sortK === 'selisih') { x = Math.abs(x); y = Math.abs(y); }
+    if (typeof x === 'string') return sortDir * x.localeCompare(y);
+    return sortDir * ((x || 0) - (y || 0));
+  });
+  tabel();
+}
+
+function tabel() {
+  if (!VIEW.length) { $('tb').innerHTML = '<tr><td colspan="8" class="empty">Tidak ada baris yang cocok.</td></tr>'; return; }
+  $('tb').innerHTML = VIEW.slice(0, 800).map(function (r) {
+    var c = r.selisih > 0 ? 'pos' : (r.selisih < 0 ? 'neg' : '');
+    return '<tr>' +
+      '<td class="num" style="text-align:left">' + esc(r.sc) + '</td>' +
+      '<td>' + esc(r.customer || '—') + '</td>' +
+      '<td>' + esc(r.item || '—') + '</td>' +
+      '<td>' + esc(r.kelompok) + '</td>' +
+      '<td class="num">' + nf(r.excel) + '</td>' +
+      '<td class="num">' + nf(r.sistem) + '</td>' +
+      '<td class="num ' + c + '">' + (r.selisih > 0 ? '+' : '') + nf(r.selisih) + '</td>' +
+      '<td><span class="tag ' + (TAG[r.hasil] || '') + '">' + esc(r.hasil) + '</span></td>' +
+      '</tr>';
+  }).join('');
+}
+
+document.addEventListener('click', function (ev) {
+  var t = ev.target;
+  if (!t) return;
+  try {
+    if (t.id === 'btnPilih' || t.closest('#drop')) { $('file').click(); return; }
+    if (t.id === 'btnClr') { $('q').value=''; $('fKel').value=''; $('fHasil').value=''; saring(); return; }
+    if (t.id === 'btnXls') { unduh(); return; }
+    var bar = t.closest ? t.closest('.bar[data-kel]') : null;
+    if (bar) { $('fKel').value = bar.getAttribute('data-kel'); saring(); return; }
+  } catch (e) { banner('Kesalahan: ' + esc(e.message), 'err'); }
+});
+
+document.addEventListener('change', function (ev) {
+  if (ev.target.id === 'fKel' || ev.target.id === 'fHasil') saring();
+  if (ev.target.id === 'file' && ev.target.files.length) prosesFile(ev.target.files[0]);
+});
+document.addEventListener('input', function (ev) { if (ev.target.id === 'q') saring(); });
+
+var drop = $('drop');
+['dragenter','dragover'].forEach(function (e) {
+  drop.addEventListener(e, function (ev) { ev.preventDefault(); drop.classList.add('on'); });
+});
+['dragleave','drop'].forEach(function (e) {
+  drop.addEventListener(e, function (ev) { ev.preventDefault(); drop.classList.remove('on'); });
+});
+drop.addEventListener('drop', function (ev) {
+  if (ev.dataTransfer.files.length) prosesFile(ev.dataTransfer.files[0]);
+});
+
+Array.prototype.forEach.call(document.querySelectorAll('thead th'), function (th) {
+  th.onclick = function () {
+    var k = th.getAttribute('data-k');
+    if (!k) return;
+    if (sortK === k) sortDir = -sortDir;
+    else { sortK = k; sortDir = (k === 'excel' || k === 'sistem' || k === 'selisih') ? -1 : 1; }
+    saring();
+  };
+});
+
+function unduh() {
+  if (!HASIL) return;
+  var wb = XLSX.utils.book_new();
+  var totXl = HASIL.xlBox + HASIL.xlPart, totSy = HASIL.sis.total_pc;
+  XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet([
+    ['PERBANDINGAN STOK EXCEL vs SISTEM'], [],
+    ['Posisi tanggal', HASIL.tgl],
+    ['Patokan berlaku', HASIL.sis.patokan ? HASIL.sis.patokan.cut_off : '—'], [],
+    ['Menurut Excel (pc)', totXl],
+    ['Menurut Sistem (pc)', totSy],
+    ['Selisih (pc)', totSy - totXl], [],
+    ['Saldo awal BOX di Excel', HASIL.xlAwalBox],
+    ['Saldo awal PART+LAYER di Excel', HASIL.xlAwalPart]
+  ]), 'RINGKASAN');
+  XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(VIEW.map(function (r) {
+    return { 'NO OP': r.sc, 'CUSTOMER': r.customer, 'ITEM': r.item, 'KATEGORI': r.kelompok,
+             'EXCEL': r.excel, 'SISTEM': r.sistem, 'SELISIH': r.selisih, 'KECOCOKAN': r.hasil };
+  })), 'RINCIAN');
+  XLSX.writeFile(wb, 'Banding_Stok_' + HASIL.tgl + '.xlsx');
+}
+</script>
+</body>
+</html>

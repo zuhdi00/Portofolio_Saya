@@ -1,0 +1,12 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # Arahkan semua request yang BUKAN file atau direktori yang ada
+  # ke skrip api.php dengan path info.
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^(.*)$ php/api.php/$1 [L,QSA]
+</IfModule>
+
+# Izinkan path info untuk file .php
+AcceptPathInfo On

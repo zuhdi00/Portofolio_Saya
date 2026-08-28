@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOP Pembuatan Label STB</title>
+    <style>
+        @media print {
+            .no-print { display: none; }
+            body { margin: 0; }
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            max-width: 210mm;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            background: white;
+            padding: 40px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #2563eb;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            color: #2563eb;
+            margin: 0;
+            font-size: 24px;
+        }
+        
+        .header h2 {
+            color: #64748b;
+            margin: 10px 0 0 0;
+            font-size: 18px;
+            font-weight: normal;
+        }
+        
+        .doc-info {
+            background: #f8fafc;
+            border-left: 4px solid #2563eb;
+            padding: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .doc-info table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .doc-info td {
+            padding: 5px;
+            font-size: 14px;
+        }
+        
+        .doc-info td:first-child {
+            font-weight: bold;
+            width: 150px;
+            color: #475569;
+        }
+        
+        .section {
+            margin-bottom: 30px;
+        }
+        
+        .section h3 {
+            background: #2563eb;
+            color: white;
+            padding: 10px 15px;
+            margin: 0 0 15px 0;
+            font-size: 16px;
+        }
+        
+        .step {
+            background: #f8fafc;
+            border-left: 4px solid #10b981;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .step-number {
+            display: inline-block;
+            background: #10b981;
+            color: white;
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            border-radius: 50%;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        .step-title {
+            font-weight: bold;
+            color: #1e293b;
+            font-size: 15px;
+            margin-bottom: 8px;
+        }
+        
+        .step-detail {
+            color: #475569;
+            margin-left: 40px;
+            font-size: 14px;
+        }
+        
+        .warning {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        
+        .warning-title {
+            font-weight: bold;
+            color: #92400e;
+            margin-bottom: 5px;
+        }
+        
+        .tips {
+            background: #dbeafe;
+            border-left: 4px solid #3b82f6;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        
+        .tips-title {
+            font-weight: bold;
+            color: #1e40af;
+            margin-bottom: 5px;
+        }
+        
+        ul {
+            margin: 10px 0;
+            padding-left: 25px;
+        }
+        
+        ul li {
+            margin: 5px 0;
+            color: #475569;
+        }
+        
+        .flowchart {
+            text-align: center;
+            margin: 20px 0;
+            padding: 20px;
+            background: #f8fafc;
+            border: 2px dashed #cbd5e1;
+        }
+        
+        .button {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            cursor: pointer;
+            font-size: 14px;
+            border-radius: 5px;
+            margin: 10px 5px;
+        }
+        
+        .button:hover {
+            background: #1d4ed8;
+        }
+        
+        .button-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>PROSEDUR OPERASIONAL STANDAR</h1>
+            <h2>Pembuatan Label STB (Serah Terima Barang)</h2>
+        </div>
+        
+        <!-- Document Info -->
+        <div class="doc-info">
+            <table>
+                <tr>
+                    <td>Nama Prosedur:</td>
+                    <td>Pembuatan dan Pencetakan Label STB</td>
+                </tr>
+                <tr>
+                    <td>Area:</td>
+                    <td>Produksi - Gudang</td>
+                </tr>
+                <tr>
+                    <td>Penanggung Jawab:</td>
+                    <td>Operator Produksi</td>
+                </tr>
+                <tr>
+                    <td>Sistem:</td>
+                    <td>edp2:8081/labelstb/</td>
+                </tr>
+            </table>
+        </div>
+        
+        <!-- Tujuan -->
+        <div class="section">
+            <h3>1. TUJUAN</h3>
+            <p>Prosedur ini dibuat untuk memastikan operator produksi dapat membuat label STB dengan benar, akurat, dan efisien untuk keperluan identifikasi dan pelacakan barang.</p>
+        </div>
+        
+        <!-- Ruang Lingkup -->
+        <div class="section">
+            <h3>2. RUANG LINGKUP</h3>
+            <p>Prosedur ini berlaku untuk semua operator produksi yang bertanggung jawab dalam pembuatan label STB berdasarkan nomor OP (Order Produksi) yang diterima.</p>
+        </div>
+        
+        <!-- Persiapan -->
+        <div class="section">
+            <h3>3. PERSIAPAN</h3>
+            <ul>
+                <li>Komputer/laptop dengan akses ke sistem <strong>edp2:8081/labelstb/</strong></li>
+                <li>Printer yang sudah terkoneksi dan siap digunakan</li>
+                <li>Nomor OP (Order Produksi) yang valid</li>
+                <li>Koneksi jaringan server yang stabil</li>
+            </ul>
+        </div>
+        
+        <!-- Langkah-langkah -->
+        <div class="section">
+            <h3>4. LANGKAH-LANGKAH PEMBUATAN LABEL STB</h3>
+            
+            <div class="step">
+                <div class="step-title">
+                    <span class="step-number">1</span>
+                    BUKA SISTEM LABEL STB
+                </div>
+                <div class="step-detail">
+                    • Buka browser (Chrome/Firefox/Edge)<br>
+                    • Ketik alamat: <strong>edp2:8081/labelstb/</strong><br>
+                    • Tunggu hingga halaman muncul dengan judul <strong>"Label STB Berdasarkan No. O.P"</strong>
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-title">
+                    <span class="step-number">2</span>
+                    INPUT NOMOR OP
+                </div>
+                <div class="step-detail">
+                    • Lihat nomor OP pada dokumen produksi Anda<br>
+                    • Contoh nomor OP: <strong>2503/00990-B06</strong> atau <strong>2511/00245-B01</strong><br>
+                    • Ketik nomor OP pada kolom "SPS" yang tersedia<br>
+                    • Pastikan nomor OP diketik dengan benar (tanpa spasi di awal/akhir)
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-title">
+                    <span class="step-number">3</span>
+                    KLIK TOMBOL "CARI"
+                </div>
+                <div class="step-detail">
+                    • Klik tombol biru <strong>"Cari"</strong> yang ada di bawah kolom input<br>
+                    • Tunggu beberapa detik hingga sistem memproses<br>
+                    • Sistem akan mencari data OP yang Anda masukkan
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-title">
+                    <span class="step-number">4</span>
+                    CEK HASIL PENCARIAN
+                </div>
+                <div class="step-detail">
+                    <strong>JIKA NOMOR OP DITEMUKAN:</strong><br>
+                    • Sistem akan menampilkan label STB dengan informasi lengkap<br>
+                    • Cek informasi yang muncul: Tanggal Cetak, Tanggal Kirim, No. STB, No. OP, Nama Barang, dll<br>
+                    • Label akan menampilkan QR Code untuk scanning<br>
+                    • Lanjut ke langkah berikutnya<br><br>
+                    
+                    <strong>JIKA NOMOR OP TIDAK DITEMUKAN:</strong><br>
+                    • Sistem tidak akan menampilkan label<br>
+                    • Cek kembali nomor OP yang Anda input<br>
+                    • Pastikan format penulisan sudah benar<br>
+                    • Hubungi supervisor jika masalah berlanjut
+                </div>
+            </div>
+            
+            <div class="warning">
+                <div class="warning-title">⚠️ PERHATIAN PENTING!</div>
+                Pastikan semua informasi pada label sudah sesuai sebelum melanjutkan ke proses input data. Data yang salah akan mempengaruhi proses selanjutnya.
+            </div>
+            
+            <div class="step">
+                <div class="step-title">
+                    <span class="step-number">5</span>
+                    INPUT DATA STB
+                </div>
+                <div class="step-detail">
+                    Setelah label muncul, Anda perlu input 3 data penting:<br><br>
+                    
+                    <strong>A. Input Kepala Shift</strong><br>
+                    • Masukkan nama kepala shift yang bertugas<br>
+                    • Contoh: "Budi Santoso" atau "Ahmad"<br><br>
+                    
+                    <strong>B. Input Koli/Pallete</strong><br>
+                    • Masukkan jumlah koli atau pallete<br>
+                    • Gunakan angka saja (contoh: 50, 100)<br>
+                    • Pastikan sesuai dengan jumlah fisik barang<br><br>
+                    
+                    <strong>C. Input Jumlah Tambahan</strong><br>
+                    • Masukkan jumlah tambahan jika ada<br>
+                    • Jika tidak ada tambahan, isi dengan 0 (nol)<br>
+                    • Contoh: jika ada tambahan 5 pcs, isi "5"
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-title">
+                    <span class="step-number">6</span>
+                    TEMPELKAN LABEL STB PADA PALLETE
+                </div>
+                <div class="step-detail">
+                    • Ambil label STB yang sudah tercetak<br>
+                    • Tempelkan label pada posisi yang mudah terlihat di pallete/kardus<br>
+                    • Pastikan label tidak tertutup atau terlipat<br>
+                    • QR Code harus bisa di-scan dengan jelas
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-title">
+                    <span class="step-number">7</span>
+                    BAWA PALLETE KE GUDANG STB
+                </div>
+                <div class="step-detail">
+                    • Bawa pallete yang sudah diberi label ke area gudang STB<br>
+                    • Letakkan sesuai dengan area yang ditentukan<br>
+                    • Pastikan label menghadap ke luar dan mudah terlihat
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-title">
+                    <span class="step-number">8</span>
+                    VERIFIKASI QUANTITY DENGAN SCAN QR
+                </div>
+                <div class="step-detail">
+                    • Gunakan scanner QR Code<br>
+                    • Scan QR Code pada label STB<br>
+                    • Sistem akan menampilkan data quantity<br>
+                    • Cocokkan dengan jumlah fisik barang
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-title">
+                    <span class="step-number">9</span>
+                    CEK KESESUAIAN JUMLAH
+                </div>
+                <div class="step-detail">
+                    <strong>JIKA JUMLAH QUANTITY TIDAK SESUAI:</strong><br>
+                    • JANGAN lanjutkan proses<br>
+                    • Hitung ulang jumlah barang secara manual<br>
+                    • Laporkan ke supervisor shift<br>
+                    • Tunggu instruksi untuk perbaikan data<br>
+                    • Ulangi dari langkah 1 jika perlu membuat label baru<br><br>
+                    
+                    <strong>JIKA JUMLAH QUANTITY SESUAI:</strong><br>
+                    • Lanjut ke proses berikutnya (langkah 10)
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-title">
+                    <span class="step-number">10</span>
+                    PROSES APPROVAL DAN SIMPAN
+                </div>
+                <div class="step-detail">
+                    • Setelah semua data benar, klik tombol <strong>"Save"</strong> pada sistem<br>
+                    • Jika ingin mencetak ulang, klik <strong>"Print"</strong><br>
+                    • Gunakan shortcut keyboard: <strong>CTRL + P</strong> untuk print cepat<br>
+                    • Sistem akan menyimpan data STB ke database<br>
+                    • Barang siap untuk proses selanjutnya
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-title">
+                    <span class="step-number">11</span>
+                    SELESAI
+                </div>
+                <div class="step-detail">
+                    • Proses pembuatan label STB selesai<br>
+                    • Barang sudah ter-approval dan tersimpan di sistem<br>
+                    • Siap untuk proses pengiriman ke gudang<br>
+                    • Dokumentasikan nomor STB untuk tracking
+                </div>
+            </div>
+        </div>
+        
+        <!-- Tips -->
+        <div class="tips">
+            <div class="tips-title">💡 TIPS & TRIK</div>
+            <ul style="margin: 10px 0;">
+                <li>Simpan daftar nomor OP yang sering digunakan untuk memudahkan input</li>
+                <li>Pastikan printer selalu siap dan memiliki cukup kertas label</li>
+                <li>Gunakan CTRL + P untuk mempercepat proses cetak</li>
+                <li>Selalu cek koneksi internet sebelum memulai</li>
+                <li>Jika sistem lambat, refresh halaman dengan menekan F5</li>
+                <li>Catat nomor STB untuk referensi dan pelacakan</li>
+            </ul>
+        </div>
+        
+        <!-- Troubleshooting -->
+        <div class="section">
+            <h3>5. TROUBLESHOOTING (PENYELESAIAN MASALAH)</h3>
+            
+            <div style="margin-bottom: 15px;">
+                <strong style="color: #dc2626;">❌ Masalah: Nomor OP tidak ditemukan</strong><br>
+                <strong style="color: #16a34a;">✅ Solusi:</strong>
+                <ul>
+                    <li>Periksa kembali penulisan nomor OP</li>
+                    <li>Pastikan tidak ada spasi di awal atau akhir</li>
+                    <li>Cek format penulisan (contoh: 2503/00990-B06)</li>
+                    <li>Konfirmasi ke bagian PPIC apakah OP sudah diinput ke sistem</li>
+                </ul>
+            </div>
+            
+            <div style="margin-bottom: 15px;">
+                <strong style="color: #dc2626;">❌ Masalah: Printer tidak berfungsi</strong><br>
+                <strong style="color: #16a34a;">✅ Solusi:</strong>
+                <ul>
+                    <li>Cek koneksi printer ke komputer</li>
+                    <li>Pastikan printer dalam kondisi online</li>
+                    <li>Periksa ketersediaan kertas dan tinta</li>
+                    <li>Restart printer jika perlu</li>
+                    <li>Hubungi IT support jika masalah berlanjut</li>
+                </ul>
+            </div>
+            
+            <div style="margin-bottom: 15px;">
+                <strong style="color: #dc2626;">❌ Masalah: Data quantity tidak sesuai</strong><br>
+                <strong style="color: #16a34a;">✅ Solusi:</strong>
+                <ul>
+                    <li>Hitung ulang jumlah fisik barang</li>
+                    <li>Periksa apakah ada barang yang reject</li>
+                    <li>Laporkan ke supervisor untuk investigasi</li>
+                    <li>Jangan lanjutkan proses sampai masalah terselesaikan</li>
+                </ul>
+            </div>
+            
+            <div style="margin-bottom: 15px;">
+                <strong style="color: #dc2626;">❌ Masalah: Sistem lambat atau tidak merespon</strong><br>
+                <strong style="color: #16a34a;">✅ Solusi:</strong>
+                <ul>
+                    <li>Refresh halaman dengan menekan F5</li>
+                    <li>Tutup browser dan buka kembali</li>
+                    <li>Cek koneksi internet</li>
+                    <li>Restart komputer jika diperlukan</li>
+                    <li>Hubungi IT support jika sistem tetap down</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Kontak Penting -->
+        <div class="section">
+            <h3>6. KONTAK PENTING</h3>
+            <table style="width: 100%; border-collapse: collapse;">
+                <tr style="background: #f1f5f9;">
+                    <td style="padding: 10px; border: 1px solid #cbd5e1; font-weight: bold;">Bagian</td>
+                    <td style="padding: 10px; border: 1px solid #cbd5e1; font-weight: bold;">Kontak/Ext</td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px; border: 1px solid #cbd5e1;">Team EDP</td>
+                    <td style="padding: 10px; border: 1px solid #cbd5e1;">Zuhdi Abdillah</td>
+                    <td style="padding: 10px; border: 1px solid #cbd5e1;">HP: 087853278085</td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px; border: 1px solid #cbd5e1;">Team EDP</td>
+                    <td style="padding: 10px; border: 1px solid #cbd5e1;">Prio </td>
+                    <td style="padding: 10px; border: 1px solid #cbd5e1;">HP: 08563320345</td>
+            </table>
+        </div>
+        
+        <!-- Button Container -->
+        <div class="button-container no-print">
+            <button class="button" onclick="window.print()">🖨️ Print / Save as PDF</button>
+            <button class="button" onclick="window.location.reload()">🔄 Refresh</button>
+        </div>
+
+        <!-- Footer
+        <div style="margin-top: 40px; padding-top: 20px; border-top: 2px solid #e2e8f0; text-align: center; color: #64748b; font-size: 12px;">
+            <p>Dokumen ini adalah panduan operasional untuk internal perusahaan</p>
+            <p>Versi 1.0 | Tanggal: Januari 2026</p>
+        </div> -->
+    </div>
+</body>
+</html>

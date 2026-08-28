@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laporan Kendala Jaringan LAN & CCTV</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 2.5cm;
+        }
+        
+        body {
+            font-family: 'Calibri', 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #000;
+            max-width: 21cm;
+            margin: 0 auto;
+            padding: 2cm;
+            background: #fff;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 3px solid #2c3e50;
+            padding-bottom: 15px;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 18pt;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        .header h2 {
+            margin: 5px 0;
+            font-size: 14pt;
+            font-weight: normal;
+            color: #34495e;
+        }
+        
+        .section {
+            margin: 25px 0;
+        }
+        
+        .section-title {
+            font-size: 14pt;
+            font-weight: bold;
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 5px;
+            margin-bottom: 15px;
+        }
+        
+        .subsection-title {
+            font-size: 12pt;
+            font-weight: bold;
+            color: #34495e;
+            margin: 15px 0 10px 0;
+        }
+        
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        
+        .info-table td {
+            padding: 8px;
+            border: 1px solid #bdc3c7;
+        }
+        
+        .info-table td:first-child {
+            width: 30%;
+            font-weight: bold;
+            background: #ecf0f1;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        
+        th, td {
+            border: 1px solid #bdc3c7;
+            padding: 10px;
+            text-align: left;
+        }
+        
+        th {
+            background: #3498db;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .condition-box {
+            background: #f8f9fa;
+            border-left: 4px solid #e74c3c;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .condition-box.normal {
+            border-left-color: #27ae60;
+        }
+        
+        .condition-label {
+            font-weight: bold;
+            font-size: 11pt;
+            margin-bottom: 8px;
+        }
+        
+        .evidence {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+        
+        ul {
+            margin: 10px 0;
+            padding-left: 25px;
+        }
+        
+        li {
+            margin: 5px 0;
+        }
+        
+        .checkbox {
+            display: inline-block;
+            width: 15px;
+            height: 15px;
+            border: 2px solid #34495e;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+        
+        .checkbox.checked {
+            background: #27ae60;
+            position: relative;
+        }
+        
+        .checkbox.checked::after {
+            content: '✓';
+            color: white;
+            position: absolute;
+            top: -3px;
+            left: 2px;
+            font-weight: bold;
+        }
+        
+        .recommendation {
+            background: #d5f4e6;
+            border-left: 4px solid #27ae60;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .warning {
+            background: #ffe6e6;
+            border-left: 4px solid #e74c3c;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px solid #bdc3c7;
+        }
+        
+        .signature {
+            display: inline-block;
+            width: 45%;
+            margin: 20px 2% 0 0;
+            vertical-align: top;
+        }
+        
+        .signature-line {
+            margin-top: 60px;
+            border-top: 1px solid #000;
+            padding-top: 5px;
+        }
+        
+        .print-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 12px 24px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        
+        .print-btn:hover {
+            background: #2980b9;
+        }
+        
+        @media print {
+            body {
+                padding: 0;
+            }
+            .print-btn {
+                display: none;
+            }
+        }
+        
+        .image-placeholder {
+            border: 2px dashed #bdc3c7;
+            padding: 20px;
+            text-align: center;
+            color: #7f8c8d;
+            margin: 15px 0;
+            background: #f8f9fa;
+        }
+    </style>
+</head>
+<body>
+    <button class="print-btn" onclick="window.print()">🖨️ Print / Save as PDF</button>
+    
+    <div class="header">
+        <h1>LAPORAN KENDALA JARINGAN</h1>
+        <h2>Masalah Konektivitas LAN - Kabel CCTV pada Switch Flexo</h2>
+    </div>
+    
+    <div class="section">
+        <div class="section-title">1. INFORMASI UMUM</div>
+        <table class="info-table">
+            <tr>
+                <td>Tanggal Laporan</td>
+                <td>[Isi tanggal kejadian]</td>
+            </tr>
+            <tr>
+                <td>Pelapor</td>
+                <td>[Nama pelapor]</td>
+            </tr>
+            <tr>
+                <td>Lokasi</td>
+                <td>[Lokasi switch Flexo/ruangan]</td>
+            </tr>
+            <tr>
+                <td>Prioritas</td>
+                <td><span class="checkbox checked"></span> Tinggi</td>
+            </tr>
+            <tr>
+                <td>Status</td>
+                <td>Memerlukan penanganan segera</td>
+            </tr>
+        </table>
+    </div>
+    
+    <div class="section">
+        <div class="section-title">2. DESKRIPSI MASALAH</div>
+        
+        <div class="subsection-title">2.1 Ringkasan Masalah</div>
+        <p>Terjadi gangguan konektivitas jaringan antara server dan komputer client ketika kabel LAN CCTV tersambung pada switch Flexo. Jaringan berfungsi normal setelah kabel CCTV dicabut dari switch.</p>
+        
+        <div class="subsection-title">2.2 Kondisi Jaringan</div>
+        
+        <div class="condition-box">
+            <div class="condition-label">⚠️ KONDISI SAAT KABEL CCTV TERPASANG DI SWITCH FLEXO:</div>
+            <ul>
+                <li><span class="checkbox checked"></span> Koneksi server ke client <strong>BERMASALAH</strong></li>
+                <li><span class="checkbox checked"></span> Jaringan mengalami gangguan/terputus</li>
+                <li><span class="checkbox checked"></span> Komunikasi data tidak stabil</li>
+                <li><span class="checkbox checked"></span> CCTV dapat terhubung namun mengganggu jaringan utama</li>
+            </ul>
+        </div>
+        
+        <div class="condition-box normal">
+            <div class="condition-label">✓ KONDISI SETELAH KABEL CCTV DICABUT DARI SWITCH FLEXO:</div>
+            <ul>
+                <li><span class="checkbox checked"></span> Koneksi server ke client <strong>NORMAL</strong></li>
+                <li><span class="checkbox checked"></span> Jaringan berjalan lancar</li>
+                <li><span class="checkbox checked"></span> Komunikasi data stabil</li>
+                <li><span class="checkbox checked"></span> Tidak ada gangguan konektivitas</li>
+            </ul>
+        </div>
+        
+        <div class="subsection-title">2.3 Topologi Jaringan</div>
+        <pre style="background: #f8f9fa; padding: 15px; border: 1px solid #bdc3c7; border-radius: 4px;">
+    SERVER
+       |
+       |
+   [SWITCH FLEXO] ←── (Kabel CCTV terpasang = masalah muncul)
+       |           ←── (Kabel CCTV dicabut = jaringan normal)
+       |
+   KOMPUTER CLIENT
+        </pre>
+    </div>
+    
+    <div class="section">
+        <div class="section-title">3. DOKUMENTASI BUKTI</div>
+        
+        <div class="evidence">
+            <strong>📸 Dokumentasi Visual Terlampir:</strong>
+            <ul>
+                <li>Screenshot kondisi jaringan sebelum kabel CCTV terpasang</li>
+                <li>Screenshot kondisi jaringan setelah kabel CCTV dicabut</li>
+                <li>Foto fisik kabel dan port switch</li>
+                <li>Log sistem atau command prompt hasil troubleshooting</li>
+            </ul>
+        </div>
+        
+        <div class="subsection-title">Kondisi Sebelum Kabel CCTV Terpasang</div>
+        <div class="image-placeholder">
+            <p><strong>[Screenshot 1 & 2 - Kondisi Normal]</strong></p>
+            <p>Terlampir: Screenshot menunjukkan koneksi jaringan normal</p>
+            <p style="font-size: 10pt; color: #7f8c8d;">Referensi: media/image1.png dan media/image2.png</p>
+        </div>
+        
+        <div class="subsection-title">Kondisi Setelah Kabel LAN CCTV Dicabut</div>
+        <div class="image-placeholder">
+            <p><strong>[Screenshot 3 & 4 - Jaringan Kembali Normal]</strong></p>
+            <p>Terlampir: Foto dan screenshot menunjukkan jaringan lancar setelah kabel CCTV dicabut</p>
+            <p style="font-size: 10pt; color: #7f8c8d;">Referensi: media/image3.jpeg dan media/image4.png</p>
+        </div>
+    </div>
+    
+    <div class="section">
+        <div class="section-title">4. SPESIFIKASI PERANGKAT</div>
+        
+        <div class="subsection-title">4.1 Switch Flexo</div>
+        <table class="info-table">
+            <tr>
+                <td>Model/Tipe</td>
+                <td>[Isi model switch Flexo]</td>
+            </tr>
+            <tr>
+                <td>Kapasitas</td>
+                <td>[Misal: 8-port / 100Mbps atau 1Gbps]</td>
+            </tr>
+            <tr>
+                <td>Port Server</td>
+                <td>[Nomor port]</td>
+            </tr>
+            <tr>
+                <td>Port Client</td>
+                <td>[Nomor port]</td>
+            </tr>
+            <tr>
+                <td>Port CCTV</td>
+                <td>[Nomor port yang bermasalah]</td>
+            </tr>
+        </table>
+        
+        <div class="subsection-title">4.2 Perangkat CCTV</div>
+        <table class="info-table">
+            <tr>
+                <td>Tipe</td>
+                <td>[IP Camera / NVR / DVR]</td>
+            </tr>
+            <tr>
+                <td>Merk/Model</td>
+                <td>[Merk CCTV]</td>
+            </tr>
+            <tr>
+                <td>Jumlah Kamera</td>
+                <td>[Jumlah kamera terhubung]</td>
+            </tr>
+            <tr>
+                <td>IP Address</td>
+                <td>[IP CCTV]</td>
+            </tr>
+        </table>
+    </div>
+    
+    <div class="section">
+        <div class="section-title">5. ANALISIS KEMUNGKINAN PENYEBAB</div>
+        
+        <p>Berdasarkan gejala yang terjadi, berikut kemungkinan penyebab masalah:</p>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 5%">No</th>
+                    <th style="width: 35%">Kemungkinan Penyebab</th>
+                    <th>Penjelasan</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td><strong>Bandwidth Overload</strong></td>
+                    <td>Kapasitas bandwidth switch tidak mencukupi untuk menangani traffic data + CCTV secara bersamaan. CCTV streaming video membutuhkan bandwidth besar yang menghabiskan kapasitas switch.</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td><strong>Broadcast Storm</strong></td>
+                    <td>Perangkat CCTV mengirimkan paket broadcast berlebihan yang membanjiri jaringan, menyebabkan kemacetan dan timeout koneksi.</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td><strong>Loop Jaringan</strong></td>
+                    <td>Terjadi loop pada topologi jaringan ketika CCTV terhubung, menyebabkan paket data berputar terus-menerus di jaringan.</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td><strong>Tidak Ada QoS</strong></td>
+                    <td>Switch tidak memiliki pengaturan Quality of Service untuk memprioritaskan traffic data penting, sehingga traffic CCTV mengambil alih seluruh bandwidth.</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td><strong>Port/Duplex Mismatch</strong></td>
+                    <td>Pengaturan kecepatan atau mode duplex port tidak sesuai, menyebabkan collision dan packet loss.</td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td><strong>Kabel Rusak</strong></td>
+                    <td>Kabel CCTV berkualitas rendah atau mengalami kerusakan, mengirimkan sinyal error yang mengganggu switch.</td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td><strong>IP Conflict</strong></td>
+                    <td>Perangkat CCTV memiliki IP address yang sama dengan perangkat lain di jaringan.</td>
+                </tr>
+                <tr>
+                    <td>8</td>
+                    <td><strong>Switch Kapasitas Rendah</strong></td>
+                    <td>Spesifikasi switch Flexo tidak dirancang untuk menangani beban jaringan data dan CCTV secara bersamaan.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <div class="section">
+        <div class="section-title">6. TROUBLESHOOTING YANG DILAKUKAN</div>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 5%">No</th>
+                    <th style="width: 35%">Tindakan</th>
+                    <th style="width: 15%">Hasil</th>
+                    <th>Keterangan</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>Mencabut kabel LAN CCTV dari switch Flexo</td>
+                    <td><strong style="color: #27ae60;">✓ Berhasil</strong></td>
+                    <td>Jaringan antara server dan client kembali normal dan stabil</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Memasang kembali kabel CCTV</td>
+                    <td><strong style="color: #e74c3c;">✗ Gagal</strong></td>
+                    <td>Masalah muncul kembali, jaringan terganggu</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>[Restart switch]</td>
+                    <td>[Isi hasil]</td>
+                    <td>[Isi keterangan]</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>[Cek konfigurasi port]</td>
+                    <td>[Isi hasil]</td>
+                    <td>[Isi keterangan]</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>[Ganti port CCTV]</td>
+                    <td>[Isi hasil]</td>
+                    <td>[Isi keterangan]</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <div class="section">
+        <div class="section-title">7. REKOMENDASI SOLUSI</div>
+        
+        <div class="subsection-title">7.1 Solusi Jangka Pendek (Segera)</div>
+        <div class="recommendation">
+            <p><strong>Rekomendasi Utama:</strong></p>
+            <ol>
+                <li><strong>Pisahkan Jaringan CCTV</strong>
+                    <ul>
+                        <li>Gunakan switch terpisah khusus untuk sistem CCTV</li>
+                        <li>Hubungkan switch CCTV langsung ke router utama (bypass switch Flexo)</li>
+                        <li>Isolasi traffic CCTV dari jaringan data operasional</li>
+                    </ul>
+                </li>
+                <li><strong>Temporary Workaround</strong>
+                    <ul>
+                        <li>Sementara cabut kabel CCTV dari switch Flexo untuk menjaga kelancaran operasional</li>
+                        <li>Hubungkan CCTV ke port router lain atau switch cadangan jika tersedia</li>
+                    </ul>
+                </li>
+            </ol>
+        </div>
+        
+        <div class="subsection-title">7.2 Solusi Jangka Panjang (Permanent)</div>
+        <div class="recommendation">
+            <p><strong>Rekomendasi Infrastruktur:</strong></p>
+            <ol>
+                <li><strong>Upgrade Switch</strong>
+                    <ul>
+                        <li>Ganti switch Flexo dengan managed switch berkapasitas Gigabit</li>
+                        <li>Pilih switch dengan fitur QoS, VLAN, dan port mirroring</li>
+                        <li>Estimasi budget: [sesuaikan budget]</li>
+                    </ul>
+                </li>
+                <li><strong>Implementasi VLAN</strong>
+                    <ul>
+                        <li>VLAN 10: Jaringan Data (Server-Client)</li>
+                        <li>VLAN 20: Jaringan CCTV</li>
+                        <li>Pisahkan traffic untuk menghindari collision</li>
+                    </ul>
+                </li>
+                <li><strong>Konfigurasi QoS</strong>
+                    <ul>
+                        <li>Prioritas tinggi: Traffic data operasional</li>
+                        <li>Prioritas sedang: Traffic CCTV</li>
+                        <li>Limit bandwidth CCTV maksimal 40-50% total bandwidth</li>
+                    </ul>
+                </li>
+                <li><strong>Tambah Switch Dedicated CCTV</strong>
+                    <ul>
+                        <li>Sediakan 1 switch khusus untuk sistem surveillance</li>
+                        <li>Switch CCTV terhubung langsung ke NVR/DVR</li>
+                        <li>Tidak bergabung dengan switch jaringan data</li>
+                    </ul>
+                </li>
+                <li><strong>Upgrade Kabel</strong>
+                    <ul>
+                        <li>Gunakan kabel Cat6 atau Cat6a untuk CCTV</li>
+                        <li>Pastikan kabel sesuai standar T568A/B</li>
+                        <li>Test semua kabel dengan LAN tester</li>
+                    </ul>
+                </li>
+            </ol>
+        </div>
+        
+        <div class="warning">
+            <p><strong>⚠️ PERHATIAN:</strong></p>
+            <ul>
+                <li>Masalah ini berdampak pada produktivitas karena gangguan koneksi server-client</li>
+                <li>Diperlukan penanganan segera untuk memastikan operasional tidak terganggu</li>
+                <li>Disarankan melakukan perencanaan infrastruktur jaringan yang lebih baik</li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="section">
+        <div class="section-title">8. RENCANA TINDAKAN</div>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 5%">No</th>
+                    <th style="width: 35%">Tindakan</th>
+                    <th style="width: 20%">PIC</th>
+                    <th style="width: 15%">Target</th>
+                    <th style="width: 15%">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>Pisahkan kabel CCTV dari switch Flexo (temporary)</td>
+                    <td>[Nama IT]</td>
+                    <td>Segera</td>
+                    <td><span style="color: #27ae60;">✓ Done</span></td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Evaluasi kebutuhan switch baru dan VLAN</td>
+                    <td>[Nama Manager IT]</td>
+                    <td>[Tanggal]</td>
+                    <td>Pending</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>Pengadaan switch managed Gigabit</td>
+                    <td>[Nama Procurement]</td>
+                    <td>[Tanggal]</td>
+                    <td>Pending</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>Instalasi dan konfigurasi switch baru</td>
+                    <td>[Nama IT]</td>
+                    <td>[Tanggal]</td>
+                    <td>Pending</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>Implementasi VLAN dan QoS</td>
+                    <td>[Nama IT]</td>
+                    <td>[Tanggal]</td>
+                    <td>Pending</td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>Testing dan dokumentasi</td>
+                    <td>[Nama IT]</td>
+                    <td>[Tanggal]</td>
+                    <td>Pending</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <div class="section">
+        <div class="section-title">9. KESIMPULAN</div>
+        
+        <p>Berdasarkan troubleshooting yang dilakukan, dapat disimpulkan bahwa:</p>
+        <ol>
+            <li>Masalah konektivitas jaringan antara server dan client disebabkan oleh kabel LAN CCTV yang terpasang pada switch Flexo</li>
+            <li>Switch Flexo tidak mampu menangani beban traffic data dan CCTV secara bersamaan</li>
+            <li>Jaringan kembali normal dan stabil setelah kabel CCTV dicabut dari switch Flexo</li>
+            <li>Diperlukan pemisahan jaringan CCTV atau upgrade infrastruktur untuk solusi permanen</li>
+        </ol>
+        
+        <div class="warning">
+            <p><strong>Status Saat Ini:</strong></p>
+            <p><span class="checkbox checked"></span> <strong>Temporary Fix Applied</strong> - Kabel CCTV telah dipisahkan sementara dari switch Flexo untuk menjaga kelancaran jaringan operasional.</p>
+            <p><span class="checkbox"></span> <strong>Permanent Solution</strong> - Menunggu persetujuan dan implementasi upgrade infrastruktur jaringan.</p>
+        </div>
+    </div>
+    
+    <div class="section">
+        <div class="section-title">10. LAMPIRAN</div>
+        <ul>
+            <li>Screenshot kondisi jaringan sebelum kabel CCTV terpasang (image1.png, image2.png)</li>
+            <li>Foto dan screenshot kondisi setelah kabel CCTV dicabut (image3.jpeg, image4.png)</li>
+            <li>Diagram topologi jaringan</li>
+            <li>Spesifikasi teknis perangkat</li>
+        </ul>
+    </div>
+    
+    <div class="footer">
+        <div class="signature">
+            <p><strong>Dibuat oleh:</strong></p>
+            <p>[Nama Teknisi IT]</p>
+            <p>[Jabatan]</p>
+            <p>Tanggal: [Tanggal pembuatan laporan]</p>
+            <div class="signature-line">
+                Tanda Tangan
+            </div>
+        </div>
+        
+        <div class="signature">
+            <p><strong>Disetujui oleh:</strong></p>
+            <p>[Nama Manager/Kepala IT]</p>
+            <p>[Jabatan]</p>
+            <p>Tanggal: [Tanggal persetujuan]</p>
+            <div class="signature-line">
+                Tanda Tangan
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Auto-fill tanggal hari ini
+        document.addEventListener('DOMContentLoaded', function() {
+            const today = new Date();
+            const dateStr = today.toLocaleDateString('id-ID', { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+            console.log('Tanggal hari ini:', dateStr);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proposal Pengajuan Server</title>
+    <style>
+        @media print {
+            body { margin: 0; }
+            .page-break { page-break-after: always; }
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 210mm;
+            margin: 0 auto;
+            padding: 20mm;
+            background: #f5f5f5;
+        }
+        
+        .document {
+            background: white;
+            padding: 40px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #0066cc;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            color: #0066cc;
+            margin: 10px 0;
+            font-size: 24px;
+        }
+        
+        .header p {
+            margin: 5px 0;
+            color: #666;
+        }
+        
+        .section {
+            margin: 25px 0;
+        }
+        
+        .section h2 {
+            color: #0066cc;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 8px;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        
+        .section h3 {
+            color: #333;
+            margin-top: 20px;
+            font-size: 16px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        
+        table th {
+            background: #0066cc;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        table tr:hover {
+            background: #f9f9f9;
+        }
+        
+        .spec-table td:first-child {
+            font-weight: 600;
+            color: #333;
+            width: 30%;
+        }
+        
+        .budget-table {
+            background: #f8f9fa;
+            border: 2px solid #0066cc;
+        }
+        
+        .budget-table .total-row {
+            background: #0066cc;
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        
+        .justification {
+            background: #f0f7ff;
+            padding: 15px;
+            border-left: 4px solid #0066cc;
+            margin: 15px 0;
+        }
+        
+        .footer {
+            margin-top: 50px;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .signature {
+            text-align: center;
+            width: 200px;
+        }
+        
+        .signature-line {
+            border-top: 1px solid #333;
+            margin-top: 60px;
+            padding-top: 5px;
+        }
+        
+        .note {
+            background: #fff3cd;
+            padding: 12px;
+            border-left: 4px solid #ffc107;
+            margin: 15px 0;
+            font-size: 14px;
+        }
+        
+        .benefits {
+            background: #e8f5e9;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        
+        .benefits ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        
+        .benefits li {
+            margin: 8px 0;
+        }
+        
+        @media print {
+            body { background: white; padding: 0; }
+            .document { box-shadow: none; padding: 20px; }
+            button { display: none; }
+        }
+        
+        .print-btn {
+            background: #0066cc;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin: 20px 0;
+            display: block;
+        }
+        
+        .print-btn:hover {
+            background: #0052a3;
+        }
+    </style>
+</head>
+<body>
+    <button class="print-btn" onclick="window.print()">🖨️ Cetak / Simpan PDF</button>
+    
+    <div class="document">
+        <div class="header">
+            <h1>PROPOSAL PENGADAAN SERVER</h1>
+            <p><strong>Upgrade Infrastruktur IT Perusahaan</strong></p>
+            <p>Tahun 2025</p>
+        </div>
+        
+        <div class="section">
+            <h2>1. LATAR BELAKANG</h2>
+            <p>Seiring dengan perkembangan perusahaan manufaktur yang kini memiliki 100-200 karyawan, kebutuhan akan infrastruktur IT yang handal dan scalable menjadi sangat penting. Server yang ada saat ini sudah tidak mampu menangani beban kerja yang terus meningkat, termasuk:</p>
+            <ul>
+                <li>Sistem ERP (Enterprise Resource Planning)</li>
+                <li>Database produksi dan inventory</li>
+                <li>File server untuk data perusahaan</li>
+                <li>Email server dan aplikasi kolaborasi</li>
+                <li>Sistem backup dan disaster recovery</li>
+            </ul>
+            <p>Oleh karena itu, diperlukan pengadaan server baru dengan spesifikasi enterprise-grade yang dapat mendukung operasional perusahaan untuk 3-5 tahun ke depan.</p>
+        </div>
+        
+        <div class="section">
+            <h2>2. TUJUAN PENGADAAN</h2>
+            <ul>
+                <li>Meningkatkan performa dan reliability sistem IT perusahaan</li>
+                <li>Menyediakan platform yang scalable untuk pertumbuhan bisnis</li>
+                <li>Meningkatkan keamanan data perusahaan</li>
+                <li>Mengurangi downtime dan meningkatkan produktivitas karyawan</li>
+                <li>Menyediakan infrastruktur untuk digitalisasi proses manufaktur</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>3. SPESIFIKASI TEKNIS SERVER</h2>
+            <table class="spec-table">
+                <tr>
+                    <th colspan="2">Spesifikasi Server yang Diajukan</th>
+                </tr>
+                <tr>
+                    <td>Prosesor</td>
+                    <td>Intel Xeon Platinum 8380 (40 Core, 80 Thread, 2.3 GHz base, hingga 3.4 GHz turbo)</td>
+                </tr>
+                <tr>
+                    <td>RAM</td>
+                    <td>32 GB DDR4 ECC RAM (expandable hingga 256 GB untuk kebutuhan masa depan)</td>
+                </tr>
+                <tr>
+                    <td>Penyimpanan Primer</td>
+                    <td>2 x 1 TB NVMe SSD (RAID 1) untuk OS dan aplikasi kritis</td>
+                </tr>
+                <tr>
+                    <td>Penyimpanan Sekunder</td>
+                    <td>4 x 2 TB Enterprise HDD (RAID 10) untuk data storage - Total kapasitas 4 TB</td>
+                </tr>
+                <tr>
+                    <td>Network Interface</td>
+                    <td>2 x 10 GbE (Gigabit Ethernet) untuk redundansi dan high-speed networking</td>
+                </tr>
+                <tr>
+                    <td>RAID Controller</td>
+                    <td>Hardware RAID Controller dengan BBU (Battery Backup Unit)</td>
+                </tr>
+                <tr>
+                    <td>Power Supply</td>
+                    <td>Redundant Hot-Swap PSU (2 x 800W Platinum 94%+ efficiency)</td>
+                </tr>
+                <tr>
+                    <td>Sistem Operasi</td>
+                    <td>Windows Server 2022 Standard atau Linux (Ubuntu Server 24.04 LTS)</td>
+                </tr>
+                <tr>
+                    <td>Management</td>
+                    <td>Remote Management Card (iDRAC/iLO) untuk remote monitoring</td>
+                </tr>
+                <tr>
+                    <td>Warranty</td>
+                    <td>3 tahun on-site warranty dengan next business day response</td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="section">
+            <h2>4. RINCIAN ANGGARAN</h2>
+            <table class="budget-table">
+                <tr>
+                    <th style="width: 50%">Item</th>
+                    <th style="width: 15%; text-align: center">Qty</th>
+                    <th style="width: 35%; text-align: right">Harga (IDR)</th>
+                </tr>
+                <tr>
+                    <td>Server Chassis (2U Rackmount)</td>
+                    <td style="text-align: center">1</td>
+                    <td style="text-align: right">Rp 8.000.000</td>
+                </tr>
+                <tr>
+                    <td>Intel Xeon Platinum 8380 Processor</td>
+                    <td style="text-align: center">1</td>
+                    <td style="text-align: right">Rp 45.000.000</td>
+                </tr>
+                <tr>
+                    <td>RAM 32GB DDR4 ECC (16GB x 2)</td>
+                    <td style="text-align: center">1</td>
+                    <td style="text-align: right">Rp 6.500.000</td>
+                </tr>
+                <tr>
+                    <td>SSD NVMe 1TB Enterprise Grade</td>
+                    <td style="text-align: center">2</td>
+                    <td style="text-align: right">Rp 6.000.000</td>
+                </tr>
+                <tr>
+                    <td>HDD 2TB Enterprise (7200 RPM)</td>
+                    <td style="text-align: center">4</td>
+                    <td style="text-align: right">Rp 8.000.000</td>
+                </tr>
+                <tr>
+                    <td>Hardware RAID Controller</td>
+                    <td style="text-align: center">1</td>
+                    <td style="text-align: right">Rp 4.500.000</td>
+                </tr>
+                <tr>
+                    <td>Network Card 10GbE Dual Port</td>
+                    <td style="text-align: center">1</td>
+                    <td style="text-align: right">Rp 5.500.000</td>
+                </tr>
+                <tr>
+                    <td>Redundant Power Supply (2 x 800W)</td>
+                    <td style="text-align: center">1</td>
+                    <td style="text-align: right">Rp 4.500.000</td>
+                </tr>
+                <tr>
+                    <td>Remote Management Card</td>
+                    <td style="text-align: center">1</td>
+                    <td style="text-align: right">Rp 2.500.000</td>
+                </tr>
+                <tr>
+                    <td>Windows Server 2022 Standard License</td>
+                    <td style="text-align: center">1</td>
+                    <td style="text-align: right">Rp 6.000.000</td>
+                </tr>
+                <tr>
+                    <td>3 Years On-Site Warranty</td>
+                    <td style="text-align: center">1</td>
+                    <td style="text-align: right">Rp 3.500.000</td>
+                </tr>
+                <tr class="total-row">
+                    <td colspan="2" style="text-align: right; padding-right: 20px">TOTAL ESTIMASI ANGGARAN:</td>
+                    <td style="text-align: right">Rp 100.000.000</td>
+                </tr>
+            </table>
+            
+            <div class="note">
+                <strong>Catatan:</strong>
+                <ul style="margin: 5px 0; padding-left: 20px;">
+                    <li>Harga dapat berfluktuasi tergantung vendor dan ketersediaan stock</li>
+                    <li>Instalasi dan konfigurasi akan dilakukan secara internal (in-house)</li>
+                    <li>Belum termasuk UPS, Rack Cabinet, atau perangkat network tambahan</li>
+                    <li>Estimasi dapat disesuaikan dengan melakukan sourcing ke beberapa vendor</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>5. JUSTIFIKASI PEMILIHAN SPESIFIKASI</h2>
+            
+            <div class="justification">
+                <h3>Intel Xeon Platinum 8380</h3>
+                <p>Prosesor kelas enterprise dengan 40 core yang mampu menangani workload berat seperti virtualisasi, database processing, dan aplikasi multi-threaded. Ideal untuk perusahaan dengan 100-200 user concurrent.</p>
+            </div>
+            
+            <div class="justification">
+                <h3>32 GB ECC RAM (Expandable 256 GB)</h3>
+                <p>ECC RAM mencegah data corruption. Kapasitas 32GB cukup untuk operasional saat ini dengan ruang ekspansi hingga 256GB untuk kebutuhan future-proofing tanpa perlu replace hardware.</p>
+            </div>
+            
+            <div class="justification">
+                <h3>Dual Storage System (SSD + HDD)</h3>
+                <p>Kombinasi SSD NVMe untuk performa tinggi pada OS dan aplikasi, serta HDD untuk storage kapasitas besar yang cost-effective. RAID configuration memberikan redundancy dan data protection.</p>
+            </div>
+            
+            <div class="justification">
+                <h3>Dual 10GbE Network</h3>
+                <p>Menyediakan bandwidth tinggi untuk transfer data dan redundansi network. Mendukung pertumbuhan infrastruktur IT dan integrasi dengan sistem warehouse/production.</p>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>6. MANFAAT YANG DIHARAPKAN</h2>
+            <div class="benefits">
+                <ul>
+                    <li><strong>Peningkatan Produktivitas:</strong> Response time sistem lebih cepat 5-10x dibanding server lama</li>
+                    <li><strong>Skalabilitas:</strong> Dapat menampung pertumbuhan user hingga 300-400 karyawan</li>
+                    <li><strong>Reliability:</strong> Uptime 99.9% dengan redundant components</li>
+                    <li><strong>Data Security:</strong> ECC RAM dan RAID protection mencegah data loss</li>
+                    <li><strong>ROI (Return on Investment):</strong> Estimasi 3-5 tahun lifecycle dengan minimal upgrade</li>
+                    <li><strong>Future Ready:</strong> Mendukung digitalisasi dan Industry 4.0 initiatives</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>7. TIMELINE IMPLEMENTASI</h2>
+            <table>
+                <tr>
+                    <th style="width: 40%">Tahapan</th>
+                    <th style="width: 30%">Durasi</th>
+                    <th style="width: 30%">PIC</th>
+                </tr>
+                <tr>
+                    <td>Persetujuan Proposal</td>
+                    <td>1 minggu</td>
+                    <td>Management</td>
+                </tr>
+                <tr>
+                    <td>Procurement & Sourcing</td>
+                    <td>2-3 minggu</td>
+                    <td>Purchasing</td>
+                </tr>
+                <tr>
+                    <td>Delivery & Assembly</td>
+                    <td>1 minggu</td>
+                    <td>IT Team</td>
+                </tr>
+                <tr>
+                    <td>Installation & Configuration</td>
+                    <td>1-2 minggu</td>
+                    <td>IT Team</td>
+                </tr>
+                <tr>
+                    <td>Testing & Migration</td>
+                    <td>1 minggu</td>
+                    <td>IT Team</td>
+                </tr>
+                <tr>
+                    <td>Go-Live & Monitoring</td>
+                    <td>1 minggu</td>
+                    <td>IT Team</td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="section">
+            <h2>8. KESIMPULAN</h2>
+            <p>Pengadaan server dengan spesifikasi yang diajukan merupakan investasi strategis untuk mendukung pertumbuhan perusahaan. Dengan budget Rp 100.000.000, perusahaan akan mendapatkan server enterprise-grade yang reliable, scalable, dan future-proof untuk mendukung operasional 3-5 tahun ke depan.</p>
+            <p>Server ini akan menjadi fondasi digital transformation perusahaan dan meningkatkan efisiensi operasional secara signifikan.</p>
+        </div>
+        
+        <div class="footer">
+            <div class="signature">
+                <p>Diajukan oleh,</p>
+                <div class="signature-line">
+                    <p><strong>IT Manager</strong></p>
+                </div>
+            </div>
+            
+            <div class="signature">
+                <p>Disetujui oleh,</p>
+                <div class="signature-line">
+                    <p><strong>Direktur Operasional</strong></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Add current date
+        const dateElements = document.querySelectorAll('.current-date');
+        const currentDate = new Date().toLocaleDateString('id-ID', { 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric' 
+        });
+        dateElements.forEach(el => el.textContent = currentDate);
+    </script>
+</body>
+</html>

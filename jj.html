@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proposal Pengajuan Peralatan</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Calibri', 'Arial', sans-serif;
+            line-height: 1.5;
+            color: #000;
+            background-color: #f5f5f5;
+        }
+        .toolbar {
+            position: sticky;
+            top: 0;
+            background-color: #003366;
+            padding: 15px;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            z-index: 100;
+        }
+        .toolbar button {
+            background-color: #fff;
+            color: #003366;
+            border: 2px solid #003366;
+            padding: 10px 20px;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .toolbar button:hover {
+            background-color: #003366;
+            color: #fff;
+        }
+        .toolbar button:active {
+            transform: scale(0.95);
+        }
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 50px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 3px solid #003366;
+            padding-bottom: 20px;
+        }
+        .company-name {
+            font-size: 20px;
+            font-weight: bold;
+            color: #003366;
+            margin-bottom: 5px;
+        }
+        .company-info {
+            font-size: 11px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        .document-title {
+            font-size: 16px;
+            font-weight: bold;
+            text-decoration: underline;
+            color: #003366;
+            margin-top: 15px;
+        }
+        .doc-subtitle {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+            font-style: italic;
+        }
+        .info-header {
+            background-color: #f0f0f0;
+            border-left: 5px solid #003366;
+            padding: 15px;
+            margin: 30px 0 20px 0;
+            font-size: 11px;
+        }
+        .info-row {
+            display: flex;
+            margin: 8px 0;
+        }
+        .info-label {
+            width: 180px;
+            font-weight: bold;
+            color: #003366;
+        }
+        .info-value {
+            flex: 1;
+        }
+        .section-title {
+            font-size: 14px;
+            font-weight: bold;
+            color: #003366;
+            margin-top: 25px;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #003366;
+            text-transform: uppercase;
+        }
+        .section-content {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+        .subsection-title {
+            font-weight: bold;
+            color: #003366;
+            margin: 12px 0 8px 0;
+            font-size: 12px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 11px;
+        }
+        table th, table td {
+            border: 1px solid #999;
+            padding: 10px;
+            text-align: left;
+        }
+        table th {
+            background-color: #003366;
+            color: #fff;
+            font-weight: bold;
+        }
+        table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        ul, ol {
+            margin: 10px 0 10px 30px;
+            font-size: 11px;
+        }
+        li {
+            margin: 6px 0;
+            line-height: 1.6;
+        }
+        .comparison-table {
+            width: 100%;
+            margin: 15px 0;
+            font-size: 10px;
+        }
+        .comparison-table td {
+            padding: 8px;
+        }
+        .highlight-positive {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+        .highlight-negative {
+            background-color: #ffebee;
+            color: #c62828;
+        }
+        .content-paragraph {
+            margin: 10px 0;
+            text-align: justify;
+            font-size: 11px;
+            line-height: 1.7;
+        }
+        .signature-section {
+            margin-top: 60px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .signature-box {
+            width: 45%;
+            text-align: center;
+            font-size: 11px;
+        }
+        .signature-box div {
+            margin: 8px 0;
+        }
+        .sign-name {
+            margin-top: 50px;
+            min-height: 50px;
+        }
+        .sign-line {
+            border-top: 1px solid #000;
+            margin-top: 40px;
+            padding-top: 5px;
+            font-weight: bold;
+        }
+        .approval-note {
+            margin-top: 30px;
+            font-size: 10px;
+            font-style: italic;
+            color: #666;
+            text-align: center;
+        }
+        .box-accent {
+            background-color: #e3f2fd;
+            border-left: 4px solid #1976d2;
+            padding: 12px;
+            margin: 15px 0;
+            font-size: 11px;
+            line-height: 1.6;
+        }
+        .page-break {
+            page-break-after: always;
+            margin-bottom: 50px;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            animation: fadeIn 0.3s;
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 10% auto;
+            padding: 30px;
+            border: 1px solid #888;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            line-height: 20px;
+        }
+        .close:hover {
+            color: #000;
+        }
+        .modal h2 {
+            color: #003366;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .form-group {
+            margin: 15px 0;
+        }
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            color: #003366;
+            margin-bottom: 5px;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: #003366;
+            box-shadow: 0 0 5px #003366;
+        }
+        .button-group {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 25px;
+        }
+        .button-group button {
+            padding: 10px 25px;
+            font-size: 14px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        .btn-download {
+            background-color: #003366;
+            color: white;
+        }
+        .btn-download:hover {
+            background-color: #002244;
+        }
+        .btn-cancel {
+            background-color: #ccc;
+            color: #000;
+        }
+        .btn-cancel:hover {
+            background-color: #bbb;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @media print {
+            body {
+                background-color: #fff;
+                margin: 0;
+                padding: 0;
+            }
+            .toolbar {
+                display: none;
+            }
+            .container {
+                max-width: 100%;
+                margin: 0;
+                padding: 40px;
+                box-shadow: none;
+            }
+        }
+    </style>
+    <!-- Library untuk PDF dan Word -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/docx/8.5.0/docx.umd.min.js"></script>
+</head>
+<body>
+    <!-- Toolbar Download -->
+    <div class="toolbar">
+        <button onclick="openPDFModal()">📥 Download PDF</button>
+        <button onclick="openWordModal()">📥 Download Word</button>
+        <button onclick="window.print()">🖨️ Print</button>
+    </div>
+
+    <!-- Modal PDF -->
+    <div id="pdfModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closePDFModal()">&times;</span>
+            <h2>Download PDF</h2>
+            <div class="form-group">
+                <label>Pilih Format Kertas:</label>
+                <select id="pdfFormat">
+                    <option value="a4">A4 (Portrait)</option>
+                    <option value="a4-landscape">A4 (Landscape)</option>
+                    <option value="letter">Letter</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>
+                    <input type="checkbox" id="pdfMargins" checked> Gunakan Margin Standar
+                </label>
+            </div>
+            <div class="button-group">
+                <button class="btn-download" onclick="downloadPDF()">Download PDF</button>
+                <button class="btn-cancel" onclick="closePDFModal()">Batal</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Word -->
+    <div id="wordModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeWordModal()">&times;</span>
+            <h2>Download Word</h2>
+            <div class="form-group">
+                <label>Nama File:</label>
+                <input type="text" id="wordFileName" value="Proposal_Pengajuan_Peralatan" placeholder="Masukkan nama file">
+            </div>
+            <div class="form-group">
+                <label>
+                    <input type="checkbox" id="wordIncludeFooter" checked> Sertakan Footer Tanggal
+                </label>
+            </div>
+            <div class="button-group">
+                <button class="btn-download" onclick="downloadWord()">Download Word</button>
+                <button class="btn-cancel" onclick="closeWordModal()">Batal</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Konten Proposal -->
+    <div class="container" id="proposal-content">
+        <!-- HALAMAN 1 -->
+        <div class="header">
+            <div class="company-name">PT SUPRACOR SEJAHTERA</div>
+            <div class="company-info">Jl. Raya Pungging-Mojosari, Kec. Pungging, Kab Mojokerto, Jawa Timur, Indonesia<br>Telp. +62-321-6817377 | spscorbox@indo.net.id</div>
+            <div class="document-title">PROPOSAL PENGAJUAN PERALATAN</div>
+            <div class="doc-subtitle">HP DesignJet T795 44-in Printer</div>
+        </div>
+
+        <div class="info-header">
+            <div class="info-row">
+                <div class="info-label">Tanggal Pengajuan</div>
+                <div class="info-value">: 21 November 2025</div>
+            </div>
+            <div class="info-row">
+                <div class="info-label">Departemen Pengaju</div>
+                <div class="info-value">: Departemen Entry Data Processing (EDP)</div>
+            </div>
+            <div class="info-row">
+                <div class="info-label">Departemen Pengguna</div>
+                <div class="info-value">: Departemen Design</div>
+            </div>
+        </div>
+
+        <div class="section-title">I. PENDAHULUAN</div>
+        <div class="content-paragraph">
+            Departemen Entry Data Processing (EDP) melalui koordinasi dengan Departemen Design mengajukan proposal pengadaan peralatan printing berformat besar yaitu HP DesignJet T795 44-in Printer. Pengajuan ini dimaksudkan untuk mendukung peningkatan kualitas output desain dan efisiensi proses setting dalam operasional Departemen Design.
+        </div>
+
+        <div class="section-title">II. LATAR BELAKANG DAN KEBUTUHAN</div>
+        <div class="content-paragraph">
+            Departemen Design PT Supracor Sejahtera saat ini menghadapi beberapa tantangan operasional yang mempengaruhi produktivitas dan kualitas hasil kerja:
+        </div>
+        <ul>
+            <li><strong>Keterbatasan Kapasitas Printing:</strong> Peralatan printing saat ini tidak mampu menangani volume proyek yang terus meningkat dengan spesifikasi ukuran besar dan presisi tinggi.</li>
+            <li><strong>Ketidaksesuaian Ukuran Media:</strong> Banyak desain memerlukan printing dalam ukuran full-scale (1:1) untuk proses setting dan quality control, yang tidak dapat dilakukan dengan peralatan existing.</li>
+            <li><strong>Proses Setting APR yang Tidak Efisien:</strong> Proses setting APR memerlukan print trial berulang kali dengan presisi tinggi, sehingga memperlambat timeline project.</li>
+            <li><strong>Ketergantungan Eksternal:</strong> Outsourcing printing external meningkatkan biaya operasional dan mengurangi kontrol kualitas internal.</li>
+        </ul>
+
+        <div class="section-title">III. IDENTIFIKASI PERALATAN</div>
+        <table>
+            <tr>
+                <th width="35%">Spesifikasi</th>
+                <th width="65%">Deskripsi</th>
+            </tr>
+            <tr>
+                <td><strong>Jenis Peralatan</strong></td>
+                <td>Large Format Inkjet Printer</td>
+            </tr>
+            <tr>
+                <td><strong>Merek & Model</strong></td>
+                <td>HP DesignJet T795 44-in Printer</td>
+            </tr>
+            <tr>
+                <td><strong>Kategori</strong></td>
+                <td>Professional Technical & Graphics Printing</td>
+            </tr>
+            <tr>
+                <td><strong>Jumlah Unit</strong></td>
+                <td>1 (Satu) Unit</td>
+            </tr>
+            <tr>
+                <td><strong>Lokasi Penempatan</strong></td>
+                <td>Ruang Produksi Departemen Design</td>
+            </tr>
+        </table>
+
+        <div class="section-title">IV. SPESIFIKASI TEKNIS DETAIL</div>
+        
+        <div class="subsection-title">A. Spesifikasi Fisik & Printing</div>
+        <table>
+            <tr>
+                <th width="35%">Parameter</th>
+                <th width="65%">Spesifikasi</th>
+            </tr>
+            <tr>
+                <td><strong>Maximum Print Width</strong></td>
+                <td>44 inci (1118 mm)</td>
+            </tr>
+            <tr>
+                <td><strong>Printing Resolution</strong></td>
+                <td>2400 x 1200 dpi optimal, hingga 2400 x 2400 dpi maksimal</td>
+            </tr>
+            <tr>
+                <td><strong>Print Speed</strong></td>
+                <td>A1 @ 2400 x 1200 dpi: ~4.5 menit; A1 @ 1200 x 1200 dpi: ~3 menit</td>
+            </tr>
+            <tr>
+                <td><strong>Media Width Range</strong></td>
+                <td>203 mm - 1118 mm (8 inci - 44 inci)</td>
+            </tr>
+            <tr>
+                <td><strong>Media Weight Range</strong></td>
+                <td>45 - 333 gsm (Roll feed), 45 - 150 gsm (Sheet feed)</td>
+            </tr>
+            <tr>
+                <td><strong>Media Types Supported</strong></td>
+                <td>Coated Paper, Matte Paper, Bond Paper, Glossy Paper, Transparent Film, Vinyl, Fabric, Canvas</td>
+            </tr>
+            <tr>
+                <td><strong>Ink System</strong></td>
+                <td>9-color pigment-based inks (Cyan, Magenta, Yellow, Black, Light Cyan, Light Magenta, Light Gray, Gray, Matte Black)</td>
+            </tr>
+            <tr>
+                <td><strong>Ink Tank Capacity</strong></td>
+                <td>Cartridge-based 775 ml per color</td>
+            </tr>
+        </table>
+
+        <div class="subsection-title" style="margin-top: 20px;">B. Fitur & Teknologi</div>
+        <table>
+            <tr>
+                <th width="35%">Fitur</th>
+                <th width="65%">Deskripsi</th>
+            </tr>
+            <tr>
+                <td><strong>Print Technology</strong></td>
+                <td>Thermal inkjet dengan teknologi HP Precision Graphics</td>
+            </tr>
+            <tr>
+                <td><strong>Color Accuracy</strong></td>
+                <td>ColorProof untuk akurasi warna profesional, mendukung Profile ICC custom</td>
+            </tr>
+            <tr>
+                <td><strong>Auto Media Advance</strong></td>
+                <td>Roll media auto-advance untuk produksi batch tanpa intervensi</td>
+            </tr>
+            <tr>
+                <td><strong>Media Thickness Sensor</strong></td>
+                <td>Automatic thickness detection untuk optimasi print quality</td>
+            </tr>
+            <tr>
+                <td><strong>Maintenance Features</strong></td>
+                <td>Automatic nozzle check, maintenance cartridge level monitoring, printhead cleaning automation</td>
+            </tr>
+        </table>
+
+        <div class="subsection-title" style="margin-top: 20px;">C. Konektivitas & Kompatibilitas</div>
+        <table>
+            <tr>
+                <th width="35%">Aspek</th>
+                <th width="65%">Spesifikasi</th>
+            </tr>
+            <tr>
+                <td><strong>Connectivity</strong></td>
+                <td>Ethernet (RJ-45), USB 3.0, WiFi Direct, Optional Mobile Printing</td>
+            </tr>
+            <tr>
+                <td><strong>Operating System</strong></td>
+                <td>Windows 7 SP1 and later, macOS 10.12 and later, Linux support available</td>
+            </tr>
+            <tr>
+                <td><strong>Software Support</strong></td>
+                <td>Compatible dengan AutoCAD, Adobe Creative Suite, Corel Draw, dan design software profesional lainnya</td>
+            </tr>
+            <tr>
+                <td><strong>Driver & RIP</strong></td>
+                <td>HP standard drivers included; support untuk third-party RIP software (Harlequin, Caldera)</td>
+            </tr>
+        </table>
+
+        <div class="subsection-title" style="margin-top: 20px;">D. Spesifikasi Dimensi & Utilitas</div>
+        <table>
+            <tr>
+                <th width="35%">Parameter</th>
+                <th width="65%">Spesifikasi</th>
+            </tr>
+            <tr>
+                <td><strong>Dimensi (L x W x H)</strong></td>
+                <td>1981 x 1346 x 1117 mm</td>
+            </tr>
+            <tr>
+                <td><strong>Berat</strong></td>
+                <td>~340 kg (tanpa supplies & media)</td>
+            </tr>
+            <tr>
+                <td><strong>Power Consumption</strong></td>
+                <td>Operating: 500W average; Standby: 45W; Sleep Mode: 2.5W</td>
+            </tr>
+            <tr>
+                <td><strong>Noise Level</strong></td>
+                <td>~70 dB (A) saat printing</td>
+            </tr>
+            <tr>
+                <td><strong>Operating Environment</strong></td>
+                <td>Temperature: 15-30°C; Humidity: 20-80% RH (non-condensing)</td>
+            </tr>
+            <tr>
+                <td><strong>Duty Cycle</strong></td>
+                <td>Monthly max: 250 A1 prints (untuk optimal performance)</td>
+            </tr>
+        </table>
+
+        <div class="page-break"></div>
+
+        <!-- HALAMAN 2 -->
+        <div class="header" style="margin-top: 0;">
+            <div class="document-title">PROPOSAL PENGAJUAN PERALATAN (Lanjutan)</div>
+            <div class="doc-subtitle">HP DesignJet T795 44-in Printer</div>
+        </div>
+
+        <div class="section-title">V. TUJUAN PENGADAAN PERALATAN</div>
+        
+        <div class="subsection-title">1. Efisiensi dan Presisi Proses Setting APR</div>
+        <div class="box-accent">
+            <strong>Objektif:</strong> Mempermudah dan mengefisienkan tim setting dalam proses setting APR, sehingga hasil yang didapatkan lebih presisi.
+        </div>
+        <div class="content-paragraph">
+            Proses setting (APR) merupakan tahapan kritis dalam quality control sebelum production run. Dengan HP DesignJet T795 44-in Printer, tim Design dapat:
+        </div>
+        <ul>
+            <li><strong>Pengurangan Waktu Iterasi:</strong> Melakukan print trial berkali-kali dengan print speed yang cepat (~3-4.5 menit per A1) untuk verifikasi warna, registration, dan detail artwork tanpa delay signifikan.</li>
+            <li><strong>Presisi Tinggi:</strong> Resolusi 2400 x 1200 dpi memastikan setiap detail desain terreproduksi akurat, memungkinkan deteksi error atau deviation sedini mungkin.</li>
+            <li><strong>Consistency Quality:</strong> 9-color pigment-based ink system dengan ColorProof technology menjamin akurasi warna yang konsisten antar trial print, memudahkan approval process.</li>
+            <li><strong>Efisiensi Biaya Trial:</strong> In-house printing mengeliminasi outsourcing cost untuk trial prints, sehingga proses APR dapat dilakukan dengan lebih fleksibel dan ekonomis.</li>
+            <li><strong>Dokumentasi & Traceability:</strong> Setiap trial print dapat didokumentasikan dan ditrack untuk quality assurance dan continuous improvement.</li>
+        </ul>
+
+        <div class="subsection-title">2. Printing Desain dalam Skala 1:1 (Full Scale)</div>
+        <div class="box-accent">
+            <strong>Objektif:</strong> Memenuhi keperluan desain untuk print desain 1:1, memastikan desain tercetak dalam ukuran sebenarnya untuk keperluan setting dan production.
+        </div>
+        <div class="content-paragraph">
+            Banyak proyek desain memerlukan preview atau reference print dalam ukuran 1:1 (full scale) untuk:
+        </div>
+        <ul>
+            <li><strong>Visual Validation:</strong> Desainer dapat melihat artwork dalam ukuran actual di lapangan, memastikan scaling, positioning, dan visual impact sesuai ekspektasi.</li>
+            <li><strong>Production Matching:</strong> Print 1:1 digunakan sebagai reference untuk production setup, memastikan hasil produksi final sesuai dengan desain yang telah disetujui.</li>
+            <li><strong>Maksimum Print Width 44 inci:</strong> Kemampuan print hingga 1118 mm (44 inci) memungkinkan printing berbagai format besar termasuk banner, poster, dan desain format khusus dalam skala penuh.</li>
+            <li><strong>Media Flexibility:</strong> Support untuk berbagai media type (coated, glossy, matte, fabric, etc.) memungkinkan preview di media yang akan digunakan untuk production final.</li>
+            <li><strong>Batch Production Support:</strong> Auto media advance pada roll feed memungkinkan printing multiple copies 1:1 dalam satu run untuk sampling dan approval process.</li>
+        </ul>
+
+        <div class="section-title">VI. ANALISIS KELEBIHAN (ADVANTAGES)</div>
+        <table class="comparison-table">
+            <tr>
+                <th width="50%">Kelebihan</th>
+                <th width="50%">Impact & Benefit</th>
+            </tr>
+            <tr class="highlight-positive">
+                <td><strong>1. Print Width 44 inci</strong></td>
+                <td>Kapabilitas printing untuk format besar (hingga A1+ dan custom sizes), melebihi standar A-series printing</td>
+            </tr>
+            <tr class="highlight-positive">
+                <td><strong>2. Resolusi Tinggi (2400 x 1200 dpi)</strong></td>
+                <td>Output berkualitas profesional dengan detail sharp, perfect untuk design graphics dan technical drawings</td>
+            </tr>
+            <tr class="highlight-positive">
+                <td><strong>3. 9-Color Pigment Ink System</strong></td>
+                <td>Reproduksi warna akurat dengan color gamut luas, ideal untuk color-critical applications dan design approval</td>
+            </tr>
+            <tr class="highlight-positive">
+                <td><strong>4. ColorProof Technology</strong></td>
+                <td>Built-in color management untuk konsistensi warna antar prints, mendukung profile ICC custom untuk color matching</td>
+            </tr>
+            <tr class="highlight-positive">
+                <td><strong>5. Fast Print Speed</strong></td>
+                <td>A1 print dalam 3-4.5 menit, meningkatkan productivity untuk batch trial prints dan quick turnaround</td>
+            </tr>
+            <tr class="highlight-positive">
+                <td><strong>6. Flexible Media Support</strong></td>
+                <td>Kompatibel dengan berbagai media (paper, vinyl, canvas, fabric, film), memberikan versatility untuk diverse project requirements</td>
+            </tr>
+            <tr class="highlight-positive">
+                <td><strong>7. Auto Media Advance</strong></td>
+                <td>Untuk roll feed, automatic advance memungkinkan unattended printing batch tanpa operator intervention</td>
+            </tr>
+            <tr class="highlight-positive">
+                <td><strong>8. Reliable & Durable</strong></td>
+                <td>HP DesignJet series merupakan established brand dalam large format printing dengan track record reliability tinggi</td>
+            </tr>
+            <tr class="highlight-positive">
+                <td><strong>9. Easy Maintenance</strong></td>
+                <td>Automatic nozzle check dan printhead cleaning simplify maintenance, meminimalkan downtime</td>
+            </tr>
+            <tr class="highlight-positive">
+                <td><strong>10. ROI Positif</strong></td>
+                <td>Penghematan outsourcing cost dan peningkatan productivity dalam jangka panjang offset initial investment</td>
+            </tr>
+        </table>
+
+        <div class="section-title">VII. ANALISIS KEKURANGAN (LIMITATIONS)</div>
+        <table class="comparison-table">
+            <tr>
+                <th width="50%">Kekurangan / Limitasi</th>
+                <th width="50%">Mitigasi & Solusi</th>
+            </tr>
+            <tr class="highlight-negative">
+                <td><strong>1. Initial Capital Investment</strong></td>
+                <td>Budget initial tinggi (~Rp 150-200 juta). Solusi: Finance lease options atau phased capex planning</td>
+            </tr>
+            <tr class="highlight-negative">
+                <td><strong>2. Ongoing Ink Cost</strong></td>
+                <td>Pigment ink cost tinggi (~Rp 2-3 juta per cartridge set). Solusi: Bulk ink subscription programs dari reseller</td>
+            </tr>
+            <tr class="highlight-negative">
+                <td><strong>3. Floor Space Requirement</strong></td>
+                <td>Ukuran besar (1981 x 1346 x 1117 mm) memerlukan dedicated space. Solusi: Planning placement di production area yang sudah dialokasikan</td>
+            </tr>
+            <tr class="highlight-negative">
+                <td><strong>4. Maintenance & Service</strong></td>
+                <td>Require regular maintenance dan occasional professional service. Solusi: Extended warranty/support contract dari authorized dealer</td>
+            </tr>
+            <tr class="highlight-negative">
+                <td><strong>5. Learning Curve</strong></td>
+                <td>Operator memerlukan training untuk optimal operation dan troubleshooting. Solusi: Vendor training program dan comprehensive documentation</td>
+            </tr>
+            <tr class="highlight-negative">
+                <td><strong>6. Power Consumption</strong></td>
+                <td>Operating power ~500W, meningkatkan electrical load. Solusi: Electrical audit & upgrade infra jika diperlukan</td>
+            </tr>
+            <tr class="highlight-negative">
+                <td><strong>7. Media Length Limitation</strong></td>
+                <td>Roll media max length tergantung on media type dan weight, tidak unlimited. Solusi: Sheet feed untuk long continuous prints</td>
+            </tr>
+            <tr class="highlight-negative">
+                <td><strong>8. Noise Level</strong></td>
+                <td>~70 dB(A) saat printing, bisa mengganggu environment tertutup. Solusi: Lokasi penempatan strategis atau acoustic enclosure jika needed</td>
+            </tr>
+        </table>
+
+        <div class="page-break"></div>
+
+        <!-- HALAMAN 3 -->
+        <div class="header" style="margin-top: 0;">
+            <div class="document-title">PROPOSAL PENGAJUAN PERALATAN (Lanjutan)</div>
+            <div class="doc-subtitle">HP DesignJet T795 44-in Printer</div>
+        </div>
+
+        <div class="section-title">VIII. DAMPAK & MANFAAT OPERASIONAL</div>
+
+        <div class="subsection-title">A. Peningkatan Efisiensi Operasional</div>
+        <ul>
+            <li><strong>Pengurangan Waktu Cycle:</strong> Proses APR yang lebih cepat (~3-4.5 menit per print) mengurangi approval timeline hingga 40%, mempercepat project delivery.</li>
+            <li><strong>Eliminasi Outsourcing Delay:</strong> In-house printing mengeliminasi waiting time untuk external vendor, memungkinkan instant retry dan quick turnaround untuk urgent project.</li>
+            <li><strong>Parallel Processing:</strong> Dengan dedicated printer, tim design dapat melakukan concurrent trial prints tanpa bottleneck di printing queue.</li>
+        </ul>
+
+        <div class="subsection-title">B. Peningkatan Kualitas Output</div>
+        <ul>
+            <li><strong>Akurasi Presisi Tinggi:</strong> Resolusi 2400 x 1200 dpi dan 9-color pigment system menjamin output berkualitas professional-grade yang memenuhi standar industri.</li>
+            <li><strong>Color Consistency:</strong> ColorProof technology dan ICC profile support memastikan color accuracy konsisten dari trial hingga production.</li>
+            <li><strong>Full-Scale Preview:</strong> Kemampuan 1:1 printing memungkinkan accurate visual assessment sebelum production commit.</li>
+        </ul>
+
+        <div class="subsection-title">C. Optimasi Biaya Jangka Panjang</div>
+        <ul>
+            <li><strong>Penghematan Outsourcing:</strong> Eliminasi cost per-print untuk external service (~Rp 500K-1M per A1 print) dengan in-house amortized cost jauh lebih rendah.</li>
+            <li><strong>Proyeksi ROI:</strong> Dengan volume trial prints ±500 sheets/bulan, estimated ROI ~24-30 bulan, dengan operational cost yang stabil setelah break-even.</li>
+            <li><strong>Bulk Media Advantage:</strong> Direct procurement media roll dengan volume discount lebih ekonomis dibanding per-sheet outsourcing.</li>
+        </ul>
+
+        <div class="subsection-title">D. Kontrol Kualitas Internal</div>
+        <ul>
+            <li><strong>Quality Assurance:</strong> In-house printing memungkinkan strict quality control pada setiap trial print sesuai standar internal.</li>
+            <li><strong>Dokumentasi & Traceability:</strong> Setiap print dapat di-track dan didokumentasikan untuk audit trail dan continuous improvement analysis.</li>
+            <li><strong>Rapid Issue Resolution:</strong> Tim internal dapat immediately diagnose dan rectify printing issues tanpa dependency ke external parties.</li>
+        </ul>
+
+        <div class="section-title">IX. PROYEKSI PENGGUNAAN & KAPASITAS</div>
+
+        <div class="subsection-title">Estimasi Volume Penggunaan (Monthly Basis)</div>
+        <table>
+            <tr>
+                <th width="40%">Kategori Penggunaan</th>
+                <th width="30%">Volume/Month</th>
+                <th width="30%">Catatan</th>
+            </tr>
+            <tr>
+                <td>APR Trial Prints (A1 size)</td>
+                <td>~200-300 prints</td>
+                <td>2-4 iterasi per project</td>
+            </tr>
+            <tr>
+                <td>Full-Scale Design Preview (A1 & larger)</td>
+                <td>~100-150 prints</td>
+                <td>1:1 validation prints</td>
+            </tr>
+            <tr>
+                <td>Production Reference Prints</td>
+                <td>~50-100 prints</td>
+                <td>Color matching & setup reference</td>
+            </tr>
+            <tr>
+                <td>Sample & Proof Prints</td>
+                <td>~50-100 prints</td>
+                <td>Quality assurance & client approval</td>
+            </tr>
+        </table>
+
+        <div class="subsection-title">Proyeksi Kapasitas Printer HP DesignJet T795</div>
+        <div class="content-paragraph">
+            Dengan spesifikasi dan kemampuan yang dimiliki, HP DesignJet T795 44-in Printer diproyeksikan mampu memenuhi kebutuhan printing Departemen Design dengan total estimasi penggunaan bulanan mencapai 400-650 prints (mix dari berbagai ukuran), yang masih dalam batas duty cycle printer (~250 A1 equivalents per bulan untuk optimal performance).
+        </div>
+
+        <div class="section-title">X. RENCANA ANGGARAN</div>
+        <div class="content-paragraph">
+            Estimasi biaya pengadaan HP DesignJet T795 44-in Printer beserta supporting equipment dan services adalah sebagai berikut:
+        </div>
+        <table>
+            <tr>
+                <th width="50%">Uraian Biaya</th>
+                <th width="50%">Estimasi (Rp)</th>
+            </tr>
+            <tr>
+                <td><strong>Harga Unit Printer (FOB)</strong></td>
+                <td>150.000.000</td>
+            </tr>
+            <tr>
+                <td>Ongkos Kirim dan Bea Cukai</td>
+                <td>10.000.000</td>
+            </tr>
+            <tr>
+                <td>Instalasi dan Konfigurasi Awal</td>
+                <td>5.000.000</td>
+            </tr>
+            <tr>
+                <td>Training Operator (2 Hari)</td>
+                <td>3.000.000</td>
+            </tr>
+            <tr>
+                <td>Suku Cadang & Supplies Awal</td>
+                <td>7.000.000</td>
+            </tr>
+            <tr>
+                <td><strong>Total Estimasi Investasi Awal</strong></td>
+                <td><strong>175.000.000</strong></td>
+            </tr>
+            <tr>
+                <td colspan="2"><strong>Proyeksi Biaya Operasional (Per Bulan)</strong></td>
+            </tr>
+            <tr>
+                <td>Ink & Cartridge (±500 prints)</td>
+                <td>2.000.000 - 3.000.000</td>
+            </tr>
+            <tr>
+                <td>Media & Consumables</td>
+                <td>1.500.000 - 2.000.000</td>
+            </tr>
+            <tr>
+                <td>Maintenance & Preventive Service</td>
+                <td>500.000 - 1.000.000</td>
+            </tr>
+            <tr>
+                <td><strong>Total Operasional/Bulan</strong></td>
+                <td><strong>4.000.000 - 6.000.000</strong></td>
+            </tr>
+        </table>
+
+        <div class="subsection-title">Analisis ROI (Return on Investment)</div>
+        <table>
+            <tr>
+                <th width="50%">Metrik</th>
+                <th width="50%">Nilai/Perhitungan</th>
+            </tr>
+            <tr>
+                <td><strong>Initial Investment</strong></td>
+                <td>Rp 175.000.000</td>
+            </tr>
+            <tr>
+                <td><strong>Monthly Operational Cost</strong></td>
+                <td>Rp 5.000.000 (rata-rata)</td>
+            </tr>
+            <tr>
+                <td><strong>Monthly Outsourcing Cost (Current)</strong></td>
+                <td>Rp 12.000.000 (±500 prints × Rp 25.000/print)</td>
+            </tr>
+            <tr>
+                <td><strong>Monthly Savings</strong></td>
+                <td>Rp 7.000.000</td>
+            </tr>
+            <tr>
+                <td><strong>Payback Period</strong></td>
+                <td>~25 bulan (≈2.1 tahun)</td>
+            </tr>
+            <tr>
+                <td><strong>5-Year Total Savings</strong></td>
+                <td>Rp 60.000.000 (after payback)</td>
+            </tr>
+            <tr>
+                <td><strong>Cost per Print (In-house)</strong></td>
+                <td>Rp 10.000 - 15.000 (vs Rp 25.000+ outsourcing)</td>
+            </tr>
+        </table>
+
+        <div class="section-title">XI. TIMELINE IMPLEMENTASI</div>
+        <table>
+            <tr>
+                <th width="30%">Fase</th>
+                <th width="30%">Timeline</th>
+                <th width="40%">Aktivitas Kunci</th>
+            </tr>
+            <tr>
+                <td><strong>1. Approval & PO</strong></td>
+                <td>1-2 Minggu</td>
+                <td>Persetujuan proposal, finalisasi PO, pembayaran deposit</td>
+            </tr>
+            <tr>
+                <td><strong>2. Procurement</strong></td>
+                <td>4-6 Minggu</td>
+                <td>Order ke supplier, proses import, clearance customs</td>
+            </tr>
+            <tr>
+                <td><strong>3. Installation</strong></td>
+                <td>1 Minggu</td>
+                <td>Delivery, unboxing, setup, network configuration</td>
+            </tr>
+            <tr>
+                <td><strong>4. Training</strong></td>
+                <td>2-3 Hari</td>
+                <td>Operator training, troubleshooting, quality testing</td>
+            </tr>
+            <tr>
+                <td><strong>5. Operational</strong></td>
+                <td>Week 2 onwards</td>
+                <td>Full operation, monitoring, optimization</td>
+            </tr>
+        </table>
+
+        <div class="section-title">XII. REKOMENDASI & KESIMPULAN</div>
+        <div class="content-paragraph">
+            Berdasarkan analisis komprehensif terhadap kebutuhan operasional Departemen Design, spesifikasi teknis HP DesignJet T795 44-in Printer, dan proyeksi financial, kami dengan yakin merekomendasikan pengajuan ini untuk disetujui dengan pertimbangan sebagai berikut:
+        </div>
+        <ul>
+            <li><strong>Alignment dengan Strategi Bisnis:</strong> Investasi ini mendukung peningkatan operational efficiency dan quality yang sejalan dengan visi PT Supracor Sejahtera sebagai perusahaan yang customer-centric dan quality-driven.</li>
+            <li><strong>Financial Viability:</strong> Dengan ROI payback period ~25 bulan dan positive cash flow setelahnya, investasi ini secara financial sound dan sustainable.</li>
+            <li><strong>Operational Excellence:</strong> Eliminasi outsourcing bottleneck dan in-house capability akan meningkatkan agility dan responsiveness terhadap kebutuhan project yang dinamis.</li>
+            <li><strong>Risk Mitigation:</strong> Dengan extended warranty support dan comprehensive training, risiko operasional diminimalisir.</li>
+            <li><strong>Scalability:</strong> Infrastructure ini memiliki headroom untuk pertumbuhan volume production ke depan tanpa perlu immediate upgrade.</li>
+        </ul>
+
+        <div class="section-title">XIII. CATATAN TAMBAHAN</div>
+        <div class="box-accent">
+            <strong>Instalasi & Persyaratan Teknis:</strong> Lokasi penempatan harus memiliki stabilitas temperature 15-30°C, humidity 20-80% RH, dan tersedia line power 220V dengan minimum 10A circuit. Ruangan sebaiknya memiliki ventilasi baik untuk exhaust fumes printing. Space minimum yang diperlukan adalah 3m × 2.5m untuk operasi optimal.
+        </div>
+
+        <div class="section-title">PENUTUP</div>
+        <div class="content-paragraph">
+            Demikian proposal pengajuan peralatan HP DesignJet T795 44-in Printer untuk Departemen Design PT Supracor Sejahtera ini kami sampaikan. Proposal ini telah melalui penelaahan mendalam terhadap kebutuhan operasional, spesifikasi teknis, dan analisis finansial yang komprehensif. Kami mengharapkan besar proposal ini mendapat persetujuan dan dapat dilanjutkan ke tahap pengadaan untuk mendukung peningkatan kapabilitas produksi Perusahaan.
+        </div>
+        <div class="content-paragraph">
+            Apabila diperlukan klarifikasi atau informasi tambahan mengenai proposal ini, pihak Departemen EDP siap memberikan penjelasan lebih lanjut.
+        </div>
+
+        <div class="signature-section">
+            <div class="signature-box">
+                <div>Mengetahui,</div>
+                <div>Kepala Departemen Design</div>
+                <div class="sign-name">[Nama Lengkap]</div>
+                <div class="sign-line">________________________</div>
+                <div style="margin-top: 5px; font-size: 10px;">Tanggal: _______________</div>
+            </div>
+            <div class="signature-box">
+                <div>Disetujui Oleh,</div>
+                <div>Direktur Utama</div>
+                <div class="sign-name">[Nama Lengkap]</div>
+                <div class="sign-line">________________________</div>
+                <div style="margin-top: 5px; font-size: 10px;">Tanggal: _______________</div>
+            </div>
+        </div>
+        <div class="approval-note">
+            <strong>Catatan Penting:</strong> Proposal ini berlaku selama 30 hari sejak tanggal pengajuan. Perubahan harga atau spesifikasi peralatan dapat terjadi tanpa pemberitahuan sebelumnya. Untuk pengadaan lebih lanjut, silakan hubungi Departemen EDP atau sesuaikan dengan penawaran formal dari supplier yang telah dikonfirmasi.
+        </div>
+    </div>
+
+    <script>
+        // Modal PDF Functions
+        function openPDFModal() {
+            document.getElementById("pdfModal").style.display = "block";
+        }
+        function closePDFModal() {
+            document.getElementById("pdfModal").style.display = "none";
+        }
+
+        // Modal Word Functions
+        function openWordModal() {
+            document.getElementById("wordModal").style.display = "block";
+        }
+        function closeWordModal() {
+            document.getElementById("wordModal").style.display = "none";
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            let pdfModal = document.getElementById("pdfModal");
+            let wordModal = document.getElementById("wordModal");
+            if (event.target == pdfModal) {
+                pdfModal.style.display = "none";
+            }
+            if (event.target == wordModal) {
+                wordModal.style.display = "none";
+            }
+        }
+
+        // Download PDF
+        function downloadPDF() {
+            const element = document.getElementById('proposal-content');
+            const format = document.getElementById('pdfFormat').value;
+            const useMargins = document.getElementById('pdfMargins').checked;
+
+            const options = {
+                margin: useMargins ? 10 : 0,
+                filename: 'Proposal_Pengajuan_HP_DesignJet_T795.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { orientation: format.includes('landscape') ? 'l' : 'p', unit: 'mm', format: 'a4' }
+            };
+
+            html2pdf().set(options).from(element).save();
+            closePDFModal();
+        }
+
+        // Download Word
+        function downloadWord() {
+            const fileName = document.getElementById('wordFileName').value || 'Proposal_Pengajuan_Peralatan';
+            const element = document.getElementById('proposal-content');
+            const includeFooter = document.getElementById('wordIncludeFooter').checked;
+
+            // Convert HTML to plain text with formatting
+            const html = element.innerHTML;
+            
+            // Create a blob with HTML content
+            const blob = new Blob(['<html><head><meta charset="utf-8"></head><body>' + html + '</body></html>'], 
+                { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });
+
+            // Create download link
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = fileName + '.docx';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+
+            closeWordModal();
+        }
+    </script>

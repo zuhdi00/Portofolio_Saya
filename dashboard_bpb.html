@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Bukti Penerimaan Barang</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <style>
+        body { background: #f8f9fa; }
+        .dashboard-container { max-width: 98vw; margin: 2rem auto; background: #fff; border-radius: 8px; box-shadow: 0 2px 8px #0001; padding: 2rem; }
+        .table-responsive { font-size: 0.95rem; }
+        .table thead th { background: #e9ecef; }
+        .dashboard-title { font-size: 1.5rem; font-weight: bold; margin-bottom: 1.5rem; }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="dashboard-title">Dashboard Bukti Penerimaan Barang</div>
+        <div class="mb-3 row g-2 align-items-center">
+            <div class="col-auto">
+                <input type="text" id="searchInput1" class="form-control" placeholder="Keyword 1 (kode bahan, BPB, supplier, dll)" style="min-width:180px;">
+            </div>
+            <div class="col-auto">
+                <input type="text" id="searchInput2" class="form-control" placeholder="Keyword 2 (opsional)" style="min-width:180px;">
+            </div>
+            <div class="col-auto">
+                <input type="date" id="dateFrom" class="form-control" style="min-width:140px;">
+            </div>
+            <div class="col-auto">
+                <input type="date" id="dateTo" class="form-control" style="min-width:140px;">
+            </div>
+            <div class="col-auto">
+                <button class="btn btn-primary" onclick="loadData()">Cari</button>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover" id="bpbTable">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Kode Bahan</th>
+                        <th>BPB</th>
+                        <th>Supplier</th>
+                        <th>Tanggal</th>
+                        <th>Nama Barang</th>
+                        <th>No OPB</th>
+                        <th>Keterangan</th>
+                        <th>Ukuran</th>
+                        <th>Jumlah</th>
+                        <th>Satuan</th>
+                    </tr>
+                </thead>
+                <tbody id="bpbBody">
+                    <tr><td colspan="11" class="text-center">Loading...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script>
+    function formatNumber(num) {
+        return num == null ? '' : Number(num).toLocaleString('id-ID');
+    }
+    function formatDate(d) {
+        if (!d || d === 'null') return '';
+        return d;
+    }
+    function loadData() {
+        const search1 = document.getElementById('searchInput1').value.trim();
+        const search2 = document.getElementById('searchInput2').value.trim();
+        const date_from = document.getElementById('dateFrom').value;
+        const date_to = document.getElementById('dateTo').value;
+        document.getElementById('bpbBody').innerHTML = `<tr><td colspan='11' class='text-center'>Loading...</td></tr>`;
+        const params = {};
+        const isFilter = !!(search1 || search2 || date_from || date_to);
+        if (search1) params.search1 = search1;
+        if (search2) params.search2 = search2;
+        if (date_from) params.date_from = date_from;
+        if (date_to) params.date_to = date_to;
+        axios.get('api_get_bpb_dashboard.php', { params })
+            .then(resp => {
+                if (!resp.data || typeof resp.data.success === 'undefined') {
+                    document.getElementById('bpbBody').innerHTML = `<tr><td colspan='11' class='text-danger'>Gagal load data: Data tidak valid</td></tr>`;
+                    return;
+                }
+                if (!resp.data.success) {
+                    document.getElementById('bpbBody').innerHTML = `<tr><td colspan='11' class='text-danger'>Gagal load data: ${resp.data.message || 'Tidak diketahui'}</td></tr>`;
+                    return;
+                }
+                const data = resp.data.data;
+                if (!data || !data.length) {
+                    if (isFilter) {
+                        document.getElementById('bpbBody').innerHTML = `<tr><td colspan='11' class='text-center'>Tidak ada data hasil pencarian</td></tr>`;
+                    } else {
+                        document.getElementById('bpbBody').innerHTML = `<tr><td colspan='11' class='text-center'>Tidak ada data awal</td></tr>`;
+                    }
+                    return;
+                }
+                let html = '';
+                data.forEach((row, i) => {
+                    html += `<tr>
+                        <td>${i+1}</td>
+                        <td>${row.cKodeBahan||''}</td>
+                        <td>${row.cNoBPB||''}</td>
+                        <td>${row.supplier||''}</td>
+                        <td>${formatDate(row.dTanggal)}</td>
+                        <td>${row.nama_barang||''}</td>
+                        <td>${row.no_opb||''}</td>
+                        <td>${row.cKeterangan||''}</td>
+                        <td>${row.ukuran||''}</td>
+                        <td class='text-end'>${formatNumber(row.jumlah)}</td>
+                        <td>${row.satuan||''}</td>
+                    </tr>`;
+                });
+                document.getElementById('bpbBody').innerHTML = html;
+            })
+            .catch(err => {
+                document.getElementById('bpbBody').innerHTML = `<tr><td colspan='11' class='text-danger'>Gagal load data: ${err.message}</td></tr>`;
+            });
+    }
+    document.getElementById('searchInput1').addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') loadData();
+    });
+    document.getElementById('searchInput2').addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') loadData();
+    });
+    document.getElementById('dateFrom').addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') loadData();
+    });
+    document.getElementById('dateTo').addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') loadData();
+    });
+    window.addEventListener('DOMContentLoaded', loadData);
+    </script>
+</body>
+</html>

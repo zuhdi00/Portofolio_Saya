@@ -1,0 +1,47 @@
+[
+  {
+    "username": "admin",
+    "password": "adminpassword",
+    "role": "admin"
+  },
+  {
+    "username": "production",
+    "password": "prodpassword",
+    "role": "production"
+  },
+  {
+    "username": "guest",
+    "password": "guestpassword",
+    "role": "guest"
+  },
+  {
+    "username": "ppic",
+    "password": "ppicpassword",
+    "role": "ppic"
+  },
+  {
+    "username": "marketing",
+    "password": "marketingpassword",
+    "role": "marketing"
+  },
+  {
+    "username": "purchasing",
+    "password": "purchasingpassword",
+    "role": "purchasing"
+  },
+  {
+    "username": "hrd",
+    "password": "hrdpassword",
+    "role": "hrd"
+  },
+  {
+    "username": "qc",
+    "password": "qcpassword",
+    "role": "qc"
+  },
+  {
+    "username": "operator",
+    "password": "operatorpassword",
+    "role": "operator"
+  }
+]

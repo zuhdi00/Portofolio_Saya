@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Buka Nopol - STB</title>
+  <style>
+    body{font-family:Arial,Helvetica,sans-serif;background:#f4f6f8;color:#122;display:flex;align-items:center;justify-content:center;height:100vh}
+    .card{width:420px;background:#fff;border:1px solid #d7dbe0;border-radius:8px;padding:18px;box-shadow:0 6px 18px rgba(10,20,30,.06)}
+    h1{font-size:16px;margin-bottom:8px}
+    label{font-size:12px;color:#556}
+    input[type=text]{width:100%;padding:10px;border:1px solid #ccd;border-radius:6px;margin-top:6px;margin-bottom:10px}
+    .row{display:flex;gap:8px}
+    button{padding:10px 12px;border-radius:6px;border:1px solid #2a78f6;background:#2a78f6;color:#fff;cursor:pointer}
+    button.secondary{background:#fff;color:#2a78f6;border:1px solid #d0defa}
+    #status{margin-top:12px;padding:10px;border-radius:6px;display:none}
+    #status.ok{background:#e8faf0;color:#006b2f;border:1px solid #b7efcf;display:block}
+    #status.warn{background:#fff7e6;color:#5a3b00;border:1px solid #ffe5b3;display:block}
+    #status.err{background:#ffecec;color:#7a0b0b;border:1px solid #ffb3b3;display:block}
+    .small{font-size:12px;color:#445}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Buka Nopol (buka `cSrjBlk` ke 2)</h1>
+    <div class="small">Masukkan nomor polisi (kolom `cNoPol` pada tabel `tbSRJ`)</div>
+    <label for="nopol">No. Polisi</label>
+    <input id="nopol" type="text" placeholder="B 1234 ABC" autocomplete="off">
+
+    <div class="row">
+      <button id="checkBtn">Cek</button>
+      <button id="openBtn" class="secondary" disabled>Buka</button>
+      <button id="clrBtn" class="secondary">Clear</button>
+    </div>
+
+    <div id="status"></div>
+  </div>
+
+  <script>
+    const nopolEl = document.getElementById('nopol');
+    const checkBtn = document.getElementById('checkBtn');
+    const openBtn  = document.getElementById('openBtn');
+    const clrBtn   = document.getElementById('clrBtn');
+    const statusEl = document.getElementById('status');
+
+    function show(type,msg){ statusEl.className = type; statusEl.textContent = msg; }
+
+    async function apiCall(nopol, action){
+      const fd = new URLSearchParams(); fd.append('nopol', nopol); if(action) fd.append('do', action);
+      const res = await fetch('buka_nopol_action.php', { method:'POST', body: fd });
+      return res.json();
+    }
+
+    checkBtn.addEventListener('click', async ()=>{
+      const n = (nopolEl.value||'').trim(); if(!n){ show('err','Masukkan No. Polisi'); nopolEl.focus(); return; }
+      checkBtn.disabled = true; show('','Memeriksa...');
+      try{
+        const j = await apiCall(n);
+        if(j.success && j.found){
+          if(j.status === '2'){
+            show('ok','Nopol ditemukan — sudah BUKA (cSrjBlk = 2)'); openBtn.disabled = true;
+          } else {
+            show('warn','Nopol ditemukan — STATUS TUTUP (cSrjBlk = '+j.status+'). Klik Buka untuk mengubah ke 2'); openBtn.disabled = false;
+          }
+        } else if(j.success && !j.found){ show('err','No. polisi tidak ditemukan'); openBtn.disabled=true; }
+        else { show('err', j.message || 'Terjadi error'); openBtn.disabled=true; }
+      }catch(e){ show('err','Koneksi gagal: '+e.message); }
+      checkBtn.disabled = false;
+    });
+
+    openBtn.addEventListener('click', async ()=>{
+      const n = (nopolEl.value||'').trim(); if(!n) return;
+      if(!confirm('Buka semua entri untuk NoPol "'+n+'" (set cSrjBlk = 2)?')) return;
+      openBtn.disabled = true; show('','Memproses buka...');
+      try{
+        const j = await apiCall(n,'open');
+        if(j.success){ show('ok','Berhasil membuka. Baris terpengaruh: '+ (j.affected ?? 0)); }
+        else show('err', j.message || 'Gagal melakukan update');
+      }catch(e){ show('err','Koneksi gagal: '+e.message); }
+      openBtn.disabled = false;
+    });
+
+    clrBtn.addEventListener('click', ()=>{ nopolEl.value=''; statusEl.className=''; statusEl.textContent=''; openBtn.disabled=true; nopolEl.focus(); });
+  </script>
+</body>
+</html>

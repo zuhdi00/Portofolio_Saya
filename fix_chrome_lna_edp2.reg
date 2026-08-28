@@ -1,0 +1,49 @@
+Windows Registry Editor Version 5.00
+
+; ============================================================
+; PT Supracor Sejahtera - Fix Chrome/Edge Local Network Access
+; Aplikasi internal: http://edp2:8081
+; Jalankan sebagai Administrator, lalu restart browser.
+; Verifikasi: chrome://policy  atau  edge://policy
+; ============================================================
+
+; ---------- GOOGLE CHROME ----------
+
+; 1) Anggap origin HTTP internal sebagai "secure context"
+[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Google\Chrome\OverrideSecurityRestrictionsOnInsecureOrigin]
+"1"="http://edp2:8081"
+"2"="http://edp2"
+
+; 2) Bebaskan origin ini dari pemeriksaan Local Network Access
+[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Google\Chrome\LocalNetworkAccessAllowedForUrls]
+"1"="http://edp2:8081"
+"2"="http://edp2"
+
+; 3) Pastikan mekanisme allowlist di atas ditegakkan
+[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Google\Chrome]
+"LocalNetworkAccessRestrictionsEnabled"=dword:00000001
+
+
+; ---------- MICROSOFT EDGE ----------
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Edge\OverrideSecurityRestrictionsOnInsecureOrigin]
+"1"="http://edp2:8081"
+"2"="http://edp2"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Edge\LocalNetworkAccessAllowedForUrls]
+"1"="http://edp2:8081"
+"2"="http://edp2"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Edge]
+"LocalNetworkAccessRestrictionsEnabled"=dword:00000001
+
+
+; ============================================================
+; CATATAN
+; - Kalau server nanti diakses lewat IP (mis. http://192.168.x.x:8081),
+;   tambahkan entri "3"="http://192.168.x.x:8081" di kedua daftar di atas.
+; - Kalau allowlist ternyata tidak cukup (darurat / testing saja),
+;   matikan total restriksi dengan mengubah:
+;       "LocalNetworkAccessRestrictionsEnabled"=dword:00000000
+;   Tidak disarankan permanen - lebih baik migrasi ke HTTPS.
+; ============================================================

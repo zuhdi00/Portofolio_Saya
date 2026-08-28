@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Laporan Pengeluaran Telkom</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #fff; }
+        .container {
+            width: 190mm;
+            min-height: 260mm;
+            margin: 0 auto;
+            background: #fff;
+            padding: 18mm 10mm 10mm 10mm;
+            box-sizing: border-box;
+        }
+        h2 {
+            text-align: center;
+            color: #1976d2;
+            margin-bottom: 12mm;
+            font-size: 1.3rem;
+            letter-spacing: 1px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 12mm;
+            font-size: 0.98rem;
+        }
+        th, td {
+            border: 1px solid #bbb;
+            padding: 6px 8px;
+            text-align: left;
+        }
+        th {
+            background: #1976d2;
+            color: #fff;
+            font-size: 1rem;
+        }
+        tr:nth-child(even) { background: #f0f4f8; }
+        td:last-child { text-align: right; }
+        td:nth-child(3) { word-break: break-word; }
+        .btn-area {
+            text-align: center;
+            margin-bottom: 8mm;
+        }
+        .btn {
+            background: #1976d2;
+            color: #fff;
+            border: none;
+            padding: 8px 24px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 15px;
+            margin: 0 6px;
+        }
+        .btn:hover { background: #145ea8; }
+        @media print {
+            body { background: none; }
+            .container {
+                box-shadow: none;
+                margin: 0;
+                padding: 0;
+                width: 190mm;
+                min-height: 260mm;
+            }
+            .btn-area { display: none; }
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html-docx-js/0.4.1/html-docx.js"></script>
+</head>
+<body>
+    <div class="container" id="laporan-content">
+        <h2>Laporan Pengeluaran Telkom</h2>
+        <table id="laporan-table">
+            <thead>
+                <tr>
+                    <th style="width:22%;">No. BKK</th>
+                    <th style="width:22%;">Tanggal</th>
+                    <th style="width:36%;">Atas Nama</th>
+                    <th style="width:20%;">Nominal</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Data akan diisi JS -->
+            </tbody>
+        </table>
+        <div class="btn-area">
+            <button class="btn" onclick="downloadPDF()">Download PDF</button>
+            <button class="btn" onclick="downloadWord()">Download Word</button>
+        </div>
+    </div>
+    <script>
+        function fetchLaporan() {
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', 'api_laporan_telkom.php', true);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4) {
+                    var tbody = document.querySelector('#laporan-table tbody');
+                    tbody.innerHTML = '';
+                    try {
+                        var resp = JSON.parse(xhr.responseText);
+                        if (resp.success && resp.data.length > 0) {
+                            resp.data.forEach(function(row) {
+                                var tr = document.createElement('tr');
+                                tr.innerHTML =
+                                    '<td>' + row.cNobkk + '</td>' +
+                                    '<td>' + row.dTanggal + '</td>' +
+                                    '<td>' + row.cNama + '</td>' +
+                                    '<td>' + row.nTotNominal + '</td>';
+                                tbody.appendChild(tr);
+                            });
+                        } else {
+                            tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:#e74c3c;">Data tidak ditemukan</td></tr>';
+                        }
+                    } catch (e) {
+                        tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:#e74c3c;">Gagal mengambil data</td></tr>';
+                    }
+                }
+            };
+            xhr.send();
+        }
+
+        function downloadPDF() {
+            var element = document.getElementById('laporan-content');
+            html2pdf().set({
+                margin: [5, 5, 5, 5],
+                filename: 'Laporan_Pengeluaran_Telkom.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2, useCORS: true },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            }).from(element).save();
+        }
+
+        function downloadWord() {
+            var element = document.getElementById('laporan-content');
+            var html = '<html><head><meta charset="utf-8"></head><body>' + element.innerHTML + '</body></html>';
+            var blob = window.htmlDocx.asBlob(html);
+            var link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'Laporan_Pengeluaran_Telkom.docx';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        fetchLaporan();
+    </script>
+</body>
+</html>

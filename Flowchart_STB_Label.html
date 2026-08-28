@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flowchart Pembuatan STB Label</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            max-width: 21cm;
+            margin: 0 auto;
+            padding: 20px;
+            background: white;
+        }
+        .header {
+            background: linear-gradient(135deg, #2563eb, #4f46e5);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 30px;
+            border-radius: 10px;
+        }
+        .header h1 {
+            margin: 0 0 10px 0;
+            font-size: 24px;
+        }
+        .header p {
+            margin: 5px 0;
+            font-size: 14px;
+        }
+        .flowchart-container {
+            margin: 20px 0;
+        }
+        .flow-box {
+            background: #dbeafe;
+            border: 3px solid #2563eb;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px auto;
+            max-width: 500px;
+        }
+        .flow-box h3 {
+            color: #1e40af;
+            margin: 0 0 10px 0;
+            font-size: 16px;
+        }
+        .flow-box ul {
+            margin: 5px 0;
+            padding-left: 20px;
+            font-size: 13px;
+        }
+        .flow-box li {
+            margin: 5px 0;
+        }
+        .start-end {
+            background: #22c55e;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            border-radius: 25px;
+            font-weight: bold;
+            margin: 15px auto;
+            max-width: 200px;
+            font-size: 16px;
+        }
+        .decision {
+            background: #fef08a;
+            border: 3px solid #eab308;
+            padding: 15px;
+            margin: 15px auto;
+            max-width: 400px;
+            text-align: center;
+            font-weight: bold;
+            position: relative;
+            font-size: 14px;
+        }
+        .decision::before {
+            content: '◆';
+            font-size: 24px;
+            display: block;
+            margin-bottom: 5px;
+        }
+        .arrow {
+            text-align: center;
+            font-size: 24px;
+            color: #6b7280;
+            margin: 10px 0;
+        }
+        .decision-branch {
+            display: flex;
+            justify-content: space-around;
+            margin: 15px 0;
+            gap: 20px;
+        }
+        .branch-yes {
+            background: #dcfce7;
+            border: 2px solid #22c55e;
+            padding: 10px;
+            border-radius: 8px;
+            flex: 1;
+            font-size: 13px;
+        }
+        .branch-no {
+            background: #fee2e2;
+            border: 2px solid #ef4444;
+            padding: 10px;
+            border-radius: 8px;
+            flex: 1;
+            font-size: 13px;
+        }
+        .tips-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 30px 0;
+        }
+        .tips-box {
+            border: 3px solid #22c55e;
+            background: #f0fdf4;
+            border-radius: 10px;
+            padding: 15px;
+        }
+        .tips-box h3 {
+            color: #15803d;
+            margin: 0 0 10px 0;
+            font-size: 16px;
+        }
+        .avoid-box {
+            border: 3px solid #ef4444;
+            background: #fef2f2;
+            border-radius: 10px;
+            padding: 15px;
+        }
+        .avoid-box h3 {
+            color: #991b1b;
+            margin: 0 0 10px 0;
+            font-size: 16px;
+        }
+        .tips-box ul, .avoid-box ul {
+            margin: 5px 0;
+            padding-left: 20px;
+            font-size: 13px;
+        }
+        .tips-box li, .avoid-box li {
+            margin: 8px 0;
+        }
+        .footer {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #e5e7eb;
+            text-align: center;
+            font-size: 12px;
+            color: #6b7280;
+        }
+        @media print {
+            body {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>FLOWCHART PEMBUATAN STB LABEL</h1>
+        <p>PT. Supracor Sejahtera - Corrugated Carton Box</p>
+        <p>Panduan Cepat untuk Operator</p>
+    </div>
+
+    <div class="flowchart-container">
+        <div class="start-end">MULAI</div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="flow-box">
+            <h3>1. INPUT DATA STB</h3>
+            <ul>
+                <li>Nomor OP</li>
+                <li>Nama Customer</li>
+                <li>Kode Barang</li>
+                <li>Jumlah Barang</li>
+                <li>Generate Nomor STB Otomatis</li>
+            </ul>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="decision">Nomor OP Valid?</div>
+        
+        <div class="decision-branch">
+            <div class="branch-yes">
+                <strong>✓ YA</strong><br>
+                Lanjut ke langkah berikutnya
+            </div>
+            <div class="branch-no">
+                <strong>✗ TIDAK</strong><br>
+                Cek nomor OP atau hubungi admin
+            </div>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="flow-box">
+            <h3>2. GENERATE & PRINT LABEL</h3>
+            <ul>
+                <li>Sistem generate QR Code</li>
+                <li>Print label STB</li>
+                <li>1 STB = 1 Label</li>
+            </ul>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="decision">QR Code Jelas & Terbaca?</div>
+        
+        <div class="decision-branch">
+            <div class="branch-yes">
+                <strong>✓ YA</strong><br>
+                Lanjut ke proses fisik
+            </div>
+            <div class="branch-no">
+                <strong>✗ TIDAK</strong><br>
+                Print ulang atau ganti printer
+            </div>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="flow-box">
+            <h3>3. TEMPEL LABEL PADA BARANG</h3>
+            <ul>
+                <li>Tempel di tempat yang jelas dan mudah terlihat</li>
+                <li>Pastikan label tidak terlipat atau rusak</li>
+                <li>Hindari area basah atau kotor</li>
+            </ul>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="flow-box">
+            <h3>4. SCAN QR CODE</h3>
+            <ul>
+                <li>Gunakan scanner atau kamera aplikasi</li>
+                <li>Pastikan pencahayaan cukup</li>
+                <li>Posisikan kamera tegak lurus dengan label</li>
+            </ul>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="decision">Data Muncul di Aplikasi?</div>
+        
+        <div class="decision-branch">
+            <div class="branch-yes">
+                <strong>✓ YA</strong><br>
+                Data muncul dengan benar
+            </div>
+            <div class="branch-no">
+                <strong>✗ TIDAK</strong><br>
+                Bersihkan kamera, perbaiki cahaya, atau print ulang label
+            </div>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="flow-box">
+            <h3>5. VERIFIKASI FISIK BARANG</h3>
+            <ul>
+                <li>Cek kondisi fisik barang (rusak/baik)</li>
+                <li>Cocokkan data dengan barang fisik</li>
+                <li>Periksa jumlah/kuantitas barang</li>
+                <li>Verifikasi kesesuaian dengan PO/OP</li>
+            </ul>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="decision">Barang Sesuai dengan Data?</div>
+        
+        <div class="decision-branch">
+            <div class="branch-yes">
+                <strong>✓ SESUAI</strong><br>
+                Lanjut ke approval
+            </div>
+            <div class="branch-no">
+                <strong>✗ TIDAK SESUAI</strong><br>
+                • Klik "Reject"<br>
+                • Input alasan penolakan<br>
+                • Informasikan supervisor<br>
+                • Pisahkan barang reject
+            </div>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="flow-box">
+            <h3>6. APPROVAL</h3>
+            <ul>
+                <li>Klik tombol "Approve" di aplikasi</li>
+                <li>Data tersimpan otomatis di sistem</li>
+                <li>Label STB aktif dan siap digunakan</li>
+            </ul>
+        </div>
+        
+        <div class="arrow">↓</div>
+        
+        <div class="start-end">SELESAI</div>
+    </div>
+
+    <div class="tips-section">
+        <div class="tips-box">
+            <h3>✓ TIPS PENTING UNTUK OPERATOR</h3>
+            <ul>
+                <li><strong>Akurasi Data:</strong> Pastikan semua data yang diinput 100% benar dan lengkap</li>
+                <li><strong>Nomor STB Unik:</strong> Cek nomor STB terakhir agar tidak terjadi duplikasi</li>
+                <li><strong>QR Code Jelas:</strong> Label harus tercetak tajam, jelas, dan mudah di-scan</li>
+                <li><strong>Verifikasi Wajib:</strong> SELALU cek fisik barang sebelum melakukan approval</li>
+                <li><strong>FIFO System:</strong> Terapkan First In First Out - barang masuk pertama keluar pertama</li>
+                <li><strong>Dokumentasi:</strong> Ambil foto jika ada masalah untuk laporan ke supervisor</li>
+            </ul>
+        </div>
+        
+        <div class="avoid-box">
+            <h3>✗ YANG HARUS DIHINDARI</h3>
+            <ul>
+                <li>❌ Nomor STB duplikat atau kembar</li>
+                <li>❌ Label basah, kotor, robek, atau rusak</li>
+                <li>❌ Approval tanpa verifikasi fisik barang</li>
+                <li>❌ Salah input jumlah atau data barang</li>
+                <li>❌ QR Code terlipat atau tidak terbaca</li>
+                <li>❌ Label ditempel di tempat yang sulit di-scan</li>
+                <li>❌ Mengabaikan prosedur FIFO</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p><strong>Dokumen No: IK-STB-001-FC | Revisi: 00 | Tanggal: 07/10/2025</strong></p>
+        <p>URL Aplikasi: http://edp2:8081/alurLabelstb.html</p>
+        <p style="margin-top: 10px;">Flowchart ini adalah ringkasan dari Instruksi Kerja lengkap.<br>
+        Untuk detail lebih lanjut, lihat dokumen IK-STB-001</p>
+        <p style="margin-top: 10px;"><strong>PT. Supracor Sejahtera - Corrugated Carton Box</strong></p>
+    </div>
+</body>
+</html>

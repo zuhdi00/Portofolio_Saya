@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>STB Report</title>
+	<link rel="icon" type="image/png" href="http://edp2:8081/SPS_Logo1.png">
+	<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+	<style>
+		:root {
+			--bg:        #f0f2f8;
+			--white:     #ffffff;
+			--surface:   #f8f9fc;
+			--border:    #e2e6f0;
+			--border2:   #d0d6e8;
+			--accent:    #3b6ef8;
+			--accent-lt: #eef2ff;
+			--accent-dk: #2553d8;
+			--green:     #16a34a;
+			--green-lt:  #dcfce7;
+			--red:       #dc2626;
+			--red-lt:    #fee2e2;
+			--amber:     #d97706;
+			--amber-lt:  #fef3c7;
+			--text:      #111827;
+			--text2:     #374151;
+			--muted:     #6b7280;
+			--muted2:    #9ca3af;
+			--mono:      'JetBrains Mono', monospace;
+			--sans:      'Plus Jakarta Sans', sans-serif;
+			--radius:    12px;
+			--shadow-sm: 0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
+		}
+
+		/* Table display tweaks: slightly larger, item column narrower, status to left */
+		.tbl-wrap table { font-size: 0.95rem; border-collapse: collapse; width:100%; }
+		.tbl-wrap table th, .tbl-wrap table td { padding: 10px 12px; border-bottom: 1px solid var(--border); }
+		.tbl-wrap table th:first-child, .tbl-wrap table td.status-cell { text-align: center; width:90px; }
+		/* Make Item column compact with ellipsis */
+		.tbl-wrap table th:nth-child(4), .tbl-wrap table td.item-col { max-width: 180px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+		.tbl-wrap table td.txt-left { text-align: left; }
+
+		*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+		body {
+			font-family: var(--sans);
+			background: var(--bg);
+			color: var(--text);
+			min-height: 100vh;
+			padding: 0 0 64px;
+		}
+
+		.topbar {
+			background: var(--white);
+			border-bottom: 2px solid var(--border);
+			padding: 16px 24px;
+			display: flex;
+			align-items: center;
+			gap: 16px;
+			position: sticky;
+			top: 0;
+			z-index: 50;
+			box-shadow: var(--shadow-sm);
+		}
+		.topbar .logo-box {
+			display: flex;
+			align-items: center;
+			gap: 12px;
+		}
+		.topbar .logo-box img {
+			height: 44px;
+			width: auto;
+		}
+		.topbar h1 {
+			font-size: 1.5rem;
+			font-weight: 800;
+			color: var(--text);
+			letter-spacing: -0.02em;
+		}
+		.topbar .info {
+			margin-left: auto;
+			font-size: 0.875rem;
+			color: var(--muted);
+			display: flex;
+			align-items: center;
+			gap: 12px;
+		}
+
+		.container {
+			max-width: 1600px;
+			margin: 0 auto;
+			padding: 24px;
+		}
+
+		.card {
+			background: var(--white);
+			border-radius: var(--radius);
+			padding: 24px;
+			box-shadow: var(--shadow-sm);
+			border: 1px solid var(--border);
+		}
+		.card+.card { margin-top: 20px; }
+
+		.card-header {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			margin-bottom: 20px;
+		}
+		.card-header h2 {
+			font-size: 1.125rem;
+			font-weight: 700;
+			color: var(--text);
+		}
+
+		/* Form controls */
+		.form-row {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+			gap: 16px;
+			align-items: end;
+			margin-bottom: 20px;
+		}
+		.form-group {
+			display: flex;
+			flex-direction: column;
+			gap: 6px;
+		}
+		.form-group label {
+			font-size: 0.875rem;
+			font-weight: 600;
+			color: var(--text2);
+		}
+		.form-group input,
+		.form-group select {
+			font-family: var(--sans);
+			font-size: 0.9375rem;
+			padding: 10px 14px;
+			border: 1.5px solid var(--border2);
+			border-radius: 8px;
+			transition: all 0.15s ease;
+			color: var(--text);
+			background: var(--white);
+		}
+		.form-group input:focus,
+		.form-group select:focus {
+			outline: none;
+			border-color: var(--accent);
+			box-shadow: 0 0 0 3px var(--accent-lt);
+		}
+
+		/* Buttons */
+		.btn {
+			cursor: pointer;
+			font-family: var(--sans);
+			font-size: 0.9375rem;
+			font-weight: 600;
+			padding: 10px 20px;
+			border-radius: 8px;
+			border: none;
+			transition: all 0.15s ease;
+			display: inline-flex;
+			align-items: center;
+			gap: 8px;
+			white-space: nowrap;
+		}
+		.btn-primary {
+			background: var(--accent);
+			color: var(--white);
+		}
+		.btn-primary:hover {
+			background: var(--accent-dk);
+			transform: translateY(-1px);
+			box-shadow: 0 4px 12px rgba(59,110,248,0.3);
+		}
+		.btn-outline {
+			background: var(--white);
+			color: var(--accent);
+			border: 1.5px solid var(--accent);
+		}
+		.btn-outline:hover {
+			background: var(--accent-lt);
+		}
+		.btn:disabled {
+			opacity: 0.5;
+			cursor: not-allowed;
+			transform: none !important;
+		}
+
+		/* Badge / status */
+		.badge {
+			display: inline-block;
+			padding: 4px 10px;
+			border-radius: 6px;
+			font-size: 0.8125rem;
+			font-weight: 600;
+			line-height: 1.2;
+			text-transform: uppercase;
+		}
+		.badge.open {
+			background: var(--green-lt);
+			color: var(--green);
+		}
+		.badge.close {
+			background: var(--red-lt);
+			color: var(--red);
+		}
+		.badge.finished {
+			background: var(--green-lt);
+			color: var(--green);
+		}
+		.badge.progress {
+			background: var(--amber-lt);
+			color: var(--amber);
+		}
+
+		/* Stats cards */
+		.stats-grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+			gap: 16px;
+			margin-bottom: 24px;
+		}
+		.stat-card {
+			background: var(--surface);
+			border: 1px solid var(--border);
+			border-radius: 10px;
+			padding: 16px;
+		}
+		.stat-card .label {
+			font-size: 0.8125rem;
+			color: var(--muted);
+			font-weight: 600;
+			margin-bottom: 8px;
+		}
+		.stat-card .value {
+			font-size: 1.75rem;
+			font-weight: 800;
+			color: var(--text);
+			font-family: var(--mono);
+		}
+
+		/* Table wrapper with scrolling */
+		.tbl-wrap {
+			overflow-x: auto;
+			margin-top: 16px;
+			border: 1px solid var(--border);
+			border-radius: 10px;
+		}
+		.tbl-wrap table {
+			width: 100%;
+			border-collapse: collapse;
+			font-size: 0.9375rem;
+		}
+		.tbl-wrap table thead {
+			background: var(--surface);
+			position: sticky;
+			top: 0;
+			z-index: 10;
+		}
+		.tbl-wrap table th {
+			padding: 12px 14px;
+			text-align: left;
+			font-weight: 700;
+			color: var(--text2);
+			border-bottom: 2px solid var(--border2);
+			white-space: nowrap;
+		}
+		.tbl-wrap table td {
+			padding: 12px 14px;
+			border-bottom: 1px solid var(--border);
+		}
+		.tbl-wrap table tbody tr:hover {
+			background: var(--accent-lt);
+		}
+		.tbl-wrap table tbody tr:last-child td {
+			border-bottom: none;
+		}
+		.txt-right {
+			text-align: right;
+			font-family: var(--mono);
+			font-weight: 500;
+		}
+		.txt-left {
+			text-align: left;
+		}
+
+		/* Status toggle button in table */
+		.status-toggle {
+			cursor: pointer;
+			font-size: 0.8125rem;
+			font-weight: 600;
+			padding: 4px 10px;
+			border-radius: 6px;
+			border: none;
+			transition: all 0.15s ease;
+			text-transform: uppercase;
+		}
+		.status-toggle.open {
+			background: var(--green-lt);
+			color: var(--green);
+		}
+		.status-toggle.close {
+			background: var(--red-lt);
+			color: var(--red);
+		}
+		.status-toggle:hover {
+			opacity: 0.8;
+			transform: scale(0.98);
+		}
+
+		/* Loading / Error states */
+		.msg {
+			padding: 16px;
+			border-radius: 8px;
+			margin-bottom: 16px;
+			font-size: 0.9375rem;
+		}
+		.msg.loading {
+			background: var(--accent-lt);
+			color: var(--accent-dk);
+			border: 1px solid var(--accent);
+		}
+		.msg.error {
+			background: var(--red-lt);
+			color: var(--red);
+			border: 1px solid var(--red);
+		}
+
+		/* SLC Search */
+		#slcSearchInput {
+			width: 100%;
+		}
+
+		.slc-search-box {
+			display: flex;
+			gap: 12px;
+			align-items: end;
+		}
+		.slc-search-box .form-group {
+			flex: 1;
+		}
+
+		/* responsive */
+		@media (max-width: 768px) {
+			.topbar {
+				flex-direction: column;
+				align-items: flex-start;
+			}
+			.topbar .info {
+				margin-left: 0;
+			}
+			.form-row {
+				grid-template-columns: 1fr;
+			}
+		}
+	</style>
+</head>
+<body>
+
+<div class="topbar">
+	<div class="logo-box">
+		<img src="http://edp2:8081/SPS_Logo1.png" alt="SPS Logo">
+		<h1>STB Report</h1>
+	</div>
+	<div class="info">
+		<span id="infoDate">—</span>
+	</div>
+</div>
+
+<div class="container">
+
+	<!-- Card: Form Filter -->
+	<div class="card">
+		<div class="card-header">
+			<h2>Filter Data</h2>
+		</div>
+
+		<div class="form-row">
+			<div class="form-group">
+				<label for="startDate">Tanggal Mulai</label>
+				<input type="date" id="startDate">
+			</div>
+			<div class="form-group">
+				<label for="endDate">Tanggal Akhir</label>
+				<input type="date" id="endDate">
+			</div>
+			<div class="form-group">
+				<label for="statusFilter">Status</label>
+				<select id="statusFilter">
+					<option value="">Semua</option>
+					<option value="OPEN">Open</option>
+					<option value="CLOSE">Close</option>
+				</select>
+			</div>
+			<div class="form-group" style="display:flex; gap:12px;">
+				<button class="btn btn-primary" onclick="fetchReport()">Tampilkan</button>
+				<button class="btn btn-outline" onclick="exportExcel()">Excel</button>
+			</div>
+		</div>
+
+		<div class="slc-search-box">
+			<div class="form-group">
+				<label for="slcSearchInput">Cari No SLC</label>
+				<input type="text" id="slcSearchInput" placeholder="Masukkan nomor SLC...">
+			</div>
+			<button class="btn btn-primary" onclick="searchSLC()">Cari SLC</button>
+		</div>
+	</div>
+
+	<!-- Card: Stats -->
+	<div class="card" id="statsCard" style="display:none;">
+		<div class="card-header">
+			<h2>Ringkasan</h2>
+		</div>
+		<div class="stats-grid">
+			<div class="stat-card">
+				<div class="label">Total SLC</div>
+				<div class="value" id="statTotal">0</div>
+			</div>
+			<div class="stat-card">
+				<div class="label">Status Open</div>
+				<div class="value" id="statOpen">0</div>
+			</div>
+			<div class="stat-card">
+				<div class="label">Status Close</div>
+				<div class="value" id="statClose">0</div>
+			</div>
+			<div class="stat-card">
+				<div class="label">Total nQty STB</div>
+				<div class="value" id="statSTB">0</div>
+			</div>
+			<div class="stat-card">
+				<div class="label">Total nQty SRJ</div>
+				<div class="value" id="statSRJ">0</div>
+			</div>
+			<div class="stat-card">
+				<div class="label">Total Sisa STB</div>
+				<div class="value" id="statSisaSTB">0</div>
+			</div>
+			<div class="stat-card">
+				<div class="label">Total Order</div>
+				<div class="value" id="statOrder">0</div>
+			</div>
+			<div class="stat-card">
+				<div class="label">Total Sisa Order</div>
+				<div class="value" id="statSisaOrder">0</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Card: Table -->
+	<div class="card">
+		<div class="card-header">
+			<h2>Data Detail</h2>
+		</div>
+
+		<div id="msgBox"></div>
+
+		<div class="tbl-wrap">
+			<table id="reportTable">
+				<thead>
+					<tr>
+						<th>Status</th>
+						<th>No SLC</th>
+						<th>Item</th>
+						<th>Jenis</th>
+						<th class="txt-right">nQty STB</th>
+						<th class="txt-right">Jumlah Pengiriman</th>
+						<th class="txt-right">Sisa STB</th>
+						<th class="txt-right">Total Order</th>
+						<th class="txt-right">Sisa Order</th>
+						<th class="txt-right">Toleransi</th>
+						<th>Status Pengiriman</th>
+					</tr>
+				</thead>
+				<tbody id="reportBody">
+					<tr>
+						<td colspan="11" style="text-align:center; padding:40px; color:var(--muted);">
+							Pilih tanggal dan klik Tampilkan untuk melihat data
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+</div>
+
+<script>
+const API = 'http://edp2:8082/report_backend.php';
+
+// Update date info on topbar
+function updateDateInfo() {
+	const opts = { weekday:'long', year:'numeric', month:'long', day:'numeric' };
+	document.getElementById('infoDate').textContent = new Date().toLocaleDateString('id-ID', opts);
+}
+updateDateInfo();
+
+// Default date range: 7 days ago to today
+const today = new Date();
+const weekAgo = new Date(today);
+weekAgo.setDate(today.getDate() - 7);
+document.getElementById('startDate').valueAsDate = weekAgo;
+document.getElementById('endDate').valueAsDate = today;
+
+// === Fetch report (main) ===
+let allData = [];
+function fetchReport() {
+	const start = document.getElementById('startDate').value;
+	const end = document.getElementById('endDate').value;
+	const status = document.getElementById('statusFilter').value;
+
+	if (!start || !end) {
+		showMsg('Silakan pilih tanggal mulai dan akhir', 'error');
+		return;
+	}
+
+	showMsg('Memuat data...', 'loading');
+	const url = `${API}?start=${encodeURIComponent(start)}&end=${encodeURIComponent(end)}&status=${encodeURIComponent(status)}&limit=all`;
+
+	fetch(url)
+		.then(r => r.json())
+		.then(data => {
+			if (!data.success) {
+				showMsg('Error: '+(data.message || 'Unknown error'), 'error');
+				return;
+			}
+			allData = data.rows || [];
+			renderTable(allData);
+			renderStats(allData);
+			hideMsg();
+		})
+		.catch(err => {
+			showMsg('Gagal memuat data: '+err.message, 'error');
+		});
+}
+
+// === Search SLC ===
+function searchSLC() {
+	const slc = document.getElementById('slcSearchInput').value.trim();
+	if (!slc) {
+		showMsg('Masukkan nomor SLC terlebih dahulu', 'error');
+		return;
+	}
+
+	showMsg('Mencari SLC...', 'loading');
+	const url = `${API}?slc=${encodeURIComponent(slc)}&limit=all`;
+
+	fetch(url)
+		.then(r => r.json())
+		.then(data => {
+			if (!data.success) {
+				showMsg('Error: '+(data.message || 'Unknown error'), 'error');
+				return;
+			}
+			allData = data.rows || [];
+			if (allData.length === 0) {
+				showMsg('SLC tidak ditemukan', 'error');
+			} else {
+				renderTable(allData);
+				renderStats(allData);
+				hideMsg();
+			}
+		})
+		.catch(err => {
+			showMsg('Gagal mencari SLC: '+err.message, 'error');
+		});
+}
+
+// === Render table ===
+function renderTable(rows) {
+	const tbody = document.getElementById('reportBody');
+	tbody.innerHTML = '';
+
+	if (!rows || rows.length === 0) {
+		tbody.innerHTML = '<tr><td colspan="11" style="text-align:center;padding:40px;color:var(--muted);">Tidak ada data</td></tr>';
+		return;
+	}
+
+	rows.forEach(r => {
+		const st = (r.cStatus || 'OPEN').toUpperCase();
+		const stClass = (st === 'CLOSE') ? 'close' : 'open';
+		
+		// Status Pengiriman
+		const deliveryStatus = r.total_nqty_sj >= r.total_order ? 'Finished' : 'Progress';
+		const deliveryClass = deliveryStatus === 'Finished' ? 'finished' : 'progress';
+
+		const tr = document.createElement('tr');
+		tr.innerHTML = `
+			<td class="status-cell">
+				<button class="status-toggle ${stClass}" onclick="toggleStatus('${escAttr(r.sc)}', '${st}')">${st}</button>
+			</td>
+			<td class="txt-left">${escHtml(r.sc)}</td>
+			<td class="item-col txt-left" title="${escAttr(r.cNama)}">${escHtml(r.cNama)}</td>
+			<td class="txt-left">${escHtml(r.cJenis)}</td>
+			<td class="txt-right">${r.total_nqty_stb.toLocaleString('id-ID')}</td>
+			<td class="txt-right">${r.total_nqty_sj.toLocaleString('id-ID')}</td>
+			<td class="txt-right">${r.sisa_stb.toLocaleString('id-ID')}</td>
+			<td class="txt-right">${r.total_order.toLocaleString('id-ID')}</td>
+			<td class="txt-right">${r.sisa_order.toLocaleString('id-ID')}</td>
+			<td class="txt-right">${r.nToleransi.toLocaleString('id-ID')}</td>
+			<td class="status-cell">
+				<span class="badge ${deliveryClass}">${deliveryStatus}</span>
+			</td>
+		`;
+		tbody.appendChild(tr);
+	});
+}
+
+// === Toggle status (OPEN ↔ CLOSE) ===
+function toggleStatus(sc, currentStatus) {
+	const newStatus = (currentStatus === 'CLOSE') ? 'OPEN' : 'CLOSE';
+	if (!confirm(`Ubah status ${sc} menjadi ${newStatus}?`)) return;
+
+	const form = new FormData();
+	form.append('action', 'update_status');
+	form.append('sc', sc);
+	form.append('status', newStatus);
+
+	fetch(API, { method:'POST', body:form })
+		.then(r => r.json())
+		.then(data => {
+			if (data.success) {
+				// update local
+				const row = allData.find(x => x.sc === sc);
+				if (row) row.cStatus = newStatus;
+				renderTable(allData);
+				renderStats(allData);
+			} else {
+				alert('Gagal update status: '+ (data.message || 'Unknown error'));
+			}
+		})
+		.catch(err => {
+			alert('Error: '+err.message);
+		});
+}
+
+// === Render stats ===
+function renderStats(rows) {
+	const card = document.getElementById('statsCard');
+	card.style.display = 'block';
+
+	let nOpen=0, nClose=0, tSTB=0, tSRJ=0, tSisaSTB=0, tOrder=0, tSisaOrder=0;
+	rows.forEach(r => {
+		const st = (r.cStatus || 'OPEN').toUpperCase();
+		if (st === 'CLOSE') nClose++; else nOpen++;
+		tSTB += r.total_nqty_stb;
+		tSRJ += r.total_nqty_sj;
+		tSisaSTB += r.sisa_stb;
+		tOrder += r.total_order;
+		tSisaOrder += r.sisa_order;
+	});
+
+	document.getElementById('statTotal').textContent = rows.length.toLocaleString('id-ID');
+	document.getElementById('statOpen').textContent = nOpen.toLocaleString('id-ID');
+	document.getElementById('statClose').textContent = nClose.toLocaleString('id-ID');
+	document.getElementById('statSTB').textContent = tSTB.toLocaleString('id-ID');
+	document.getElementById('statSRJ').textContent = tSRJ.toLocaleString('id-ID');
+	document.getElementById('statSisaSTB').textContent = tSisaSTB.toLocaleString('id-ID');
+	document.getElementById('statOrder').textContent = tOrder.toLocaleString('id-ID');
+	document.getElementById('statSisaOrder').textContent = tSisaOrder.toLocaleString('id-ID');
+}
+
+// === Message box ===
+function showMsg(text, type) {
+	const box = document.getElementById('msgBox');
+	box.className = 'msg ' + type;
+	box.textContent = text;
+}
+function hideMsg() {
+	const box = document.getElementById('msgBox');
+	box.className = '';
+	box.textContent = '';
+}
+
+// ── Export Excel ────────────────────────────────────────────────────────────
+function exportExcel() {
+	if (!allData || allData.length === 0) {
+		alert('Tidak ada data untuk diekspor. Silakan muat data terlebih dahulu.');
+		return;
+	}
+
+	const start = document.getElementById('startDate').value || 'N/A';
+	const end = document.getElementById('endDate').value || 'N/A';
+	const now = new Date().toLocaleString('id-ID', { dateStyle:'short', timeStyle:'short' });
+
+	// Prepare data for sheet 1: Detail
+	const dataRows = allData.map(r => {
+		const deliveryStatus = r.total_nqty_sj >= r.total_order ? 'Finished' : 'Progress';
+		return [
+			(r.cStatus||'OPEN').toUpperCase(),
+			r.sc,
+			r.cNama,
+			r.cJenis,
+			r.total_nqty_stb,
+			r.total_nqty_sj,
+			r.sisa_stb,
+			r.total_order,
+			r.sisa_order,
+			r.nToleransi,
+			deliveryStatus
+		];
+	});
+
+	// Compute totals
+	let tSTB=0, tSRJ=0, tSisaSTB=0, tOrder=0, tSisaOrder=0, tTol=0;
+	allData.forEach(r => {
+		tSTB += r.total_nqty_stb;
+		tSRJ += r.total_nqty_sj;
+		tSisaSTB += r.sisa_stb;
+		tOrder += r.total_order;
+		tSisaOrder += r.sisa_order;
+		tTol += r.nToleransi;
+	});
+
+	const ws = XLSX.utils.aoa_to_sheet([
+		['STB Report'],
+		['Periode', start+' s/d '+end],
+		['Diekspor', now],
+		[],
+		['Status','No SLC','Item','Jenis','nQty STB','Jumlah Pengiriman','Sisa STB','Total Order','Sisa Order','Toleransi','Status Pengiriman'],
+		...dataRows,
+		['TOTAL','','','', tSTB, tSRJ, tSisaSTB, tOrder, tSisaOrder, tTol, '']
+	]);
+
+	// Set column widths
+	ws['!cols'] = [
+		{wch:8},  // Status
+		{wch:18}, // No SLC
+		{wch:30}, // Item
+		{wch:12}, // Jenis
+		{wch:12}, // nQty STB
+		{wch:18}, // Jumlah Pengiriman
+		{wch:12}, // Sisa STB
+		{wch:14}, // Total Order
+		{wch:14}, // Sisa Order
+		{wch:12}, // Toleransi
+		{wch:18}  // Status Pengiriman
+	];
+
+	const wb = XLSX.utils.book_new();
+
+	// Style the sheet (optional basic styling)
+	// Title row
+	if (ws['A1']) ws['A1'].s = { font:{bold:true,sz:14}, alignment:{horizontal:'left'} };
+	// Meta rows
+	if (ws['A2']) ws['A2'].s = { font:{bold:true} };
+	if (ws['A3']) ws['A3'].s = { font:{bold:true} };
+
+	// Header row (row 5 = index 4)
+	const headerRow = 5;
+	for (let col=0; col<11; col++) {
+		const cellAddr = XLSX.utils.encode_cell({r:headerRow-1, c:col});
+		if (ws[cellAddr]) {
+			ws[cellAddr].s = {
+				font: {bold:true},
+				fill: {fgColor:{rgb:'3B6EF8'}, patternType:'solid'},
+				alignment: {horizontal:'center'}
+			};
+		}
+	}
+
+	// Data rows: apply number format to numeric columns
+	for (let i=0; i<dataRows.length; i++) {
+		const rowIdx = 5 + i; // 0-indexed
+		for (let ci=4; ci<=9; ci++) { // columns 4-9 are numeric
+			const a = XLSX.utils.encode_cell({r:rowIdx, c:ci});
+			if (ws[a]) {
+				const s = ws[a].s || {};
+				s.numFmt = '#,##0';
+				s.alignment = {horizontal:'right'};
+				ws[a].s = s;
+			}
+		}
+	}
+
+	// Total row
+	const totIdx = 5+dataRows.length;
+	for(let ci=0;ci<11;ci++){
+		const a=XLSX.utils.encode_cell({r:totIdx,c:ci});
+		if(ws[a]) ws[a].s={font:{bold:true},fill:{fgColor:{rgb:'EEF2FF'},patternType:'solid'},numFmt:(ci>=4 && ci<=9)?'#,##0':'',alignment:{horizontal:ci===0?'left':'right'}};
+	}
+
+	XLSX.utils.book_append_sheet(wb, ws, 'Detail STB');
+
+	// Sheet 2: Ringkasan
+	let nOpen=0,nClose=0;
+	allData.forEach(r=>{ if((r.cStatus||'').toUpperCase()==='CLOSE') nClose++; else nOpen++; });
+	const ws2 = XLSX.utils.aoa_to_sheet([
+		['Ringkasan STB Report'],
+		['Periode', start+' s/d '+end],
+		['Diekspor', now],
+		[],
+		['Keterangan','Nilai'],
+		['Total SLC', allData.length],
+		['Status Open', nOpen],
+		['Status Close', nClose],
+		['Total nQty STB', tSTB],
+		['Total nQty SRJ', tSRJ],
+		['Total Sisa STB', tSisaSTB],
+		['Total Order', tOrder],
+		['Total Sisa Order', tSisaOrder],
+	]);
+	ws2['!cols']=[{wch:22},{wch:20}];
+	XLSX.utils.book_append_sheet(wb, ws2, 'Ringkasan');
+
+	XLSX.writeFile(wb, 'STB_Report_'+start+'_'+end+'.xlsx');
+}
+
+// ── Utils ──────────────────────────────────────────────────────────────────
+function escHtml(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function escAttr(s){ return s.replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
+
+// Enter key
+['startDate','endDate'].forEach(id=>{
+	document.getElementById(id).addEventListener('keydown',e=>{ if(e.key==='Enter') fetchReport(); });
+});
+</script>
+
+
+</body>
+</html>

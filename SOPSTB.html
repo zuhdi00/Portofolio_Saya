@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOP Pembuatan STB Label</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        @media print {
+            body {
+                width: 210mm;
+                height: 297mm;
+                margin: 0;
+                padding: 20mm;
+            }
+            .page-break {
+                page-break-after: always;
+            }
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.5;
+            color: #333;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        .container {
+            background-color: white;
+            padding: 40px;
+            max-width: 210mm;
+            margin: 20px auto;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #1e3a8a;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            color: #1e3a8a;
+            font-size: 22px;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        .header p {
+            color: #666;
+            font-size: 12px;
+            margin: 3px 0;
+        }
+        
+        .section {
+            margin-bottom: 25px;
+        }
+        
+        .section-title {
+            background-color: #1e3a8a;
+            color: white;
+            padding: 10px 15px;
+            font-weight: bold;
+            font-size: 14px;
+            margin-bottom: 15px;
+            border-radius: 3px;
+        }
+        
+        .section-content {
+            padding-left: 15px;
+        }
+        
+        .subsection-title {
+            color: #1e3a8a;
+            font-weight: bold;
+            margin-top: 15px;
+            margin-bottom: 10px;
+            font-size: 13px;
+        }
+        
+        ol, ul {
+            margin-left: 20px;
+            margin-bottom: 10px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+            font-size: 12px;
+            text-align: justify;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            font-size: 11px;
+        }
+        
+        th, td {
+            border: 1px solid #999;
+            padding: 8px;
+            text-align: left;
+        }
+        
+        th {
+            background-color: #e8eef7;
+            font-weight: bold;
+            color: #1e3a8a;
+        }
+        
+        .warning-box {
+            background-color: #fff3cd;
+            border-left: 4px solid #ff9800;
+            padding: 12px;
+            margin: 15px 0;
+            border-radius: 3px;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+        
+        .warning-box strong {
+            color: #ff6b00;
+        }
+        
+        .checklist {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 3px;
+            font-size: 12px;
+            line-height: 1.8;
+        }
+        
+        .checklist label {
+            display: block;
+            margin-bottom: 8px;
+        }
+        
+        .checklist input[type="checkbox"] {
+            margin-right: 8px;
+        }
+        
+        .footer {
+            margin-top: 40px;
+            border-top: 2px solid #ddd;
+            padding-top: 15px;
+            font-size: 10px;
+            color: #666;
+            text-align: center;
+        }
+        
+        .page-break {
+            page-break-after: always;
+            margin-top: 50px;
+        }
+        
+        .tools-table {
+            font-size: 11px;
+        }
+        
+        .tools-table td:first-child {
+            font-weight: bold;
+            width: 25%;
+        }
+        
+        button {
+            background-color: #1e3a8a;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 20px;
+        }
+        
+        button:hover {
+            background-color: #1a2f6b;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>STANDAR OPERATING PROCEDURE (SOP)</h1>
+            <p><strong>PEMBUATAN STB (SERAH TERIMA BARANG) LABEL</strong></p>
+            <p>PT. Supracor Sejahtera Corrugated Carton Box</p>
+        </div>
+        
+        <!-- SECTION 1: TUJUAN -->
+        <div class="section">
+            <div class="section-title">1. TUJUAN</div>
+            <div class="section-content">
+                <p style="font-size: 12px; text-align: justify;">Memberikan panduan kepada operator dalam membuat dan mengelola STB Label yang digunakan untuk identifikasi dan tracking barang di gudang secara akurat dan efisien.</p>
+            </div>
+        </div>
+        
+        <!-- SECTION 2: RUANG LINGKUP -->
+        <div class="section">
+            <div class="section-title">2. RUANG LINGKUP</div>
+            <div class="section-content">
+                <p style="font-size: 12px; text-align: justify;">Proses pembuatan STB Label mulai dari input data hingga penyimpanan barang di gudang STB PT. Supracor Sejahtera Corrugated Carton Box.</p>
+            </div>
+        </div>
+        
+        <!-- SECTION 3: ALAT DAN APLIKASI -->
+        <div class="section">
+            <div class="section-title">3. ALAT DAN APLIKASI YANG DIGUNAKAN</div>
+            <div class="section-content">
+                <table class="tools-table">
+                    <tr>
+                        <th>No</th>
+                        <th>Alat/Aplikasi</th>
+                        <th>Fungsi</th>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>Komputer</td>
+                        <td>Mengakses sistem dan mencetak label</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Aplikasi STB Label System</td>
+                        <td>Generate STB Label</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Printer Label</td>
+                        <td>Mencetak STB Label dengan QR Code</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>Smartphone/Scanner</td>
+                        <td>Scan barcode menggunakan aplikasi "Barcode SPS"</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>Aplikasi "Barcode SPS"</td>
+                        <td>Verifikasi dan approval barang di gudang</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        
+        <!-- SECTION 4: PROSEDUR KERJA -->
+        <div class="section">
+            <div class="section-title">4. PROSEDUR KERJA</div>
+            <div class="section-content">
+                <div class="subsection-title">TAHAP 1: PERSIAPAN DAN INPUT DATA</div>
+                <ol>
+                    <li>Operator memastikan semua alat siap digunakan (komputer, aplikasi, printer)</li>
+                    <li>Login ke sistem dengan kredensial yang benar</li>
+                    <li>Siapkan Order Produksi (OP) yang akan diproses</li>
+                    <li>Input nomor OP ke dalam sistem STB Label</li>
+                    <li>Verifikasi data order yang muncul di layar sudah sesuai</li>
+                </ol>
+                
+                <div class="subsection-title">TAHAP 2: PEMBUATAN LABEL</div>
+                <ol start="6">
+                    <li>Input nomor STB terbaru (pastikan tidak duplikat dengan yang sebelumnya)</li>
+                    <li>Isi nama Kepala Shift dengan benar</li>
+                    <li>Input jumlah Koli/Pallet sesuai actual di lapangan</li>
+                    <li>Input jumlah tambahan (atau 0 jika tidak ada)</li>
+                    <li>Review kembali semua data input untuk memastikan akurasi 100%</li>
+                    <li>Klik tombol "Save" untuk menyimpan data</li>
+                    <li>Pastikan printer label siap dengan kertas label yang cukup</li>
+                    <li>Klik "Print" untuk mencetak label STB</li>
+                    <li>Verifikasi QR Code pada label tercetak dengan jelas dan terbaca</li>
+                </ol>
+                
+                <div class="subsection-title">TAHAP 3: PENEMPATAN LABEL DAN PENGIRIMAN</div>
+                <ol start="15">
+                    <li>Tempel label STB di pallet pada posisi yang mudah terlihat dan tidak akan rusak</li>
+                    <li>Pastikan label menempel kuat dan permanen</li>
+                    <li>Bawa pallet ke area Gudang STB</li>
+                </ol>
+                
+                <div class="subsection-title">TAHAP 4: VERIFIKASI DAN APPROVAL</div>
+                <ol start="18">
+                    <li>Scan QR Code pada label menggunakan smartphone dengan aplikasi "Barcode SPS"</li>
+                    <li>Pastikan data yang muncul di aplikasi sudah sesuai dengan barang fisik</li>
+                    <li>Verifikasi jumlah barang, OP number, dan detail lainnya</li>
+                    <li>Klik tombol "Approval" untuk menyelesaikan proses jika data sudah benar</li>
+                    <li>Simpan barang di lokasi yang tepat di Gudang STB sesuai sistem</li>
+                    <li>Update lokasi penyimpanan di sistem (jika fitur tersedia)</li>
+                </ol>
+            </div>
+        </div>
+        
+        <div class="page-break"></div>
+        
+        <!-- SECTION 5: CHECKLIST -->
+        <div class="section">
+            <div class="section-title">5. CHECKLIST PROSES PEMBUATAN STB LABEL</div>
+            <div class="checklist">
+                <label><input type="checkbox"> Nomor OP sudah diinput dan data order berhasil ditampilkan</label>
+                <label><input type="checkbox"> Nomor STB terbaru sudah diinput (pastikan tidak duplikat)</label>
+                <label><input type="checkbox"> Nama Kepala Shift sudah diisi dengan benar</label>
+                <label><input type="checkbox"> Jumlah Koli/Pallet sudah diisi sesuai actual</label>
+                <label><input type="checkbox"> Jumlah Tambahan sudah diisi (atau 0 jika tidak ada)</label>
+                <label><input type="checkbox"> Data sudah di-save dan label berhasil dicetak</label>
+                <label><input type="checkbox"> QR Code pada label tercetak dengan jelas</label>
+                <label><input type="checkbox"> Label sudah ditempel di pallet pada posisi yang mudah terlihat</label>
+                <label><input type="checkbox"> Pallet sudah dibawa ke area Gudang STB</label>
+                <label><input type="checkbox"> QR Code berhasil di-scan menggunakan aplikasi "Barcode SPS"</label>
+                <label><input type="checkbox"> Data yang muncul sudah diverifikasi dan sesuai dengan barang</label>
+                <label><input type="checkbox"> Approval sudah dilakukan di aplikasi</label>
+                <label><input type="checkbox"> Barang sudah disimpan di lokasi yang tepat di Gudang STB</label>
+                <label><input type="checkbox"> Lokasi penyimpanan sudah di-update di sistem (jika ada)</label>
+            </div>
+        </div>
+        
+        <!-- SECTION 6: HAL PENTING -->
+        <div class="section">
+            <div class="section-title">6. HAL-HAL PENTING YANG HARUS DIPERHATIKAN</div>
+            <div class="section-content">
+                <ol>
+                    <li><strong>Akurasi Data:</strong> Pastikan semua data yang diinput 100% akurat, kesalahan input dapat menyebabkan salah kirim</li>
+                    <li><strong>Nomor STB Unik:</strong> Setiap STB harus memiliki nomor unik yang tidak boleh duplikat</li>
+                    <li><strong>Label Harus Jelas:</strong> QR Code dan teks pada label harus terbaca dengan jelas, jangan menempel di area yang rusak atau basah</li>
+                    <li><strong>Verifikasi Wajib:</strong> Selalu lakukan verifikasi fisik barang sebelum approval, jangan hanya mengandalkan data di sistem</li>
+                    <li><strong>FIFO:</strong> Terapkan sistem First In First Out untuk menghindari barang kadaluarsa atau terlalu lama di gudang</li>
+                    <li><strong>Dokumentasi:</strong> Jika menemukan ketidaksesuaian atau masalah, segera foto dan laporkan ke IT</li>
+                </ol>
+            </div>
+        </div>
+        
+        <!-- SECTION 7: TROUBLESHOOTING -->
+        <div class="section">
+            <div class="section-title">7. TROUBLESHOOTING - MASALAH DAN SOLUSI</div>
+            <div class="section-content">
+                <table>
+                    <tr>
+                        <th>Masalah</th>
+                        <th>Penyebab</th>
+                        <th>Solusi</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Data OP tidak muncul</strong></td>
+                        <td>Nomor OP salah atau belum di-input ke sistem; Koneksi database error</td>
+                        <td>Cek kembali nomor OP; Hubungi admin untuk verifikasi; Restart aplikasi/komputer</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Label tidak keluar/stuck di printer</strong></td>
+                        <td>Kertas label habis; Printer jam/error; Driver printer bermasalah</td>
+                        <td>Isi ulang kertas label; Reset printer; Reinstall driver printer</td>
+                    </tr>
+                    <tr>
+                        <td><strong>QR Code tidak terbaca saat scan</strong></td>
+                        <td>QR Code rusak/kotor; Pencahayaan kurang; Kamera kotor/blur</td>
+                        <td>Print ulang label; Pindah ke area dengan cahaya lebih baik; Bersihkan lensa kamera</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Data yang muncul tidak sesuai</strong></td>
+                        <td>Scan label yang salah; Data di sistem tidak update; Nomor STB duplikat</td>
+                        <td>Pastikan scan label yang benar; Hubungi IT untuk sync data; Generate nomor STB baru</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Approval tidak bisa dilakukan</strong></td>
+                        <td>Koneksi internet terputus; User tidak punya akses; Aplikasi crash</td>
+                        <td>Cek koneksi internet; Login ulang dengan user yang benar; Restart aplikasi</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Nomor STB duplikat</strong></td>
+                        <td>Nomor tidak sequential; Input manual salah; Sistem tidak update</td>
+                        <td>Cek nomor STB terakhir di database; Generate nomor baru; Hubungi admin sistem</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        
+    </div>
+    
+    <button onclick="window.print()" style="display: block; margin: 20px auto;">🖨️ Cetak / Simpan sebagai PDF</button>
+</body>
+</html>

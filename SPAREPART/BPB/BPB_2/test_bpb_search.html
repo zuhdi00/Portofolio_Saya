@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Keyword Search - BPB</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h2 {
+            color: #333;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+        .test-case {
+            background: #f8f9fa;
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 4px solid #667eea;
+        }
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #5568d3;
+        }
+        .result {
+            background: #e9ecef;
+            padding: 15px;
+            margin-top: 10px;
+            border-radius: 5px;
+            white-space: pre-wrap;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .success {
+            color: #28a745;
+            font-weight: bold;
+        }
+        .error {
+            color: #dc3545;
+            font-weight: bold;
+        }
+        input {
+            padding: 8px;
+            margin: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 200px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Test Pencarian Keyword BPB</h1>
+
+    <div class="test-section">
+        <h2>Test Manual</h2>
+        <div>
+            <input type="text" id="testKeyword1" placeholder="Keyword 1">
+            <input type="text" id="testKeyword2" placeholder="Keyword 2">
+            <button onclick="testManual()">Test Search</button>
+        </div>
+        <div id="manualResult" class="result" style="display:none;"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Test Cases Otomatis</h2>
+        
+        <div class="test-case">
+            <h3>Test 1: Keyword 1 Only (No BPB)</h3>
+            <p>Mencari dengan keyword1 saja - mengecek No BPB</p>
+            <button onclick="runTest1()">Run Test 1</button>
+            <div id="result1" class="result" style="display:none;"></div>
+        </div>
+
+        <div class="test-case">
+            <h3>Test 2: Keyword 2 Only (Supplier)</h3>
+            <p>Mencari dengan keyword2 saja - mengecek Supplier</p>
+            <button onclick="runTest2()">Run Test 2</button>
+            <div id="result2" class="result" style="display:none;"></div>
+        </div>
+
+        <div class="test-case">
+            <h3>Test 3: Keyword 1 + Keyword 2</h3>
+            <p>Mencari dengan kedua keyword bersamaan</p>
+            <button onclick="runTest3()">Run Test 3</button>
+            <div id="result3" class="result" style="display:none;"></div>
+        </div>
+
+        <div class="test-case">
+            <h3>Test 4: General Search</h3>
+            <p>Mencari dengan pencarian umum</p>
+            <button onclick="runTest4()">Run Test 4</button>
+            <div id="result4" class="result" style="display:none;"></div>
+        </div>
+
+        <div class="test-case">
+            <h3>Test 5: All Filters Combined</h3>
+            <p>Mencari dengan semua filter aktif</p>
+            <button onclick="runTest5()">Run Test 5</button>
+            <div id="result5" class="result" style="display:none;"></div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE_URL = 'http://localhost'; // Sesuaikan dengan URL server
+
+        function testManual() {
+            const keyword1 = document.getElementById('testKeyword1').value;
+            const keyword2 = document.getElementById('testKeyword2').value;
+            
+            const params = new URLSearchParams({
+                keyword1: keyword1,
+                keyword2: keyword2,
+                limit: 10
+            });
+
+            displayResult('manualResult', 'Testing...', false);
+            
+            fetch(`${API_BASE_URL}/get_bpb_list.php?${params}`)
+                .then(response => response.json())
+                .then(data => {
+                    displayResult('manualResult', JSON.stringify(data, null, 2), data.success);
+                })
+                .catch(error => {
+                    displayResult('manualResult', 'Error: ' + error.message, false);
+                });
+        }
+
+        function runTest1() {
+            // Test keyword1 only - searching for BPB number
+            const params = new URLSearchParams({
+                keyword1: 'BPB',
+                limit: 5
+            });
+
+            displayResult('result1', 'Testing keyword1 (No BPB)...', null);
+            
+            fetch(`${API_BASE_URL}/get_bpb_list.php?${params}`)
+                .then(response => response.json())
+                .then(data => {
+                    const analysis = analyzeResult(data, 'keyword1', 'BPB');
+                    displayResult('result1', analysis, data.success);
+                })
+                .catch(error => {
+                    displayResult('result1', 'Error: ' + error.message, false);
+                });
+        }
+
+        function runTest2() {
+            // Test keyword2 only - searching for supplier
+            const params = new URLSearchParams({
+                keyword2: 'PT',
+                limit: 5
+            });
+
+            displayResult('result2', 'Testing keyword2 (Supplier)...', null);
+            
+            fetch(`${API_BASE_URL}/get_bpb_list.php?${params}`)
+                .then(response => response.json())
+                .then(data => {
+                    const analysis = analyzeResult(data, 'keyword2', 'PT');
+                    displayResult('result2', analysis, data.success);
+                })
+                .catch(error => {
+                    displayResult('result2', 'Error: ' + error.message, false);
+                });
+        }
+
+        function runTest3() {
+            // Test both keywords
+            const params = new URLSearchParams({
+                keyword1: 'BPB',
+                keyword2: 'PT',
+                limit: 5
+            });
+
+            displayResult('result3', 'Testing keyword1 + keyword2...', null);
+            
+            fetch(`${API_BASE_URL}/get_bpb_list.php?${params}`)
+                .then(response => response.json())
+                .then(data => {
+                    const analysis = analyzeResult(data, 'both', 'BPB + PT');
+                    displayResult('result3', analysis, data.success);
+                })
+                .catch(error => {
+                    displayResult('result3', 'Error: ' + error.message, false);
+                });
+        }
+
+        function runTest4() {
+            // Test general search
+            const params = new URLSearchParams({
+                search: 'kardus',
+                limit: 5
+            });
+
+            displayResult('result4', 'Testing general search...', null);
+            
+            fetch(`${API_BASE_URL}/get_bpb_list.php?${params}`)
+                .then(response => response.json())
+                .then(data => {
+                    const analysis = analyzeResult(data, 'search', 'kardus');
+                    displayResult('result4', analysis, data.success);
+                })
+                .catch(error => {
+                    displayResult('result4', 'Error: ' + error.message, false);
+                });
+        }
+
+        function runTest5() {
+            // Test all filters
+            const today = new Date();
+            const thirtyDaysAgo = new Date(today.getTime() - (30 * 24 * 60 * 60 * 1000));
+            
+            const params = new URLSearchParams({
+                search: 'box',
+                keyword1: 'BPB',
+                keyword2: 'PT',
+                date_from: thirtyDaysAgo.toISOString().split('T')[0],
+                date_to: today.toISOString().split('T')[0],
+                limit: 5
+            });
+
+            displayResult('result5', 'Testing all filters...', null);
+            
+            fetch(`${API_BASE_URL}/get_bpb_list.php?${params}`)
+                .then(response => response.json())
+                .then(data => {
+                    const analysis = analyzeResult(data, 'all', 'all filters');
+                    displayResult('result5', analysis, data.success);
+                })
+                .catch(error => {
+                    displayResult('result5', 'Error: ' + error.message, false);
+                });
+        }
+
+        function analyzeResult(data, testType, searchTerm) {
+            let output = '=== TEST RESULT ===\n\n';
+            
+            output += `Test Type: ${testType}\n`;
+            output += `Search Term: ${searchTerm}\n`;
+            output += `Success: ${data.success ? 'YES ✓' : 'NO ✗'}\n\n`;
+            
+            if (data.debug) {
+                output += '--- Debug Info ---\n';
+                output += `Total Conditions: ${data.debug.total_conditions}\n`;
+                output += `Total Parameters: ${data.debug.total_parameters}\n`;
+                output += `Has Keyword1: ${data.debug.has_keyword1 ? 'YES' : 'NO'}\n`;
+                output += `Has Keyword2: ${data.debug.has_keyword2 ? 'YES' : 'NO'}\n`;
+                output += `Has Search: ${data.debug.has_search ? 'YES' : 'NO'}\n\n`;
+                
+                if (data.debug.conditions && data.debug.conditions.length > 0) {
+                    output += 'SQL Conditions:\n';
+                    data.debug.conditions.forEach((cond, idx) => {
+                        output += `  ${idx + 1}. ${cond}\n`;
+                    });
+                    output += '\n';
+                }
+            }
+            
+            if (data.search_params) {
+                output += '--- Search Parameters ---\n';
+                output += JSON.stringify(data.search_params, null, 2) + '\n\n';
+            }
+            
+            if (data.pagination) {
+                output += '--- Pagination ---\n';
+                output += `Total Records: ${data.pagination.total_records}\n`;
+                output += `Current Page: ${data.pagination.current_page}\n`;
+                output += `Records Per Page: ${data.pagination.records_per_page}\n\n`;
+            }
+            
+            if (data.stats) {
+                output += '--- Statistics ---\n';
+                output += `Total Suppliers: ${data.stats.total_suppliers}\n`;
+                output += `Total Items: ${data.stats.total_items}\n`;
+                output += `Date Range: ${data.stats.date_range}\n\n`;
+            }
+            
+            if (data.data && data.data.length > 0) {
+                output += `--- Sample Data (${data.data.length} records) ---\n`;
+                data.data.slice(0, 3).forEach((row, idx) => {
+                    output += `\nRecord ${idx + 1}:\n`;
+                    output += `  No BPB: ${row.cNoBPB}\n`;
+                    output += `  Supplier: ${row.supplier}\n`;
+                    output += `  Kode Bahan: ${row.cKodeBahan}\n`;
+                    output += `  Nama Barang: ${row.nama_barang}\n`;
+                    output += `  No OPB: ${row.no_opb}\n`;
+                });
+            } else {
+                output += '--- No Data Found ---\n';
+            }
+            
+            output += '\n--- Full Response ---\n';
+            output += JSON.stringify(data, null, 2);
+            
+            return output;
+        }
+
+        function displayResult(elementId, text, success) {
+            const element = document.getElementById(elementId);
+            element.style.display = 'block';
+            element.textContent = text;
+            
+            if (success === true) {
+                element.style.borderLeft = '4px solid #28a745';
+            } else if (success === false) {
+                element.style.borderLeft = '4px solid #dc3545';
+            } else {
+                element.style.borderLeft = '4px solid #ffc107';
+            }
+        }
+
+        // Auto run all tests on page load
+        window.onload = function() {
+            console.log('Test page loaded. Click buttons to run tests.');
+        };
+    </script>
+</body>
+</html>

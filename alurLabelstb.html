@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flowchart Pembuatan STB Label</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            max-width: 900px;
+            width: 100%;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 4px solid #d32f2f;
+        }
+        
+        .header h1 {
+            color: #d32f2f;
+            margin: 0;
+            font-size: 28pt;
+        }
+        
+        .header p {
+            color: #666;
+            margin: 10px 0 0 0;
+            font-size: 14pt;
+        }
+        
+        .flowchart {
+            padding: 20px 0;
+        }
+        
+        .flow-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 25px;
+            margin: 0 auto 15px auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            position: relative;
+            max-width: 600px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .flow-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+        
+        .flow-box.start {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+        }
+        
+        .flow-box.end {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+        
+        .flow-box.decision {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            padding: 30px 40px;
+        }
+        
+        .flow-box.process {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+        
+        .flow-box.input {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+        }
+        
+        .flow-box.scan {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+        }
+        
+        .flow-box.verify {
+            background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);
+        }
+        
+        .step-number {
+            display: inline-block;
+            background: rgba(255,255,255,0.3);
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 35px;
+            font-weight: bold;
+            font-size: 18px;
+            margin-right: 12px;
+            border: 2px solid rgba(255,255,255,0.5);
+        }
+        
+        .step-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        
+        .step-detail {
+            font-size: 14px;
+            opacity: 0.95;
+            margin-top: 8px;
+            line-height: 1.6;
+        }
+        
+        .arrow {
+            text-align: center;
+            font-size: 40px;
+            color: #667eea;
+            margin: 10px 0;
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+        
+        .branch {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+            gap: 20px;
+        }
+        
+        .branch-box {
+            flex: 1;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        
+        .branch-box.yes {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+        }
+        
+        .branch-box.no {
+            background: linear-gradient(135deg, #eb3349 0%, #f45c43 100%);
+            color: white;
+        }
+        
+        .icon {
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+        
+        .info-panel {
+            background: #f8f9fa;
+            border-left: 5px solid #667eea;
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 5px;
+        }
+        
+        .info-panel h3 {
+            margin-top: 0;
+            color: #667eea;
+        }
+        
+        .info-panel ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        
+        .info-panel li {
+            margin: 8px 0;
+        }
+        
+        .legend {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 30px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+        }
+        
+        .legend-color {
+            width: 40px;
+            height: 30px;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+        
+        .print-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #d32f2f;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            z-index: 1000;
+            font-weight: bold;
+        }
+        
+        .print-btn:hover {
+            background: #b71c1c;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+        }
+        
+        @media print {
+            body {
+                background: white;
+            }
+            .print-btn {
+                display: none;
+            }
+            .container {
+                box-shadow: none;
+            }
+            .arrow {
+                animation: none;
+            }
+            .flow-box:hover {
+                transform: none;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            .header h1 {
+                font-size: 20pt;
+            }
+            .branch {
+                flex-direction: column;
+            }
+            .legend {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="print-btn" onclick="window.print()">🖨️ Print Flowchart</button>
+    
+    <div class="container">
+        <div class="header">
+            <h1>📊 FLOWCHART PEMBUATAN STB LABEL</h1>
+            <p>PT. Supracor Sejahtera - Corrugated Carton Box</p>
+            <p style="font-size: 12pt; margin-top: 5px; color: #999;">Panduan Cepat untuk Operator</p>
+        </div>
+        
+<!--        <div class="legend">
+            <h3 style="grid-column: 1/-1; margin: 0 0 10px 0; color: #333;">Keterangan Warna:</h3>
+            <div class="legend-item">
+                <div class="legend-color" style="background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);"></div>
+                <span>Mulai/Selesai</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);"></div>
+                <span>Input Data</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);"></div>
+                <span>Proses</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);"></div>
+                <span>Keputusan</span>
+            </div>
+        </div> -->
+        
+        <div class="flowchart">
+            <!-- START -->
+            <div class="flow-box start">
+                <div class="icon">🚀</div>
+                <div class="step-title">MULAI</div>
+                <div class="step-detail">Operator siap membuat STB Label</div>
+            </div>
+            
+            <div class="arrow">↓</div>
+            
+            <!-- STEP 1 -->
+            <div class="flow-box input">
+                <div class="step-title">
+                    <span class="step-number">1</span>
+                    INPUT NOMOR OP
+                </div>
+                <div class="step-detail">
+                    📝 Buka Link STB Label<br>
+                    📝 Masukkan nomor Order Produksi (OP)<br>
+                    📝 Klik tombol "Cari" atau tekan Enter
+                </div>
+            </div>
+            
+            <div class="arrow">↓</div>
+            
+            <!-- DECISION 1 -->
+            <div class="flow-box decision">
+                <div class="step-title">❓ DATA OP DITEMUKAN?</div>
+            </div>
+            
+            <div class="branch">
+                <div class="branch-box no">
+                    <div class="icon">❌</div>
+                    <div>TIDAK</div>
+                    <div style="font-size: 12px; margin-top: 10px;">Cek nomor OP<br>atau hubungi admin</div>
+                </div>
+                <div class="branch-box yes">
+                    <div class="icon">✅</div>
+                    <div>YA</div>
+                    <div style="font-size: 12px; margin-top: 10px;">Lanjut ke langkah berikutnya</div>
+                </div>
+            </div>
+            
+            <div class="arrow">↓</div>
+            
+            <!-- STEP 2 -->
+            <div class="flow-box input">
+                <div class="step-title">
+                    <span class="step-number">2</span>
+                    INPUT DATA STB
+                </div>
+                <div class="step-detail">
+                    ✏️ Nomor STB terbaru (pastikan unik)<br>
+                    ✏️ Nama Kepala Shift<br>
+                    ✏️ Jumlah Koli/Pallete<br>
+                    ✏️ Jumlah Tambahan (PCS)
+                </div>
+            </div>
+            
+            <div class="arrow">↓</div>
+            
+            <!-- STEP 3 -->
+            <div class="flow-box process">
+                <div class="step-title">
+                    <span class="step-number">3</span>
+                    SAVE & PRINT LABEL
+                </div>
+                <div class="step-detail">
+                    💾 Klik tombol "Save"<br>
+                    🖨️ Klik tombol "Print Preview"<br>
+                    🖨️ Print label dengan QR Code
+                </div>
+            </div>
+            
+            <div class="arrow">↓</div>
+            
+            <!-- DECISION 2 -->
+            <div class="flow-box decision">
+                <div class="step-title">❓ LABEL TERCETAK JELAS?</div>
+            </div>
+            
+            <div class="branch">
+                <div class="branch-box no">
+                    <div class="icon">❌</div>
+                    <div>TIDAK</div>
+                    <div style="font-size: 12px; margin-top: 10px;">Print ulang<br>atau ganti printer</div>
+                </div>
+                <div class="branch-box yes">
+                    <div class="icon">✅</div>
+                    <div>YA</div>
+                    <div style="font-size: 12px; margin-top: 10px;">Lanjut ke proses fisik</div>
+                </div>
+            </div>
+            
+            <div class="arrow">↓</div>
+            
+            <!-- STEP 4 -->
+            <div class="flow-box process">
+                <div class="step-title">
+                    <span class="step-number">4</span>
+                    TEMPEL LABEL DI PALLET
+                </div>
+                <div class="step-detail">
+                    📋 Tempel label pada tumpukan kardus per pallet<br>
+                    📋 Posisi: depan atas (mudah terlihat)<br>
+                    📋 Pastikan label menempel kuat
+                </div>
+            </div>
+            
+            <div class="arrow">↓</div>
+            
+            <!-- STEP 5 -->
+            <div class="flow-box process">
+                <div class="step-title">
+                    <span class="step-number">5</span>
+                    BAWA KE GUDANG STB
+                </div>
+                <div class="step-detail">
+                    🚛 Gunakan forklift untuk memindahkan pallet<br>
+                    🚛 Bawa ke area Gudang STB<br>
+                    🚛 Tempatkan di area staging
+                </div>
+            </div>
+            
+            <div class="arrow">↓</div>
+            
+            <!-- STEP 6 -->
+            <div class="flow-box scan">
+                <div class="step-title">
+                    <span class="step-number">6</span>
+                    SCAN QR CODE
+                </div>
+                <div class="step-detail">
+                    📱 Buka aplikasi "Barcode SPS"<br>
+                    📱 Pilih menu "Scan Barcode"<br>
+                    📱 Scan QR Code pada label STB<br>
+                    📱 Tunggu data muncul di layar
+                </div>
+            </div>
+            
+            <div class="arrow">↓</div>
+            
+            <!-- DECISION 3 -->
+            <div class="flow-box decision">
+                <div class="step-title">❓ QR CODE TERBACA?</div>
+            </div>
+            
+            <div class="branch">
+                <div class="branch-box no">
+                    <div class="icon">❌</div>
+                    <div>TIDAK</div>
+                    <div style="font-size: 12px; margin-top: 10px;">Bersihkan kamera<br>Perbaiki cahaya<br>atau print ulang label</div>
+                </div>
+                <div class="branch-box yes">
+                    <div class="icon">✅</div>
+                    <div>YA</div>
+                    <div style="font-size: 12px; margin-top: 10px;">Data muncul di aplikasi</div>
+                </div>
+            </div>
+            
+            <div class="arrow">↓</div>
+            
+            <!-- STEP 7 -->
+            <div class="flow-box verify">
+                <div class="step-title">
+                    <span class="step-number">7</span>
+                    VERIFIKASI DATA & BARANG
+                </div>
+                <div class="step-detail">
+                    ✓ Cek Nomor OP sesuai dokumen<br>
+                    ✓ Cek Nama Barang sesuai fisik<br>
+                    ✓ Hitung Jumlah Koli/Pallet<br>
+                    ✓ Cek Ukuran & Kualitas kardus<br>
+                    ✓ Pastikan kondisi fisik baik (tidak rusak)
+                </div>
+            </div>
+            
+            <div class="arrow">↓</div>
+            
+            <!-- DECISION 4 -->
+            <div class="flow-box decision">
+                <div class="step-title">❓ BARANG SESUAI?</div>
+            </div>
+            
+            <div class="branch">
+                <div class="branch-box no">
+                    <div class="icon">❌</div>
+                    <div>TIDAK SESUAI</div>
+                    <div style="font-size: 12px; margin-top: 10px;">
+                        Klik "Reject"<br>
+                        Input alasan<br>
+                        Informasikan supervisor<br>
+                        Pisahkan barang
+                    </div>
+                </div>
+                <div class="branch-box yes">
+                    <div class="icon">✅</div>
+                    <div>SESUAI</div>
+                    <div style="font-size: 12px; margin-top: 10px;">Lanjut approval</div>
+                </div>
+            </div>
+            
+            <div class="arrow">↓</div>
+            
+            <!-- STEP 8 -->
+            <div class="flow-box process">
+                <div class="step-title">
+                    <span class="step-number">8</span>
+                    LAKUKAN APPROVAL
+                </div>
+                <div class="step-detail">
+                    ✅ Klik tombol "Approve" di aplikasi<br>
+                    ✅ Konfirmasi approval<br>
+                    ✅ Tunggu notifikasi berhasil<br>
+                    ✅ Status berubah menjadi "Approved"
+                </div>
+            </div>
+            
+            <div class="arrow">↓</div>
+            
+            <!-- STEP 9 -->
+            <div class="flow-box process">
+                <div class="step-title">
+                    <span class="step-number">9</span>
+                    SIMPAN DI GUDANG STB
+                </div>
+                <div class="step-detail">
+                    📦 Tentukan lokasi penyimpanan (FIFO)<br>
+                    📦 Pindahkan pallet ke lokasi yang tepat<br>
+                    📦 Update lokasi di sistem (jika ada)<br>
+                    📦 Rapikan area penyimpanan
+                </div>
+            </div>
+            
+            <div class="arrow">↓</div>
+            
+            <!-- END -->
+            <div class="flow-box end">
+                <div class="icon">🎉</div>
+                <div class="step-title">SELESAI</div>
+                <div class="step-detail">
+                    ✓ Label STB terpasang<br>
+                    ✓ Data tercatat di sistem<br>
+                    ✓ Barang tersimpan di gudang<br>
+                    ✓ Siap untuk pengiriman
+                </div>
+            </div>
+        </div>
+        
+        <div class="info-panel">
+            <h3>💡 Tips Penting untuk Operator:</h3>
+            <ul>
+                <li><strong>Akurasi Data:</strong> Pastikan semua data yang diinput 100% benar</li>
+                <li><strong>Nomor STB Unik:</strong> Cek nomor terakhir agar tidak duplikat</li>
+                <li><strong>QR Code Jelas:</strong> Label harus tercetak dengan jelas dan mudah di-scan</li>
+                <li><strong>Verifikasi Wajib:</strong> Selalu cek fisik barang sebelum approval</li>
+                <li><strong>FIFO System:</strong> Barang masuk pertama keluar pertama</li>
+                <li><strong>Dokumentasi:</strong> Foto jika ada masalah untuk laporan</li>
+            </ul>
+        </div>
+        
+        <div class="info-panel" style="border-left-color: #d32f2f; background: #ffebee;">
+            <h3 style="color: #d32f2f;">⚠️ Yang Harus Dihindari:</h3>
+            <ul>
+                <li>❌ Nomor STB duplikat</li>
+                <li>❌ Label basah, kotor, atau rusak</li>
+                <li>❌ Approval tanpa verifikasi fisik</li>
+                <li>❌ Salah input jumlah atau data</li>
+                <li>❌ QR Code terlipat atau tidak terbaca</li>
+            </ul>
+        </div>
+        
+        <div style="text-align: center; margin-top: 30px; padding: 20px; background: #f8f9fa; border-radius: 10px;">
+            <p style="margin: 0; font-size: 14px; color: #666;">
+                <strong>Dokumen No:</strong> IK-STB-001-FC | <strong>Revisi:</strong> 00 | <strong>Tanggal:</strong> [Isi tanggal]
+            </p>
+            <p style="margin: 10px 0 0 0; font-size: 12px; color: #999;">
+                Flowchart ini adalah ringkasan dari Instruksi Kerja lengkap. Untuk detail lebih lanjut, lihat dokumen IK-STB-001
+            </p>
+        </div>
+    </div>
+</body>
+</html>

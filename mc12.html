@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Master Card</title>
+    <meta name="viewport" content="width=1024">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            background: #f8f8fa;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .window-bar {
+            background: #5b9cf7;
+            height: 32px;
+            border-radius: 12px 12px 0 0;
+            display: flex;
+            align-items: center;
+            padding: 0 16px;
+            color: #fff;
+            font-size: 13px;
+            position: relative;
+        }
+        .window-bar .dots {
+            display: flex;
+            gap: 6px;
+            margin-right: 12px;
+        }
+        .window-bar .dot {
+            width: 10px; height: 10px; border-radius: 50%;
+            display: inline-block;
+        }
+        .window-bar .dot.red { background: #ff5f56; }
+        .window-bar .dot.yellow { background: #ffbd2e; }
+        .window-bar .dot.green { background: #27c93f; }
+        .container {
+            max-width: 1200px;
+            margin: 32px auto;
+            background: #fff;
+            border-radius: 0 0 16px 16px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.10);
+            padding: 28px 32px 24px 32px;
+        }
+        .header-row {
+            display: grid;
+            grid-template-columns: 90px 120px 55px 90px 45px 1fr;
+            gap: 1px;
+            margin-bottom: 2px;
+            align-items: center;
+            width: 100%;
+        }
+        .header-row label, .header-row label1 {
+            font-weight: 600;
+            font-size: 0.78em;
+            margin-right: 1px;
+            text-align: left;
+            white-space: nowrap;
+        }
+        .header-row label1 {
+            width: 45px;
+        }
+        .header-row input[type=text] {
+            font-size: 0.78em;
+            font-weight: normal;
+            background: #f5f5f5;
+            border: 1px solid #bbb;
+            border-radius: 4px;
+            padding: 2px 4px;
+            width: 100%;
+            box-sizing: border-box;
+            text-align: left;
+            height: 18px;
+        }
+        .header-row input[type=text]:first-child {
+            font-size: 0.9em;
+            font-weight: bold;
+            background: #fff;
+            border: 2px solid #222;
+            color: #222;
+        }
+        /* Alternative header row styles for REV/customer and ITEM rows */
+        .header-row.alt {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 4px;
+        }
+        .rev-box {
+            background: #ffe6ea; /* soft pink */
+            border: 1px solid #f5aab0;
+            padding: 6px 8px;
+            border-radius: 6px;
+            font-size: 0.78em;
+            color: #8a1f2d;
+            min-width: 220px;
+            line-height: 1.1;
+        }
+        .header-row.alt .field {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            min-width: 80px;
+        }
+        .header-row.item-row {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 6px;
+        }
+        .header-row.item-row .item-input {
+            flex: 1 1 auto;
+        }
+        .small-inputs { display:flex; gap:6px; align-items:center; }
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 24px; 
+            margin-bottom: 24px; 
+        }
+        .form-section {
+            border: 1.5px solid #ccc;
+            border-radius: 10px;
+            padding: 16px; 
+            background: #fff;
+            min-height: 360px; 
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1); 
+        }
+        .form-section h3 {
+            margin: 0 0 16px 0; 
+            font-size: 1.2em; 
+            font-weight: bold;
+            text-align: center;
+            background: #f0f0f0; 
+            border-radius: 6px; 
+            padding: 8px 0; 
+            letter-spacing: 0.5px; 
+            border-bottom: 1.5px solid #ccc;
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3px; 
+            margin-bottom: 5px; 
+            align-items: center;
+            width: 78%;
+        }
+        .form-row label {
+            min-width: 100px;
+            font-size: 1em;
+            margin-right: 2px;
+            text-align: left;
+            width: 16%;
+        }
+        .form-row input, .form-row select {
+            width: 100%;
+            padding: 1px 5px;
+            border: 1px solid #bbb;
+            border-radius: 6px;
+            background: #fff;
+            font-size: 1em;
+            box-sizing: border-box;
+            text-align: right;
+            height: 30px;
+        }
+        .form-row input[type=checkbox] {
+            width: 18px;
+            height: 18px;
+            margin-right: 4px;
+        }
+        .form-row .group {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+        .form-row .group label {
+            min-width: unset;
+        }
+        .subsection-title {
+            font-weight: bold;
+            font-size: 1em;
+            margin: 14px 0 6px 0;
+            color: #444;
+        }
+        
+        /* Drawing Section */
+        .drawing-section {
+            display: flex;
+            gap: 40px;
+            margin-top: 24px;
+            justify-content: center;
+        }
+
+        .canvas {
+            width: 604px;
+            padding: 0px;
+            border: 2px solid #ccc;
+            border-radius: 16px;
+            position: relative;
+            background: #f5f5f5;
+        }
+        
+        .canvas-checkbox {
+            position: absolute;
+            width: 18px;
+            height: 18px;
+        }
+        
+        .canvas:nth-child(1) .canvas-checkbox {
+            bottom: 8px;
+            left: 8px;
+        }
+        
+        .canvas:nth-child(2) .canvas-checkbox {
+            bottom: 8px;
+            right: 8px;
+        }
+        
+        /* Layout wrapper untuk positioning yang lebih baik */
+        .box-layout {
+            position: relative;
+            width: 600px;
+            height: 250px;
+        }
+        
+        /* Baris tengah - kotak utama */
+        .middle-row {
+            display: flex;
+            position: absolute;
+            left: 44%;
+            top: 54%;
+            transform: translate(-40%, -51.5%);
+            gap: 0;
+        }
+        
+        .box {
+            width: 90px;
+            height: 120px;
+            background: #ddd;
+            border: 1px solid #333;
+            position: relative;
+        }
+
+        /* Top and bottom rows (smaller height for top row) */
+        .top-row, .bottom-row-grid {
+            display: flex;
+            position: absolute;
+            left: 44%;
+            transform: translateX(-40%);
+            gap: 0;
+        }
+
+        .top-row .box, .bottom-row-grid .box {
+            width: 90px;
+            height: 64px;
+        }
+
+        .top-row { top: calc(51% - 118px); }
+        .bottom-row-grid { top: calc(50% + 68px); }
+        
+        /* Label oval di tengah kotak */
+        .box span {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 24px;
+            background: #fff;
+            border: 1.5px solid #666;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .box span input {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: transparent;
+            text-align: center;
+            font-size: 0.8em;
+            border-radius: 16px;
+            outline: none;
+        }
+        
+        /* Side boxes kiri dan kanan */
+        .side-box {
+            width: 70px;
+            height: 120px;
+            background: #ddd;
+            border: 1px solid #333;
+            position: absolute;
+            top: 53%;
+            transform: translateY(-50%);
+        }
+        
+        .side-box.left {
+            /* position left side-box aligned to left of middle row */
+            left: calc(64.4% - 336px);
+        }
+        
+        .side-box.right {
+            left: calc(47% + 198px);
+        }
+        
+        /* Corner boxes - menempel di pojok */
+        .corner-box {
+            width: 43px;
+            height: 45px;
+            background: #ddd;
+            border: 1px solid #333;
+            position: absolute;
+        }
+        
+        .corner-box.top-left {
+            left: calc(64.4% - 336px);
+            top: 29px;
+        }
+        .corner-box.top-right {
+            left: calc(52% + 195px);
+            top: 29px;
+        }
+        
+        /* Bottom corners */
+        .corner-box.bottom-left {
+            left: calc(53.1% - 268px);
+            bottom: 13px;
+        }
+        
+        .corner-box.bottom-right {
+            left: calc(52% + 195px);
+            bottom: 13px;
+        }
+        
+        .barcode {
+            position: absolute;
+            left: 0px;
+            bottom: 0px;
+            width: 26px;
+            height: 23px;
+            display: flex;
+            gap: 2px;
+        }
+        
+        .barcode .bar { 
+            background: #000; 
+            width: 2px; 
+            height: 100%; 
+        }
+    
+        .barcode1 {
+            position: absolute;
+            left: px;
+            bottom: 0px;
+            width: 26px;
+            height: 23px;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        
+        .barcode1 .bar { 
+            background: #000; 
+            width: 32px;
+            height: 100%; 
+        }
+
+        /* Label bawah */
+        .bottom-label {
+            width: 90px;
+            height: 26px;
+            background: #fff;
+            border: 1.5px solid #666;
+            border-radius: 16px;
+            margin: 15px auto 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .bottom-label input {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: transparent;
+            text-align: center;
+            font-size: 0.85em;
+            border-radius: 16px;
+            outline: none;
+        }
+        
+        /* Side labels */
+        .side-labels {
+            position: absolute;
+            width: 48px;
+            height: 24px;
+            background: #fff;
+            border: 1.5px solid #666;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .side-labels input {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: transparent;
+            text-align: center;
+            font-size: 0.75em;
+            border-radius: 12px;
+            outline: none;
+        }
+        
+        .side-labels.left-1 { left: 30px; top: 32%; }
+        .side-labels.left-2 { top: 48%; }
+        .side-labels.left-3 { left: 60px; top: 48%; }
+        .side-labels.right-1 { right: 0px; top: 32%; }
+        .side-labels.right-2 { right: 0px; top: 48%; }
+        .side-labels.right-3 { right: 0px; top: 64%; }
+        .side-labels.right-4 { right: 58px; top: 48%; }
+        
+        /* Canvas untuk kotak kanan (single box) */
+        .canvas.single-box .box-layout {
+            height: 260px;
+        }
+        
+        .canvas.single-box .middle-row {
+            width: 80%;
+            height: 200px;
+        }
+        
+        .canvas.single-box .box {
+            width: 100%;
+            height: 100%;
+        }
+        
+        .highlight {
+            display: none !important;
+        }
+       
+        @media (max-width: 900px) {
+            .container { max-width: 98vw; padding: 8px; }
+            .form-grid { grid-template-columns: 1fr; }
+            .drawing-section { flex-direction: column; align-items: center; }
+        }
+    </style>
+</head>
+<body>
+    <div class="window-bar">
+        <div class="dots">
+            <span class="dot red"></span>
+            <span class="dot yellow"></span>
+            <span class="dot green"></span>
+        </div>
+        <span style="flex:1;">A1, DCM, DC, AOT, AOB, LY, SH, SHCR, SHK</span>
+    </div>
+    <div class="container">
+        <!-- Header -->
+        <div class="header-row">
+            <label>MASTER CARD</label>
+            <input type="text" value="25A0100101A1">
+            <label1>TGL</label1>
+            <input type="text">
+            <label>TIPE</label>
+            <div style="display: flex; align-items: center; gap: 2px; width: 100%; flex-wrap: wrap; min-width: 0;">
+                <select style="height:18px; min-width:40px; font-size:0.78em; border-radius:4px; border:1px solid #bbb; background:#f5f5f5;">
+                    <option value="">Tipe</option>
+                    <option value="Regular">A1</option>
+                    <option value="Diecut">A2</option>
+                    <option value="Box">Box</option>
+                    <option value="Sheet">Sheet</option>
+                </select>
+                <div style="display:flex; align-items:center; gap:2px; flex:1; min-width:0; margin-left:2px; flex-wrap:wrap;">
+                    <label style="margin:0 1px 0 0; font-size:0.78em;">UKURAN</label>
+                    <input type="text" maxlength="3" style="width:28px; text-align:center; font-size:0.78em; margin-right:0;"> 
+                    <span style="font-weight:bold; font-size:0.78em;">x</span>
+                    <input type="text" maxlength="3" style="width:28px; text-align:center; font-size:0.78em; margin-right:0;"> 
+                    <span style="font-weight:bold; font-size:0.78em;">x</span>
+                    <input type="text" maxlength="3" style="width:28px; text-align:center; font-size:0.78em; margin-right:0;">
+                    <label style="margin:0 1px 0 4px; font-size:0.78em;">FLUTE</label>
+                    <input type="text" style="width:28px; font-size:0.78em;">
+                    <label style="margin:0 1px 0 4px; font-size:0.78em;">SUBST CUST</label>
+                    <input type="text" maxlength="3" style="width:28px; text-align:center; font-size:0.78em; margin-right:0;"> <input type="text" maxlength="3" style="width:28px; text-align:center; font-size:0.78em; margin-right:0;"> <input type="text" maxlength="3" style="width:28px; text-align:center; font-size:0.78em; margin-right:0;"> <input type="text" maxlength="3" style="width:28px; text-align:center; font-size:0.78em; margin-right:0;"> <input type="text" maxlength="3" style="width:28px; text-align:center; font-size:0.78em; margin-right:0;"> 
+                </div>
+            </div>
+        </div>
+        <div class="header-row alt">
+            <label style="margin:0 1px 0 0; font-size:0.78em;">REV</label>
+            <input type="text" maxlength="3" style="width:28px; text-align:center; font-size:0.78em; margin-right:0;">
+            <label style="min-width:40px;">KET. REV</label>
+            <div class="rev-box">DESIGN, UKURAN,<br> KUALITAS, PROSES</div>
+
+            <div class="field" style="min-width:110px;">
+                <label style="font-size:0.72em; font-weight:600;">KODE CUST</label>
+                <input type="text" style="height:18px; font-size:0.78em;">
+            </div>
+
+            <div class="field" style="min-width:220px;">
+                <label style="font-size:0.72em; font-weight:600;">NAMA CUSTOMER</label>
+                <input type="text" style="height:18px; font-size:0.78em;">
+            </div>
+
+            <div class="field" style="min-width:90px;">
+                <label style="font-size:0.72em; font-weight:600;">DC JOIN</label>
+                <input type="text" style="height:18px; font-size:0.78em;">
+            </div>
+
+            <div class="field" style="min-width:90px;">
+                <label style="font-size:0.72em; font-weight:600;">APR JOIN</label>
+                <input type="text" style="height:18px; font-size:0.78em;">
+            </div>
+
+            <div class="small-inputs" style="margin-left:6px;">
+                <label style="font-size:0.72em; font-weight:600; margin-right:4px;">SUBST INT</label>
+                <input type="text" maxlength="3" style="width:36px; height:18px; font-size:0.78em;">
+                <input type="text" maxlength="3" style="width:36px; height:18px; font-size:0.78em;">
+                <input type="text" maxlength="3" style="width:36px; height:18px; font-size:0.78em;">
+                <input type="text" maxlength="3" style="width:36px; height:18px; font-size:0.78em;">
+                <input type="text" maxlength="3" style="width:36px; height:18px; font-size:0.78em;">
+            </div>
+        </div>
+        <div class="header-row item-row">
+            <div class="field" style="min-width:120px;">
+                <label style="font-size:0.72em; font-weight:600;">ITEM</label>
+                <input type="text" style="height:18px; font-size:0.78em;">
+            </div>
+
+            <div class="field" style="min-width:120px;">
+                <label style="font-size:0.72em; font-weight:600;">BERAT BRUTTO</label>
+                <input type="text" style="height:18px; font-size:0.78em;">
+            </div>
+
+            <div class="field" style="min-width:120px;">
+                <label style="font-size:0.72em; font-weight:600;">BERAT NETTO</label>
+                <input type="text" style="height:18px; font-size:0.78em;">
+            </div>
+
+            <div class="small-inputs" style="min-width:160px;">
+                <label style="font-size:0.72em; font-weight:600; margin-right:6px;">KUALITAS</label>
+                <input type="text" maxlength="3" style="width:36px; height:18px; font-size:0.78em;">
+                <input type="text" maxlength="3" style="width:36px; height:18px; font-size:0.78em;">
+                <input type="text" maxlength="3" style="width:36px; height:18px; font-size:0.78em;">
+                <input type="text" maxlength="3" style="width:36px; height:18px; font-size:0.78em;">
+                <input type="text" maxlength="3" style="width:36px; height:18px; font-size:0.78em;">
+            </div>
+        </div>
+        
+        <!-- Form Grid -->
+        <div class="form-grid">
+            <!-- CORRUGATING -->
+            <div class="form-section">
+                <h3>CORRUGATING</h3>
+                <div class="form-row group">
+                    <label style="margin-right:8px;">AVALAN</label>
+                    <div style="display:flex;align-items:center;gap:10px;">
+                        <input type="checkbox" style="margin-right:4px;"> 
+                    <span style="margin-right:10px;">DOUBLE JOIN</span>
+                        <input type="checkbox">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <label>ARAH FLUTING</label>
+                    <input type="text" style="width:120px;">
+                    <label>TAMBAHAN LIDAH</label>
+                    <input type="text" style="width:120px;">
+                </div>
+                <div class="form-row">
+                    <label>KET. LIDAH</label>
+                    <input type="text" style="width:120px;">
+                </div>
+                <div class="form-row">
+                    <label>JENIS CREASING</label>
+                    <input type="text" value="SINGLE, MALE, MALE/FEMALE, DLL">
+                    <label>KET. CREASING</label>
+                    <input type="text" value="NORMAL, TERBALIK">
+                </div>
+                <div class="form-row">
+                    <label>UKURAN CREASING</label>
+                    <input type="text" style="width:120px;">
+                </div>
+                <div class="form-row">
+                    <label>UKURAN BRUTTO</label>
+                    <input type="text" style="width:60px;">
+                    <label>LEBAR KERTAS</label>
+                    <input type="text" style="width:60px;">
+                </div>
+                <div class="form-row">
+                    <label>UKURAN NETTO</label>
+                    <input type="text" style="width:60px;">
+                    <label>OUT CORR</label>
+                    <input type="text" style="width:60px;">
+                </div>
+                <h3>QUALITY</h3>
+                <div class="form-row group">
+                    <input type="checkbox"> <span>CoA</span>
+                    <label>BERAT</label>
+                    <input type="text" style="width:60px;">
+                    <label>COBB SIZE</label>
+                    <input type="text" style="width:60px;">
+                </div>
+                <div class="form-row group">
+                    <label>BCT CORR</label>
+                    <input type="text" style="width:60px;">
+                    <label>BCT FLEXO</label>
+                    <input type="text" style="width:60px;">
+                </div>
+                <div class="form-row group">
+                    <label>ECT CORR</label>
+                    <input type="text" style="width:60px;">
+                    <label>ECT FLEXO</label>
+                    <input type="text" style="width:60px;">
+                </div>
+            </div>
+            
+            <!-- FLEXO -->
+            <div class="form-section">
+                <h3>FLEXO</h3>
+                <div class="form-row">
+                    <label>FLEXO</label>
+                    <input type="text" style="width:120px;">
+                    <label>WARNA</label>
+                    <input type="text" style="width:120px;">
+                </div>
+                <div class="form-row">
+                    <label>AREA PRINT</label>
+                    <input type="text" value="LUAR, DALAM, LUAR DALAM">
+                    <label>SAMBUNGAN</label>
+                    <input type="text" value="GLUE, STITCH, GLUE+STITCH">
+                </div>
+                <div class="form-row">
+                    <label>KET. SAMBUNGAN</label>
+                    <input type="text" value="STITCH NORMAL, DOUBLE STITCH A/B">
+                </div>
+                <div class="form-row group">
+                    <label>KET. PALLET</label>
+                    <input type="text" style="width:60px;">
+                    <label>QTY.</label>
+                    <input type="text" style="width:40px;">
+                    <label>UKURAN</label>
+                    <input type="text" style="width:40px;"> x <input type="text" style="width:40px;"> 
+                  
+                </div>
+                <div class="form-row group">
+                    <label>KET. DESIGN</label>
+                    <input type="checkbox"> <span>LOGO SPS</span>
+                    <input type="checkbox"> <span>LOGO CUSTOMER</span>
+                    <input type="checkbox"> <span>LOGO MC</span>
+                    <input type="checkbox"> <span>SARANG LABA-LABA</span>
+                    <input type="checkbox"> <span>KODE PRODUKSI</span>
+                </div>
+                <div class="form-row">
+                    <label>GLOSS VARNISH</label>
+                    <input type="text" style="width:120px;">
+                </div>
+                <div class="form-row">
+                    <label>WATER REPELENT</label>
+                    <input type="text" value="LUAR, DALAM, LUAR DALAM">
+                </div>
+            </div>
+            
+            <!-- FINISHING -->
+            <div class="form-section">
+                <h3>FINISHING (NON-PRINT)</h3>
+                <div class="form-row group">
+                    <label>QTY. PER COLLY</label>
+                    <input type="text" style="width:60px;">
+                    <label>KET. IKATAN</label>
+                    <input type="checkbox"> <span>DENGAN ALAS</span>
+                    <input type="checkbox"> <span>TANPA ALAS</span>
+                </div>
+                <div class="form-row group">
+                    <input type="checkbox"> <span>BOX SEARCH</span>
+                    <input type="checkbox"> <span>BOLAK-BALIK PER BOX</span>
+                </div>
+                <div class="form-row group">
+                    <input type="checkbox"> <span>TALI RAFA</span>
+                    <input type="checkbox"> <span>STRAPPING BAND</span>
+                </div>
+                <div class="form-row group">
+                    <input type="checkbox"> <span>2 MENYILANG</span>
+                    <input type="checkbox"> <span>2 SEJAJAR</span>
+                </div>
+                <div class="form-row">
+                    <label>DIE CUT</label>
+                    <input type="text" value="FLEXO 8, FLEXO 7, RDC, FLAT BLADE">
+                    <label>GLUE</label>
+                    <input type="text" value="FOLDER GLUE II, FOLDER GLUE I, FOLDER GLUE IV, GLUE MANUAL">
+                </div>
+                <div class="form-row">
+                    <label>BUNGKUS</label>
+                    <input type="text" value="PLASTIK ISOLASI, KERTAS ISOLASI, STRETCHFILM">
+                </div>
+                <div class="form-row">
+                    <label>STITCH</label>
+                    <input type="text" style="width:60px;">
+                    <label>QTY</label>
+                    <input type="text" style="width:40px;">
+                </div>
+                <div class="form-row">
+                    <label>KET. BUNGKUS</label>
+                    <input type="text" value="DENGAN IDENTITAS, TANPA IDENTITAS">
+                </div>
+                <div class="form-row">
+                    <label>SLITTER</label>
+                    <input type="text" style="width:60px;">
+                    <label>UPDOWN</label>
+                    <input type="text" style="width:60px;">
+                </div>
+            </div>
+        </div>
+        
+        <!-- Drawing Section -->
+        <div class="drawing-section">
+            <!-- Canvas 1: Grid dengan multiple boxes -->
+            <div class="canvas">
+                <input type="checkbox" class="canvas-checkbox">
+                <div class="box-layout">
+                    <!-- Corner boxes atas -->
+                    <div class="corner-box top-left"></div>
+                    <div class="corner-box top-right"></div>
+                    
+                    <!-- Side boxes kiri kanan -->
+                    <div class="side-box left"></div>
+                    <div class="side-box right"></div>
+                    
+                    <!-- Baris tengah dengan 5 kotak -->
+                    <div class="middle-row">
+                        <div class="box"><span><input type="text"></span></div>
+                        <div class="box"><span><input type="text"></span></div>
+                        <div class="box"><span><input type="text"></span></div>
+                        <div class="box"><span><input type="text"></span></div>
+                    </div>
+                    <!-- Baris atas dengan 5 kotak -->
+                    <div class="top-row">
+                        <div class="box"></div>
+                        <div class="box"></div>
+                        <div class="box"></div>
+                        <div class="box"></div>
+                    <div class="barcode1">
+                        <div class="bar"></div>
+                        <div class="bar"></div>
+                        <div class="bar"></div>
+                        <div class="bar"></div>
+                        <div class="bar"></div>
+                        <div class="bar"></div>
+                        <div class="bar"></div>
+                    </div>
+                    </div>
+                    
+                    <!-- Corner boxes bawah -->
+                    <div class="corner-box bottom-left"></div>
+                    <div class="corner-box bottom-right"></div>
+                    
+
+                    
+                    <!-- Side labels -->
+                     <div class="side-labels left-3"><input type="text"></div>
+                    <div class="side-labels left-2"><input type="text"></div>
+                    <div class="side-labels right-1"><input type="text"></div>
+                    <div class="side-labels right-2"><input type="text"></div>
+                    <div class="side-labels right-3"><input type="text"></div>
+                    <div class="side-labels right-4"><input type="text"></div>
+                    
+                    <!-- Baris bawah dengan 5 kotak -->
+                    <div class="bottom-row-grid">
+                        <div class="box"></div>
+                        <div class="box"></div>
+                        <div class="box"></div>
+                        <div class="box"></div>
+                    <div class="barcode">
+                        <div class="bar"></div>
+                        <div class="bar"></div>
+                        <div class="bar"></div>
+                        <div class="bar"></div>
+                        <div class="bar"></div>
+                        <div class="bar"></div>
+                        <div class="bar"></div>
+                    </div>
+                    </div>
+                </div>
+                <div class="bottom-label"><input type="text"></div>
+            </div>
+            
+            <!-- Canvas 2: Single large box -->
+            <div class="canvas single-box">
+                <input type="checkbox" class="canvas-checkbox">
+                <div class="box-layout">
+                    <div class="middle-row">
+                        <div class="box"></div>
+                    </div>
+                    
+                    <!-- Side labels -->
+                    <div class="side-labels left-2"><input type="text"></div>
+                    
+                </div>
+                <div class="bottom-label"><input type="text"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

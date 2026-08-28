@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Batal Close - STB</title>
+  <style>
+    body{font-family:Inter,system-ui,Arial;margin:24px;color:#111}
+    .card{max-width:640px;margin:40px auto;padding:20px;border:1px solid #e6e6e6;border-radius:10px}
+    label{display:block;margin-bottom:6px;font-weight:600}
+    input[type=text]{width:100%;padding:10px;border-radius:8px;border:1px solid #ccc}
+    .row{display:flex;gap:8px;margin-top:12px}
+    button{padding:10px 14px;border-radius:8px;border:none;background:#2563eb;color:#fff;font-weight:700;cursor:pointer}
+    button.ghost{background:#eee;color:#111}
+    #msg{margin-top:12px;padding:10px;border-radius:8px;display:none}
+    #msg.ok{background:#ecfdf5;color:#065f46;border:1px solid #bbf7d0;display:block}
+    #msg.err{background:#fff7f7;color:#7f1d1d;border:1px solid #fecaca;display:block}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Batal Close SLC</h2>
+    <p>Masukkan No SLC (contoh: SLC/2605/00785) untuk membatalkan status CLOSE.</p>
+    <label for="sc">No SLC</label>
+    <input id="sc" type="text" placeholder="SLC/2605/00785" autocomplete="off">
+
+    <div class="row">
+      <button id="okBtn">OK</button>
+      <button id="clearBtn" class="ghost" type="button">Bersihkan</button>
+    </div>
+
+    <div id="msg"></div>
+  </div>
+
+  <script>
+    const scEl = document.getElementById('sc');
+    const ok = document.getElementById('okBtn');
+    const clr = document.getElementById('clearBtn');
+    const msg = document.getElementById('msg');
+
+    function show(type, text){ msg.className = type==='ok' ? 'ok' : 'err'; msg.textContent = text; }
+
+    ok.addEventListener('click', async ()=>{
+      const sc = (scEl.value||'').trim();
+      if(!sc){ show('err','Masukkan No SLC terlebih dahulu.'); scEl.focus(); return; }
+      ok.disabled = true; ok.textContent = 'Memproses…';
+      try{
+        const fd = new URLSearchParams(); fd.append('sc', sc);
+        const res = await fetch('batal_close_action.php', { method: 'POST', body: fd });
+        const j = await res.json();
+        if(res.ok && j.success){ show('ok', j.message || 'Batal close berhasil'); }
+        else { show('err', j.message || ('HTTP ' + res.status)); }
+      }catch(e){ show('err','Koneksi gagal: '+ e.message); }
+      ok.disabled = false; ok.textContent = 'OK';
+    });
+
+    clr.addEventListener('click', ()=>{ scEl.value=''; scEl.focus(); msg.style.display='none'; });
+  </script>
+</body>
+</html>

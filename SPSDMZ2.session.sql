@@ -1,0 +1,8 @@
+SELECT Top 10    cNoOp, dTgl, cNoSc, dTglkirim, nQty, nQty_corr, nRm, cMengetahui, cNoMc, cnm_c, cnm_brg, cLayer, cTipe, nTot_netto, nPanjang, nLebar, nTinggi, cWarna, cSambungan, cJnsGel, ckd_b1, ckd_b2, ckd_b3, ckd_b4, ckd_b5, 
+                         nnetto_usp, nbrutto_usl, nbrutto_usp, nlkm_cm1, nlkm_out1, nLidah, nPanjang1, nLebar1, nPanjang2, nLebar2, nFlap1, nTinggiX, nFlap2, lpr_slot, cpr_ikat, cpr_bks, cket_corr, cket_finish, cKetLkp, clengkap1, clengkap2, 
+                         clengkap3, clengkap4, clengkap5, dexpired, cuser_epxired, userid, userdate, ComputerName, cUserComp, AppName, nLkm_cm2, nLkm_Out2, cKetOrder, cCom, nTipeToleransi, nTipeCreasing, nKetCreasing, cCreasing, cJns, 
+                         cKd_C, nToleransi, cKd_K1, cKd_K2, cKd_K3, cKd_K4, cKd_K5, lVoid, lPosted, cNoid, lGbrAnol, nBagi, nHrg_K1, nHrg_K2, nHrg_K3, nHrg_K4, nHrg_K5, nHrg_P1, nHrg_P2, nHrg_P3, nHrg_P4, nHrg_P5, nCop_K, nCop_P, nDblMc, 
+                         nHrg_R1, nHrg_R2, nHrg_R3, nHrg_R4, nHrg_R5, nCopR, nBrt_Real, lOptLayOut0, lOptLayOut1, cNoOpCp, nTot_Brutto, chapus, cFlow, cbalik, cJnsSc, nBrtAdd, cNoLoad, cNew, cNoBaru, cOpBox, nPrint, cCekDt, cDMan, cTB, 
+                         cBrg, lTK, cGab, lLidah, cArhFlut, cWax, cWater, cKdBrg, cNoMcJoin, cFlexo, cDC, cDCA1, cA1Lidah, cNoDcJoin, nlkm_cm3, nlkm_out3, nlkm_cm4, nlkm_out4, nlkm_cm5, nlkm_out5, nlkm_cm6, nlkm_out6, nlkm_cm7, nlkm_out7, 
+                         cPartisiSet, lAuto_Hitung, cMesin, cLembar, nLb, nQtyLyr, nFsc, nAmbilStok, nQtyStok, cPalet, nA2, cKetSc, cNoPalet, lGloss, cGloss, dTglkirim2
+FROM            tbOP

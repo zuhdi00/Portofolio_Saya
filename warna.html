@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>Edit Warna MC</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      min-height: 100vh;
+      margin: 0;
+      background: linear-gradient(-45deg, #6dd5ed, #2193b0, #b2fefa, #70e1f5);
+      background-size: 400% 400%;
+      animation: gradientBG 12s ease-in-out infinite;
+    }
+    @keyframes gradientBG {
+      0% {background-position: 0% 50%;}
+      50% {background-position: 100% 50%;}
+      100% {background-position: 0% 50%;}
+    }
+    .container {
+      max-width: 900px;
+      margin: 48px auto;
+      background: rgba(255,255,255,0.95);
+      border-radius: 18px;
+      box-shadow: 0 8px 32px rgba(44, 62, 80, 0.13);
+      padding: 40px 32px 32px 32px;
+      position: relative;
+      overflow: hidden;
+      animation: fadeIn 1.2s;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(40px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
+    h1 {
+      text-align: center;
+      color: #2193b0;
+      margin-bottom: 32px;
+      letter-spacing: 1px;
+      font-weight: 700;
+      font-size: 2.1rem;
+      text-shadow: 0 2px 8px #b2fefa44;
+      animation: slideDown 1s;
+    }
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-30px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
+    .search-row {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 28px;
+      justify-content: center;
+      align-items: center;
+      animation: fadeIn 1.2s 0.2s backwards;
+    }
+    .search-input {
+      padding: 14px 20px;
+      border: 2px solid #2193b0;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      width: 260px;
+      color: #222;
+      background: #f7fbff;
+      transition: border 0.2s, box-shadow 0.2s;
+      box-shadow: 0 2px 8px #b2fefa22;
+    }
+    .search-input:focus {
+      border-color: #6dd5ed;
+      outline: none;
+      box-shadow: 0 0 0 2px #b2fefa55;
+    }
+    .btn {
+      background: linear-gradient(90deg, #2193b0 0%, #6dd5ed 100%);
+      color: #fff;
+      border: none;
+      padding: 14px 32px;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      font-weight: 600;
+      box-shadow: 0 2px 8px #b2fefa33;
+      transition: background 0.2s, transform 0.1s;
+      outline: none;
+    }
+    .btn:active {
+      transform: scale(0.97);
+    }
+    .btn:disabled {
+      background: #ccc;
+      color: #eee;
+      cursor: not-allowed;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 18px;
+      background: #fff;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 12px #b2fefa22;
+      animation: fadeIn 0.8s 0.2s backwards;
+    }
+    th, td {
+      padding: 13px 10px;
+      border-bottom: 1px solid #eaeaea;
+      text-align: left;
+      color: #222;
+      font-size: 1rem;
+      transition: background 0.2s;
+    }
+    th {
+      background: linear-gradient(90deg, #2193b0 0%, #6dd5ed 100%);
+      color: #fff;
+      font-size: 1.05rem;
+      font-weight: 600;
+      border: none;
+    }
+    tr {
+      transition: background 0.2s;
+    }
+    tr:hover td {
+      background: #eaf6ff;
+    }
+    .edit-warna {
+      width: 110px;
+      padding: 8px 10px;
+      border: 1.5px solid #2193b0;
+      border-radius: 6px;
+      font-size: 1rem;
+      background: #f7fbff;
+      transition: border 0.2s;
+    }
+    .edit-warna:focus {
+      border-color: #6dd5ed;
+      outline: none;
+    }
+    .success, .error {
+      margin-top: 18px;
+      text-align: center;
+      font-size: 1.1rem;
+      font-weight: 500;
+      animation: fadeIn 0.7s;
+    }
+    .success { color: #219c5c; }
+    .error { color: #d32f2f; }
+    .fade-anim {
+      animation: fadeBg 1.2s;
+    }
+    @keyframes fadeBg {
+      from { background: #d0f5ff; }
+      to { background: #fff; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Edit Warna Data MC</h1>
+    <div class="search-row">
+      <input type="text" id="searchInput" class="search-input" placeholder="Cari No MC" onkeydown="if(event.key==='Enter'){searchMC();}">
+      <button class="btn" onclick="searchMC()">Cari</button>
+    </div>
+    <div id="resultArea"></div>
+  </div>
+  <script>
+    function searchMC() {
+      const q = document.getElementById('searchInput').value.trim();
+      const resultArea = document.getElementById('resultArea');
+      resultArea.innerHTML = '<div style="text-align:center;padding:32px;"><svg width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="20" r="18" stroke="#2193b0" stroke-width="4" fill="none"/><circle cx="20" cy="20" r="18" stroke="#6dd5ed" stroke-width="4" fill="none" stroke-dasharray="90" stroke-dashoffset="60"><animateTransform attributeName="transform" type="rotate" from="0 20 20" to="360 20 20" dur="1s" repeatCount="indefinite"/></circle></svg><br>Memuat data...</div>';
+      fetch('get_data_list_mc.php?cNoMc=' + encodeURIComponent(q))
+        .then(res => res.json())
+        .then(data => {
+          if (!data.success || !data.data || data.data.length === 0) {
+            resultArea.innerHTML = '<div class="error">Data tidak ditemukan.</div>';
+            return;
+          }
+          let html = `<table>
+            <thead>
+              <tr>
+                <th>No MC</th>
+                <th>Nama Barang</th>
+                <th>Warna</th>
+                <th>Edit Warna</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody>`;
+          data.data.forEach(row => {
+            html += `<tr id="row-${row.cNoMc}">
+              <td>${row.cNoMc}</td>
+              <td>${row.cnm_brg}</td>
+              <td id="warna-view-${row.cNoMc}">${row.cWarna}</td>
+              <td>
+                <input type="text" class="edit-warna" id="warna-edit-${row.cNoMc}" value="${row.cWarna}" onkeydown="if(event.key==='Enter'){updateWarna('${row.cNoMc}');}">
+              </td>
+              <td>
+                <button class="btn" onclick="updateWarna('${row.cNoMc}')">Simpan</button>
+              </td>
+            </tr>`;
+          });
+          html += '</tbody></table>';
+          resultArea.innerHTML = html;
+        })
+        .catch(err => {
+          resultArea.innerHTML = '<div class="error">Gagal memuat data: ' + err.message + '</div>';
+        });
+    }
+
+    function updateWarna(cNoMc) {
+      const warnaBaru = document.getElementById('warna-edit-' + cNoMc).value.trim();
+      if (!warnaBaru) {
+        showMsg('Warna tidak boleh kosong!', false);
+        return;
+      }
+      fetch('api_update_warna_mc.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: 'cNoMc=' + encodeURIComponent(cNoMc) + '&cWarna=' + encodeURIComponent(warnaBaru)
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          document.getElementById('warna-view-' + cNoMc).textContent = warnaBaru;
+          document.getElementById('row-' + cNoMc).classList.add('fade-anim');
+          setTimeout(() => {
+            document.getElementById('row-' + cNoMc).classList.remove('fade-anim');
+          }, 1200);
+          showMsg('Warna berhasil diupdate!', true);
+        } else {
+          showMsg('Gagal update warna: ' + data.message, false);
+        }
+      })
+      .catch(err => {
+        showMsg('Gagal update warna: ' + err.message, false);
+      });
+    }
+
+    function showMsg(msg, success) {
+      let msgDiv = document.getElementById('msgDiv');
+      if (!msgDiv) {
+        msgDiv = document.createElement('div');
+        msgDiv.id = 'msgDiv';
+        document.querySelector('.container').appendChild(msgDiv);
+      }
+      msgDiv.className = success ? 'success' : 'error';
+      msgDiv.textContent = msg;
+      msgDiv.style.display = 'block';
+      setTimeout(() => { msgDiv.style.display = 'none'; }, 2000);
+    }
+  </script>
+</body>
+</html>

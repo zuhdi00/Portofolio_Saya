@@ -1,0 +1,1327 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pencarian File Gambar</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            padding: 30px;
+            text-align: center;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .search-section {
+            padding: 40px;
+            background: white;
+        }
+
+        .search-container {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            align-items: center;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 15px 20px;
+            border: 2px solid #e1e1e1;
+            border-radius: 50px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .search-input:focus {
+            border-color: #4facfe;
+            box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
+        }
+
+        .search-btn {
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 120px;
+        }
+
+        .search-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(79, 172, 254, 0.3);
+        }
+
+        .search-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+
+
+        .load-more-btn {
+            display: none;
+            margin: 20px auto;
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .load-more-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(79, 172, 254, 0.3);
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #4facfe;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .results-section {
+            padding: 0 40px 40px;
+        }
+
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .results-count {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .view-toggle {
+            display: flex;
+            gap: 10px;
+        }
+
+        .toggle-btn {
+            padding: 8px 15px;
+            border: 2px solid #e1e1e1;
+            background: white;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-btn.active {
+            background: #4facfe;
+            color: white;
+            border-color: #4facfe;
+        }
+
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .image-list {
+            display: none;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .image-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .image-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+
+        .image-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+            background: #f0f0f0;
+        }
+
+        /* Placeholder for loading images */
+        .image-placeholder {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: loading-shimmer 1.5s infinite;
+        }
+
+        @keyframes loading-shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        .image-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .print-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            opacity: 0;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: #333;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .image-card:hover .print-btn {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+
+        .print-btn:hover {
+            background: rgba(79, 172, 254, 0.9);
+            color: white;
+            transform: scale(1.2) !important;
+        }
+
+        .print-btn:active {
+            transform: scale(0.95) !important;
+        }
+
+        .image-info {
+            padding: 15px;
+        }
+
+        .image-name {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+            word-break: break-word;
+        }
+
+        .image-size {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .list-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .list-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+
+        .list-thumbnail {
+            width: 80px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-right: 15px;
+            background: #f0f0f0;
+        }
+
+        .list-info {
+            flex: 1;
+        }
+
+        .list-print-btn {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 8px 15px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            margin-left: 15px;
+        }
+
+        .list-print-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(79, 172, 254, 0.3);
+        }
+
+        .error-message {
+            text-align: center;
+            padding: 40px 20px;
+            color: #e74c3c;
+            font-size: 1.1rem;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 40px 20px;
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.9);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-content {
+            position: relative;
+            margin: auto;
+            display: block;
+            width: 90%;
+            max-width: 800px;
+            max-height: 80%;
+            object-fit: contain;
+            top: 50%;
+            transform: translateY(-50%);
+            animation: zoomIn 0.3s ease;
+        }
+
+        .close {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+        }
+
+        .close:hover {
+            opacity: 0.7;
+        }
+
+        .print-dialog {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 2000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .print-dialog-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            max-width: 500px;
+            width: 90%;
+        }
+
+        .print-dialog h3 {
+            margin-bottom: 20px;
+            color: #333;
+            text-align: center;
+        }
+
+        .print-preview {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 2px dashed #ddd;
+            border-radius: 10px;
+        }
+
+        .print-preview img {
+            max-width: 200px;
+            max-height: 150px;
+            object-fit: contain;
+            border-radius: 5px;
+        }
+
+        .print-options {
+            margin-bottom: 20px;
+        }
+
+        .print-option {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .print-option label {
+            font-weight: 500;
+            color: #333;
+        }
+
+        .size-select, .quality-select {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: white;
+            cursor: pointer;
+        }
+
+        .print-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .print-confirm-btn {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .print-confirm-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(79, 172, 254, 0.3);
+        }
+
+        .print-cancel-btn {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .print-cancel-btn:hover {
+            background: #5a6268;
+        }
+
+        @media print {
+            @page {
+                margin: 0.5in;
+                size: auto;
+            }
+
+            body * {
+                visibility: hidden;
+            }
+            
+            .print-content,
+            .print-content * {
+                visibility: visible;
+            }
+            
+            .print-content {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                text-align: center;
+                padding: 20px;
+                page-break-inside: avoid;
+            }
+            
+            .print-content h2 {
+                margin-bottom: 20px;
+                color: #333 !important;
+                font-size: 18px;
+                -webkit-print-color-adjust: exact;
+            }
+            
+            .print-content img {
+                display: block;
+                margin: 0 auto;
+                page-break-inside: avoid;
+                -webkit-print-color-adjust: exact;
+            }
+            
+            .print-size-small img {
+                max-width: 4in;
+                max-height: 3in;
+            }
+            
+            .print-size-medium img {
+                max-width: 6in;
+                max-height: 4.5in;
+            }
+            
+            .print-size-large img {
+                max-width: 8in;
+                max-height: 6in;
+            }
+            
+            .print-size-full img {
+                max-width: 100%;
+                max-height: 9in;
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes zoomIn {
+            from { transform: translateY(-50%) scale(0.5); }
+            to { transform: translateY(-50%) scale(1); }
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .search-container {
+                flex-direction: column;
+            }
+            
+            .performance-options {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .image-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 15px;
+            }
+            
+            .search-section, .results-section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔍 Pencarian Gambar Master 🔍</h1>
+            <p>Temukan file JPG dari Master Design</p>
+        </div>
+
+        <div class="search-section">
+            <div class="search-container">
+                <input type="text" class="search-input" id="searchInput" placeholder="Masukkan nama file atau kata kunci..." />
+                <button class="search-btn" id="searchBtn">
+                    <span id="searchText">Cari</span>
+                </button>
+            </div>
+            
+
+            
+            <!-- Debug buttons -->
+            <div style="text-align: center; margin-bottom: 20px;">
+                <button onclick="testPHP()" style="padding: 8px 16px; margin: 0 5px; background: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer;">Test PHP</button>
+                <button onclick="testConnection()" style="padding: 8px 16px; margin: 0 5px; background: #17a2b8; color: white; border: none; border-radius: 5px; cursor: pointer;">Test Connection</button>
+            </div>
+            
+            <div class="loading" id="loading">
+                <div class="loading-spinner"></div>
+                <p>Mencari file gambar...</p>
+            </div>
+        </div>
+
+        <div class="results-section" id="resultsSection" style="display: none;">
+            <div class="results-header">
+                <div class="results-count" id="resultsCount">0 file ditemukan</div>
+                <div class="view-toggle">
+                    <button class="toggle-btn active" id="gridView">Grid</button>
+                    <button class="toggle-btn" id="listView">List</button>
+                </div>
+            </div>
+            
+            <div class="image-grid" id="imageGrid"></div>
+            <div class="image-list" id="imageList"></div>
+            
+            <button class="load-more-btn" id="loadMoreBtn">Muat Lebih Banyak</button>
+        </div>
+    </div>
+
+    <div class="modal" id="imageModal">
+        <span class="close" id="closeModal">&times;</span>
+        <img class="modal-content" id="modalImage">
+    </div>
+
+    <!-- Print Dialog -->
+    <div id="printDialog" class="print-dialog">
+        <div class="print-dialog-content">
+            <h3>Print Gambar</h3>
+            <div class="print-preview">
+                <img id="dialogPreviewImage" src="" alt="Preview">
+                <p id="dialogImageName" style="margin-top: 10px; font-weight: 600;"></p>
+            </div>
+            <div class="print-options">
+                <div class="print-option">
+                    <label>Ukuran Print:</label>
+                    <select id="printSize" class="size-select">
+                        <option value="small">Kecil (4" x 3")</option>
+                        <option value="medium" selected>Sedang (6" x 4.5")</option>
+                        <option value="large">Besar (8" x 6")</option>
+                        <option value="full">Penuh (Full Page)</option>
+                    </select>
+                </div>
+                <div class="print-option">
+                    <label>Kualitas:</label>
+                    <select id="printQuality" class="quality-select">
+                        <option value="draft">Draft</option>
+                        <option value="normal" selected>Normal</option>
+                        <option value="high">Tinggi</option>
+                    </select>
+                </div>
+            </div>
+            <div class="print-actions">
+                <button id="printConfirm" class="print-confirm-btn">🖨️ Print</button>
+                <button id="printCancel" class="print-cancel-btn">Batal</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden print container -->
+    <div id="printContainer" class="print-content" style="display: none;">
+        <h2 id="printTitle"></h2>
+        <img id="printImageElement" />
+    </div>
+
+    <script>
+        class OptimizedImageSearchApp {
+            constructor() {
+                this.searchInput = document.getElementById('searchInput');
+                this.searchBtn = document.getElementById('searchBtn');
+                this.loading = document.getElementById('loading');
+                this.resultsSection = document.getElementById('resultsSection');
+                this.resultsCount = document.getElementById('resultsCount');
+                this.imageGrid = document.getElementById('imageGrid');
+                this.imageList = document.getElementById('imageList');
+                this.gridViewBtn = document.getElementById('gridView');
+                this.listViewBtn = document.getElementById('listView');
+                this.modal = document.getElementById('imageModal');
+                this.modalImage = document.getElementById('modalImage');
+                this.closeModal = document.getElementById('closeModal');
+                this.loadMoreBtn = document.getElementById('loadMoreBtn');
+                
+                // Print dialog elements
+                this.printDialog = document.getElementById('printDialog');
+                this.dialogPreviewImage = document.getElementById('dialogPreviewImage');
+                this.dialogImageName = document.getElementById('dialogImageName');
+                this.printSize = document.getElementById('printSize');
+                this.printQuality = document.getElementById('printQuality');
+                this.printConfirm = document.getElementById('printConfirm');
+                this.printCancel = document.getElementById('printCancel');
+                
+                // Print container elements
+                this.printContainer = document.getElementById('printContainer');
+                this.printTitle = document.getElementById('printTitle');
+                this.printImageElement = document.getElementById('printImageElement');
+                
+                this.currentView = 'grid';
+                this.allResults = [];
+                this.displayedResults = [];
+                this.currentPrintImage = null;
+                this.currentPage = 0;
+                this.itemsPerPage = 20;
+                this.abortController = null;
+                
+                // Performance settings (auto-enabled)
+                this.lazyLoadEnabled = true;
+                this.lowQualityEnabled = true;
+                this.paginationEnabled = true;
+                this.preloadEnabled = false;
+                
+                // Image loading management
+                this.imageObserver = null;
+                this.imageCache = new Map();
+                
+                this.initEventListeners();
+                this.initIntersectionObserver();
+            }
+
+            initEventListeners() {
+                this.searchBtn.addEventListener('click', () => this.performSearch());
+                this.searchInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') this.performSearch();
+                });
+                
+                this.gridViewBtn.addEventListener('click', () => this.switchView('grid'));
+                this.listViewBtn.addEventListener('click', () => this.switchView('list'));
+                
+                this.closeModal.addEventListener('click', () => this.closeImageModal());
+                this.modal.addEventListener('click', (e) => {
+                    if (e.target === this.modal) this.closeImageModal();
+                });
+                
+                this.loadMoreBtn.addEventListener('click', () => this.loadMoreImages());
+                
+                // Print dialog event listeners
+                this.printConfirm.addEventListener('click', () => this.executePrint());
+                this.printCancel.addEventListener('click', () => this.closePrintDialog());
+                this.printDialog.addEventListener('click', (e) => {
+                    if (e.target === this.printDialog) this.closePrintDialog();
+                });
+                
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape') {
+                        this.closeImageModal();
+                        this.closePrintDialog();
+                    }
+                });
+                
+                // Performance option listeners (removed)
+                
+            }
+
+            initIntersectionObserver() {
+                if ('IntersectionObserver' in window) {
+                    this.imageObserver = new IntersectionObserver((entries) => {
+                        entries.forEach(entry => {
+                            if (entry.isIntersecting) {
+                                const img = entry.target;
+                                if (img.dataset.src) {
+                                    this.loadImage(img);
+                                }
+                            }
+                        });
+                    }, {
+                        rootMargin: '50px 0px',
+                        threshold: 0.01
+                    });
+                }
+            }
+
+            async loadImage(img) {
+                if (img.src && img.src !== '') return;
+                
+                const src = img.dataset.src;
+                if (!src) return;
+                
+                // Show placeholder
+                img.classList.add('image-placeholder');
+                
+                try {
+                    // Check cache first
+                    if (this.imageCache.has(src)) {
+                        img.src = this.imageCache.get(src);
+                        img.classList.remove('image-placeholder');
+                        this.imageObserver?.unobserve(img);
+                        return;
+                    }
+                    
+                    // Load with quality adjustment
+                    let imageSrc = src;
+                    if (this.lowQualityEnabled) {
+                        // Add quality parameter or use thumbnail version
+                        imageSrc = this.getOptimizedImageUrl(src);
+                    }
+                    
+                    // Preload image
+                    const preloadImg = new Image();
+                    preloadImg.onload = () => {
+                        img.src = imageSrc;
+                        img.classList.remove('image-placeholder');
+                        this.imageCache.set(src, imageSrc);
+                        this.imageObserver?.unobserve(img);
+                    };
+                    
+                    preloadImg.onerror = () => {
+                        img.classList.remove('image-placeholder');
+                        img.style.background = '#f8f9fa';
+                        img.alt = 'Gagal memuat gambar';
+                        this.imageObserver?.unobserve(img);
+                    };
+                    
+                    preloadImg.src = imageSrc;
+                    
+                } catch (error) {
+                    console.error('Error loading image:', error);
+                    img.classList.remove('image-placeholder');
+                    img.style.background = '#f8f9fa';
+                }
+            }
+
+            getOptimizedImageUrl(originalUrl) {
+                // This would depend on your server setup
+                // Example: add query parameter for thumbnail
+                const url = new URL(originalUrl, window.location.origin);
+                url.searchParams.set('quality', 'low');
+                url.searchParams.set('size', 'thumb');
+                return url.toString();
+            }
+
+            async performSearch() {
+                const query = this.searchInput.value.trim();
+                if (!query) {
+                    alert('Masukkan kata kunci pencarian');
+                    return;
+                }
+
+                // Cancel previous request
+                if (this.abortController) {
+                    this.abortController.abort();
+                }
+                this.abortController = new AbortController();
+
+                this.showLoading(true);
+                this.hideResults();
+                this.resetResults();
+
+                try {
+                    const apiUrl = `./search_images_cmd.php?q=${encodeURIComponent(query)}`;
+                    console.log('Fetching from:', apiUrl);
+                    
+                    const response = await fetch(apiUrl, {
+                        method: 'GET',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        signal: this.abortController.signal
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                    }
+                    
+                    const responseText = await response.text();
+                    console.log('Raw response length:', responseText.length);
+                    
+                    let data;
+                    try {
+                        data = JSON.parse(responseText);
+                    } catch (parseError) {
+                        console.error('JSON Parse Error:', parseError);
+                        throw new Error(`Server returned invalid JSON. Response: ${responseText.substring(0, 200)}${responseText.length > 200 ? '...' : ''}`);
+                    }
+                    
+                    if (!data.success) {
+                        throw new Error(data.error || 'Unknown server error');
+                    }
+                    
+                    this.allResults = data.images || [];
+                    this.processResults();
+                    
+                } catch (error) {
+                    if (error.name === 'AbortError') {
+                        console.log('Search cancelled');
+                        return;
+                    }
+                    console.error('Search Error:', error);
+                    this.showError('Error: ' + error.message);
+                } finally {
+                    this.showLoading(false);
+                }
+            }
+
+            processResults() {
+                // Sort by relevance or name
+                this.allResults.sort((a, b) => a.name.localeCompare(b.name));
+                
+                // Reset pagination
+                this.currentPage = 0;
+                this.displayedResults = [];
+                
+                this.displayResults();
+                
+                // Preload images if enabled
+                if (this.preloadEnabled) {
+                    this.preloadVisibleImages();
+                }
+            }
+
+            displayResults() {
+                this.showResults();
+                this.updateResultsCount();
+                
+                if (this.allResults.length === 0) {
+                    this.showNoResults();
+                    return;
+                }
+                
+                if (this.paginationEnabled) {
+                    this.loadMoreImages();
+                } else {
+                    this.displayAllResults();
+                }
+            }
+
+            displayAllResults() {
+                this.displayedResults = [...this.allResults];
+                this.renderImages();
+                this.loadMoreBtn.style.display = 'none';
+            }
+
+            loadMoreImages() {
+                const startIndex = this.currentPage * this.itemsPerPage;
+                const endIndex = startIndex + this.itemsPerPage;
+                const newItems = this.allResults.slice(startIndex, endIndex);
+                
+                if (newItems.length === 0) {
+                    this.loadMoreBtn.style.display = 'none';
+                    return;
+                }
+                
+                this.displayedResults.push(...newItems);
+                this.renderImages();
+                this.currentPage++;
+                
+                // Show/hide load more button
+                const hasMore = endIndex < this.allResults.length;
+                this.loadMoreBtn.style.display = hasMore ? 'block' : 'none';
+            }
+
+            renderImages() {
+                // Use DocumentFragment for better performance
+                const gridFragment = document.createDocumentFragment();
+                const listFragment = document.createDocumentFragment();
+                
+                // Clear existing content only if this is a new search
+                if (this.currentPage === 0 || !this.paginationCheckbox.checked) {
+                    this.imageGrid.innerHTML = '';
+                    this.imageList.innerHTML = '';
+                }
+                
+                this.displayedResults.forEach((image, index) => {
+                    // Only render new items in pagination mode
+                    if (this.paginationEnabled && this.currentPage > 0) {
+                        const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+                        if (index < startIndex) return;
+                    }
+                    
+                    // Grid view
+                    const gridCard = this.createGridCard(image, index);
+                    gridFragment.appendChild(gridCard);
+                    
+                    // List view
+                    const listItem = this.createListItem(image, index);
+                    listFragment.appendChild(listItem);
+                });
+                
+                this.imageGrid.appendChild(gridFragment);
+                this.imageList.appendChild(listFragment);
+            }
+
+            createGridCard(image, index) {
+                const card = document.createElement('div');
+                card.className = 'image-card';
+                
+                const img = document.createElement('img');
+                img.alt = image.name;
+                img.loading = 'lazy';
+                
+                // Implement lazy loading
+                if (this.lazyLoadEnabled && this.imageObserver) {
+                    img.dataset.src = image.url;
+                    img.classList.add('image-placeholder');
+                    this.imageObserver.observe(img);
+                } else {
+                    img.src = this.lowQualityEnabled ? this.getOptimizedImageUrl(image.url) : image.url;
+                }
+                
+                const printBtn = document.createElement('button');
+                printBtn.className = 'print-btn';
+                printBtn.title = 'Print Gambar';
+                printBtn.innerHTML = '🖨️';
+                printBtn.onclick = (e) => {
+                    e.stopPropagation();
+                    this.showPrintDialog(image.url, image.name);
+                };
+                
+                const imageInfo = document.createElement('div');
+                imageInfo.className = 'image-info';
+                imageInfo.innerHTML = `
+                    <div class="image-name">${image.name}</div>
+                    <div class="image-size">${this.formatFileSize(image.size)}</div>
+                `;
+                
+                card.appendChild(img);
+                card.appendChild(printBtn);
+                card.appendChild(imageInfo);
+                
+                // Add click event for modal (excluding print button)
+                card.addEventListener('click', (e) => {
+                    if (!e.target.classList.contains('print-btn')) {
+                        this.openImageModal(image.url);
+                    }
+                });
+                
+                return card;
+            }
+
+            createListItem(image, index) {
+                const item = document.createElement('div');
+                item.className = 'list-item';
+                
+                const thumbnail = document.createElement('img');
+                thumbnail.className = 'list-thumbnail';
+                thumbnail.alt = image.name;
+                thumbnail.loading = 'lazy';
+                
+                // Implement lazy loading for thumbnails
+                if (this.lazyLoadEnabled && this.imageObserver) {
+                    thumbnail.dataset.src = this.getOptimizedImageUrl(image.url);
+                    this.imageObserver.observe(thumbnail);
+                } else {
+                    thumbnail.src = this.getOptimizedImageUrl(image.url);
+                }
+                
+                const listInfo = document.createElement('div');
+                listInfo.className = 'list-info';
+                listInfo.innerHTML = `
+                    <div class="image-name">${image.name}</div>
+                    <div class="image-size">${this.formatFileSize(image.size)}</div>
+                `;
+                
+                const printBtn = document.createElement('button');
+                printBtn.className = 'list-print-btn';
+                printBtn.title = 'Print Gambar';
+                printBtn.innerHTML = '🖨️ Print';
+                printBtn.onclick = (e) => {
+                    e.stopPropagation();
+                    this.showPrintDialog(image.url, image.name);
+                };
+                
+                item.appendChild(thumbnail);
+                item.appendChild(listInfo);
+                item.appendChild(printBtn);
+                
+                // Add click event for modal
+                item.addEventListener('click', (e) => {
+                    if (!e.target.classList.contains('list-print-btn')) {
+                        this.openImageModal(image.url);
+                    }
+                });
+                
+                return item;
+            }
+
+            preloadVisibleImages() {
+                // Preload first few images for better UX
+                const imagesToPreload = this.allResults.slice(0, 6);
+                imagesToPreload.forEach(image => {
+                    const img = new Image();
+                    img.src = this.lowQualityEnabled ? 
+                        this.getOptimizedImageUrl(image.url) : image.url;
+                    this.imageCache.set(image.url, img.src);
+                });
+            }
+
+            showPrintDialog(imageUrl, imageName) {
+                this.currentPrintImage = { url: imageUrl, name: imageName };
+                
+                // Set preview image and name
+                this.dialogPreviewImage.src = this.lowQualityEnabled ? 
+                    this.getOptimizedImageUrl(imageUrl) : imageUrl;
+                this.dialogImageName.textContent = imageName;
+                
+                // Show print dialog
+                this.printDialog.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+            }
+
+            closePrintDialog() {
+                this.printDialog.style.display = 'none';
+                document.body.style.overflow = 'auto';
+                this.currentPrintImage = null;
+            }
+
+            executePrint() {
+                if (!this.currentPrintImage) return;
+                
+                const size = this.printSize.value;
+                const quality = this.printQuality.value;
+                
+                // Set print container content
+                this.printTitle.textContent = this.currentPrintImage.name;
+                this.printImageElement.src = this.currentPrintImage.url; // Use original quality for printing
+                
+                // Apply size class
+                this.printContainer.className = `print-content print-size-${size}`;
+                
+                // Wait for image to load
+                this.printImageElement.onload = () => {
+                    this.closePrintDialog();
+                    this.printContainer.style.display = 'block';
+                    
+                    setTimeout(() => {
+                        window.print();
+                        
+                        const checkPrintDialog = () => {
+                            setTimeout(() => {
+                                this.printContainer.style.display = 'none';
+                            }, 500);
+                        };
+                        
+                        window.addEventListener('afterprint', checkPrintDialog, { once: true });
+                        setTimeout(checkPrintDialog, 3000);
+                    }, 100);
+                };
+                
+                this.printImageElement.onerror = () => {
+                    alert('Gagal memuat gambar untuk print');
+                    this.closePrintDialog();
+                };
+            }
+
+            resetResults() {
+                this.allResults = [];
+                this.displayedResults = [];
+                this.currentPage = 0;
+                this.imageCache.clear();
+            }
+
+            formatFileSize(bytes) {
+                if (!bytes) return 'Unknown size';
+                const sizes = ['B', 'KB', 'MB', 'GB'];
+                const i = Math.floor(Math.log(bytes) / Math.log(1024));
+                return Math.round(bytes / Math.pow(1024, i) * 100) / 100 + ' ' + sizes[i];
+            }
+
+            switchView(view) {
+                this.currentView = view;
+                
+                if (view === 'grid') {
+                    this.imageGrid.style.display = 'grid';
+                    this.imageList.style.display = 'none';
+                    this.gridViewBtn.classList.add('active');
+                    this.listViewBtn.classList.remove('active');
+                } else {
+                    this.imageGrid.style.display = 'none';
+                    this.imageList.style.display = 'flex';
+                    this.gridViewBtn.classList.remove('active');
+                    this.listViewBtn.classList.add('active');
+                }
+            }
+
+            openImageModal(imageUrl) {
+                // Use original quality for modal
+                this.modalImage.src = imageUrl;
+                this.modal.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+            }
+
+            closeImageModal() {
+                this.modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+
+            showLoading(show) {
+                this.loading.style.display = show ? 'block' : 'none';
+                this.searchBtn.disabled = show;
+                document.getElementById('searchText').textContent = show ? 'Mencari...' : 'Cari';
+            }
+
+            showResults() {
+                this.resultsSection.style.display = 'block';
+            }
+
+            hideResults() {
+                this.resultsSection.style.display = 'none';
+            }
+
+            updateResultsCount() {
+                const totalCount = this.allResults.length;
+                const displayedCount = this.displayedResults.length;
+                
+                if (this.paginationEnabled && totalCount > displayedCount) {
+                    this.resultsCount.textContent = `${displayedCount} dari ${totalCount} file ditemukan`;
+                } else {
+                    this.resultsCount.textContent = `${totalCount} file ditemukan`;
+                }
+            }
+
+            showError(message) {
+                this.imageGrid.innerHTML = `<div class="error-message">${message}</div>`;
+                this.showResults();
+            }
+
+            showNoResults() {
+                this.imageGrid.innerHTML = '<div class="no-results">Tidak ada file yang ditemukan. Coba dengan kata kunci lain.</div>';
+            }
+
+            // Cleanup method
+            destroy() {
+                if (this.abortController) {
+                    this.abortController.abort();
+                }
+                if (this.imageObserver) {
+                    this.imageObserver.disconnect();
+                }
+                this.imageCache.clear();
+            }
+        }
+
+        // Initialize app when DOM is loaded
+        let app;
+        document.addEventListener('DOMContentLoaded', () => {
+            app = new OptimizedImageSearchApp();
+        });
+
+        // Cleanup on page unload
+        window.addEventListener('beforeunload', () => {
+            if (app) app.destroy();
+        });
+        
+        // Test functions
+        async function testPHP() {
+            console.log('Testing PHP...');
+            try {
+                const response = await fetch('./test_simple.php?q=test');
+                const text = await response.text();
+                console.log('PHP Test Response:', text);
+                
+                const data = JSON.parse(text);
+                alert('PHP Test Success: ' + data.message);
+            } catch (error) {
+                console.error('PHP Test Error:', error);
+                alert('PHP Test Failed: ' + error.message);
+            }
+        }
+        
+        async function testConnection() {
+            console.log('Testing connection...');
+            try {
+                const response = await fetch('./test_connection.php');
+                const text = await response.text();
+                console.log('Connection Test Response:', text);
+                
+                const data = JSON.parse(text);
+                console.log('Parsed connection test:', data);
+                
+                let message = `Overall Status: ${data.summary.overall_status}\n`;
+                if (data.summary.critical_issues.length > 0) {
+                    message += 'Critical Issues:\n- ' + data.summary.critical_issues.join('\n- ');
+                } else {
+                    message += 'No critical issues found!';
+                }
+                
+                alert(message);
+            } catch (error) {
+                console.error('Connection Test Error:', error);
+                alert('Connection Test Failed: ' + error.message);
+            }
+        }
+
+        // Additional performance optimizations
+        
+        // Throttle resize events
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                if (app && app.imageObserver) {
+                    // Recalculate observer
+                    app.imageObserver.disconnect();
+                    app.initIntersectionObserver();
+                    
+                    // Re-observe images
+                    const images = document.querySelectorAll('img[data-src]');
+                    images.forEach(img => app.imageObserver.observe(img));
+                }
+            }, 250);
+        });
+
+        // Memory cleanup
+        setInterval(() => {
+            if (app && app.imageCache.size > 100) {
+                // Keep only the most recent 50 images in cache
+                const entries = Array.from(app.imageCache.entries());
+                const toKeep = entries.slice(-50);
+                app.imageCache.clear();
+                toKeep.forEach(([key, value]) => app.imageCache.set(key, value));
+            }
+        }, 60000); // Clean every minute
+    </script>
+</body>
+</html>

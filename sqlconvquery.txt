@@ -1,0 +1,8 @@
+SELECT cNoConv, cNoId, cNoOp, cPemesan, cType, cNoMc, cKetDtl, nHasil, nRusak, dStart, dFinish, cFlute, cSub1, cSub2, cSub3, cSub4, cSub5, nBrtDtl, nRm, nQtyOrder, nL, nP, nLk, nOut, nQtyCorr, nTol, cKts1, cKts2, cKts3, cKts4, cKts5, cKetJns, cNoUrut, nBagi, nDouble, cKetOrder, cKode, cNamaMsn, UserId, UserDate, ComputerName, cUserComp, AppName, nOut1
+FROM tbConvPlanDtl
+
+SELECT cNoConv, cKodeFlx, dTanggal, cKeterangan, lVoid, cKet2, cKet3, cKet4, cKet5, cKet6, nBerat, lPosted, UserId, UserDate, ComputerName, cUserComp, AppName
+FROM tbConvPlan
+
+SELECT cKode, cNama, nSpeed, cId, cPrs, cUrut, UserId, UserDate, ComputerName, cUserComp, AppName, nSpeedPcs
+FROM tbMesin

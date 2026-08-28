@@ -1,0 +1,119 @@
+{
+    "time": "2026-05-25T19:37:31+02:00",
+    "php_user": "SYSTEM",
+    "cwd": "C:\\xampp\\htdocs\\image-search",
+    "net_use_basic": "'net' is not recognized as an internal or external command,\noperable program or batch file.\n",
+    "net_use_fullpaths": {
+        "C:\\Windows\\System32\\net.exe use 2>&1": "New connections will be remembered.\n\n\nStatus       Local     Remote                    Network\n\n-------------------------------------------------------------------------------\nUnavailable  Z:        \\\\192.168.0.204\\Master Design \n                                                Microsoft Windows Network\nThe command completed successfully.\n\n",
+        "C:\\Windows\\Sysnative\\net.exe use 2>&1": "The system cannot find the path specified.\n"
+    },
+    "extra_command_checks": {
+        "\"C:\\Windows\\System32\\net.exe\" use 2>&1": "New connections will be remembered.\n\n\nStatus       Local     Remote                    Network\n\n-------------------------------------------------------------------------------\nUnavailable  Z:        \\\\192.168.0.204\\Master Design \n                                                Microsoft Windows Network\nThe command completed successfully.\n\n",
+        "\"C:\\Windows\\Sysnative\\net.exe\" use 2>&1": "The system cannot find the path specified.\n",
+        "\"C:\\Windows\\System32\\whoami.exe\" 2>&1": "nt authority\\system\n",
+        "%COMSPEC% /c dir \\\\\\192.168.0.204\\\\Master Design 2>&1": "The specified path is invalid.\n"
+    }
+}
+
+{
+    "time": "2026-05-25T19:41:59+02:00",
+    "php_user": "SYSTEM",
+    "cwd": "C:\\xampp\\htdocs\\image-search",
+    "net_use_basic": "'net' is not recognized as an internal or external command,\noperable program or batch file.\n",
+    "net_use_fullpaths": {
+        "C:\\Windows\\System32\\net.exe use 2>&1": "New connections will be remembered.\n\n\nStatus       Local     Remote                    Network\n\n-------------------------------------------------------------------------------\nUnavailable  Z:        \\\\192.168.0.204\\Master Design \n                                                Microsoft Windows Network\nThe command completed successfully.\n\n",
+        "C:\\Windows\\Sysnative\\net.exe use 2>&1": "The system cannot find the path specified.\n"
+    },
+    "extra_command_checks": {
+        "\"C:\\Windows\\System32\\net.exe\" use 2>&1": "New connections will be remembered.\n\n\nStatus       Local     Remote                    Network\n\n-------------------------------------------------------------------------------\nUnavailable  Z:        \\\\192.168.0.204\\Master Design \n                                                Microsoft Windows Network\nThe command completed successfully.\n\n",
+        "\"C:\\Windows\\Sysnative\\net.exe\" use 2>&1": "The system cannot find the path specified.\n",
+        "\"C:\\Windows\\System32\\whoami.exe\" 2>&1": "nt authority\\system\n",
+        "%COMSPEC% /c dir \\\\\\192.168.0.204\\\\Master Design 2>&1": "The specified path is invalid.\n"
+    }
+}
+
+{
+    "time": "2026-05-25T19:46:43+02:00",
+    "php_user": "SYSTEM",
+    "cwd": "C:\\xampp\\htdocs\\image-search",
+    "net_use_basic": "'net' is not recognized as an internal or external command,\noperable program or batch file.\n",
+    "net_use_fullpaths": {
+        "C:\\Windows\\System32\\net.exe use 2>&1": "New connections will be remembered.\n\n\nStatus       Local     Remote                    Network\n\n-------------------------------------------------------------------------------\nOK           Z:        \\\\192.168.0.204\\Master Design \n                                                Microsoft Windows Network\nThe command completed successfully.\n\n",
+        "C:\\Windows\\Sysnative\\net.exe use 2>&1": "The system cannot find the path specified.\n"
+    },
+    "extra_command_checks": {
+        "\"C:\\Windows\\System32\\net.exe\" use 2>&1": "New connections will be remembered.\n\n\nStatus       Local     Remote                    Network\n\n-------------------------------------------------------------------------------\nOK           Z:        \\\\192.168.0.204\\Master Design \n                                                Microsoft Windows Network\nThe command completed successfully.\n\n",
+        "\"C:\\Windows\\Sysnative\\net.exe\" use 2>&1": "The system cannot find the path specified.\n",
+        "\"C:\\Windows\\System32\\whoami.exe\" 2>&1": "nt authority\\system\n",
+        "%COMSPEC% /c dir \\\\\\192.168.0.204\\\\Master Design 2>&1": "The specified path is invalid.\n"
+    }
+}
+
+{
+    "time": "2026-05-28T07:09:03+02:00",
+    "php_user": "SYSTEM",
+    "cwd": "C:\\xampp\\htdocs\\image-search",
+    "net_use_basic": "'net' is not recognized as an internal or external command,\noperable program or batch file.\n",
+    "net_use_fullpaths": {
+        "C:\\Windows\\System32\\net.exe use 2>&1": "New connections will be remembered.\n\n\nStatus       Local     Remote                    Network\n\n-------------------------------------------------------------------------------\nUnavailable  Z:        \\\\192.168.0.204\\Master Design \n                                                Microsoft Windows Network\nThe command completed successfully.\n\n",
+        "C:\\Windows\\Sysnative\\net.exe use 2>&1": "The system cannot find the path specified.\n"
+    },
+    "extra_command_checks": {
+        "\"C:\\Windows\\System32\\net.exe\" use 2>&1": "New connections will be remembered.\n\n\nStatus       Local     Remote                    Network\n\n-------------------------------------------------------------------------------\nUnavailable  Z:        \\\\192.168.0.204\\Master Design \n                                                Microsoft Windows Network\nThe command completed successfully.\n\n",
+        "\"C:\\Windows\\Sysnative\\net.exe\" use 2>&1": "The system cannot find the path specified.\n",
+        "\"C:\\Windows\\System32\\whoami.exe\" 2>&1": "nt authority\\system\n",
+        "%COMSPEC% /c dir \\\\\\192.168.0.204\\\\Master Design 2>&1": "The specified path is invalid.\n"
+    }
+}
+
+{
+    "time": "2026-05-28T07:18:41+02:00",
+    "php_user": "SYSTEM",
+    "cwd": "C:\\xampp\\htdocs\\image-search",
+    "net_use_basic": "'net' is not recognized as an internal or external command,\noperable program or batch file.\n",
+    "net_use_fullpaths": {
+        "C:\\Windows\\System32\\net.exe use 2>&1": "New connections will be remembered.\n\n\nStatus       Local     Remote                    Network\n\n-------------------------------------------------------------------------------\nUnavailable  Z:        \\\\192.168.0.204\\Master Design \n                                                Microsoft Windows Network\nThe command completed successfully.\n\n",
+        "C:\\Windows\\Sysnative\\net.exe use 2>&1": "The system cannot find the path specified.\n"
+    },
+    "extra_command_checks": {
+        "\"C:\\Windows\\System32\\net.exe\" use 2>&1": "New connections will be remembered.\n\n\nStatus       Local     Remote                    Network\n\n-------------------------------------------------------------------------------\nUnavailable  Z:        \\\\192.168.0.204\\Master Design \n                                                Microsoft Windows Network\nThe command completed successfully.\n\n",
+        "\"C:\\Windows\\Sysnative\\net.exe\" use 2>&1": "The system cannot find the path specified.\n",
+        "\"C:\\Windows\\System32\\whoami.exe\" 2>&1": "nt authority\\system\n",
+        "%COMSPEC% /c dir \\\\\\192.168.0.204\\\\Master Design 2>&1": "The specified path is invalid.\n"
+    }
+}
+
+{
+    "time": "2026-05-28T07:18:43+02:00",
+    "php_user": "SYSTEM",
+    "cwd": "C:\\xampp\\htdocs\\image-search",
+    "net_use_basic": "'net' is not recognized as an internal or external command,\noperable program or batch file.\n",
+    "net_use_fullpaths": {
+        "C:\\Windows\\System32\\net.exe use 2>&1": "New connections will be remembered.\n\n\nStatus       Local     Remote                    Network\n\n-------------------------------------------------------------------------------\nUnavailable  Z:        \\\\192.168.0.204\\Master Design \n                                                Microsoft Windows Network\nThe command completed successfully.\n\n",
+        "C:\\Windows\\Sysnative\\net.exe use 2>&1": "The system cannot find the path specified.\n"
+    },
+    "extra_command_checks": {
+        "\"C:\\Windows\\System32\\net.exe\" use 2>&1": "New connections will be remembered.\n\n\nStatus       Local     Remote                    Network\n\n-------------------------------------------------------------------------------\nUnavailable  Z:        \\\\192.168.0.204\\Master Design \n                                                Microsoft Windows Network\nThe command completed successfully.\n\n",
+        "\"C:\\Windows\\Sysnative\\net.exe\" use 2>&1": "The system cannot find the path specified.\n",
+        "\"C:\\Windows\\System32\\whoami.exe\" 2>&1": "nt authority\\system\n",
+        "%COMSPEC% /c dir \\\\\\192.168.0.204\\\\Master Design 2>&1": "The specified path is invalid.\n"
+    }
+}
+
+{
+    "time": "2026-05-28T08:22:37+02:00",
+    "php_user": "SYSTEM",
+    "cwd": "C:\\xampp\\htdocs\\image-search",
+    "net_use_basic": "'net' is not recognized as an internal or external command,\noperable program or batch file.\n",
+    "net_use_fullpaths": {
+        "C:\\Windows\\System32\\net.exe use 2>&1": "New connections will be remembered.\n\n\nStatus       Local     Remote                    Network\n\n-------------------------------------------------------------------------------\nUnavailable  Z:        \\\\192.168.0.204\\Master Design \n                                                Microsoft Windows Network\nOK                     \\\\192.168.0.204\\Master Design \n                                                Microsoft Windows Network\nThe command completed successfully.\n\n",
+        "C:\\Windows\\Sysnative\\net.exe use 2>&1": "The system cannot find the path specified.\n"
+    },
+    "extra_command_checks": {
+        "\"C:\\Windows\\System32\\net.exe\" use 2>&1": "New connections will be remembered.\n\n\nStatus       Local     Remote                    Network\n\n-------------------------------------------------------------------------------\nUnavailable  Z:        \\\\192.168.0.204\\Master Design \n                                                Microsoft Windows Network\nOK                     \\\\192.168.0.204\\Master Design \n                                                Microsoft Windows Network\nThe command completed successfully.\n\n",
+        "\"C:\\Windows\\Sysnative\\net.exe\" use 2>&1": "The system cannot find the path specified.\n",
+        "\"C:\\Windows\\System32\\whoami.exe\" 2>&1": "nt authority\\system\n",
+        "%COMSPEC% /c dir \\\\\\192.168.0.204\\\\Master Design 2>&1": "The specified path is invalid.\n"
+    }
+}
+

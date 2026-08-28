@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PT Supracor Sejahtera - Project Presentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            overflow: hidden;
+        }
+
+        .presentation-container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+        }
+
+        .slide {
+            display: none;
+            width: 100%;
+            height: 100%;
+            padding: 40px;
+            animation: slideIn 0.5s ease-in-out;
+        }
+
+        .slide.active {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Slide 1 - Title */
+        .title-slide {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            text-align: center;
+            color: white;
+        }
+
+        .title-slide h1 {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .title-slide h2 {
+            font-size: 2rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+
+        .title-slide .subtitle {
+            font-size: 1.5rem;
+            opacity: 0.8;
+            animation: fadeInUp 1s ease-out 0.4s both;
+        }
+
+        /* Slide 2 - Overview */
+        .overview-slide {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+
+        .content-container {
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .overview-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+            margin-top: 40px;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+
+        /* Slide 3 - Master Gambar System */
+        .master-slide {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+        }
+
+        .system-features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .feature-item {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .feature-item:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        /* Slide 4 - Production Dashboard */
+        .dashboard-slide {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            color: #333;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        /* Slide 5 - Technical Implementation */
+        .tech-slide {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            color: #333;
+        }
+
+        .tech-stack {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .tech-category {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .tech-list {
+            list-style: none;
+            margin-top: 20px;
+        }
+
+        .tech-list li {
+            padding: 8px 0;
+            font-weight: 500;
+        }
+
+        /* Slide 6 - Impact & Results */
+        .impact-slide {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+            color: #333;
+        }
+
+        .impact-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+            margin-top: 40px;
+        }
+
+        .impact-card {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 35px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+
+        .impact-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: #667eea;
+        }
+
+        /* Navigation */
+        .navigation {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            z-index: 1000;
+        }
+
+        .nav-btn {
+            padding: 12px 25px;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 1);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .slide-indicator {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 10px 20px;
+            border-radius: 20px;
+            color: white;
+            font-weight: bold;
+            backdrop-filter: blur(10px);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        h1, h2, h3 {
+            margin-bottom: 20px;
+        }
+
+        .slide h1 {
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .slide h2 {
+            font-size: 2rem;
+            margin-bottom: 25px;
+        }
+
+        .slide h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        /* Thank You Slide */
+        .thank-you-slide {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .thank-you-slide h1 {
+            font-size: 4rem;
+            margin-bottom: 30px;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .thank-you-slide p {
+            font-size: 1.5rem;
+            opacity: 0.9;
+            animation: fadeInUp 1s ease-out 0.3s both;
+        }
+
+        @media (max-width: 768px) {
+            .slide {
+                padding: 20px;
+            }
+            
+            .title-slide h1 {
+                font-size: 2.5rem;
+            }
+            
+            .overview-grid,
+            .system-features,
+            .stats-grid,
+            .tech-stack,
+            .impact-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .slide h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <div class="slide-indicator">
+            <span id="current-slide">1</span> / <span id="total-slides">7</span>
+        </div>
+
+        <!-- Slide 1: Title -->
+        <div class="slide active title-slide">
+            <h1>PROJECT PRESENTATION</h1>
+            <h2>PT Supracor Sejahtera</h2>
+            <p class="subtitle">Digital Transformation Initiative</p>
+            <p class="subtitle">Master Gambar System & Production Dashboard</p>
+        </div>
+
+        <!-- Slide 2: Project Overview -->
+        <div class="slide overview-slide">
+            <div class="content-container">
+                <h1>Project Overview</h1>
+                <div class="overview-grid">
+                    <div class="feature-card fade-in">
+                        <h3>🔍 Master Gambar Search System</h3>
+                        <p>Sistem pencarian file JPG dan Master Design yang efisien dengan antarmuka yang user-friendly untuk memudahkan akses dokumen teknis.</p>
+                    </div>
+                    <div class="feature-card fade-in">
+                        <h3>📊 Production Orders Dashboard</h3>
+                        <p>Dashboard real-time untuk monitoring production orders dengan analisis data komprehensif dan tracking status produksi.</p>
+                    </div>
+                    <div class="feature-card fade-in">
+                        <h3>💡 Digital Innovation</h3>
+                        <p>Transformasi digital untuk meningkatkan efisiensi operasional dan mengoptimalkan workflow perusahaan.</p>
+                    </div>
+                    <div class="feature-card fade-in">
+                        <h3>🚀 Performance Boost</h3>
+                        <p>Peningkatan produktivitas dan akurasi data melalui implementasi sistem terintegrasi dan otomatisasi proses.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Master Gambar System -->
+        <div class="slide master-slide">
+            <div class="content-container">
+                <h1>Master Gambar Search System</h1>
+                <div class="system-features">
+                    <div class="feature-item">
+                        <div class="feature-icon">🔍</div>
+                        <h3>Smart Search</h3>
+                        <p>Pencarian file berdasarkan kode produk dengan hasil yang akurat dan cepat</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">🖼️</div>
+                        <h3>Preview System</h3>
+                        <p>Preview gambar langsung dengan opsi print dan download yang terintegrasi</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">📋</div>
+                        <h3>Print Management</h3>
+                        <p>Sistem print dengan pengaturan ukuran kertas dan kualitas cetak yang fleksibel</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">🏢</div>
+                        <h3>Company Branding</h3>
+                        <p>Terintegrasi dengan identitas PT Zahonero Indonesia untuk konsistensi dokumen</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">📱</div>
+                        <h3>Responsive Design</h3>
+                        <p>Interface yang responsif dan dapat diakses dari berbagai perangkat</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">⚡</div>
+                        <h3>Fast Loading</h3>
+                        <p>Optimasi performa untuk loading gambar dan navigasi yang smooth</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Production Dashboard -->
+        <div class="slide dashboard-slide">
+            <div class="content-container">
+                <h1>Production Orders Dashboard</h1>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">100</div>
+                        <h4>Total Orders</h4>
+                        <p>Active production orders</p>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">624,448</div>
+                        <h4>Total Quantity</h4>
+                        <p>Units in production</p>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">183,574.77</div>
+                        <h4>Total RM (KG)</h4>
+                        <p>Raw materials</p>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">40</div>
+                        <h4>Active Clients</h4>
+                        <p>Current customers</p>
+                    </div>
+                </div>
+                <div class="feature-card" style="margin-top: 30px; background: rgba(255,255,255,0.9); padding: 30px; border-radius: 15px;">
+                    <h3>Key Features:</h3>
+                    <ul style="list-style: none; display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-top: 20px;">
+                        <li>✅ Real-time order tracking</li>
+                        <li>✅ Advanced filtering system</li>
+                        <li>✅ Export functionality</li>
+                        <li>✅ Date range selection</li>
+                        <li>✅ Client & product search</li>
+                        <li>✅ Production status monitoring</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Technical Implementation -->
+        <div class="slide tech-slide">
+            <div class="content-container">
+                <h1>Technical Implementation</h1>
+                <div class="tech-stack">
+                    <div class="tech-category">
+                        <h3>Frontend</h3>
+                        <ul class="tech-list">
+                            <li>HTML5 & CSS3</li>
+                            <li>Responsive Design</li>
+                            <li>Interactive UI/UX</li>
+                            <li>Modern JavaScript</li>
+                            <li>Print Integration</li>
+                        </ul>
+                    </div>
+                    <div class="tech-category">
+                        <h3>Backend</h3>
+                        <ul class="tech-list">
+                            <li>PHP Framework</li>
+                            <li>Database Management</li>
+                            <li>File Upload System</li>
+                            <li>Search Algorithm</li>
+                            <li>API Development</li>
+                        </ul>
+                    </div>
+                    <div class="tech-category">
+                        <h3>Features</h3>
+                        <ul class="tech-list">
+                            <li>Real-time Data</li>
+                            <li>Advanced Search</li>
+                            <li>Export Functions</li>
+                            <li>Print Management</li>
+                            <li>Mobile Responsive</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Impact & Results -->
+        <div class="slide impact-slide">
+            <div class="content-container">
+                <h1>Project Impact & Results</h1>
+                <div class="impact-grid">
+                    <div class="impact-card">
+                        <div class="impact-icon">⚡</div>
+                        <h3>Efficiency Improvement</h3>
+                        <ul style="margin-top: 15px; line-height: 1.8;">
+                            <li>• 75% faster document retrieval</li>
+                            <li>• Reduced manual search time</li>
+                            <li>• Streamlined print processes</li>
+                            <li>• Improved workflow automation</li>
+                        </ul>
+                    </div>
+                    <div class="impact-card">
+                        <div class="impact-icon">📊</div>
+                        <h3>Data Management</h3>
+                        <ul style="margin-top: 15px; line-height: 1.8;">
+                            <li>• Real-time production monitoring</li>
+                            <li>• Accurate inventory tracking</li>
+                            <li>• Enhanced reporting capabilities</li>
+                            <li>• Better decision making support</li>
+                        </ul>
+                    </div>
+                    <div class="impact-card">
+                        <div class="impact-icon">👥</div>
+                        <h3>User Experience</h3>
+                        <ul style="margin-top: 15px; line-height: 1.8;">
+                            <li>• Intuitive interface design</li>
+                            <li>• Mobile-friendly access</li>
+                            <li>• Reduced training requirements</li>
+                            <li>• Increased user satisfaction</li>
+                        </ul>
+                    </div>
+                    <div class="impact-card">
+                        <div class="impact-icon">💰</div>
+                        <h3>Business Value</h3>
+                        <ul style="margin-top: 15px; line-height: 1.8;">
+                            <li>• Reduced operational costs</li>
+                            <li>• Improved resource utilization</li>
+                            <li>• Enhanced productivity metrics</li>
+                            <li>• Better customer service</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Thank You -->
+        <div class="slide thank-you-slide">
+            <h1>Terima Kasih</h1>
+            <p>PT Supracor Sejahtera</p>
+            <p style="margin-top: 30px; font-size: 1.2rem;">Digital Transformation Journey Continues...</p>
+            <div style="margin-top: 50px; font-size: 1.1rem; opacity: 0.8;">
+                <p>Questions & Discussion</p>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="navigation">
+            <button class="nav-btn" onclick="previousSlide()">← Previous</button>
+            <button class="nav-btn" onclick="nextSlide()">Next →</button>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        document.getElementById('total-slides').textContent = totalSlides;
+
+        function showSlide(n) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            
+            if (n >= totalSlides) currentSlide = 0;
+            if (n < 0) currentSlide = totalSlides - 1;
+            
+            slides[currentSlide].classList.add('active');
+            document.getElementById('current-slide').textContent = currentSlide + 1;
+        }
+
+        function nextSlide() {
+            currentSlide++;
+            showSlide(currentSlide);
+        }
+
+        function previousSlide() {
+            currentSlide--;
+            showSlide(currentSlide);
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                nextSlide();
+            } else if (e.key === 'ArrowLeft') {
+                previousSlide();
+            }
+        });
+
+        // Touch navigation for mobile
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.addEventListener('touchstart', e => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        document.addEventListener('touchend', e => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleGesture();
+        });
+
+        function handleGesture() {
+            if (touchEndX < touchStartX - 50) nextSlide();
+            if (touchEndX > touchStartX + 50) previousSlide();
+        }
+
+        // Auto-advance slides (optional)
+        // setInterval(nextSlide, 10000); // Auto-advance every 10 seconds
+    </script>
+</body>
+</html>

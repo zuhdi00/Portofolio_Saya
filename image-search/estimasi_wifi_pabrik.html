@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Estimasi Bahan & Biaya Instalasi Jaringan WiFi Pabrik</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f4f7fa; margin: 0; padding: 0; }
+        .container { max-width: 800px; margin: 40px auto; background: #fff; border-radius: 10px; box-shadow: 0 4px 16px #0001; padding: 32px; }
+        h1 { text-align: center; color: #2a4d7a; }
+        table { width: 100%; border-collapse: collapse; margin-top: 24px; }
+        th, td { border: 1px solid #d0d7e2; padding: 10px 8px; text-align: left; }
+        th { background: #eaf1fb; }
+        tfoot td { font-weight: bold; background: #f7fafc; }
+        .note { margin-top: 24px; color: #555; font-size: 0.95em; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Estimasi Bahan & Biaya Instalasi Jaringan WiFi Pabrik</h1>
+    <table>
+        <thead>
+        <tr>
+            <th>No</th>
+            <th>Item</th>
+            <th>Spesifikasi</th>
+            <th>Qty</th>
+            <th>Satuan</th>
+            <th>Harga Satuan (Rp)</th>
+            <th>Subtotal (Rp)</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>1</td>
+            <td>Router/Access Point</td>
+            <td>TP-Link/Mikrotik/Setara</td>
+            <td><input type="number" min="1" value="2" id="qty_router" onchange="updateTotal()"></td>
+            <td>unit</td>
+            <td><input type="number" min="0" value="500000" id="harga_router" onchange="updateTotal()"></td>
+            <td id="subtotal_router">1,000,000</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>Kabel LAN (UTP Cat5e/Cat6)</td>
+            <td>Roll 305m / meteran</td>
+            <td><input type="number" min="1" value="50" id="qty_kabel" onchange="updateTotal()"></td>
+            <td>meter</td>
+            <td><input type="number" min="0" value="4000" id="harga_kabel" onchange="updateTotal()"></td>
+            <td id="subtotal_kabel">200,000</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>RJ45 Connector</td>
+            <td>Standard</td>
+            <td><input type="number" min="1" value="10" id="qty_rj45" onchange="updateTotal()"></td>
+            <td>pcs</td>
+            <td><input type="number" min="0" value="2000" id="harga_rj45" onchange="updateTotal()"></td>
+            <td id="subtotal_rj45">20,000</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>Dongle WiFi USB</td>
+            <td>Untuk PC tanpa WiFi</td>
+            <td><input type="number" min="0" value="3" id="qty_dongle" onchange="updateTotal()"></td>
+            <td>unit</td>
+            <td><input type="number" min="0" value="75000" id="harga_dongle" onchange="updateTotal()"></td>
+            <td id="subtotal_dongle">225,000</td>
+        </tr>
+        <tr>
+            <td>5</td>
+            <td>Pipa/Conduit Kabel</td>
+            <td>PVC 20mm</td>
+            <td><input type="number" min="0" value="20" id="qty_conduit" onchange="updateTotal()"></td>
+            <td>meter</td>
+            <td><input type="number" min="0" value="5000" id="harga_conduit" onchange="updateTotal()"></td>
+            <td id="subtotal_conduit">100,000</td>
+        </tr>
+        <tr>
+            <td>6</td>
+            <td>Kabel Ties & Clamp</td>
+            <td>Pengikat kabel</td>
+            <td><input type="number" min="0" value="30" id="qty_ties" onchange="updateTotal()"></td>
+            <td>pcs</td>
+            <td><input type="number" min="0" value="500" id="harga_ties" onchange="updateTotal()"></td>
+            <td id="subtotal_ties">15,000</td>
+        </tr>
+        <tr>
+            <td>7</td>
+            <td>Jasa Instalasi</td>
+            <td>Tenaga teknisi</td>
+            <td><input type="number" min="1" value="1" id="qty_jasa" onchange="updateTotal()"></td>
+            <td>paket</td>
+            <td><input type="number" min="0" value="500000" id="harga_jasa" onchange="updateTotal()"></td>
+            <td id="subtotal_jasa">500,000</td>
+        </tr>
+        </tbody>
+        <tfoot>
+        <tr>
+            <td colspan="6" style="text-align:right">Total Estimasi (Rp)</td>
+            <td id="total_biaya">2,060,000</td>
+        </tr>
+        </tfoot>
+    </table>
+    <div class="note">
+        <b>Catatan:</b> Harga dapat disesuaikan dengan merk/tipe dan kondisi lapangan. Estimasi ini untuk kebutuhan standar pabrik manufaktur (beberapa router/extender, kabel LAN, dongle untuk komputer, dan perlengkapan instalasi).<br>
+        Untuk kebutuhan lebih detail, silakan sesuaikan jumlah dan harga pada tabel di atas.
+    </div>
+</div>
+<script>
+function formatRupiah(num) {
+    return num.toLocaleString('id-ID');
+}
+function updateTotal() {
+    const items = [
+        {qty: 'qty_router', harga: 'harga_router', subtotal: 'subtotal_router'},
+        {qty: 'qty_kabel', harga: 'harga_kabel', subtotal: 'subtotal_kabel'},
+        {qty: 'qty_rj45', harga: 'harga_rj45', subtotal: 'subtotal_rj45'},
+        {qty: 'qty_dongle', harga: 'harga_dongle', subtotal: 'subtotal_dongle'},
+        {qty: 'qty_conduit', harga: 'harga_conduit', subtotal: 'subtotal_conduit'},
+        {qty: 'qty_ties', harga: 'harga_ties', subtotal: 'subtotal_ties'},
+        {qty: 'qty_jasa', harga: 'harga_jasa', subtotal: 'subtotal_jasa'}
+    ];
+    let total = 0;
+    items.forEach(item => {
+        const qty = parseInt(document.getElementById(item.qty).value) || 0;
+        const harga = parseInt(document.getElementById(item.harga).value) || 0;
+        const subtotal = qty * harga;
+        document.getElementById(item.subtotal).innerText = formatRupiah(subtotal);
+        total += subtotal;
+    });
+    document.getElementById('total_biaya').innerText = formatRupiah(total);
+}
+document.addEventListener('DOMContentLoaded', updateTotal);
+</script>
+</body>
+</html>

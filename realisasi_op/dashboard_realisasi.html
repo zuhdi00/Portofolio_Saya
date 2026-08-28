@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard Realisasi Produksi</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0f1117;--surf:#1a1d27;--surf2:#22263a;
+  --bor:#2e3347;--acc:#00e5a0;--acc2:#3d9bff;
+  --acc3:#ff6b6b;--acc4:#ffd166;--acc5:#c77dff;
+  --txt:#e8ecf5;--mut:#7a8099;
+  --mono:'IBM Plex Mono',monospace;--sans:'DM Sans',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:var(--sans);background:var(--bg);color:var(--txt);min-height:100vh;}
+
+/* HEADER */
+.hdr{
+  background:var(--surf);border-bottom:1px solid var(--bor);
+  padding:12px 20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+  position:sticky;top:0;z-index:50;
+}
+.logo{font-family:var(--mono);font-size:16px;font-weight:600;color:var(--acc);white-space:nowrap;}
+.logo span{color:var(--mut);}
+.fb{display:flex;gap:8px;flex-wrap:wrap;align-items:flex-end;margin-left:auto;}
+.fg{display:flex;flex-direction:column;gap:2px;}
+.fg label{font-size:9px;text-transform:uppercase;letter-spacing:1px;color:var(--mut);font-weight:700;}
+input[type=date],input[type=text],select{
+  background:var(--surf2);border:1px solid var(--bor);color:var(--txt);
+  border-radius:5px;padding:6px 8px;font-size:12px;font-family:var(--sans);outline:none;transition:border-color .2s;
+}
+input:focus,select:focus{border-color:var(--acc);}
+select option{background:var(--surf2);}
+.btn{padding:7px 14px;border-radius:5px;border:none;cursor:pointer;font-size:12px;font-weight:700;font-family:var(--sans);transition:all .15s;align-self:flex-end;}
+.btn-p{background:var(--acc);color:#0f1117;}
+.btn-p:hover{opacity:.85;}
+.btn-g{background:transparent;border:1px solid var(--bor);color:var(--mut);}
+.btn-g:hover{border-color:var(--acc);color:var(--acc);}
+
+/* STATS */
+.stats{display:flex;gap:8px;padding:10px 20px;background:var(--surf);border-bottom:1px solid var(--bor);flex-wrap:wrap;}
+.sp{display:flex;align-items:center;gap:6px;background:var(--surf2);border:1px solid var(--bor);border-radius:14px;padding:4px 11px;font-size:11px;}
+.sp .dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.sp .n{font-family:var(--mono);font-weight:600;font-size:12px;}
+
+/* MAIN */
+.main{padding:14px 20px 40px;}
+.tmeta{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;flex-wrap:wrap;gap:8px;}
+.ttitle{font-size:13px;font-weight:700;}
+.rcount{font-family:var(--mono);font-size:11px;color:var(--mut);}
+
+/* TABLE */
+.tw{width:100%;overflow-x:auto;border-radius:7px;border:1px solid var(--bor);}
+.tw::-webkit-scrollbar{height:6px;}
+.tw::-webkit-scrollbar-track{background:var(--surf2);}
+.tw::-webkit-scrollbar-thumb{background:var(--bor);border-radius:3px;}
+
+table{width:100%;border-collapse:collapse;font-size:11px;}
+
+/* Sticky header */
+thead{position:sticky;top:55px;z-index:10;}
+
+th{
+  background:var(--surf2);padding:8px 7px;text-align:left;
+  font-size:9px;text-transform:uppercase;letter-spacing:.7px;
+  color:var(--mut);font-weight:700;
+  border-bottom:1px solid var(--bor);border-right:1px solid var(--bor);
+  white-space:nowrap;cursor:pointer;user-select:none;
+}
+th:hover{color:var(--txt);}
+th.sort-asc::after{content:' ▲';color:var(--acc);}
+th.sort-desc::after{content:' ▼';color:var(--acc);}
+
+/* Section divider */
+th.dv,td.dv{border-right:2px solid #3d4260!important;}
+
+tbody tr{border-bottom:1px solid var(--bor);transition:background .1s;}
+tbody tr:hover{background:var(--surf2);}
+tbody tr.hide{display:none;}
+
+td{padding:6px 7px;white-space:nowrap;border-right:1px solid var(--bor);color:var(--txt);font-size:11px;}
+td:last-child{border-right:none;}
+
+.tag{display:inline-flex;align-items:center;padding:1px 6px;border-radius:3px;font-family:var(--mono);font-size:9px;font-weight:600;}
+.t-op{background:rgba(199,125,255,.15);color:#c77dff;}
+.t-sc{background:rgba(61,155,255,.15);color:#3d9bff;}
+.tn{font-family:var(--mono);font-size:10px;text-align:right;}
+.tp{color:var(--acc);}
+.tneg{color:var(--acc3);}
+.tw2{color:var(--acc4);}
+.dash{color:var(--mut);}
+.cdot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:3px;vertical-align:middle;}
+
+.badge{display:inline-flex;align-items:center;gap:2px;padding:2px 6px;border-radius:3px;font-size:9px;font-weight:700;text-transform:uppercase;}
+.bf{background:rgba(0,229,160,.12);color:var(--acc);border:1px solid rgba(0,229,160,.3);}
+.bu{background:rgba(255,209,102,.1);color:var(--acc4);border:1px solid rgba(255,209,102,.25);}
+.br{background:rgba(255,107,107,.12);color:var(--acc3);border:1px solid rgba(255,107,107,.3);}
+
+tfoot tr{background:var(--surf2);}
+tfoot td{padding:7px 7px;font-weight:700;font-family:var(--mono);font-size:10px;color:var(--acc);border-top:2px solid var(--bor);}
+
+.empty-row td{text-align:center;padding:40px;color:var(--mut);font-style:italic;}
+
+@media(max-width:768px){.hdr{padding:10px 12px;}.fb{margin-left:0;width:100%;}.main{padding:10px 10px 30px;}}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="hdr">
+  <div class="logo">📊 Realisasi<span>.produksi</span></div>
+  <div class="fb">
+    <div class="fg"><label>Dari Tgl OP</label><input type="date" id="f-from"></div>
+    <div class="fg"><label>Sampai Tgl OP</label><input type="date" id="f-to"></div>
+    <div class="fg"><label>No MC</label><input type="text" id="f-mc" placeholder="Cari MC..." style="width:100px;"></div>
+    <div class="fg"><label>Flexo</label>
+      <select id="f-flexo" style="width:110px;">
+        <option value="">Semua</option>
+        <option>FLEXO 1</option><option>FLEXO 2</option><option>FLEXO 3</option>
+        <option>FLEXO 4</option><option>FLEXO 5</option><option>FLEXO 6</option>
+        <option>FLEXO 7</option><option>FLEXO 8</option><option>FLEXO 9</option>
+        <option>FLEXO 10</option><option>WONDER</option>
+      </select>
+    </div>
+    <div class="fg"><label>Cari (OP/SC/Customer/Barang/Warna)</label><input type="text" id="f-q" placeholder="Ketik kata kunci..." style="width:190px;"></div>
+    <div class="fg"><label>Status</label>
+      <select id="f-status">
+        <option value="">Semua</option>
+        <option value="finished">Finished</option>
+        <option value="unfinished">Unfinished</option>
+        <option value="retur">Ada Retur</option>
+      </select>
+    </div>
+    <button class="btn btn-p" onclick="applyFilter()">⚡ Filter</button>
+    <button class="btn btn-g" onclick="resetFilter()">Reset</button>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="sp"><div class="dot" style="background:#3d9bff"></div>Tampil: <span class="n" id="s0">0</span></div>
+  <div class="sp"><div class="dot" style="background:#c77dff"></div>Total Order: <span class="n" id="s1">0</span></div>
+  <div class="sp"><div class="dot" style="background:#ff6b6b"></div>Hsl Corr: <span class="n" id="s2">0</span></div>
+  <div class="sp"><div class="dot" style="background:#3d9bff"></div>Hsl Flexo: <span class="n" id="s3">0</span></div>
+  <div class="sp"><div class="dot" style="background:#00e5a0"></div>Serah Trm: <span class="n" id="s4">0</span></div>
+  <div class="sp"><div class="dot" style="background:#ffd166"></div>Jml Kirim: <span class="n" id="s5">0</span></div>
+  <div class="sp"><div class="dot" style="background:#ff6b6b"></div>Pcs Kurang: <span class="n" id="s6">0</span></div>
+  <div class="sp"><div class="dot" style="background:#c77dff"></div>RM Kurang (Kg): <span class="n" id="s7">0</span></div>
+</div>
+
+<!-- TABLE -->
+<div class="main">
+  <div class="tmeta">
+    <div class="ttitle">📋 Tabel Realisasi Produksi — Semua Proses</div>
+    <div class="rcount">Tampil <span id="rc-s">0</span> dari <span id="rc-t">0</span> baris</div>
+  </div>
+  <div class="tw">
+    <table id="tbl">
+      <thead>
+        <tr>
+          <!-- A. INFO DASAR -->
+          <th class="dv">No</th>
+          <th>No Order (OP)</th>
+          <th>No SC</th>
+          <th>No MC</th>
+          <th>Tgl OP</th>
+          <th>Tgl Kontrak</th>
+          <th>No Kontrak</th>
+          <th>Jenis</th>
+          <th>No Artikel</th>
+          <th class="dv">Tipe</th>
+          <!-- B. BARANG -->
+          <th>Tinggi Box</th>
+          <th>Nama Barang</th>
+          <th>Ukuran Dalam (P×L×T)</th>
+          <th>Creasing</th>
+          <th>Customer</th>
+          <th class="dv">Sales</th>
+          <!-- C. ORDER -->
+          <th>Total Order</th>
+          <th>Bungkus</th>
+          <th>Jml Out</th>
+          <th>Jml Bx/Sh</th>
+          <th>Toleransi (%)</th>
+          <th class="dv">Jml Plan</th>
+          <!-- D. KUALITAS & BAHAN -->
+          <th>Flute</th>
+          <th>Kualitas 1</th>
+          <th>Kualitas 2</th>
+          <th>Kualitas 3</th>
+          <th>Kualitas 4</th>
+          <th>Kualitas 5</th>
+          <th>Lebar Kertas</th>
+          <th>Berat 1</th>
+          <th>Berat 2</th>
+          <th>Berat 3</th>
+          <th>Berat 4</th>
+          <th class="dv">Berat 5</th>
+          <!-- E. WARNA & PROSES -->
+          <th>Warna</th>
+          <th>Join</th>
+          <th>Proses</th>
+          <th>Mesin (Flexo)</th>
+          <th>DC</th>
+          <th class="dv">Keterangan Order</th>
+          <!-- F. UKURAN SHEET -->
+          <th>Gram Timbang</th>
+          <th>Panjang Sheet</th>
+          <th>Lebar Sheet</th>
+          <th class="dv">Last Plan</th>
+          <!-- G. HASIL PRODUKSI -->
+          <th>Hasil Corr</th>
+          <th>Rusak Corr</th>
+          <th>Hasil Flexo</th>
+          <th>Rusak Flexo</th>
+          <th>Hasil Ikat</th>
+          <th>Hasil Glue</th>
+          <th>Hasil Stitch</th>
+          <th>Hasil Slitter</th>
+          <th>Hasil Bungkus</th>
+          <th>Hasil RDC</th>
+          <th>Hasil Longway</th>
+          <th>Hasil Up Down</th>
+          <th class="dv">Hasil Die Cut Flat</th>
+          <!-- H. REALISASI -->
+          <th>Jml Serah Trm</th>
+          <th>Tgl Kirim</th>
+          <th>New Jadwal</th>
+          <th>Jml Kirim</th>
+          <th>Pcs Kurang</th>
+          <th>Sheet Kurang</th>
+          <th>RM Kurang (Kg)</th>
+          <th>Tonase Kurang</th>
+          <th>Hasil Sheet</th>
+          <th class="dv">Stok Sheet</th>
+          <!-- I. STATUS -->
+          <th>Status</th>
+          <th>Approved By</th>
+          <th>Rak / Lokasi</th>
+        </tr>
+      </thead>
+      <tbody id="tb">
+        <tr class="empty-row"><td colspan="73">⏳ Memuat data...</td></tr>
+      </tbody>
+      <tfoot>
+        <tr id="tf-row">
+          <td colspan="16" style="text-align:right;font-family:var(--sans);font-size:10px;color:var(--mut);">TOTAL ↓</td>
+          <td id="ft1" class="tw2">0</td><!-- Total Order -->
+          <td colspan="4"></td>
+          <td id="ft2" class="tp">0</td><!-- Jml Plan -->
+          <td colspan="22"></td>
+          <td id="ft3" class="tp">0</td><!-- Hasil Corr -->
+          <td></td>
+          <td id="ft4" class="tp">0</td><!-- Hasil Flexo -->
+          <td colspan="10"></td>
+          <td id="ft5" class="tp">0</td><!-- Jml Serah Trm -->
+          <td colspan="2"></td>
+          <td id="ft6" class="tp">0</td><!-- Jml Kirim -->
+          <td id="ft7" class="tneg">0</td><!-- Pcs Kurang -->
+          <td></td>
+          <td id="ft8" class="tneg">0</td><!-- RM Kurang -->
+          <td colspan="5"></td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>
+
+<script>
+// ============================================================
+//  KONFIGURASI API
+//  Sesuaikan path dengan lokasi file PHP di server Anda
+// ============================================================
+const API_LIST  = 'get_data_list_satu-1.php';
+const API_HASIL = 'get_data_hasil-1.php';
+
+// ============================================================
+//  DEMO DATA — dipakai saat API tidak tersedia (offline)
+//  Hapus / kosongkan array ini jika sudah live
+// ============================================================
+const DEMO = [
+  {
+    cNoOp:'SLC/2602/00100-01',cNoSc:'SLC/2602/00100',cNoMc:'CR-01',
+    dTgl:'2025-06-01',dTglKontrak:'2025-05-20',cNoKontrak:'00155/CT/03/25',
+    cJenis:'OB',cNoArtikel:'30Z0009367700B1',cTipe:'B1',nTinggi:194,
+    cnm_brg:'BOX RSC 40×30×20',nPanjang:375,nLebar:375,
+    cCreasing:'DOUBLE CREASING MALE-FEMALE',cnm_c:'PT. Maju Jaya',cSales:'',
+    nQty:5000,cBungkus:'-',nOut:3,nBxSh:1,nToleransi:0,nQtyStok:5000,
+    cLayer:'BC',ckd_b1:'BSMB125',ckd_b2:'MSMB125',ckd_b3:'MSMB125',ckd_b4:'',ckd_b5:'',
+    nLebarKertas:1800,nBerat1:2,nBerat2:2,nBerat3:2,nBerat4:0,nBerat5:0,
+    cWarna:'PNK82-MRH310-HTM01',cJoin:'S',cProses:'JHF-SB1',cFlexo:'FLEXO 1',cDC:'H21',cKetOrder:'',
+    nGramTimbang:666,nPanjangSheet:1556,nLebarSheet:591,cLastPlan:'-',
+    totalHasilCorr:4850,totalRusakCorr:50,totalHasilFlexo:4750,totalRusakFlexo:100,
+    totalHasilIkat:0,totalHasilGlue:0,totalHasilStitch:0,totalHasilSlitter:0,
+    totalHasilBungkus:0,totalHasilRdc:0,totalHasilLongway:0,totalHasilUpDown:0,totalHasilDieCutFlat:0,
+    nJmlSerahTrm:4700,dTglKirim:'2025-06-10',dNewJadwal:'2025-06-10',
+    nJmlKirim:4700,nPcsKurang:300,nSheetKurang:300,nRmKurang:5,nTonaseKurang:7,
+    nHasilSheet:0,nStokSheet:0,
+    cStatus:'finished',cMengetahui:'Manager A',rack_name:'FLEXO-1'
+  },
+  {
+    cNoOp:'SLC/2602/00101-01',cNoSc:'SLC/2602/00101',cNoMc:'CR-02',
+    dTgl:'2025-06-03',dTglKontrak:'2025-05-25',cNoKontrak:'00563/CT/10/25',
+    cJenis:'OB',cNoArtikel:'30Z0009408400DC',cTipe:'DC',nTinggi:145,
+    cnm_brg:'BOX RSC 60×40×30',nPanjang:341,nLebar:165,
+    cCreasing:'TANPA CREASING',cnm_c:'PT. Sentosa Makmur',cSales:'',
+    nQty:3000,cBungkus:'-',nOut:1,nBxSh:1,nToleransi:0,nQtyStok:3000,
+    cLayer:'BF',ckd_b1:'BSMB150',ckd_b2:'MSMB150',ckd_b3:'BSMB150',ckd_b4:'',ckd_b5:'',
+    nLebarKertas:2050,nBerat1:2,nBerat2:2,nBerat3:2,nBerat4:0,nBerat5:0,
+    cWarna:'PTH10-BRU682-MRH240-BRU147',cJoin:'-',cProses:'JH2-SP2-PK2-BK2',cFlexo:'FLEXO 2',cDC:'BHS',cKetOrder:'',
+    nGramTimbang:977,nPanjangSheet:978,nLebarSheet:2000,cLastPlan:'-',
+    totalHasilCorr:3000,totalRusakCorr:0,totalHasilFlexo:2900,totalRusakFlexo:100,
+    totalHasilIkat:0,totalHasilGlue:2850,totalHasilStitch:0,totalHasilSlitter:0,
+    totalHasilBungkus:0,totalHasilRdc:0,totalHasilLongway:0,totalHasilUpDown:0,totalHasilDieCutFlat:0,
+    nJmlSerahTrm:2850,dTglKirim:'2025-06-12',dNewJadwal:'2025-06-12',
+    nJmlKirim:2800,nPcsKurang:200,nSheetKurang:200,nRmKurang:5,nTonaseKurang:5,
+    nHasilSheet:0,nStokSheet:0,
+    cStatus:'retur',cMengetahui:'Manager B',rack_name:'FOLDER GLUE'
+  },
+  {
+    cNoOp:'SLC/2602/00102-01',cNoSc:'SLC/2602/00102',cNoMc:'CR-01',
+    dTgl:'2025-06-05',dTglKontrak:'2025-05-28',cNoKontrak:'00600/CT/06/25',
+    cJenis:'OB',cNoArtikel:'30Z003',cTipe:'E',nTinggi:100,
+    cnm_brg:'TRAY 50×40×10',nPanjang:341,nLebar:165,
+    cCreasing:'SINGLE CREASING',cnm_c:'PT. Karton Indah',cSales:'',
+    nQty:8000,cBungkus:'-',nOut:4,nBxSh:2,nToleransi:2,nQtyStok:8000,
+    cLayer:'E',ckd_b1:'BSMB125',ckd_b2:'MSMB125',ckd_b3:'',ckd_b4:'',ckd_b5:'',
+    nLebarKertas:1600,nBerat1:2,nBerat2:2,nBerat3:0,nBerat4:0,nBerat5:0,
+    cWarna:'POLOS',cJoin:'S',cProses:'JHF',cFlexo:'FLEXO 3',cDC:'',cKetOrder:'Prioritas',
+    nGramTimbang:500,nPanjangSheet:1000,nLebarSheet:600,cLastPlan:'-',
+    totalHasilCorr:0,totalRusakCorr:0,totalHasilFlexo:0,totalRusakFlexo:0,
+    totalHasilIkat:0,totalHasilGlue:0,totalHasilStitch:0,totalHasilSlitter:0,
+    totalHasilBungkus:0,totalHasilRdc:0,totalHasilLongway:0,totalHasilUpDown:0,totalHasilDieCutFlat:0,
+    nJmlSerahTrm:0,dTglKirim:'',dNewJadwal:'2025-06-20',
+    nJmlKirim:0,nPcsKurang:8000,nSheetKurang:8000,nRmKurang:10,nTonaseKurang:10,
+    nHasilSheet:0,nStokSheet:0,
+    cStatus:'unfinished',cMengetahui:'Manager A',rack_name:'-'
+  }
+];
+
+// ============================================================
+//  HELPERS
+// ============================================================
+const fmtN = v => (v===null||v===undefined||v===''||v===0&&String(v)==='')?'<span class="dash">—</span>':Number(v).toLocaleString('id-ID');
+const fmtN0= v => Number(v||0).toLocaleString('id-ID'); // always show number (even 0)
+const fmtD = d => {
+  if(!d) return '<span class="dash">—</span>';
+  const s=String(d).substring(0,10), [y,m,dd]=s.split('-');
+  return (dd&&m&&y)?`${dd}/${m}/${y}`:s;
+};
+const esc  = v => v ? String(v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') : '<span class="dash">—</span>';
+const escR = v => v ? String(v) : '';
+const np   = v => `<span class="tn tp">${fmtN0(v)}</span>`;
+const nn   = v => Number(v||0)>0?`<span class="tn tneg">${fmtN0(v)}</span>`:'<span class="dash">—</span>';
+const nw   = v => `<span class="tn tw2">${fmtN0(v)}</span>`;
+const CDOTS= {biru:'#3498db',merah:'#e74c3c',hijau:'#2ecc71',kuning:'#f1c40f',hitam:'#34495e',putih:'#bdc3c7',orange:'#e67e22',ungu:'#9b59b6',pink:'#e91e63',abu:'#95a5a6',polos:'#e0e0e0'};
+const cdot = c => { if(!c)return''; const k=Object.keys(CDOTS).find(k=>c.toLowerCase().includes(k)); return k?`<span class="cdot" style="background:${CDOTS[k]}"></span>`:''; };
+const badge= s => s==='finished'?'<span class="badge bf">✓ Finished</span>':s==='retur'?'<span class="badge br">⚠ Retur</span>':'<span class="badge bu">⏳ Unfinished</span>';
+
+// ============================================================
+//  ROW RENDERER
+// ============================================================
+function rowHtml(r, no){
+  const dim=`${r.nPanjang||0} × ${r.nLebar||0} × ${r.nTinggi||0}`;
+  return `<tr
+    data-q="${[r.cNoOp,r.cNoSc,r.cnm_c,r.cnm_brg,r.cWarna,r.cNoMc].map(v=>(v||'').toLowerCase()).join(' ')}"
+    data-mc="${(r.cNoMc||'').toLowerCase()}"
+    data-flexo="${(r.cFlexo||'').toLowerCase()}"
+    data-status="${(r.cStatus||'').toLowerCase()}"
+    data-dtgl="${(r.dTgl||'').substring(0,10)}"
+  >
+    <!-- A. INFO DASAR -->
+    <td class="dv" style="color:var(--mut);font-family:var(--mono);font-size:9px;">${no}</td>
+    <td><span class="tag t-op">${escR(r.cNoOp)||'—'}</span></td>
+    <td><span class="tag t-sc">${escR(r.cNoSc)||'—'}</span></td>
+    <td style="font-family:var(--mono);font-size:10px;">${esc(r.cNoMc)}</td>
+    <td>${fmtD(r.dTgl)}</td>
+    <td>${fmtD(r.dTglKontrak)}</td>
+    <td style="font-family:var(--mono);font-size:10px;">${esc(r.cNoKontrak)}</td>
+    <td>${esc(r.cJenis)}</td>
+    <td style="font-family:var(--mono);font-size:10px;">${esc(r.cNoArtikel)}</td>
+    <td class="dv">${esc(r.cTipe)}</td>
+    <!-- B. BARANG -->
+    <td class="tn">${fmtN(r.nTinggi)}</td>
+    <td style="max-width:170px;overflow:hidden;text-overflow:ellipsis;" title="${escR(r.cnm_brg)}">${esc(r.cnm_brg)}</td>
+    <td>${dim}</td>
+    <td style="max-width:150px;overflow:hidden;text-overflow:ellipsis;">${esc(r.cCreasing)}</td>
+    <td style="max-width:150px;overflow:hidden;text-overflow:ellipsis;" title="${escR(r.cnm_c)}">${esc(r.cnm_c)}</td>
+    <td class="dv">${esc(r.cSales)}</td>
+    <!-- C. ORDER -->
+    <td>${nw(r.nQty)}</td>
+    <td>${esc(r.cBungkus)}</td>
+    <td class="tn">${fmtN(r.nOut)}</td>
+    <td class="tn">${fmtN(r.nBxSh)}</td>
+    <td class="tn">${fmtN(r.nToleransi)}%</td>
+    <td class="dv">${np(r.nQtyStok)}</td>
+    <!-- D. KUALITAS & BAHAN -->
+    <td>${esc(r.cLayer)}</td>
+    <td>${esc(r.ckd_b1)}</td>
+    <td>${esc(r.ckd_b2)}</td>
+    <td>${esc(r.ckd_b3)}</td>
+    <td>${esc(r.ckd_b4)}</td>
+    <td>${esc(r.ckd_b5)}</td>
+    <td class="tn">${fmtN(r.nLebarKertas)}</td>
+    <td class="tn">${fmtN(r.nBerat1)}</td>
+    <td class="tn">${fmtN(r.nBerat2)}</td>
+    <td class="tn">${fmtN(r.nBerat3)}</td>
+    <td class="tn">${fmtN(r.nBerat4)}</td>
+    <td class="tn dv">${fmtN(r.nBerat5)}</td>
+    <!-- E. WARNA & PROSES -->
+    <td>${cdot(r.cWarna)}${esc(r.cWarna)}</td>
+    <td>${esc(r.cJoin)}</td>
+    <td style="max-width:130px;overflow:hidden;text-overflow:ellipsis;">${esc(r.cProses)}</td>
+    <td>${esc(r.cFlexo)}</td>
+    <td>${esc(r.cDC)}</td>
+    <td class="dv" style="max-width:130px;overflow:hidden;text-overflow:ellipsis;color:var(--mut);">${esc(r.cKetOrder)}</td>
+    <!-- F. UKURAN SHEET -->
+    <td class="tn">${fmtN(r.nGramTimbang)}</td>
+    <td class="tn">${fmtN(r.nPanjangSheet)}</td>
+    <td class="tn">${fmtN(r.nLebarSheet)}</td>
+    <td class="dv" style="font-family:var(--mono);font-size:10px;">${esc(r.cLastPlan)}</td>
+    <!-- G. HASIL PRODUKSI -->
+    <td>${np(r.totalHasilCorr)}</td>
+    <td>${nn(r.totalRusakCorr)}</td>
+    <td>${np(r.totalHasilFlexo)}</td>
+    <td>${nn(r.totalRusakFlexo)}</td>
+    <td>${np(r.totalHasilIkat)}</td>
+    <td>${np(r.totalHasilGlue)}</td>
+    <td>${np(r.totalHasilStitch)}</td>
+    <td>${np(r.totalHasilSlitter)}</td>
+    <td>${np(r.totalHasilBungkus)}</td>
+    <td>${np(r.totalHasilRdc)}</td>
+    <td>${np(r.totalHasilLongway)}</td>
+    <td>${np(r.totalHasilUpDown)}</td>
+    <td class="dv">${np(r.totalHasilDieCutFlat)}</td>
+    <!-- H. REALISASI -->
+    <td>${np(r.nJmlSerahTrm)}</td>
+    <td>${fmtD(r.dTglKirim)}</td>
+    <td>${fmtD(r.dNewJadwal)}</td>
+    <td>${np(r.nJmlKirim)}</td>
+    <td>${nn(r.nPcsKurang)}</td>
+    <td>${nn(r.nSheetKurang)}</td>
+    <td class="tneg tn">${fmtN(r.nRmKurang)}</td>
+    <td class="tneg tn">${fmtN(r.nTonaseKurang)}</td>
+    <td class="tn">${fmtN(r.nHasilSheet)}</td>
+    <td class="tn dv">${fmtN(r.nStokSheet)}</td>
+    <!-- I. STATUS -->
+    <td>${badge(r.cStatus)}</td>
+    <td style="font-size:10px;">${esc(r.cMengetahui)}</td>
+    <td style="font-size:10px;color:var(--mut);">${esc(r.rack_name)}</td>
+  </tr>`;
+}
+
+// ============================================================
+//  STATE & RENDER
+// ============================================================
+let ALL = [];
+
+function render(data){
+  ALL = data;
+  const tb = document.getElementById('tb');
+  if(!data.length){
+    tb.innerHTML = '<tr class="empty-row"><td colspan="73" style="text-align:center;padding:40px;color:var(--mut);">Tidak ada data</td></tr>';
+    updateStats([]);return;
+  }
+  tb.innerHTML = data.map((r,i)=>rowHtml(r,i+1)).join('');
+  updateRC(data.length, data.length);
+  updateStats(data);
+}
+
+// ── FILTER ──
+function applyFilter(){
+  const from  = document.getElementById('f-from').value;
+  const to    = document.getElementById('f-to').value;
+  const mc    = document.getElementById('f-mc').value.toLowerCase().trim();
+  const flexo = document.getElementById('f-flexo').value.toLowerCase().trim();
+  const q     = document.getElementById('f-q').value.toLowerCase().trim();
+  const stat  = document.getElementById('f-status').value.toLowerCase().trim();
+  const rows  = document.querySelectorAll('#tb tr[data-q]');
+  let vis=[], shown=0;
+  rows.forEach((tr,i)=>{
+    const d=tr.dataset;
+    let ok=true;
+    if(from && d.dtgl && d.dtgl<from) ok=false;
+    if(to   && d.dtgl && d.dtgl>to)   ok=false;
+    if(mc   && !d.mc.includes(mc))    ok=false;
+    if(flexo && !d.flexo.includes(flexo)) ok=false;
+    if(q    && !d.q.includes(q))      ok=false;
+    if(stat && d.status!==stat)       ok=false;
+    if(ok){tr.classList.remove('hide');shown++;vis.push(ALL[i]);}
+    else   tr.classList.add('hide');
+  });
+  updateRC(shown, ALL.length);
+  updateStats(vis);
+}
+function resetFilter(){
+  ['f-from','f-to','f-mc','f-flexo','f-q','f-status'].forEach(id=>document.getElementById(id).value='');
+  applyFilter();
+}
+
+// ── STATS ──
+function updateStats(vis){
+  const s=f=>vis.reduce((a,r)=>a+(Number(r[f])||0),0);
+  document.getElementById('s0').textContent = vis.length.toLocaleString('id-ID');
+  document.getElementById('s1').textContent = s('nQty').toLocaleString('id-ID');
+  document.getElementById('s2').textContent = s('totalHasilCorr').toLocaleString('id-ID');
+  document.getElementById('s3').textContent = s('totalHasilFlexo').toLocaleString('id-ID');
+  document.getElementById('s4').textContent = s('nJmlSerahTrm').toLocaleString('id-ID');
+  document.getElementById('s5').textContent = s('nJmlKirim').toLocaleString('id-ID');
+  document.getElementById('s6').textContent = s('nPcsKurang').toLocaleString('id-ID');
+  document.getElementById('s7').textContent = s('nRmKurang').toLocaleString('id-ID');
+  document.getElementById('ft1').textContent = s('nQty').toLocaleString('id-ID');
+  document.getElementById('ft2').textContent = s('nQtyStok').toLocaleString('id-ID');
+  document.getElementById('ft3').textContent = s('totalHasilCorr').toLocaleString('id-ID');
+  document.getElementById('ft4').textContent = s('totalHasilFlexo').toLocaleString('id-ID');
+  document.getElementById('ft5').textContent = s('nJmlSerahTrm').toLocaleString('id-ID');
+  document.getElementById('ft6').textContent = s('nJmlKirim').toLocaleString('id-ID');
+  document.getElementById('ft7').textContent = s('nPcsKurang').toLocaleString('id-ID');
+  document.getElementById('ft8').textContent = s('nRmKurang').toLocaleString('id-ID');
+}
+function updateRC(s,t){
+  document.getElementById('rc-s').textContent=s.toLocaleString('id-ID');
+  document.getElementById('rc-t').textContent=t.toLocaleString('id-ID');
+}
+
+// ── SORT ──
+let _sc=-1,_sd=1;
+document.querySelectorAll('#tbl thead th').forEach((th,ci)=>{
+  th.addEventListener('click',()=>{
+    if(_sc===ci)_sd*=-1;else{_sc=ci;_sd=1;}
+    document.querySelectorAll('#tbl thead th').forEach(t=>t.classList.remove('sort-asc','sort-desc'));
+    th.classList.add(_sd===1?'sort-asc':'sort-desc');
+    const tb=document.getElementById('tb');
+    [...tb.querySelectorAll('tr[data-q]')].sort((a,b)=>{
+      const av=a.cells[ci]?.innerText?.trim()||'';
+      const bv=b.cells[ci]?.innerText?.trim()||'';
+      const an=parseFloat(av.replace(/[^\d,-]/g,'').replace(',','.'));
+      const bn=parseFloat(bv.replace(/[^\d,-]/g,'').replace(',','.'));
+      if(!isNaN(an)&&!isNaN(bn)) return (an-bn)*_sd;
+      return av.localeCompare(bv,'id')*_sd;
+    }).forEach(r=>tb.appendChild(r));
+    applyFilter();
+  });
+});
+
+// Live filter
+['f-q','f-mc'].forEach(id=>document.getElementById(id).addEventListener('input',applyFilter));
+['f-flexo','f-status'].forEach(id=>document.getElementById(id).addEventListener('change',applyFilter));
+
+// ============================================================
+//  LOAD DATA DARI API  (fallback ke DEMO jika gagal)
+// ============================================================
+async function loadFromAPI(){
+  try{
+    const res = await fetch(`${API_LIST}?limit=100000&offset=0`);
+    if(!res.ok) throw new Error('HTTP '+res.status);
+    const json = await res.json();
+    if(!json.success) throw new Error(json.message||'API error');
+
+    // Map field PHP → field render
+    const data = (json.data||[]).map(r=>({
+      cNoOp        : r.cNoOp,
+      cNoSc        : r.cNoSc,
+      cNoMc        : r.cNoMc,
+      dTgl         : r.dTgl,
+      dTglKontrak  : r.dTgl,       // tbSC tidak di-join; ganti jika ada field kontrak
+      cNoKontrak   : r.cNoSc,      // placeholder
+      cJenis       : r.cDC||'',
+      cNoArtikel   : '',
+      cTipe        : r.cTipe,
+      nTinggi      : r.nTinggi,
+      cnm_brg      : r.cnm_brg,
+      nPanjang     : r.nPanjang,
+      nLebar       : r.nLebar,
+      cCreasing    : '',
+      cnm_c        : r.cnm_c,
+      cSales       : r.stb_cNamaSales||'',
+      nQty         : r.nQty,
+      cBungkus     : '-',
+      nOut         : r.nRm||0,
+      nBxSh        : 1,
+      nToleransi   : 0,
+      nQtyStok     : r.nQtyStok,
+      cLayer       : r.cLayer,
+      ckd_b1:r.ckd_b1,ckd_b2:r.ckd_b2,ckd_b3:r.ckd_b3,ckd_b4:r.ckd_b4,ckd_b5:r.ckd_b5,
+      nLebarKertas :0,
+      nBerat1:0,nBerat2:0,nBerat3:0,nBerat4:0,nBerat5:0,
+      cWarna       : r.cWarna,
+      cJoin        : '',
+      cProses      : '',
+      cFlexo       : r.cFlexo,
+      cDC          : r.cDC,
+      cKetOrder    : r.cKetOrder,
+      nGramTimbang :0,
+      nPanjangSheet:0,
+      nLebarSheet  :0,
+      cLastPlan    : '-',
+      // hasil diisi API hasil-all
+      totalHasilCorr:0,totalRusakCorr:0,
+      totalHasilFlexo:0,totalRusakFlexo:0,
+      totalHasilIkat:0,totalHasilGlue:0,totalHasilStitch:0,
+      totalHasilSlitter:0,totalHasilBungkus:0,totalHasilRdc:0,
+      totalHasilLongway:0,totalHasilUpDown:0,totalHasilDieCutFlat:0,
+      // realisasi
+      nJmlSerahTrm : Number(r.stb_nQty)||0,
+      dTglKirim    : r.stb_dTglkirim||'',
+      dNewJadwal   : r.dTglkirim2||'',
+      nJmlKirim    : Number(r.srj_nQty)||0,
+      nPcsKurang   : 0,
+      nSheetKurang :0,
+      nRmKurang    :0,
+      nTonaseKurang:0,
+      nHasilSheet  :0,
+      nStokSheet   :0,
+      cStatus      :(Number(r.srj_nQty)>0)?'finished':'unfinished',
+      cMengetahui  : r.cMengetahui,
+      rack_name    : r.rack_name||r.stb_rack_name||'-'
+    }));
+
+    render(data);
+
+    // Fetch hasil-all per OP di background
+    const hasilKeys=['totalHasilCorr','totalRusakCorr','totalHasilFlexo','totalRusakFlexo',
+      'totalHasilIkat','totalHasilGlue','totalHasilStitch','totalHasilSlitter',
+      'totalHasilBungkus','totalHasilRdc','totalHasilLongway','totalHasilUpDown','totalHasilDieCutFlat'];
+    // Cell index map for hasil columns (0-based), adjust if columns change
+    const cellIdx = {totalHasilCorr:44,totalRusakCorr:45,totalHasilFlexo:46,totalRusakFlexo:47,
+      totalHasilIkat:48,totalHasilGlue:49,totalHasilStitch:50,totalHasilSlitter:51,
+      totalHasilBungkus:52,totalHasilRdc:53,totalHasilLongway:54,totalHasilUpDown:55,totalHasilDieCutFlat:56};
+
+    data.forEach((row,idx)=>{
+      if(!row.cNoOp) return;
+      fetch(`${API_HASIL}/api/hasil-all?cNoOp=${encodeURIComponent(row.cNoOp)}`)
+        .then(r=>r.json())
+        .then(j=>{
+          const d=(j&&j.data)?j.data:(j||{});
+          hasilKeys.forEach(k=>{if(d[k]!==undefined) data[idx][k]=Number(d[k])||0;});
+          const tr=document.querySelectorAll('#tb tr[data-q]')[idx];
+          if(!tr)return;
+          hasilKeys.forEach(k=>{
+            const ci=cellIdx[k];if(ci===undefined)return;
+            const td=tr.cells[ci];
+            if(!td)return;
+            const v=Number(d[k])||0;
+            td.innerHTML = k.toLowerCase().includes('rusak')?nn(v):np(v);
+          });
+        }).catch(()=>{});
+    });
+
+  } catch(e){
+    console.warn('API tidak tersedia, pakai DEMO data:', e.message);
+    render(DEMO);
+  }
+}
+
+loadFromAPI();
+</script>
+</body>
+</html>

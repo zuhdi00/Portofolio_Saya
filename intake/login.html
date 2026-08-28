@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="sps_logo1.png">
+<title>Login — Dashboard Intake</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f5f5f5;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    color: #222;
+  }
+
+  /* subtle grid background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,0,0,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,0,0,0.04) 1px, transparent 1px);
+    background-size: 32px 32px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .login-wrapper {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+  }
+
+  /* Brand header */
+  .brand {
+    text-align: center;
+    margin-bottom: 28px;
+  }
+
+  .brand-logo {
+    width: 52px;
+    height: 52px;
+    background: #222;
+    border-radius: 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 12px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.18);
+  }
+
+  .brand-logo svg {
+    width: 28px;
+    height: 28px;
+    fill: #fff;
+  }
+
+  .brand-name {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #222;
+    letter-spacing: .3px;
+  }
+
+  .brand-sub {
+    font-size: .75rem;
+    color: #757575;
+    margin-top: 3px;
+    text-transform: uppercase;
+    letter-spacing: .8px;
+  }
+
+  /* Card */
+  .login-card {
+    background: #fff;
+    border: 1px solid #bdbdbd;
+    border-radius: 12px;
+    padding: 32px 28px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+  }
+
+  .card-title {
+    font-size: .95rem;
+    font-weight: 700;
+    color: #222;
+    margin-bottom: 6px;
+  }
+
+  .card-desc {
+    font-size: .78rem;
+    color: #757575;
+    margin-bottom: 24px;
+  }
+
+  /* Form */
+  .form-group {
+    margin-bottom: 16px;
+  }
+
+  label {
+    display: block;
+    font-size: .78rem;
+    font-weight: 600;
+    color: #444;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: .4px;
+  }
+
+  .input-wrap {
+    position: relative;
+  }
+
+  .input-wrap svg {
+    position: absolute;
+    left: 11px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 15px;
+    height: 15px;
+    fill: #9e9e9e;
+    pointer-events: none;
+  }
+
+  input[type="text"],
+  input[type="password"] {
+    width: 100%;
+    background: #e0e0e0;
+    border: 1px solid #bdbdbd;
+    color: #222;
+    padding: 9px 11px 9px 34px;
+    border-radius: 6px;
+    font-size: .85rem;
+    font-family: inherit;
+    outline: none;
+    transition: .2s;
+  }
+
+  input[type="text"]:focus,
+  input[type="password"]:focus {
+    border-color: #757575;
+    box-shadow: 0 0 0 2px #bdbdbd;
+    background: #eeeeee;
+  }
+
+  /* toggle password */
+  .toggle-pw {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 2px;
+    display: flex;
+    align-items: center;
+  }
+
+  .toggle-pw svg {
+    position: static;
+    transform: none;
+    width: 15px;
+    height: 15px;
+    fill: #9e9e9e;
+    transition: fill .2s;
+  }
+
+  .toggle-pw:hover svg { fill: #444; }
+
+  /* Remember me */
+  .remember-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+
+  .remember-row input[type="checkbox"] {
+    width: 15px;
+    height: 15px;
+    accent-color: #222;
+    cursor: pointer;
+  }
+
+  .remember-row label {
+    text-transform: none;
+    letter-spacing: 0;
+    font-weight: 400;
+    font-size: .8rem;
+    color: #555;
+    margin: 0;
+    cursor: pointer;
+  }
+
+  /* Button */
+  .btn-login {
+    width: 100%;
+    background: #222;
+    color: #fff;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 6px;
+    font-size: .85rem;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    transition: .2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    letter-spacing: .3px;
+  }
+
+  .btn-login:hover { background: #424242; }
+  .btn-login:active { background: #111; transform: scale(.99); }
+
+  .btn-login svg {
+    width: 15px;
+    height: 15px;
+    fill: #fff;
+  }
+
+  /* Spinner */
+  .spinner {
+    display: none;
+    width: 15px;
+    height: 15px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin .7s linear infinite;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* Error */
+  .alert-error {
+    display: none;
+    background: #fff8e1;
+    border: 1px solid #ffe082;
+    border-radius: 6px;
+    padding: 10px 14px;
+    margin-bottom: 16px;
+    font-size: .78rem;
+    color: #5d4037;
+    display: none;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .alert-error.show { display: flex; }
+
+  .alert-error svg {
+    width: 15px;
+    height: 15px;
+    fill: #f9a825;
+    flex-shrink: 0;
+  }
+
+  /* Divider */
+  .divider {
+    border: none;
+    border-top: 1px solid #e0e0e0;
+    margin: 22px 0 16px;
+  }
+
+  /* Footer info */
+  .footer-info {
+    text-align: center;
+    font-size: .72rem;
+    color: #9e9e9e;
+    margin-top: 20px;
+  }
+
+  .footer-info a {
+    color: #616161;
+    text-decoration: none;
+  }
+
+  .footer-info a:hover { text-decoration: underline; }
+
+  /* Fade in animation */
+  .login-wrapper {
+    animation: fadeUp .4s ease;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+
+<div class="login-wrapper">
+  <!-- Brand -->
+  <div class="brand">
+    <div class="brand-logo">
+      <!-- Simple box/package icon -->
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2L2 7v10l10 5 10-5V7L12 2zm0 2.18L20 8.5v.02L12 13 4 8.52v-.02L12 4.18zM4 10.5l7 3.5v6L4 16.5v-6zm9 9.5v-6l7-3.5v6l-7 3.5z"/>
+      </svg>
+    </div>
+    <div class="brand-name">Dashboard Intake</div>
+    <div class="brand-sub">Production Monitoring System</div>
+  </div>
+
+  <!-- Card -->
+  <div class="login-card">
+    <div class="card-title">Masuk ke Sistem</div>
+    <div class="card-desc">Masukkan kredensial Anda untuk melanjutkan.</div>
+
+    <!-- Error alert -->
+    <div class="alert-error" id="alertError">
+      <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+      <span id="alertMsg">Username atau password salah.</span>
+    </div>
+
+    <!-- Form -->
+    <div class="form-group">
+      <label for="username">Username</label>
+      <div class="input-wrap">
+        <svg viewBox="0 0 24 24"><path d="M12 12c2.7 0 5-2.3 5-5s-2.3-5-5-5-5 2.3-5 5 2.3 5 5 5zm0 2c-3.3 0-10 1.7-10 5v2h20v-2c0-3.3-6.7-5-10-5z"/></svg>
+        <input type="text" id="username" placeholder="Masukkan username" autocomplete="username" />
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="password">Password</label>
+      <div class="input-wrap">
+        <svg viewBox="0 0 24 24"><path d="M18 8h-1V6A5 5 0 007 6v2H6a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V10a2 2 0 00-2-2zM9 6a3 3 0 016 0v2H9V6zm3 10a1 1 0 110-2 1 1 0 010 2z"/></svg>
+        <input type="password" id="password" placeholder="Masukkan password" autocomplete="current-password" />
+        <button type="button" class="toggle-pw" id="togglePw" title="Tampilkan/Sembunyikan">
+          <svg id="eyeIcon" viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zm0 12.5a5 5 0 110-10 5 5 0 010 10zm0-8a3 3 0 100 6 3 3 0 000-6z"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="remember-row">
+      <input type="checkbox" id="rememberMe" />
+      <label for="rememberMe">Ingat saya</label>
+    </div>
+
+    <button class="btn-login" id="btnLogin" onclick="doLogin()">
+      <svg id="loginIcon" viewBox="0 0 24 24"><path d="M11 7L9.6 8.4l2.6 2.6H2v2h10.2l-2.6 2.6L11 17l5-5-5-5zm9 12h-8v2h8a2 2 0 002-2V5a2 2 0 00-2-2h-8v2h8v14z"/></svg>
+      <span id="btnText">Masuk</span>
+      <div class="spinner" id="spinner"></div>
+    </button>
+
+    <hr class="divider">
+
+    <div style="font-size:.75rem;color:#9e9e9e;text-align:center;">
+      Hubungi administrator jika lupa password
+    </div>
+  </div>
+
+  <div class="footer-info">
+    &copy; 2025 SPS &mdash; Production Monitoring &middot;
+    <a href="index.html">Dashboard</a>
+  </div>
+</div>
+
+<script>
+  // ── Toggle password visibility ────────────────────────────────────────────
+  const togglePw = document.getElementById('togglePw');
+  const pwInput  = document.getElementById('password');
+  const eyeIcon  = document.getElementById('eyeIcon');
+
+  const eyeOpen   = `<path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zm0 12.5a5 5 0 110-10 5 5 0 010 10zm0-8a3 3 0 100 6 3 3 0 000-6z"/>`;
+  const eyeClosed = `<path d="M2.71 3.29a1 1 0 00-1.42 1.42L6.46 9.88A9.92 9.92 0 001 12c1.73 4.39 6 7.5 11 7.5a10.05 10.05 0 005.62-1.73l3.67 3.67a1 1 0 001.42-1.42L2.71 3.29zM12 17.5A5 5 0 017.09 12.3l6.61 6.61A5 5 0 0112 17.5zM12 7a5 5 0 014.9 4.1l3.7 3.7A9.92 9.92 0 0023 12C21.27 7.61 17 4.5 12 4.5a9.92 9.92 0 00-3.8.77l2.4 2.4A5 5 0 0112 7z"/>`;
+
+  togglePw.addEventListener('click', () => {
+    const isHidden = pwInput.type === 'password';
+    pwInput.type = isHidden ? 'text' : 'password';
+    eyeIcon.innerHTML = isHidden ? eyeClosed : eyeOpen;
+  });
+
+  // ── Remember me: restore username ────────────────────────────────────────
+  const saved = localStorage.getItem('login_username');
+  if (saved) {
+    document.getElementById('username').value = saved;
+    document.getElementById('rememberMe').checked = true;
+  }
+
+  // ── Login ─────────────────────────────────────────────────────────────────
+  async function doLogin() {
+    const username = document.getElementById('username').value.trim();
+    const password = document.getElementById('password').value;
+    const remember = document.getElementById('rememberMe').checked;
+
+    hideError();
+
+    if (!username || !password) {
+      showError('Username dan password wajib diisi.');
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      // ──────────────────────────────────────────────────────────────────────
+      // Ganti URL di bawah ini dengan endpoint autentikasi Anda.
+      // Contoh: const res = await fetch('login.php', { method:'POST', ... })
+      // ──────────────────────────────────────────────────────────────────────
+      const res = await fetch('login.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password })
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        if (remember) {
+          localStorage.setItem('login_username', username);
+        } else {
+          localStorage.removeItem('login_username');
+        }
+
+        // Simpan token/session jika ada
+        if (data.token) sessionStorage.setItem('auth_token', data.token);
+
+        // Redirect ke dashboard
+        window.location.href = 'index.html';
+      } else {
+        showError(data.message || 'Username atau password salah.');
+      }
+    } catch (e) {
+      // Demo: jika tidak ada backend, langsung redirect
+      // Hapus blok ini saat integrasi dengan backend sungguhan
+      if (username === 'admin' && password === 'spsdmz2026') {
+        if (remember) localStorage.setItem('login_username', username);
+        window.location.href = 'index.html';
+      } else if (username === 'user' && password === 'sps2026') {
+        if (remember) localStorage.setItem('login_username', username);
+        window.location.href = 'index.html';
+      } else {
+        showError('Username atau password salah. (Demo: admin / admin123)');
+      }
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  function showError(msg) {
+    document.getElementById('alertMsg').textContent = msg;
+    document.getElementById('alertError').classList.add('show');
+  }
+
+  function hideError() {
+    document.getElementById('alertError').classList.remove('show');
+  }
+
+  function setLoading(on) {
+    document.getElementById('btnLogin').disabled = on;
+    document.getElementById('loginIcon').style.display = on ? 'none' : '';
+    document.getElementById('spinner').style.display = on ? 'block' : 'none';
+    document.getElementById('btnText').textContent = on ? 'Memproses...' : 'Masuk';
+  }
+
+  // Enter key support
+  ['username','password'].forEach(id => {
+    document.getElementById(id).addEventListener('keypress', e => {
+      if (e.key === 'Enter') doLogin();
+    });
+  });
+</script>
+</body>
+</html>

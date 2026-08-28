@@ -1,0 +1,435 @@
+import React, { useState } from 'react';
+import { ChevronLeft, ChevronRight, FileText, Calendar, AlertCircle, CheckCircle, XCircle } from 'lucide-react';
+
+const WorkflowPresentation = () => {
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  const slides = [
+    {
+      title: "Alur Kerja Perubahan Tanggal Kirim",
+      subtitle: "Sistem TSC - SC - OP",
+      content: (
+        <div className="flex flex-col items-center justify-center h-full space-y-8">
+          <div className="text-6xl">📋</div>
+          <h2 className="text-4xl font-bold text-blue-600">Workflow Management</h2>
+          <p className="text-xl text-gray-600">Transfer Sales Contract - Sales Contract - Order Production</p>
+        </div>
+      )
+    },
+    {
+      title: "Flowchart: Alur Kerja Lengkap",
+      content: (
+        <div className="overflow-auto h-full p-4">
+          <svg viewBox="0 0 800 1400" className="w-full">
+            {/* START */}
+            <rect x="300" y="20" width="200" height="60" rx="30" fill="#4CAF50" stroke="#2E7D32" strokeWidth="2"/>
+            <text x="400" y="55" textAnchor="middle" fill="white" fontSize="16" fontWeight="bold">MULAI</text>
+            
+            {/* TSC Creation */}
+            <path d="M 400 80 L 400 120" stroke="#333" strokeWidth="2" markerEnd="url(#arrowhead)"/>
+            <rect x="250" y="120" width="300" height="80" rx="10" fill="#2196F3" stroke="#1565C0" strokeWidth="2"/>
+            <text x="400" y="150" textAnchor="middle" fill="white" fontSize="14" fontWeight="bold">BUAT TSC</text>
+            <text x="400" y="170" textAnchor="middle" fill="white" fontSize="12">Input Data + Tanggal Kirim</text>
+            <text x="400" y="190" textAnchor="middle" fill="white" fontSize="11">(Combobox: Tgl Kirim & Tgl Kirim Baru)</text>
+            
+            {/* Decision: Perubahan TSC? */}
+            <path d="M 400 200 L 400 240" stroke="#333" strokeWidth="2" markerEnd="url(#arrowhead)"/>
+            <path d="M 400 280 L 500 340 L 400 400 L 300 340 Z" fill="#FFC107" stroke="#F57F17" strokeWidth="2"/>
+            <text x="400" y="335" textAnchor="middle" fontSize="13" fontWeight="bold">Perubahan</text>
+            <text x="400" y="355" textAnchor="middle" fontSize="13" fontWeight="bold">Tgl Kirim TSC?</text>
+            
+            {/* YES - Cancel Posting TSC */}
+            <path d="M 500 340 L 600 340" stroke="#333" strokeWidth="2" markerEnd="url(#arrowhead)"/>
+            <text x="550" y="330" fontSize="12" fontWeight="bold" fill="#d32f2f">YA</text>
+            <rect x="600" y="300" width="180" height="80" rx="10" fill="#FF5722" stroke="#BF360C" strokeWidth="2"/>
+            <text x="690" y="325" textAnchor="middle" fill="white" fontSize="12" fontWeight="bold">AJUKAN BATAL</text>
+            <text x="690" y="345" textAnchor="middle" fill="white" fontSize="12" fontWeight="bold">POSTING TSC</text>
+            <text x="690" y="365" textAnchor="middle" fill="white" fontSize="11">(Memo Reschedule)</text>
+            
+            {/* Update TSC Date */}
+            <path d="M 690 380 L 690 430" stroke="#333" strokeWidth="2" markerEnd="url(#arrowhead)"/>
+            <rect x="600" y="430" width="180" height="70" rx="10" fill="#9C27B0" stroke="#6A1B9A" strokeWidth="2"/>
+            <text x="690" y="455" textAnchor="middle" fill="white" fontSize="12" fontWeight="bold">UBAH TANGGAL</text>
+            <text x="690" y="475" textAnchor="middle" fill="white" fontSize="11">di Combobox</text>
+            <text x="690" y="490" textAnchor="middle" fill="white" fontSize="11">Tanggal Kirim Baru</text>
+            
+            {/* Back to main flow */}
+            <path d="M 690 500 L 690 540 L 400 540 L 400 450" stroke="#333" strokeWidth="2" markerEnd="url(#arrowhead)"/>
+            
+            {/* NO - Continue to SC */}
+            <path d="M 400 400 L 400 470" stroke="#333" strokeWidth="2" markerEnd="url(#arrowhead)"/>
+            <text x="420" y="435" fontSize="12" fontWeight="bold" fill="#388E3C">TIDAK</text>
+            
+            {/* SC Creation */}
+            <rect x="250" y="470" width="300" height="80" rx="10" fill="#2196F3" stroke="#1565C0" strokeWidth="2"/>
+            <text x="400" y="495" textAnchor="middle" fill="white" fontSize="14" fontWeight="bold">BUAT SC (SLC)</text>
+            <text x="400" y="515" textAnchor="middle" fill="white" fontSize="12">Input No. TSC untuk tarik data</text>
+            <text x="400" y="535" textAnchor="middle" fill="white" fontSize="11">(Data TSC otomatis masuk ke SC)</text>
+            
+            {/* Decision: Perubahan SC? */}
+            <path d="M 400 550 L 400 590" stroke="#333" strokeWidth="2" markerEnd="url(#arrowhead)"/>
+            <path d="M 400 630 L 500 690 L 400 750 L 300 690 Z" fill="#FFC107" stroke="#F57F17" strokeWidth="2"/>
+            <text x="400" y="685" textAnchor="middle" fontSize="13" fontWeight="bold">Ada Perubahan</text>
+            <text x="400" y="705" textAnchor="middle" fontSize="13" fontWeight="bold">Tgl dari TSC?</text>
+            
+            {/* YES - Cancel Posting SC */}
+            <path d="M 500 690 L 600 690" stroke="#333" strokeWidth="2" markerEnd="url(#arrowhead)"/>
+            <text x="550" y="680" fontSize="12" fontWeight="bold" fill="#d32f2f">YA</text>
+            <rect x="600" y="650" width="180" height="80" rx="10" fill="#FF5722" stroke="#BF360C" strokeWidth="2"/>
+            <text x="690" y="675" textAnchor="middle" fill="white" fontSize="12" fontWeight="bold">AJUKAN BATAL</text>
+            <text x="690" y="695" textAnchor="middle" fill="white" fontSize="12" fontWeight="bold">POSTING SC</text>
+            <text x="690" y="715" textAnchor="middle" fill="white" fontSize="11">(ke Finance)</text>
+            
+            {/* Update SC */}
+            <path d="M 690 730 L 690 780" stroke="#333" strokeWidth="2" markerEnd="url(#arrowhead)"/>
+            <rect x="600" y="780" width="180" height="70" rx="10" fill="#9C27B0" stroke="#6A1B9A" strokeWidth="2"/>
+            <text x="690" y="805" textAnchor="middle" fill="white" fontSize="12" fontWeight="bold">INPUT ULANG</text>
+            <text x="690" y="825" textAnchor="middle" fill="white" fontSize="11">No. TSC (Data akan</text>
+            <text x="690" y="840" textAnchor="middle" fill="white" fontSize="11">update otomatis)</text>
+            
+            {/* Back to main flow */}
+            <path d="M 690 850 L 690 890 L 400 890 L 400 800" stroke="#333" strokeWidth="2" markerEnd="url(#arrowhead)"/>
+            
+            {/* NO - Continue to OP */}
+            <path d="M 400 750 L 400 820" stroke="#333" strokeWidth="2" markerEnd="url(#arrowhead)"/>
+            <text x="420" y="785" fontSize="12" fontWeight="bold" fill="#388E3C">TIDAK</text>
+            
+            {/* OP Creation */}
+            <rect x="250" y="820" width="300" height="80" rx="10" fill="#2196F3" stroke="#1565C0" strokeWidth="2"/>
+            <text x="400" y="845" textAnchor="middle" fill="white" fontSize="14" fontWeight="bold">BUAT OP</text>
+            <text x="400" y="865" textAnchor="middle" fill="white" fontSize="12">Buat No. OP + Input No. SC</text>
+            <text x="400" y="885" textAnchor="middle" fill="white" fontSize="11">(Data SC otomatis masuk ke OP)</text>
+            
+            {/* Decision: Perubahan OP? */}
+            <path d="M 400 900 L 400 940" stroke="#333" strokeWidth="2" markerEnd="url(#arrowhead)"/>
+            <path d="M 400 980 L 500 1040 L 400 1100 L 300 1040 Z" fill="#FFC107" stroke="#F57F17" strokeWidth="2"/>
+            <text x="400" y="1035" textAnchor="middle" fontSize="13" fontWeight="bold">Ada Perubahan</text>
+            <text x="400" y="1055" textAnchor="middle" fontSize="13" fontWeight="bold">Tgl dari TSC/SC?</text>
+            
+            {/* YES - Manual Update OP */}
+            <path d="M 500 1040 L 600 1040" stroke="#333" strokeWidth="2" markerEnd="url(#arrowhead)"/>
+            <text x="550" y="1030" fontSize="12" fontWeight="bold" fill="#d32f2f">YA</text>
+            <rect x="600" y="1000" width="180" height="80" rx="10" fill="#E91E63" stroke="#880E4F" strokeWidth="2"/>
+            <text x="690" y="1025" textAnchor="middle" fill="white" fontSize="12" fontWeight="bold">UBAH MANUAL</text>
+            <text x="690" y="1045" textAnchor="middle" fill="white" fontSize="11">di Combobox</text>
+            <text x="690" y="1065" textAnchor="middle" fill="white" fontSize="11">Tanggal Kirim Baru</text>
+            
+            {/* Back to main flow */}
+            <path d="M 690 1080 L 690 1120 L 400 1120 L 400 1150" stroke="#333" strokeWidth="2" markerEnd="url(#arrowhead)"/>
+            
+            {/* NO - End */}
+            <path d="M 400 1100 L 400 1150" stroke="#333" strokeWidth="2" markerEnd="url(#arrowhead)"/>
+            <text x="420" y="1125" fontSize="12" fontWeight="bold" fill="#388E3C">TIDAK</text>
+            
+            {/* END */}
+            <rect x="300" y="1150" width="200" height="60" rx="30" fill="#4CAF50" stroke="#2E7D32" strokeWidth="2"/>
+            <text x="400" y="1185" textAnchor="middle" fill="white" fontSize="16" fontWeight="bold">SELESAI</text>
+            
+            {/* Arrow marker definition */}
+            <defs>
+              <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                <polygon points="0 0, 10 3, 0 6" fill="#333" />
+              </marker>
+            </defs>
+          </svg>
+        </div>
+      )
+    },
+    {
+      title: "1. Pembuatan TSC (Transfer Sales Contract)",
+      content: (
+        <div className="space-y-6 p-6">
+          <div className="bg-blue-50 p-6 rounded-lg border-l-4 border-blue-500">
+            <h3 className="text-xl font-bold text-blue-800 mb-4 flex items-center">
+              <FileText className="mr-2" /> Langkah Awal
+            </h3>
+            <ul className="space-y-3 text-gray-700">
+              <li className="flex items-start">
+                <CheckCircle className="mr-2 mt-1 text-green-600 flex-shrink-0" size={20} />
+                <span><strong>Input data</strong> yang dibutuhkan di form TSC</span>
+              </li>
+              <li className="flex items-start">
+                <CheckCircle className="mr-2 mt-1 text-green-600 flex-shrink-0" size={20} />
+                <span>Terdapat <strong>Combobox Tanggal Kirim</strong> dan <strong>Combobox Tanggal Kirim Baru</strong></span>
+              </li>
+              <li className="flex items-start">
+                <CheckCircle className="mr-2 mt-1 text-green-600 flex-shrink-0" size={20} />
+                <span>Ubah tanggal kirim pada saat awal pembuatan TSC jika diperlukan</span>
+              </li>
+            </ul>
+          </div>
+          
+          <div className="bg-orange-50 p-6 rounded-lg border-l-4 border-orange-500">
+            <h3 className="text-xl font-bold text-orange-800 mb-4 flex items-center">
+              <AlertCircle className="mr-2" /> Perubahan Tanggal Kirim TSC
+            </h3>
+            <div className="space-y-3 text-gray-700">
+              <p className="font-semibold">Jika perlu mengubah tanggal kirim setelah posting:</p>
+              <ol className="list-decimal list-inside space-y-2 ml-4">
+                <li><strong>Marketing Internal</strong> mengajukan <span className="text-red-600 font-bold">Batal Posting</span> dengan <strong>Memo Reschedule</strong></li>
+                <li>Setelah dibatal posting, Marketing mengubah tanggal di <strong>Combobox Tanggal Kirim Baru</strong></li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      )
+    },
+    {
+      title: "2. Pembuatan SC (Sales Contract / SLC)",
+      content: (
+        <div className="space-y-6 p-6">
+          <div className="bg-green-50 p-6 rounded-lg border-l-4 border-green-500">
+            <h3 className="text-xl font-bold text-green-800 mb-4 flex items-center">
+              <FileText className="mr-2" /> Proses SC
+            </h3>
+            <ul className="space-y-3 text-gray-700">
+              <li className="flex items-start">
+                <CheckCircle className="mr-2 mt-1 text-green-600 flex-shrink-0" size={20} />
+                <span>Buat SC (SLC) dengan memasukkan <strong>No. TSC</strong></span>
+              </li>
+              <li className="flex items-start">
+                <CheckCircle className="mr-2 mt-1 text-green-600 flex-shrink-0" size={20} />
+                <span>Data TSC akan <strong>otomatis muncul</strong> di form SC</span>
+              </li>
+            </ul>
+          </div>
+          
+          <div className="bg-red-50 p-6 rounded-lg border-l-4 border-red-500">
+            <h3 className="text-xl font-bold text-red-800 mb-4 flex items-center">
+              <XCircle className="mr-2" /> Jika Ada Perubahan di TSC
+            </h3>
+            <div className="space-y-3 text-gray-700">
+              <p className="font-semibold">SC harus disesuaikan dengan langkah berikut:</p>
+              <ol className="list-decimal list-inside space-y-2 ml-4">
+                <li>Ajukan <strong className="text-red-600">Batal Posting</strong> ke <strong>Finance</strong></li>
+                <li>Setelah dibatal posting, ubah dengan <strong>memasukkan ulang No. TSC</strong></li>
+                <li>Data akan otomatis berubah sesuai perubahan tanggal di TSC</li>
+              </ol>
+            </div>
+          </div>
+          
+          <div className="bg-blue-100 p-4 rounded-lg">
+            <p className="text-sm text-blue-900 flex items-start">
+              <AlertCircle className="mr-2 mt-1 flex-shrink-0" size={18} />
+              <span><strong>Catatan:</strong> Perubahan tanggal kirim di TSC akan secara otomatis mempengaruhi SC setelah input ulang No. TSC</span>
+            </p>
+          </div>
+        </div>
+      )
+    },
+    {
+      title: "3. Pembuatan OP (Order Production)",
+      content: (
+        <div className="space-y-6 p-6">
+          <div className="bg-purple-50 p-6 rounded-lg border-l-4 border-purple-500">
+            <h3 className="text-xl font-bold text-purple-800 mb-4 flex items-center">
+              <FileText className="mr-2" /> Proses OP
+            </h3>
+            <ul className="space-y-3 text-gray-700">
+              <li className="flex items-start">
+                <CheckCircle className="mr-2 mt-1 text-green-600 flex-shrink-0" size={20} />
+                <span>Buat <strong>No. OP</strong> baru</span>
+              </li>
+              <li className="flex items-start">
+                <CheckCircle className="mr-2 mt-1 text-green-600 flex-shrink-0" size={20} />
+                <span>Masukkan <strong>No. SC</strong> untuk menarik data SC</span>
+              </li>
+              <li className="flex items-start">
+                <CheckCircle className="mr-2 mt-1 text-green-600 flex-shrink-0" size={20} />
+                <span>Data SC akan <strong>otomatis masuk</strong> ke form OP</span>
+              </li>
+            </ul>
+          </div>
+          
+          <div className="bg-pink-50 p-6 rounded-lg border-l-4 border-pink-500">
+            <h3 className="text-xl font-bold text-pink-800 mb-4 flex items-center">
+              <Calendar className="mr-2" /> Perubahan Tanggal di OP
+            </h3>
+            <div className="space-y-3 text-gray-700">
+              <p className="font-semibold text-red-600">⚠️ PERUBAHAN MANUAL DIPERLUKAN</p>
+              <p>Ketika terjadi perubahan tanggal kirim di TSC dan SC:</p>
+              <ol className="list-decimal list-inside space-y-2 ml-4">
+                <li>OP <strong>TIDAK otomatis</strong> berubah</li>
+                <li>Perlu dilakukan perubahan tanggal <strong>secara manual</strong></li>
+                <li>Ubah di <strong>Combobox Tanggal Kirim Baru</strong> di form OP</li>
+              </ol>
+            </div>
+          </div>
+          
+          <div className="bg-yellow-100 p-4 rounded-lg">
+            <p className="text-sm text-yellow-900 flex items-start">
+              <AlertCircle className="mr-2 mt-1 flex-shrink-0" size={18} />
+              <span><strong>Penting:</strong> Pastikan tanggal kirim di OP selalu sinkron dengan TSC dan SC dengan melakukan update manual</span>
+            </p>
+          </div>
+        </div>
+      )
+    },
+    {
+      title: "Ringkasan Alur Kerja",
+      content: (
+        <div className="space-y-6 p-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="bg-blue-100 p-4 rounded-lg border-2 border-blue-500">
+              <h4 className="font-bold text-blue-800 mb-2">📋 TSC</h4>
+              <ul className="text-sm space-y-1 text-gray-700">
+                <li>✓ Input data awal</li>
+                <li>✓ Set tanggal kirim</li>
+                <li>✓ Batal posting jika perlu ubah</li>
+                <li>✓ Update di combobox</li>
+              </ul>
+            </div>
+            
+            <div className="bg-green-100 p-4 rounded-lg border-2 border-green-500">
+              <h4 className="font-bold text-green-800 mb-2">📄 SC</h4>
+              <ul className="text-sm space-y-1 text-gray-700">
+                <li>✓ Input No. TSC</li>
+                <li>✓ Data otomatis muncul</li>
+                <li>✓ Batal posting ke Finance</li>
+                <li>✓ Input ulang No. TSC</li>
+              </ul>
+            </div>
+            
+            <div className="bg-purple-100 p-4 rounded-lg border-2 border-purple-500">
+              <h4 className="font-bold text-purple-800 mb-2">🏭 OP</h4>
+              <ul className="text-sm space-y-1 text-gray-700">
+                <li>✓ Buat No. OP</li>
+                <li>✓ Input No. SC</li>
+                <li>✓ Data otomatis muncul</li>
+                <li>⚠️ Update manual tanggal</li>
+              </ul>
+            </div>
+          </div>
+          
+          <div className="bg-gradient-to-r from-orange-100 to-red-100 p-6 rounded-lg border-2 border-orange-500">
+            <h3 className="text-lg font-bold text-orange-800 mb-3">🔑 Poin Penting</h3>
+            <div className="grid md:grid-cols-2 gap-4 text-sm">
+              <div>
+                <h4 className="font-semibold text-gray-800 mb-2">Otomatis:</h4>
+                <ul className="space-y-1 text-gray-700">
+                  <li>• TSC → SC (via input No. TSC)</li>
+                  <li>• SC → OP (via input No. SC)</li>
+                </ul>
+              </div>
+              <div>
+                <h4 className="font-semibold text-gray-800 mb-2">Manual:</h4>
+                <ul className="space-y-1 text-gray-700">
+                  <li>• Perubahan tanggal di OP</li>
+                  <li>• Update di Combobox Tanggal Kirim Baru</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          
+          <div className="bg-blue-50 p-4 rounded-lg border-l-4 border-blue-500">
+            <h4 className="font-semibold text-blue-900 mb-2">Proses Batal Posting:</h4>
+            <ul className="text-sm space-y-1 text-gray-700">
+              <li>• <strong>TSC:</strong> Marketing Internal → Memo Reschedule</li>
+              <li>• <strong>SC:</strong> Ajukan ke Finance</li>
+              <li>• <strong>OP:</strong> Update manual, tidak perlu batal posting</li>
+            </ul>
+          </div>
+        </div>
+      )
+    },
+    {
+      title: "Terima Kasih",
+      content: (
+        <div className="flex flex-col items-center justify-center h-full space-y-6">
+          <div className="text-6xl">✅</div>
+          <h2 className="text-3xl font-bold text-gray-800">Dokumentasi Selesai</h2>
+          <p className="text-xl text-gray-600 text-center max-w-2xl">
+            Pastikan semua tim memahami alur kerja perubahan tanggal kirim untuk menjaga sinkronisasi data TSC, SC, dan OP
+          </p>
+          <div className="flex space-x-4 mt-6">
+            <div className="bg-blue-100 px-6 py-3 rounded-lg">
+              <p className="text-sm text-blue-800 font-semibold">Marketing Internal</p>
+            </div>
+            <div className="bg-green-100 px-6 py-3 rounded-lg">
+              <p className="text-sm text-green-800 font-semibold">Finance</p>
+            </div>
+            <div className="bg-purple-100 px-6 py-3 rounded-lg">
+              <p className="text-sm text-purple-800 font-semibold">Production</p>
+            </div>
+          </div>
+        </div>
+      )
+    }
+  ];
+
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % slides.length);
+  };
+
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+  };
+
+  return (
+    <div className="w-full h-screen bg-gradient-to-br from-gray-100 to-gray-200 flex flex-col">
+      {/* Header */}
+      <div className="bg-gradient-to-r from-blue-600 to-blue-800 text-white p-4 shadow-lg">
+        <h1 className="text-2xl font-bold">Sistem Manajemen Perubahan Tanggal Kirim</h1>
+        <p className="text-sm opacity-90">TSC - SC - OP Workflow</p>
+      </div>
+
+      {/* Main Content */}
+      <div className="flex-1 p-8 overflow-hidden">
+        <div className="bg-white rounded-xl shadow-2xl h-full flex flex-col">
+          {/* Slide Title */}
+          <div className="bg-gradient-to-r from-blue-500 to-blue-700 text-white p-6 rounded-t-xl">
+            <h2 className="text-2xl font-bold">{slides[currentSlide].title}</h2>
+            {slides[currentSlide].subtitle && (
+              <p className="text-sm opacity-90 mt-1">{slides[currentSlide].subtitle}</p>
+            )}
+          </div>
+
+          {/* Slide Content */}
+          <div className="flex-1 overflow-auto">
+            {slides[currentSlide].content}
+          </div>
+
+          {/* Navigation */}
+          <div className="border-t p-4 flex items-center justify-between bg-gray-50 rounded-b-xl">
+            <button
+              onClick={prevSlide}
+              className="flex items-center space-x-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition disabled:opacity-50 disabled:cursor-not-allowed"
+              disabled={currentSlide === 0}
+            >
+              <ChevronLeft size={20} />
+              <span>Sebelumnya</span>
+            </button>
+
+            <div className="flex items-center space-x-2">
+              {slides.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrentSlide(index)}
+                  className={`w-3 h-3 rounded-full transition ${
+                    index === currentSlide ? 'bg-blue-600 w-8' : 'bg-gray-300'
+                  }`}
+                />
+              ))}
+            </div>
+
+            <button
+              onClick={nextSlide}
+              className="flex items-center space-x-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition disabled:opacity-50 disabled:cursor-not-allowed"
+              disabled={currentSlide === slides.length - 1}
+            >
+              <span>Selanjutnya</span>
+              <ChevronRight size={20} />
+            </button>
+          </div>
+
+          {/* Slide Counter */}
+          <div className="text-center py-2 text-sm text-gray-600 bg-gray-50">
+            Slide {currentSlide + 1} dari {slides.length}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default WorkflowPresentation;

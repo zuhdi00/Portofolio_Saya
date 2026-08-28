@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laporan Analisis Performa Server</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            color: #333;
+            line-height: 1.6;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            background: white;
+            padding: 40px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #2c3e50;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            color: #2c3e50;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            color: #7f8c8d;
+            font-size: 13px;
+        }
+        
+        .section {
+            margin-bottom: 30px;
+        }
+        
+        .section h2 {
+            color: #2c3e50;
+            font-size: 18px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #3498db;
+        }
+        
+        .section h3 {
+            color: #34495e;
+            font-size: 14px;
+            margin-top: 15px;
+            margin-bottom: 10px;
+        }
+        
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        
+        .data-table th {
+            background: #34495e;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: bold;
+        }
+        
+        .data-table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #ecf0f1;
+        }
+        
+        .data-table tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+        
+        .status-critical {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        
+        .status-warning {
+            color: #f39c12;
+            font-weight: bold;
+        }
+        
+        .status-normal {
+            color: #27ae60;
+            font-weight: bold;
+        }
+        
+        .analysis-box {
+            background: #ecf0f1;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .analysis-box p {
+            margin: 8px 0;
+        }
+        
+        .recommendation-box {
+            background: #d5f4e6;
+            border-left: 4px solid #27ae60;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .recommendation-box h4 {
+            color: #27ae60;
+            margin-bottom: 10px;
+        }
+        
+        .recommendation-box ul {
+            margin-left: 20px;
+        }
+        
+        .recommendation-box li {
+            margin: 8px 0;
+        }
+        
+        .warning-box {
+            background: #fadbd8;
+            border-left: 4px solid #e74c3c;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .warning-box h4 {
+            color: #e74c3c;
+            margin-bottom: 10px;
+        }
+        
+        .warning-box p {
+            margin: 8px 0;
+        }
+        
+        .footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #ecf0f1;
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 12px;
+        }
+        
+        .print-btn {
+            background: #3498db;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+        
+        .print-btn:hover {
+            background: #2980b9;
+        }
+        
+        @media print {
+            .print-btn {
+                display: none;
+            }
+            body {
+                background: white;
+            }
+            .container {
+                box-shadow: none;
+                margin: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <button class="print-btn" onclick="window.print()">🖨️ Cetak/Export PDF</button>
+        
+        <div class="header">
+            <h1>LAPORAN ANALISIS PERFORMA SERVER</h1>
+            <p>Evaluasi Masalah Lagging dan Penurunan Performa</p>
+            <p>Tanggal: <span id="date"></span></p>
+        </div>
+        
+        <!-- RINGKASAN EKSEKUTIF -->
+        <div class="section">
+            <h2>1. RINGKASAN EKSEKUTIF</h2>
+            <p>Berdasarkan analisis Windows Task Manager yang dikumpulkan, server mengalami kondisi resource yang terbatas dengan penggunaan CPU sebesar 29% dan memory (RAM) sebesar 8.19 GB dari kapasitas total. Meskipun persentase CPU terlihat moderat, analisis lebih detail menunjukkan beberapa indikasi problematik yang menyebabkan lagging ketika menjalankan program banyak secara bersamaan.</p>
+        </div>
+        
+        <!-- ANALISIS DATA PERFORMA -->
+        <div class="section">
+            <h2>2. ANALISIS DATA PERFORMA SISTEM</h2>
+            
+            <h3>2.1 Penggunaan Prosesor (CPU)</h3>
+            <table class="data-table">
+                <tr>
+                    <th>Parameter</th>
+                    <th>Nilai</th>
+                    <th>Status</th>
+                </tr>
+                <tr>
+                    <td>CPU Usage</td>
+                    <td>29%</td>
+                    <td><span class="status-normal">Normal</span></td>
+                </tr>
+                <tr>
+                    <td>Processes</td>
+                    <td>60</td>
+                    <td><span class="status-warning">Tinggi</span></td>
+                </tr>
+                <tr>
+                    <td>Threads</td>
+                    <td>1223</td>
+                    <td><span class="status-warning">Tinggi</span></td>
+                </tr>
+                <tr>
+                    <td>Handles</td>
+                    <td>35344</td>
+                    <td><span class="status-warning">Tinggi</span></td>
+                </tr>
+            </table>
+            
+            <div class="analysis-box">
+                <p><strong>Analisis:</strong> Meskipun penggunaan CPU hanya 29%, jumlah processes (60), threads (1223), dan handles (35344) yang tinggi menunjukkan beban sistem yang signifikan. Banyak proses berjalan secara concurrent dapat menyebabkan context switching yang berlebihan, mengakibatkan lagging meski CPU usage masih tampak normal.</p>
+            </div>
+            
+            <h3>2.2 Penggunaan Memori (RAM)</h3>
+            <table class="data-table">
+                <tr>
+                    <th>Parameter</th>
+                    <th>Nilai (KB)</th>
+                    <th>Nilai (GB)</th>
+                    <th>Status</th>
+                </tr>
+                <tr>
+                    <td>Physical Memory Total</td>
+                    <td>6382416</td>
+                    <td>~6.08 GB</td>
+                    <td><span class="status-warning">Terbatas</span></td>
+                </tr>
+                <tr>
+                    <td>Physical Memory Available</td>
+                    <td>2614880</td>
+                    <td>~2.50 GB</td>
+                    <td><span class="status-warning">Rendah</span></td>
+                </tr>
+                <tr>
+                    <td>System Cache</td>
+                    <td>539740</td>
+                    <td>~0.51 GB</td>
+                    <td><span class="status-normal">Normal</span></td>
+                </tr>
+                <tr>
+                    <td>Commit Charge Peak</td>
+                    <td>8743036</td>
+                    <td>~8.34 GB</td>
+                    <td><span class="status-critical">Kritis</span></td>
+                </tr>
+            </table>
+            
+            <div class="analysis-box">
+                <p><strong>Analisis:</strong> Penggunaan RAM saat ini 8.19 GB dengan total kapasitas ~6.08 GB menunjukkan pemakaian yang melebihi kapasitas fisik. Nilai Commit Charge Peak mencapai 8.34 GB mengindikasikan sistem menggunakan virtual memory (page file) secara intensif. Memory yang tersedia hanya ~2.50 GB, yang sangat terbatas untuk menjalankan multiple applications secara bersamaan.</p>
+            </div>
+            
+            <h3>2.3 Kernel Memory</h3>
+            <table class="data-table">
+                <tr>
+                    <th>Parameter</th>
+                    <th>Nilai (KB)</th>
+                    <th>Status</th>
+                </tr>
+                <tr>
+                    <td>Paged</td>
+                    <td>167276</td>
+                    <td><span class="status-normal">Normal</span></td>
+                </tr>
+                <tr>
+                    <td>Nonpaged</td>
+                    <td>57192</td>
+                    <td><span class="status-normal">Normal</span></td>
+                </tr>
+            </table>
+        </div>
+        
+        <!-- IDENTIFIKASI MASALAH -->
+        <div class="section">
+            <h2>3. IDENTIFIKASI MASALAH UTAMA</h2>
+            
+            <div class="warning-box">
+                <h4>⚠️ Masalah Kritis: Insufficient Memory</h4>
+                <p><strong>Severity:</strong> TINGGI</p>
+                <p>Server mengalami kekurangan memori fisik. Penggunaan virtual memory yang tinggi (page file) menyebabkan akses disk yang berlebihan, menghasilkan bottleneck I/O yang signifikan dan penyebab utama lagging.</p>
+            </div>
+            
+            <div class="warning-box">
+                <h4>⚠️ Masalah: High Process Concurrency</h4>
+                <p><strong>Severity:</strong> SEDANG</p>
+                <p>60 processes dengan 1223 threads menciptakan overhead context switching yang tinggi, menambah beban pada CPU scheduler dan mengurangi efisiensi keseluruhan sistem.</p>
+            </div>
+            
+            <div class="warning-box">
+                <h4>⚠️ Masalah: Resource Handle Exhaustion</h4>
+                <p><strong>Severity:</strong> SEDANG</p>
+                <p>Jumlah handles (35344) yang tinggi dapat mengindikasikan memory leak pada aplikasi atau driver, mengurangi resources yang tersedia untuk proses baru.</p>
+            </div>
+        </div>
+        
+        <!-- ROOT CAUSE ANALYSIS -->
+        <div class="section">
+            <h2>4. ROOT CAUSE ANALYSIS</h2>
+            
+            <h3>Penyebab Lagging saat Running Program Banyak:</h3>
+            
+            <p><strong>1. Memory Pressure (Tekanan Memori) - Penyebab Utama</strong></p>
+            <p>Ketika menjalankan multiple programs, penggunaan RAM melebihi kapasitas fisik yang tersedia (~6 GB), memaksa sistem untuk menggunakan page file (virtual memory) di disk. Akses ke disk jauh lebih lambat dibanding RAM, menciptakan bottleneck serius. Setiap context switch antar process memerlukan paging yang mengakibatkan delay signifikan.</p>
+            
+            <p><strong>2. I/O Bottleneck (Dari Page File Access)</strong></p>
+            <p>Grafik CPU Usage History menunjukkan spike berkala yang mengindikasikan disk I/O operations. Virtual memory paging activity ini adalah penyebab langsung lagging yang dirasakan user.</p>
+            
+            <p><strong>3. Process Scheduler Overhead</strong></p>
+            <p>Dengan 60 processes dan 1223 threads, scheduler CPU harus melakukan context switching yang sangat sering, mengakibatkan CPU idle time yang terbuang.</p>
+        </div>
+        
+        <!-- REKOMENDASI PERBAIKAN -->
+        <div class="section">
+            <h2>5. REKOMENDASI SOLUSI</h2>
+            
+            <div class="recommendation-box">
+                <h4>✓ Rekomendasi Prioritas 1: Upgrade RAM (URGENT)</h4>
+                <ul>
+                    <li>Tingkatkan kapasitas RAM dari 6 GB menjadi minimum 16 GB atau lebih</li>
+                    <li>Target ideal untuk server: 32 GB RAM</li>
+                    <li>Ini adalah solusi paling efektif untuk mengatasi lagging</li>
+                    <li>ROI tinggi dengan improvement performa yang signifikan</li>
+                </ul>
+            </div>
+            
+            <div class="recommendation-box">
+                <h4>✓ Rekomendasi Prioritas 2: Identifikasi & Terminasi Unnecessary Processes</h4>
+                <ul>
+                    <li>Audit 60 processes yang sedang berjalan</li>
+                    <li>Nonaktifkan startup programs yang tidak essential</li>
+                    <li>Tutup background services yang tidak diperlukan</li>
+                    <li>Target: kurangi jumlah processes menjadi 35-40</li>
+                </ul>
+            </div>
+            
+            <div class="recommendation-box">
+                <h4>✓ Rekomendasi Prioritas 3: Optimasi Virtual Memory</h4>
+                <ul>
+                    <li>Tambahkan page file size atau alokasikan ke disk yang berbeda</li>
+                    <li>Gunakan SSD fast disk untuk page file untuk meningkatkan I/O speed</li>
+                    <li>Konfigurasi page file min/max ratio yang optimal</li>
+                </ul>
+            </div>
+            
+            <div class="recommendation-box">
+                <h4>✓ Rekomendasi Prioritas 4: Monitor & Tune Application Level</h4>
+                <ul>
+                    <li>Identifikasi aplikasi yang memory-intensive</li>
+                    <li>Cek memory leak pada custom applications</li>
+                    <li>Implementasikan resource limits per application</li>
+                    <li>Jalankan application secara sequential daripada parallel jika memory-constrained</li>
+                </ul>
+            </div>
+            
+            <div class="recommendation-box">
+                <h4>✓ Rekomendasi Prioritas 5: System-Level Optimizations</h4>
+                <ul>
+                    <li>Enable Data Execution Prevention (DEP)</li>
+                    <li>Update semua drivers ke versi terbaru</li>
+                    <li>Perform full disk defragmentation</li>
+                    <li>Disable unnecessary visual effects di Windows</li>
+                    <li>Review dan clean up handle leaks</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- TIMELINE IMPLEMENTASI -->
+        <div class="section">
+            <h2>6. TIMELINE IMPLEMENTASI REKOMENDASI</h2>
+            
+            <table class="data-table">
+                <tr>
+                    <th>Fase</th>
+                    <th>Aksi</th>
+                    <th>Durasi</th>
+                    <th>Priority</th>
+                </tr>
+                <tr>
+                    <td>Fase 1 (Immediate)</td>
+                    <td>Identifikasi & terminasi unnecessary processes; Optimize page file</td>
+                    <td>1-2 jam</td>
+                    <td><span class="status-critical">URGENT</span></td>
+                </tr>
+                <tr>
+                    <td>Fase 2 (Short-term)</td>
+                    <td>Update drivers & patches; Monitor memory usage</td>
+                    <td>1 hari</td>
+                    <td><span class="status-warning">HIGH</span></td>
+                </tr>
+                <tr>
+                    <td>Fase 3 (Medium-term)</td>
+                    <td>Procure & install RAM upgrade (16-32 GB)</td>
+                    <td>3-7 hari</td>
+                    <td><span class="status-warning">HIGH</span></td>
+                </tr>
+                <tr>
+                    <td>Fase 4 (Ongoing)</td>
+                    <td>Continuous monitoring & performance tuning</td>
+                    <td>Ongoing</td>
+                    <td><span class="status-normal">MEDIUM</span></td>
+                </tr>
+            </table>
+        </div>
+        
+        <!-- KESIMPULAN -->
+        <div class="section">
+            <h2>7. KESIMPULAN</h2>
+            
+            <p>Lagging yang dialami server saat menjalankan multiple programs adalah hasil dari kombinasi:</p>
+            <ul style="margin-left: 20px; margin-top: 10px;">
+                <li>Kapasitas RAM yang terbatas (~6 GB) tidak mencukupi untuk workload current</li>
+                <li>Penggunaan virtual memory (page file) yang intensif menyebabkan I/O bottleneck</li>
+                <li>Jumlah processes dan threads yang tinggi menambah scheduler overhead</li>
+            </ul>
+            
+            <p style="margin-top: 15px;">Solusi paling efektif dan cost-effective adalah <strong>upgrade RAM ke 16-32 GB</strong>, diikuti dengan <strong>optimasi processes</strong>. Kombinasi kedua langkah ini akan mengatasi masalah lagging dengan signifikan dan sustainable.</p>
+        </div>
+        
+        <div class="footer">
+            <p>Laporan ini dibuat berdasarkan analisis Windows Task Manager Performance tab</p>
+            <p>Untuk pertanyaan atau klarifikasi lebih lanjut, silakan hubungi tim technical support</p>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('date').textContent = new Date().toLocaleDateString('id-ID', {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+    </script>
+</body>
+</html>

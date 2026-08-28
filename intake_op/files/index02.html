@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="sps_logo1.png">
+<title>Dashboard Intake</title>
+<style>
+/* ── Reset & Base ─────────────────────────────────────────────── */
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
+  background:#f5f5f5;min-height:100vh;color:#222;font-size:13px;}
+
+/* ── Navbar ───────────────────────────────────────────────────── */
+.navbar{background:#e0e0e0;padding:12px 24px;display:flex;
+  justify-content:space-between;align-items:center;
+  position:sticky;top:0;z-index:200;
+  box-shadow:0 2px 12px rgba(0,0,0,0.08);}
+.navbar-brand{font-size:1.2rem;font-weight:700;color:#222;
+    display:flex;align-items:center;gap:8px;}
+.nav-links{display:flex;gap:8px;}
+.nav-link{color:#222;text-decoration:none;padding:6px 14px;
+    border-radius:4px;font-size:0.82rem;transition:.2s;}
+.nav-link:hover,.nav-link.active{background:#bdbdbd;color:#222;}
+.nav-right{display:flex;align-items:center;gap:12px;}
+.badge-user{background:#bdbdbd;color:#222;
+  padding:5px 14px;border-radius:20px;font-size:.8rem;font-weight:600;}
+.btn-logout{background:#757575;color:#fff;border:none;padding:6px 16px;
+  border-radius:16px;cursor:pointer;font-size:.8rem;font-weight:600;transition:.2s;}
+.btn-logout:hover{background:#212121;}
+
+/* ── Layout ───────────────────────────────────────────────────── */
+.page-wrap{max-width:100%;padding:16px 20px;}
+
+/* ── Stats cards ──────────────────────────────────────────────── */
+.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+           gap:12px;margin-bottom:16px;}
+.stat-card{background:#fff;border:1px solid #bdbdbd;border-radius:8px;
+           padding:14px 18px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,0.07);}
+.stat-num{font-size:1.5rem;font-weight:700;color:#222;}
+.stat-lbl{font-size:.72rem;color:#757575;margin-top:4px;text-transform:uppercase;
+          letter-spacing:.5px;}
+
+/* ── Controls ─────────────────────────────────────────────────── */
+.controls{background:#fff;border:1px solid #bdbdbd;border-radius:8px;
+          padding:14px 18px;margin-bottom:14px;box-shadow:0 2px 8px rgba(0,0,0,0.07);}
+.ctrl-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:10px;}
+.ctrl-row:last-child{margin-bottom:0;}
+.ctrl-input,.ctrl-select{background:#e0e0e0;border:1px solid #bdbdbd;color:#222;
+  padding:7px 11px;border-radius:5px;font-size:.82rem;outline:none;transition:.2s;}
+.ctrl-input:focus,.ctrl-select:focus{border-color:#757575;box-shadow:0 0 0 2px #bdbdbd;}
+.ctrl-input{min-width:160px;}
+.ctrl-input.wide{min-width:220px;}
+.ctrl-select{min-width:140px;}
+.btn{padding:7px 16px;border:none;border-radius:5px;cursor:pointer;
+     font-size:.82rem;font-weight:600;transition:.2s;display:inline-flex;
+     align-items:center;gap:6px;}
+.btn-primary{background:#222;color:#fff;}
+.btn-primary:hover{background:#757575;}
+.btn-green{background:#757575;color:#fff;}
+.btn-green:hover{background:#222;}
+.btn-red{background:#bdbdbd;color:#222;}
+.btn-red:hover{background:#757575;color:#fff;}
+.btn-amber{background:#9e9e9e;color:#fff;}
+.btn-amber:hover{background:#616161;}
+.lbl-filter{font-size:.78rem;color:#757575;white-space:nowrap;}
+
+/* ── Legend ───────────────────────────────────────────────────── */
+.legend-row{display:flex;gap:14px;flex-wrap:wrap;align-items:center;
+            font-size:.75rem;margin-bottom:10px;}
+.leg-item{display:flex;align-items:center;gap:5px;}
+.leg-dot{width:10px;height:10px;border-radius:2px;background:#bdbdbd;}
+
+/* ── Table container ──────────────────────────────────────────── */
+
+
+.tbl-wrap{background:#fff;border:1px solid #bdbdbd;border-radius:12px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.06);}
+.tbl-header{padding:12px 18px;display:flex;justify-content:space-between;
+            align-items:center;border-bottom:1.5px solid #bdbdbd;background:#e0e0e0;}
+.tbl-title{font-weight:700;font-size:.95rem;color:#222;}
+.tbl-count{font-size:.78rem;color:#1976d2;}
+
+/* scroll wrapper */
+.scroll-top,.scroll-main,.scroll-bottom{overflow-x:auto;}
+.scroll-main::-webkit-scrollbar{height:6px;}
+.scroll-main::-webkit-scrollbar-track{background:#9e9a9c;}
+.scroll-main::-webkit-scrollbar-thumb{background:#5e5a5c;border-radius:3px;}
+
+/* ── Table ────────────────────────────────────────────────────── */
+
+
+table{border-collapse:collapse;width:max-content;min-width:100%;background:#fff;}
+
+/* sticky first 3 columns */
+
+
+
+thead th,tbody td{white-space:nowrap;padding:6px 9px;
+                  border-right:1px solid #bdbdbd;border-bottom:1px solid #bdbdbd;}
+thead th{background:#e0e0e0;color:#222;font-size:.72rem;font-weight:700;
+         text-transform:uppercase;letter-spacing:.4px;position:sticky;top:0;z-index:10;}
+thead th:nth-child(1),thead th:nth-child(2),thead th:nth-child(3),
+thead th:nth-child(4){position:sticky;left:0;z-index:20;background:#e0e0e0;}
+thead th:nth-child(1){left:0;}
+thead th:nth-child(2){left:36px;}
+thead th:nth-child(3){left:90px;}
+thead th:nth-child(4){left:180px;}
+
+/* Sticky kolom: biru-pink pastel */
+
+tbody td:nth-child(1){position:sticky;background:#f5f5f5;left:0;z-index:5;}
+tbody td:nth-child(2){position:sticky;background:#e0e0e0;left:36px;z-index:5;}
+tbody td:nth-child(3){position:sticky;background:#eeeeee;left:90px;z-index:5;}
+tbody td:nth-child(4){position:sticky;background:#e0e0e0;left:180px;z-index:5;}
+
+/* Baris status: warna pastel berbeda dan lebih cerah */
+
+tr.row-belum td{background:#fff8e1;}
+tr.row-belum td:nth-child(-n+4){background:#fff3e0;}
+tbody tr.row-belum:hover td{background:#ffe0b2!important;}
+tr.row-ok td{background:#fafafa;}
+tr.row-warn td{background:#eeeeee;}
+tr.row-warn td:nth-child(-n+4){background:#f5f5f5;}
+tr.row-done td{background:#bdbdbd;}
+tr.row-done td:nth-child(-n+4){background:#e0e0e0;}
+
+
+tbody tr:hover td{background:#bdbdbd!important;}
+tbody tr:hover td:nth-child(-n+4){background:#e0e0e0!important;}
+
+/* Column groups – dividers */
+.grp-divider{border-left:2px solid #757575!important;}
+
+
+
+.badge{display:inline-block;padding:2px 8px;border-radius:10px;
+  font-size:.7rem;font-weight:700;}
+.badge-done{background:#757575;color:#fff;}
+.badge-proc{background:#bdbdbd;color:#222;}
+.badge-warn{background:#212121;color:#fff;}
+
+
+.num-col{text-align:right;}
+.zero{color:#757575;}
+.miss{color:#212121;font-weight:700;}
+
+/* detail btn */
+
+.btn-detail{background:none;border:1px solid #757575;color:#222;
+            padding:2px 8px;border-radius:4px;cursor:pointer;font-size:.72rem;
+            transition:.2s;}
+.btn-detail:hover{background:#757575;color:#fff;}
+
+/* ── Modal ────────────────────────────────────────────────────── */
+
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(100,100,100,0.2);
+               z-index:500;justify-content:center;align-items:flex-start;
+               padding:40px 20px;overflow-y:auto;}
+.modal-overlay.show{display:flex;}
+.modal-box{background:#f5f5f5;border:1px solid #bdbdbd;border-radius:10px;
+           width:100%;max-width:900px;box-shadow:0 20px 60px rgba(0,0,0,0.10);}
+.modal-head{padding:16px 20px;border-bottom:1px solid #bdbdbd;
+            display:flex;justify-content:space-between;align-items:center;}
+.modal-head h3{color:#222;font-size:1rem;}
+.modal-close{background:none;border:none;color:#757575;font-size:1.4rem;
+             cursor:pointer;line-height:1;}
+.modal-close:hover{color:#222;}
+.modal-body{padding:20px;max-height:75vh;overflow-y:auto;}
+
+
+.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;}
+.detail-item{background:#e0e0e0;border-radius:6px;padding:10px 14px;}
+.detail-lbl{font-size:.7rem;color:#757575;text-transform:uppercase;letter-spacing:.4px;}
+.detail-val{font-size:.9rem;color:#222;font-weight:600;margin-top:2px;}
+
+
+.section-title{font-size:.82rem;color:#222;font-weight:700;margin:14px 0 8px;
+               text-transform:uppercase;letter-spacing:.5px;
+               border-bottom:1px solid #bdbdbd;padding-bottom:6px;}
+.mini-table{width:100%;border-collapse:collapse;font-size:.78rem;}
+.mini-table th{background:#e0e0e0;color:#222;padding:6px 9px;text-align:left;
+               font-weight:600;font-size:.7rem;}
+.mini-table td{padding:5px 9px;border-bottom:1px solid #bdbdbd;}
+.mini-table tr:last-child td{border-bottom:none;}
+.mini-table .total-row td{background:#bdbdbd;font-weight:700;color:#222;}
+
+/* ── Pagination ───────────────────────────────────────────────── */
+
+.pagination{display:flex;justify-content:center;align-items:center;
+            gap:12px;padding:14px;border-top:1px solid #bdbdbd;font-size:.82rem;}
+.pagination button{background:#757575;color:#fff;border:none;padding:5px 14px;
+                   border-radius:4px;cursor:pointer;}
+.pagination button:disabled{background:#e0e0e0;color:#bdbdbd;cursor:default;}
+.pager-info{color:#757575;}
+
+/* ── Autocomplete ─────────────────────────────────────────────── */
+.ac-wrap{position:relative;}
+
+.ac-list{position:absolute;top:100%;left:0;background:#f5f5f5;
+         border:1px solid #bdbdbd;border-radius:6px;z-index:100;
+         min-width:260px;max-height:220px;overflow-y:auto;display:none;}
+.ac-item{padding:8px 12px;cursor:pointer;font-size:.8rem;border-bottom:1px solid #bdbdbd;}
+.ac-item:hover,.ac-item.active{background:#bdbdbd;}
+.ac-mc{font-weight:700;color:#222;}
+.ac-info{font-size:.7rem;color:#757575;}
+
+/* ── Loading ──────────────────────────────────────────────────── */
+
+.loading-row td{text-align:center;padding:30px;color:#757575;}
+.spinner{display:inline-block;width:20px;height:20px;border:3px solid #bdbdbd;
+         border-top:3px solid #757575;border-radius:50%;animation:spin .8s linear infinite;
+         vertical-align:middle;margin-right:8px;}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+
+.filter-tag{background:#e0e0e0;color:#222;border-radius:12px;
+            padding:3px 10px;font-size:.72rem;display:inline-flex;
+            align-items:center;gap:6px;}
+.filter-tag span{cursor:pointer;color:#757575;}
+.filter-tag span:hover{color:#212121;}
+
+/* column group headers */
+.grp-th{text-align:center;background:#bdbdbd!important;color:#222!important;
+  font-size:.68rem!important;}
+</style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar">
+  <div class="navbar-brand">📋 Dashboard Intake</div>
+  <div class="nav-links">
+    <a href="https://supracor.co.id/op_report" class="nav-link">📋 MC List</a>
+    <a href="#" class="nav-link active">📋 Dashboard Intake</a>
+  </div>
+  <div class="nav-right">
+    <span class="badge-user">👤 <span id="userLabel">User</span></span>
+    <button class="btn-logout" onclick="if(confirm('Logout?'))window.location='index.html'">🚪 Logout</button>
+  </div>
+</nav>
+
+<div class="page-wrap">
+
+  <!-- Stats -->
+  <div class="stats-row">
+    <div class="stat-card"><div class="stat-num" id="statTotal">-</div><div class="stat-lbl">Total OP</div></div>
+    <div class="stat-card"><div class="stat-num" id="statQty">-</div><div class="stat-lbl">Total Order (pcs)</div></div>
+    <div class="stat-card"><div class="stat-num" id="statKirim">-</div><div class="stat-lbl">Total Terkirim</div></div>
+    <div class="stat-card"><div class="stat-num" id="statKurang">-</div><div class="stat-lbl">Pcs Kurang</div></div>
+    <div class="stat-card"><div class="stat-num" id="statSelesai">-</div><div class="stat-lbl">Selesai</div></div>
+    <div class="stat-card"><div class="stat-num" id="statMissing">-</div><div class="stat-lbl">Data Belum Lengkap</div></div>
+    <div class="stat-card" style="border-color:#e65100"><div class="stat-num" id="statBelumOP" style="color:#e65100">-</div><div class="stat-lbl">SC Belum OP</div></div>
+  </div>
+  <!-- Penjelasan singkat untuk istilah di atas -->
+  <div style="margin-bottom:12px;color:#757575;font-size:.86rem;">
+    <strong>Catatan:</strong> "Data Belum Lengkap" berarti salah satu tahap produksi (Corrugating, Converting), serah terima, atau pengiriman belum tercatat padahal ada order (&gt;0). Silakan cek MCList untuk detail tahap yang hilang.
+  </div>
+
+  <!-- Controls -->
+  <div class="controls">
+    <div class="ctrl-row">
+      <!-- MC autocomplete -->
+      <span class="lbl-filter">MC No.:</span>
+      <div class="ac-wrap">
+        <input type="text" class="ctrl-input" id="inMC" placeholder="🏭 Ketik untuk cari MC…" autocomplete="off">
+        <div class="ac-list" id="acList"></div>
+      </div>
+
+      <!-- Flexo -->
+      <span class="lbl-filter">Flexo:</span>
+      <select class="ctrl-select" id="inFlexo">
+        <option value="">Semua Flexo</option>
+        <option>FLEXO 1</option><option>FLEXO 2</option><option>FLEXO 3</option>
+        <option>FLEXO 4</option><option>FLEXO 5</option><option>FLEXO 6</option>
+        <option>FLEXO 7</option><option>FLEXO 8</option><option>FLEXO 9</option>
+        <option>WONDER</option>
+      </select>
+
+      <!-- Tgl OP filter — default: hari ini -->
+      <span class="lbl-filter" style="display:none">Tgl OP:</span>
+      <input type="date" class="ctrl-input" id="inDateFrom" style="display:none">
+      <span class="lbl-filter" style="display:none">s/d</span>
+      <input type="date" class="ctrl-input" id="inDateTo" style="display:none">
+
+      <!-- SC No. dan Tanggal SC -->
+      <span class="lbl-filter">SC No.:</span>
+      <input type="text" class="ctrl-input" id="inScNo" placeholder="Cari No. SC…">
+      <span class="lbl-filter">Tgl SC: <small style="color:#1976d2;font-size:.68rem"></small></span>
+      <input type="date" class="ctrl-input" id="inScFrom">
+      <span class="lbl-filter">s/d</span>
+      <input type="date" class="ctrl-input" id="inScTo">
+
+      <!-- Tanggal Kirim — filter berdasarkan sc.dTglKirim2 -->
+      <span class="lbl-filter">Tgl Kirim:</span>
+      <input type="date" class="ctrl-input" id="inShipFrom">
+      <span class="lbl-filter">s/d</span>
+      <input type="date" class="ctrl-input" id="inShipTo">
+
+      <!-- Status filter (client-side) - disembunyikan sementara -->
+      <select class="ctrl-select" id="inStatus" style="display:none">
+        <option value="">Semua Status</option>
+        <option value="SELESAI">✅ Selesai</option>
+        <option value="PROSES">🔄 Proses</option>
+        <option value="INCOMPLETE">⚠️ Data Belum Lengkap</option>
+      </select>
+
+      <button class="btn btn-primary" onclick="loadData(1)">⚙️ Filter</button>
+      <button class="btn btn-red" onclick="clearFilters()">✖ Clear</button>
+      <button class="btn btn-green" onclick="loadData(1)">🔄 Refresh</button>
+      <button class="btn btn-amber" onclick="exportExcel()">📥 Excel</button>
+    </div>
+    <!-- Active filters -->
+    <div id="activeTags" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px;"></div>
+  </div>
+
+  <!-- Legend -->
+  <div class="legend-row">
+    <div class="leg-item"><div class="leg-dot" style="background:#fff8e1;border:1px solid #e65100"></div> SC Belum OP</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#1b5e20"></div> Selesai</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#96a5b9;border:1px solid #4a6070"></div> Proses Normal</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#dbe9bc;border:1px solid #8bc34a"></div> Ada Data Kosong</div>
+    <span style="color:#7a9bb5;font-size:.72rem;">
+      | <span style="color:#ef5350">Merah</span> = nilai 0 padahal qty order > 0 (perlu dicek MCList)
+    </span>
+  </div>
+
+  <!-- Table -->
+  <div class="tbl-wrap">
+    <div class="tbl-header">
+      <span class="tbl-title">📋 Dashboard Intake — Daftar Order Produksi</span>
+      <span class="tbl-count" id="tblCount">— records</span>
+    </div>
+    <!-- scroll top dummy -->
+    <div class="scroll-top" id="scrollTop"><div id="dummyTop" style="height:1px"></div></div>
+    <!-- main scroll -->
+    <div class="scroll-main" id="scrollMain" style="max-height:62vh;overflow-y:auto;">
+      <div id="tblContent">
+        <table><tbody><tr class="loading-row"><td colspan="40">
+          <span class="spinner"></span>Memuat data…
+        </td></tr></tbody></table>
+      </div>
+    </div>
+    <!-- Pagination -->
+    <div class="pagination">
+      <button id="btnPrev" disabled onclick="goPage(-1)">◀ Prev</button>
+      <span class="pager-info">Hal <b id="pgCur">1</b> / <b id="pgTotal">1</b> — <span id="pgRec">0</span> records</span>
+      <button id="btnNext" disabled onclick="goPage(1)">Next ▶</button>
+    </div>
+  </div>
+
+</div><!-- /page-wrap -->
+
+<!-- Detail Modal -->
+<div class="modal-overlay" id="modal">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h3 id="modalTitle">Detail OP</h3>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody">Loading…</div>
+  </div>
+</div>
+
+<!-- SheetJS for XLSX export -->
+<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+<script>
+// ── Config ─────────────────────────────────────────────────────────────────
+const API = 'get_realisasi_terpadu.php';
+let currentPage = 1, totalPages = 1, totalRec = 0;
+const LIMIT = 200;
+let allRows = [];
+let acTimer;
+
+// ── Utilities ───────────────────────────────────────────────────────────────
+const fmt = n => (+n||0).toLocaleString('id-ID');
+const fmtDate = s => {
+  if (!s) return '-';
+  const d = new Date(s);
+  if (isNaN(d)) return s;
+  return `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`;
+};
+const $ = id => document.getElementById(id);
+const cell = (v, cls='') => `<td class="${cls}">${v ?? '-'}</td>`;
+const numCell = (v, warn=false) => {
+  const n = +v || 0;
+  const cls = 'num-col' + (warn && n===0 ? ' miss' : (n===0 ? ' zero' : ''));
+  return `<td class="${cls}">${n===0 ? '0' : fmt(n)}</td>`;
+};
+
+// ── Stats ────────────────────────────────────────────────────────────────────
+function updateStats(rows) {
+  $('statTotal').textContent   = fmt(rows.length);
+  $('statQty').textContent     = fmt(rows.reduce((s,r)=>s+(+r.total_order_eff||+r.total_order||0),0));
+  $('statKirim').textContent   = fmt(rows.reduce((s,r)=>s+(+r.jml_kirim||0),0));
+  $('statKurang').textContent  = fmt(rows.reduce((s,r)=>s+(+r.pcs_kurang||0),0));
+  $('statSelesai').textContent = rows.filter(r=>r.status_lengkap==='SELESAI').length;
+  $('statMissing').textContent = rows.filter(r=>r.data_incomplete).length;
+  if($('statBelumOP')) $('statBelumOP').textContent = rows.filter(r=>r.op_belum).length;
+}
+
+// ── Table render ─────────────────────────────────────────────────────────────
+function renderTable(rows, skipSortReset) {
+  if (!skipSortReset) { sortCol = null; sortDir = 1; }
+  allRows = rows;
+  updateStats(rows);
+
+  if (!rows.length) {
+    $('tblContent').innerHTML = `<table><tbody><tr class="loading-row">
+      <td colspan="40" style="color:#7a9bb5">Tidak ada data ditemukan.</td></tr></tbody></table>`;
+    return;
+  }
+
+  const statusFilter = $('inStatus').value;
+  const filtered = statusFilter
+    ? rows.filter(r => {
+        if (statusFilter === 'INCOMPLETE') return r.data_incomplete;
+        return r.status_lengkap === statusFilter;
+      })
+    : rows;
+
+  let html = `<table id="mainTable">
+  <thead>
+  <tr>
+    <!-- Group headers -->
+    <th class="grp-th" colspan="4">Identifikasi</th>
+    <th class="grp-th grp-divider" colspan="7">Informasi Order</th>
+    <th class="grp-th grp-divider" colspan="3">Dimensi &amp; Mutu</th>
+    <th class="grp-th grp-divider" colspan="5">Kualitas Kertas</th>
+    <th class="grp-th grp-divider" colspan="4">Jadwal &amp; Warna</th>
+    <th class="grp-th grp-divider" colspan="4">Realisasi Produksi</th>
+    <th class="grp-th grp-divider" colspan="5">Serah Terima &amp; Kirim</th>
+    <th class="grp-th grp-divider" colspan="3">Status</th>
+  </tr>
+  <tr>
+    <th onclick="sortTable('no')" style="cursor:pointer">No</th>
+    <th>Detail</th>
+    <th onclick="sortTable('cNoSc')" style="cursor:pointer">SC No.</th>
+    <th onclick="sortTable('cNoOp')" style="cursor:pointer">No. OP</th>
+    <th onclick="sortTable('tgl_sc')" style="cursor:pointer">Tgl SC</th>
+    
+    <th class="grp-divider" onclick="sortTable('cNoMc')" style="cursor:pointer">MC No.</th>
+    <th onclick="sortTable('nama_brg')" style="cursor:pointer">Nama Barang</th>
+    <th onclick="sortTable('customer')" style="cursor:pointer">Customer</th>
+    <th onclick="sortTable('cTipe')" style="cursor:pointer">Tipe</th>
+    <th onclick="sortTable('ukuran_dalam')" style="cursor:pointer">Ukuran Dalam</th>
+    <th onclick="sortTable('total_order')" style="cursor:pointer">Jml Order DT</th>
+
+    <th class="grp-divider" onclick="sortTable('flute')" style="cursor:pointer">Flute</th>
+    <th onclick="sortTable('kualitas')" style="cursor:pointer">Kualitas</th>
+    <th onclick="sortTable('cWarna')" style="cursor:pointer">Warna</th>
+
+    <th class="grp-divider" onclick="sortTable('ckd_b1')" style="cursor:pointer">K-1</th>
+    <th onclick="sortTable('ckd_b2')" style="cursor:pointer">K-2</th>
+    <th onclick="sortTable('ckd_b3')" style="cursor:pointer">K-3</th>
+    <th onclick="sortTable('ckd_b4')" style="cursor:pointer">K-4</th>
+    <th onclick="sortTable('ckd_b5')" style="cursor:pointer">K-5</th>
+
+    <th class="grp-divider" onclick="sortTable('tgl_op')" style="cursor:pointer">Tgl OP</th>
+    <th onclick="sortTable('tgl_kirim_awal')" style="cursor:pointer">Tgl Kirim Awal</th>
+    <th onclick="sortTable('dTglKirim2')" style="cursor:pointer">Tgl Kirim</th>
+    <th onclick="sortTable('cFlexo')" style="cursor:pointer">Flexo/Proses</th>
+
+    <th class="grp-divider" onclick="sortTable('plan_corr')" style="cursor:pointer">Plan Corr</th>
+    <th onclick="sortTable('hsl_corr')" style="cursor:pointer">Hasil Corr</th>
+    <th onclick="sortTable('rsak_corr')" style="cursor:pointer">Rusak Corr</th>
+    <th onclick="sortTable('hsl_conv')" style="cursor:pointer">Hasil Conv</th>
+
+    <th onclick="sortTable('stock_awal_gudang')" style="cursor:pointer">Stock Awal</th>
+    <th onclick="sortTable('stock_akhir_gudang')" style="cursor:pointer">Stock Akhir</th>
+    <th class="grp-divider" onclick="sortTable('jml_serah_trm')" style="cursor:pointer">Jml Serah Trm</th>
+    <th onclick="sortTable('jml_kirim')" style="cursor:pointer">Jml Kirim</th>
+    <th onclick="sortTable('jml_retur')" style="cursor:pointer">Retur</th>
+
+    <th class="grp-divider" onclick="sortTable('pcs_kurang')" style="cursor:pointer">Pcs Kurang</th>
+    <th onclick="sortTable('net_kirim')" style="cursor:pointer">Net Kirim</th>
+    <th onclick="sortTable('status_lengkap')" style="cursor:pointer">Status</th>
+  </tr>
+  </thead><tbody>`;
+
+  filtered.forEach(r => {
+    const hasOrder = (+r.total_order||0) > 0;
+    let rowCls = 'row-ok';
+    if (r.op_belum)                          rowCls = 'row-belum';
+    else if (r.status_lengkap === 'SELESAI') rowCls = 'row-done';
+    else if (r.data_incomplete)              rowCls = 'row-warn';
+
+    const statusBadge = r.op_belum
+      ? `<span class="badge badge-warn">📋 Belum OP</span>`
+      : r.status_lengkap === 'SELESAI'
+        ? `<span class="badge badge-done">✔ Selesai</span>`
+        : r.data_incomplete
+          ? `<span class="badge badge-warn">⚠ Cek Data</span>`
+          : `<span class="badge badge-proc">⏳ Proses</span>`;
+
+    const safeId = (r.cNoOp||'').replace(/[^a-zA-Z0-9]/g,'_');
+
+    // ukuran tanpa angka di belakang koma
+    const ukuran = `${Math.round(+r.nPanjang||0)}x${Math.round(+r.nLebar||0)}x${Math.round(+r.nTinggi||0)}`;
+
+    html += `<tr class="${rowCls}">
+      ${cell(r.no)}
+      <td><button class="btn-detail" onclick="showDetail('${(r.cNoOp||'').replace(/'/g,"\\'")}')">🔍</button></td>
+      ${cell(`<span style="color:#222;font-weight:700">${r.cNoSc||'-'}</span>`)}
+      ${r.op_belum
+        ? `<td><span style="color:#e65100;font-weight:700;background:#fff3e0;padding:2px 7px;border-radius:3px;font-size:.75rem;">BELUM OP</span></td>`
+        : cell(r.cNoOp||'-')}
+      ${cell(fmtDate(r.tgl_sc))}
+
+      <td class="grp-divider">${r.cNoMc||'-'}</td>
+      ${cell(r.nama_brg||'-')}
+      ${cell(r.customer||'-')}
+      ${cell(r.cTipe||'-')}
+      ${cell(ukuran)}
+      ${numCell(r.total_order)}
+
+      <td class="grp-divider">${r.flute||'-'}</td>
+      ${cell(r.kualitas||'-')}
+      ${cell(r.cWarna||'-')}
+
+      <td class="grp-divider">${r.ckd_b1||'-'}</td>
+      ${cell(r.ckd_b2||'-')}
+      ${cell(r.ckd_b3||'-')}
+      ${cell(r.ckd_b4||'-')}
+      ${cell(r.ckd_b5||'-')}
+
+      <td class="grp-divider">${fmtDate(r.tgl_op)}</td>
+      ${cell(fmtDate(r.tgl_kirim_awal))}
+      ${cell(fmtDate(r.dTglKirim2))}
+      ${cell(r.cFlexo||'-')}
+
+      <td class="grp-divider num-col">${fmt(r.plan_corr)}</td>
+      ${numCell(r.hsl_corr, hasOrder && r.missing_corr)}
+      ${numCell(r.rsak_corr)}
+      ${numCell(r.hsl_conv, hasOrder && r.missing_conv)}
+
+      ${numCell(r.stock_awal_gudang)}
+      ${numCell(r.stock_akhir_gudang)}
+      <td class="grp-divider num-col">${fmt(r.jml_serah_trm)}</td>
+      ${numCell(r.jml_kirim, hasOrder && r.missing_kirim)}
+      ${numCell(r.jml_retur)}
+
+      <td class="grp-divider num-col ${(+r.pcs_kurang||0)>0?'miss':''}">${fmt(r.pcs_kurang)}</td>
+      <td class="num-col">${fmt(r.net_kirim)}</td>
+      <td>${statusBadge}</td>
+    </tr>`;
+  });
+
+  html += '</tbody></table>';
+  $('tblContent').innerHTML = html;
+
+  // sync scroll
+  const st = $('scrollTop'), sm = $('scrollMain');
+  $('dummyTop').style.width = (document.getElementById('mainTable')?.offsetWidth||2000)+'px';
+  st.onscroll = () => { sm.scrollLeft = st.scrollLeft; };
+  sm.onscroll = () => { st.scrollLeft = sm.scrollLeft; };
+
+  $('tblCount').textContent = `${filtered.length} dari ${rows.length} records`;
+}
+
+// ── Load data ────────────────────────────────────────────────────────────────
+async function loadData(page) {
+  if (page) currentPage = page;
+  $('tblContent').innerHTML = `<table><tbody><tr class="loading-row"><td colspan="40">
+    <span class="spinner"></span>Memuat data…</td></tr></tbody></table>`;
+
+  const p = new URLSearchParams({ action: 'list', offset: (currentPage - 1) * LIMIT });
+  // default limit
+  p.append('limit', LIMIT);
+  const mc        = $('inMC').value.trim();
+  const flexo     = $('inFlexo').value;
+  const shipFrom  = $('inShipFrom').value;
+  const shipTo    = $('inShipTo').value;
+  const scNo      = $('inScNo')?.value.trim();
+  const scFrom    = $('inScFrom')?.value;
+  const scTo      = $('inScTo')?.value;
+  const dateFrom  = $('inDateFrom')?.value;
+  const dateTo    = $('inDateTo')?.value;
+
+  if (mc)        p.append('mc', mc);
+  if (flexo)     p.append('flexo', flexo);
+  if (shipFrom)  p.append('ship_from', shipFrom);
+  if (shipTo)    p.append('ship_to', shipTo);
+  if (scNo)      p.append('sc_no', scNo);
+  if (scFrom)    p.append('date_sc_from', scFrom);
+  if (scTo)      p.append('date_sc_to', scTo);
+  if (dateFrom)  p.append('date_from', dateFrom);
+  if (dateTo)    p.append('date_to', dateTo);
+
+  // If user requests a wide date range (>= 31 days), request all matching rows from server
+  try {
+    if (dateFrom && dateTo) {
+      const d1 = new Date(dateFrom);
+      const d2 = new Date(dateTo);
+      const diffDays = Math.ceil((d2 - d1) / (1000*60*60*24));
+      if (diffDays >= 31) {
+        p.set('limit', 'all');
+        // reset offset and UI pagination hint
+        p.set('offset', 0);
+      }
+    }
+  } catch(e) {
+    // ignore parsing errors
+  }
+
+  updateActiveTags({mc, flexo, shipFrom, shipTo, scNo, scFrom, scTo, dateFrom, dateTo});
+
+  try {
+    const res  = await fetch(`${API}?${p}`);
+    const data = await res.json();
+    if (!data.success) throw new Error(data.message);
+
+    totalRec   = data.pagination.total_records;
+    totalPages = data.pagination.total_pages;
+    currentPage= data.pagination.current_page;
+
+    $('pgCur').textContent   = currentPage;
+    $('pgTotal').textContent = totalPages;
+    $('pgRec').textContent   = fmt(totalRec);
+    $('btnPrev').disabled    = !data.pagination.has_prev;
+    $('btnNext').disabled    = !data.pagination.has_next;
+
+    renderTable(data.data);
+  } catch (e) {
+    $('tblContent').innerHTML = `<table><tbody><tr class="loading-row">
+      <td colspan="40" style="color:#ef5350">Error: ${e.message}</td></tr></tbody></table>`;
+  }
+}
+
+function goPage(d) {
+  const np = currentPage + d;
+  if (np < 1 || np > totalPages) return;
+  currentPage = np;
+  loadData();
+}
+
+// ── Active filter tags ────────────────────────────────────────────────────────
+function updateActiveTags(f) {
+  const labels = {
+    mc:'MC', flexo:'Flexo',
+    shipFrom:'Tgl Kirim Dari', shipTo:'s/d Kirim',
+    scNo:'SC No.', scFrom:'Tgl SC Dari', scTo:'s/d SC',
+    dateFrom:'Tgl OP Dari', dateTo:'s/d OP'
+  };
+  const wrap = $('activeTags');
+  wrap.innerHTML = '';
+  Object.entries(f).forEach(([k,v]) => {
+    if (!v) return;
+    const tag = document.createElement('span');
+    tag.className = 'filter-tag';
+    tag.innerHTML = `${labels[k]||k}: <b>${v}</b> <span onclick="clearOne('${k}')">×</span>`;
+    wrap.appendChild(tag);
+  });
+}
+
+function clearOne(key) {
+  const map = {mc:'inMC', flexo:'inFlexo', shipFrom:'inShipFrom', shipTo:'inShipTo', scNo:'inScNo', scFrom:'inScFrom', scTo:'inScTo', dateFrom:'inDateFrom', dateTo:'inDateTo'};
+  if (map[key]) $(map[key]).value = '';
+  loadData(1);
+}
+
+function clearFilters() {
+  ['inMC','inFlexo','inScNo','inShipFrom','inShipTo','inStatus','inDateFrom','inDateTo'].forEach(id=>{
+    const el = $(id); if (el) el.value = '';
+  });
+  // Reset Tgl SC ke hari ini (default filter)
+  const resetToday = new Date().toISOString().slice(0,10);
+  $('inScFrom').value = resetToday;
+  $('inScTo').value   = resetToday;
+  loadData(1);
+}
+
+// ── MC Autocomplete ───────────────────────────────────────────────────────────
+$('inMC').addEventListener('input', () => {
+  clearTimeout(acTimer);
+  acTimer = setTimeout(fetchMC, 280);
+});
+
+async function fetchMC() {
+  const q = $('inMC').value.trim();
+  const acList = $('acList');
+  if (q.length < 2) { acList.style.display='none'; return; }
+  acList.innerHTML = '<div class="ac-item" style="color:#7a9bb5">Mencari…</div>';
+  acList.style.display = 'block';
+  try {
+    const res = await fetch(`${API}?action=mc_suggest&search=${encodeURIComponent(q)}`);
+    const data = await res.json();
+    acList.innerHTML = '';
+    if (!data.data?.length) {
+      acList.innerHTML = '<div class="ac-item" style="color:#7a9bb5">Tidak ditemukan.</div>';
+    } else {
+      data.data.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'ac-item';
+        div.innerHTML = `<div class="ac-mc">${item.cNoMc}</div>
+          <div class="ac-info">Dipakai ${item.usage_count}× · Terakhir: ${fmtDate(item.last_used)}</div>`;
+        div.onclick = () => {
+          $('inMC').value = item.cNoMc;
+          acList.style.display = 'none';
+          loadData(1);
+        };
+        acList.appendChild(div);
+      });
+    }
+  } catch { acList.style.display='none'; }
+}
+
+document.addEventListener('click', e => {
+  if (!$('acList').contains(e.target) && e.target !== $('inMC')) {
+    $('acList').style.display='none';
+  }
+});
+
+// ── Detail Modal ──────────────────────────────────────────────────────────────
+async function showDetail(noOp) {
+  const row = allRows.find(r => r.cNoOp === noOp);
+  if (!row) return;
+
+  // find SC
+  const sc = row.cNoSc || noOp.split('/').slice(0,3).join('/');
+  $('modalTitle').textContent = `Detail OP: ${noOp}`;
+  $('modal').classList.add('show');
+  $('modalBody').innerHTML = `<div style="text-align:center;padding:30px;color:#7a9bb5">
+    <span class="spinner"></span> Memuat detail…</div>`;
+
+  try {
+    const res  = await fetch(`${API}?action=detail&sc=${encodeURIComponent(sc)}`);
+    const data = await res.json();
+    if (!data.success) throw new Error(data.message);
+
+    const t = data.totals;
+    let html = `
+    <div class="detail-grid">
+      <div class="detail-item"><div class="detail-lbl">No. OP</div><div class="detail-val">${noOp}</div></div>
+      <div class="detail-item"><div class="detail-lbl">SC No.</div><div class="detail-val">${sc}</div></div>
+      <div class="detail-item"><div class="detail-lbl">Tgl SC</div><div class="detail-val">${fmtDate(row.tgl_sc)||'-'}</div></div>
+      <div class="detail-item"><div class="detail-lbl">Tgl Kirim Awal</div><div class="detail-val">${fmtDate(row.tgl_kirim_awal)||'-'}</div></div>
+      <div class="detail-item"><div class="detail-lbl">Nama Barang</div><div class="detail-val">${row.nama_brg||'-'}</div></div>
+      <div class="detail-item"><div class="detail-lbl">Customer</div><div class="detail-val">${row.customer||'-'}</div></div>
+      <div class="detail-item"><div class="detail-lbl">Tipe</div><div class="detail-val">${row.cTipe||'-'}</div></div>
+      <div class="detail-item"><div class="detail-lbl">Ukuran Dalam</div><div class="detail-val">${row.ukuran_dalam||'-'}</div></div>
+      <div class="detail-item"><div class="detail-lbl">Total Order</div><div class="detail-val">${fmt(row.total_order)} pcs</div></div>
+      <div class="detail-item"><div class="detail-lbl">Tgl Kirim</div><div class="detail-val">${fmtDate(row.dTglKirim2)||'-'}</div></div>
+      <div class="detail-item"><div class="detail-lbl">Flexo / Proses</div><div class="detail-val">${row.cFlexo||'-'}</div></div>
+      <div class="detail-item"><div class="detail-lbl">Stock Awal Gudang</div><div class="detail-val">${fmt(row.stock_awal_gudang)}</div></div>
+      <div class="detail-item"><div class="detail-lbl">Stock Akhir Gudang</div><div class="detail-val">${fmt(row.stock_akhir_gudang)}</div></div>
+      <div class="detail-item"><div class="detail-lbl">Kualitas</div><div class="detail-val">${row.kualitas||'-'}</div></div>
+      <div class="detail-item"><div class="detail-lbl">Warna</div><div class="detail-val">${row.cWarna||'-'}</div></div>
+      <div class="detail-item"><div class="detail-lbl">Flute</div><div class="detail-val">${row.flute||'-'}</div></div>
+    </div>
+
+    <!-- Ringkasan Realisasi -->
+    <div class="section-title">📊 Ringkasan Realisasi</div>
+    <table class="mini-table">
+      <thead><tr><th>Tahap</th><th>Plan</th><th>Hasil</th><th>Rusak</th><th>%</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>Corrugating</td>
+          <td class="num-col">${fmt(t.plan_corr)}</td>
+          <td class="num-col ${t.hsl_corr===0&&(+row.total_order)>0?'miss':''}">${fmt(t.hsl_corr)}</td>
+          <td class="num-col">${fmt(t.rusak_corr)}</td>
+          <td class="num-col">${t.plan_corr>0?((t.hsl_corr/t.plan_corr)*100).toFixed(1)+'%':'-'}</td>
+        </tr>
+        <tr>
+          <td>Converting (semua mesin)</td>
+          <td class="num-col">${fmt(t.conv_plan)}</td>
+          <td class="num-col ${t.conv_hasil===0&&(+row.total_order)>0?'miss':''}">${fmt(t.conv_hasil)}</td>
+          <td class="num-col">${fmt(t.conv_rusak)}</td>
+          <td class="num-col">${t.conv_plan>0?((t.conv_hasil/t.conv_plan)*100).toFixed(1)+'%':'-'}</td>
+        </tr>
+        <tr>
+          <td>Serah Terima</td>
+          <td class="num-col">—</td>
+          <td class="num-col ${t.stb===0&&(+row.total_order)>0?'miss':''}">${fmt(t.stb)}</td>
+          <td class="num-col">—</td>
+          <td class="num-col">—</td>
+        </tr>
+        <tr>
+          <td>Pengiriman</td>
+          <td class="num-col">${fmt(row.total_order)}</td>
+          <td class="num-col ${t.srj===0&&(+row.total_order)>0?'miss':''}">${fmt(t.srj)}</td>
+          <td class="num-col">${fmt(t.retur)}</td>
+          <td class="num-col">${(+row.total_order)>0?((t.srj/(+row.total_order))*100).toFixed(1)+'%':'-'}</td>
+        </tr>
+        <tr class="total-row">
+          <td>Net Terkirim</td>
+          <td></td>
+          <td class="num-col">${fmt(t.net_kirim)}</td>
+          <td></td>
+          <td class="num-col">${(+row.total_order)>0?((t.net_kirim/(+row.total_order))*100).toFixed(1)+'%':'-'}</td>
+        </tr>
+      </tbody>
+    </table>`;
+
+    // Hasil per mesin
+    if (Object.keys(data.hasil_mesin||{}).length) {
+      html += `<div class="section-title">⚙️ Hasil Per Mesin</div>
+      <table class="mini-table">
+        <thead><tr><th>Mesin</th><th>Hasil</th><th>Rusak</th></tr></thead><tbody>`;
+      Object.entries(data.hasil_mesin).forEach(([msn,v]) => {
+        html += `<tr><td>${msn}</td>
+          <td class="num-col">${fmt(v.hasil)}</td>
+          <td class="num-col">${fmt(v.rusak)}</td></tr>`;
+      });
+      html += '</tbody></table>';
+    }
+
+    // Corrugating Plan
+    if (data.corr_plan?.length) {
+      html += `<div class="section-title">🏭 Planning Corrugating</div>
+      <table class="mini-table">
+        <thead><tr><th>Kode Corr</th><th>No.MC</th><th>Tanggal</th><th>Flute</th><th>Qty Plan</th></tr></thead><tbody>`;
+      let tot = 0;
+      data.corr_plan.forEach(r => {
+        tot += +r.nQtyOrder||0;
+        html += `<tr><td>${r.cKodeCorr||r.cNoCorr||'-'}</td><td>${r.cNoMc||'-'}</td>
+          <td>${fmtDate(r.dTanggal)}</td><td>${r.cFlute||'-'}</td>
+          <td class="num-col">${fmt(r.nQtyOrder)}</td></tr>`;
+      });
+      html += `<tr class="total-row"><td colspan="4">Total</td><td class="num-col">${fmt(tot)}</td></tr>`;
+      html += '</tbody></table>';
+    }
+
+    // Corrugating Hasil
+    if (data.corr_hasil?.length) {
+      html += `<div class="section-title">✅ Hasil Corrugating</div>
+      <table class="mini-table">
+        <thead><tr><th>Kode Corr</th><th>No.MC</th><th>Tanggal</th><th>Hasil</th><th>Rusak</th><th>Berat</th></tr></thead><tbody>`;
+      let h=0,r2=0,b=0;
+      data.corr_hasil.forEach(r => {
+        h+=+r.nHasil||0; r2+=+r.nRusak||0; b+=+r.nBerat||0;
+        html += `<tr><td>${r.cKodeCorr||r.cNoCorr||'-'}</td><td>${r.cNoMc||'-'}</td>
+          <td>${fmtDate(r.dTanggal)}</td>
+          <td class="num-col">${fmt(r.nHasil)}</td>
+          <td class="num-col">${fmt(r.nRusak)}</td>
+          <td class="num-col">${fmt(r.nBerat)}</td></tr>`;
+      });
+      html += `<tr class="total-row"><td colspan="3">Total</td>
+        <td class="num-col">${fmt(h)}</td><td class="num-col">${fmt(r2)}</td>
+        <td class="num-col">${fmt(b)}</td></tr></tbody></table>`;
+    }
+
+    // Serah Terima
+    if (data.stb?.length) {
+      html += `<div class="section-title">🔄 Serah Terima</div>
+      <table class="mini-table">
+        <thead><tr><th>Tgl Serah</th><th>Rack</th><th>Shift</th><th>Qty</th></tr></thead><tbody>`;
+      let tot=0;
+      data.stb.forEach(r => {
+        tot += +r.nQty||0;
+        html += `<tr><td>${fmtDate(r.dTglSerah)}</td><td>${r.cRak||'-'}</td>
+          <td>${r.cShift||'-'}</td><td class="num-col">${fmt(r.nQty)}</td></tr>`;
+      });
+      html += `<tr class="total-row"><td colspan="3">Total</td><td class="num-col">${fmt(tot)}</td></tr>`;
+      html += '</tbody></table>';
+    }
+
+    // Pengiriman
+    if (data.srj?.length) {
+      html += `<div class="section-title">🚚 Pengiriman</div>
+      <table class="mini-table">
+        <thead><tr><th>No. SRJ</th><th>Tanggal</th><th>Tujuan</th><th>No. Pol</th><th>Qty</th></tr></thead><tbody>`;
+      let tot=0;
+      data.srj.forEach(r => {
+        tot += +r.nQty||0;
+        html += `<tr><td>${r.cNoSRJ||'-'}</td><td>${fmtDate(r.dTanggal)}</td>
+          <td>${r.cTujuanKirim||'-'}</td><td>${r.cNoPol||'-'}</td>
+          <td class="num-col">${fmt(r.nQty)}</td></tr>`;
+      });
+      html += `<tr class="total-row"><td colspan="4">Total</td><td class="num-col">${fmt(tot)}</td></tr>`;
+      html += '</tbody></table>';
+    }
+
+    // Retur
+    if (data.retur?.length) {
+      html += `<div class="section-title">↩ Retur</div>
+      <table class="mini-table">
+        <thead><tr><th>No. Retur</th><th>Tgl</th><th>Item</th><th>Qty</th><th>Ket</th></tr></thead><tbody>`;
+      data.retur.forEach(r => {
+        html += `<tr><td>${r.cNoRetur||'-'}</td><td>${fmtDate(r.dTgl)}</td>
+          <td>${r.cItem||'-'}</td><td class="num-col">${fmt(r.nQty)}</td>
+          <td>${r.cKetRetur||'-'}</td></tr>`;
+      });
+      html += '</tbody></table>';
+    }
+
+    // MCList flag
+    if (row.data_incomplete) {
+      html += `<div style="margin-top:16px;padding:12px 16px;background:#1a0f0f;
+        border:1px solid #ef5350;border-radius:6px;font-size:.8rem;color:#ef9a9a;">
+        ⚠️ <strong>Data belum lengkap</strong> — Silakan cek MCList untuk:
+        ${row.missing_corr?'<span style="margin:0 4px;background:#b71c1c;padding:1px 6px;border-radius:3px;">Corrugating</span>':''}
+        ${row.missing_conv?'<span style="margin:0 4px;background:#b71c1c;padding:1px 6px;border-radius:3px;">Converting</span>':''}
+        ${row.missing_stb?'<span style="margin:0 4px;background:#b71c1c;padding:1px 6px;border-radius:3px;">Serah Terima</span>':''}
+        ${row.missing_kirim?'<span style="margin:0 4px;background:#b71c1c;padding:1px 6px;border-radius:3px;">Pengiriman</span>':''}
+        <br><a href="https://supracor.co.id/op_report" target="_blank" style="color:#4fc3f7;margin-top:6px;display:inline-block;">
+        → Buka MCList Dashboard</a>
+      </div>`;
+    }
+
+    $('modalBody').innerHTML = html;
+  } catch (e) {
+    $('modalBody').innerHTML = `<p style="color:#ef5350">Error: ${e.message}</p>`;
+  }
+}
+
+function closeModal() { $('modal').classList.remove('show'); }
+$('modal').addEventListener('click', e => { if(e.target===$('modal')) closeModal(); });
+
+// ── Export Excel ─────────────────────────────────────────────────────────────
+// Menggunakan allRows (data yang sudah dimuat di browser) — tidak perlu fetch ulang ke server
+function exportExcel() {
+  if (!allRows || !allRows.length) {
+    alert('Tidak ada data untuk diekspor.\nSilakan muat data terlebih dahulu dengan menekan Filter atau Refresh.');
+    return;
+  }
+
+  // Terapkan filter status yang aktif (sama seperti renderTable)
+  const statusFilter = $('inStatus').value;
+  const rows = statusFilter
+    ? allRows.filter(r => {
+        if (statusFilter === 'INCOMPLETE') return r.data_incomplete;
+        return r.status_lengkap === statusFilter;
+      })
+    : allRows;
+
+  if (!rows.length) {
+    alert('Tidak ada data yang cocok dengan filter saat ini.');
+    return;
+  }
+
+  const cols = [
+    'no','cNoSc','cNoOp','tgl_sc','cNoMc','nama_brg','customer','cTipe','ukuran_dalam','total_order',
+    'flute','kualitas','cWarna','ckd_b1','ckd_b2','ckd_b3','ckd_b4','ckd_b5',
+    'tgl_op','tgl_kirim_awal','dTglKirim2','cFlexo',
+    'plan_corr','hsl_corr','rsak_corr','hsl_conv',
+    'stock_awal_gudang','stock_akhir_gudang','jml_serah_trm','jml_kirim','jml_retur',
+    'pcs_kurang','net_kirim','status_lengkap'
+  ];
+
+  const heads = [
+    'No','SC No.','No. OP','Tgl SC','MC No.','Nama Barang','Customer','Tipe','Ukuran Dalam','Jml Order DT',
+    'Flute','Kualitas','Warna','K-1','K-2','K-3','K-4','K-5',
+    'Tgl OP','Tgl Kirim Awal','Tgl Kirim','Flexo/Proses',
+    'Plan Corr','Hasil Corr','Rusak Corr','Hasil Conv',
+    'Stock Awal','Stock Akhir','Jml Serah Trm','Jml Kirim','Retur',
+    'Pcs Kurang','Net Kirim','Status'
+  ];
+
+  const numCols = new Set([
+    'no','total_order','plan_corr','hsl_corr','rsak_corr','hsl_conv',
+    'stock_awal_gudang','stock_akhir_gudang','jml_serah_trm',
+    'jml_kirim','jml_retur','pcs_kurang','net_kirim'
+  ]);
+  const dateCols = new Set(['tgl_sc','tgl_op','tgl_kirim_awal','dTglKirim2']);
+
+  try {
+    const aoa = [heads];
+    rows.forEach(r => {
+      const row = cols.map(c => {
+        let v = r[c];
+        if (dateCols.has(c)) return (v && v !== '-') ? fmtDate(v) : '';
+        if (c === 'status_lengkap') return v || '';
+        if (numCols.has(c)) return (v === null || v === undefined || v === '') ? null : Number(v);
+        return v ?? '';
+      });
+      aoa.push(row);
+    });
+
+    const wb = XLSX.utils.book_new();
+    const ws = XLSX.utils.aoa_to_sheet(aoa);
+    ws['!cols'] = heads.map((h, i) => ({
+      wch: Math.min(40, Math.max(10, Math.max(...aoa.map(r => String(r[i] ?? '').length))))
+    }));
+    XLSX.utils.book_append_sheet(wb, ws, 'Realisasi');
+    const fname = `realisasi_produksi_${new Date().toISOString().slice(0,10)}.xlsx`;
+    XLSX.writeFile(wb, fname);
+  } catch (e) {
+    alert('Export gagal: ' + e.message);
+  }
+}
+
+// ── Init ─────────────────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  // Default: Tgl SC = hari ini (basis tarikan dari tbSC)
+  const today = new Date();
+  const todayStr = today.toISOString().slice(0,10);
+  $('inScFrom').value = $('inScFrom').value || todayStr;
+  $('inScTo').value   = $('inScTo').value   || todayStr;
+
+  // Status filter inline
+  $('inStatus').addEventListener('change', () => renderTable(allRows));
+
+  loadData(1);
+});
+
+// Enter key pada MC triggers filter
+$('inMC')?.addEventListener('keypress', e=>{ if(e.key==='Enter') loadData(1); });
+</script>
+</body>
+</html>

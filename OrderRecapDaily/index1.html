@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Recap Order Harian</title>
+  <style>
+    body{font-family:Arial,Helvetica,sans-serif;background:#f4f6f8;color:#122;padding:20px}
+    .wrap{max-width:980px;margin:0 auto;background:#fff;padding:18px;border-radius:8px;box-shadow:0 6px 20px rgba(0,0,0,.06)}
+    h1{font-size:18px;margin-bottom:6px}
+    .filters{display:flex;gap:8px;align-items:center;margin-bottom:12px}
+    input[type=date]{padding:8px;border-radius:6px;border:1px solid #ccd}
+    button{padding:8px 12px;border-radius:6px;border:1px solid #2a78f6;background:#2a78f6;color:#fff;cursor:pointer}
+    table{width:100%;border-collapse:collapse;margin-top:12px}
+    th,td{padding:8px;border:1px solid #e6eef6;text-align:left}
+    th{background:#f7fafc}
+    .muted{color:#667}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Report Recap Order Harian</h1>
+    <div class="muted">Kolom: Tanggal, Kuota (ton), Total Order (ton), Penambahan Order (Kuota - total), Total Akhir (ton)</div>
+    <div class="filters">
+      <label>From: <input id="from" type="date"></label>
+      <label>To: <input id="to" type="date"></label>
+      <label style="margin-left:8px"><input id="allChk" type="checkbox"> Show all dates (ignore filters)</label>
+      <button id="fetchBtn">Tampilkan</button>
+      <button id="csvBtn">Export CSV</button>
+    </div>
+
+    <table id="tbl">
+      <thead>
+        <tr>
+          <th>Tanggal</th>
+          <th>Kuota (Ton)</th>
+          <th>Total Order (Ton)</th>
+          <th>Penambahan Order (Ton)</th>
+          <th>Total Akhir (Ton)</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <script>
+    const fetchBtn = document.getElementById('fetchBtn');
+    const csvBtn   = document.getElementById('csvBtn');
+    const fromEl   = document.getElementById('from');
+    const toEl     = document.getElementById('to');
+    const tbody    = document.querySelector('#tbl tbody');
+
+    function fmt(n){ return typeof n === 'number' ? n.toFixed(2) : n; }
+
+    async function fetchData(){
+      const from = fromEl.value; const to = toEl.value; const all = document.getElementById('allChk').checked;
+      fetchBtn.disabled = true; tbody.innerHTML = '<tr><td colspan="5">Loading…</td></tr>';
+      try{
+        const params = new URLSearchParams(); if(!all){ if(from) params.append('from', from); if(to) params.append('to', to); } else { params.append('all','1'); }
+        const res = await fetch('recap_daily_action.php', { method:'POST', body: params });
+        const j = await res.json();
+        if(!j.success){ tbody.innerHTML = '<tr><td colspan="5">Error: '+(j.message||'unknown')+'</td></tr>'; return; }
+        tbody.innerHTML = '';
+        (j.rows||[]).forEach(r => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `<td>${r.date}</td>`+
+                         `<td>${fmt(parseFloat(r.kuota_ton)||0)}</td>`+
+                         `<td>${fmt(parseFloat(r.total_order_ton)||0)}</td>`+
+                         `<td>${fmt(parseFloat(r.penambahan_ton)||0)}</td>`+
+                         `<td>${fmt(parseFloat(r.total_akhir_ton)||0)}</td>`;
+          tbody.appendChild(tr);
+        });
+      }catch(e){ tbody.innerHTML = '<tr><td colspan="5">Koneksi gagal: '+e.message+'</td></tr>'; }
+      fetchBtn.disabled = false;
+    }
+
+    fetchBtn.addEventListener('click', fetchData);
+
+    csvBtn.addEventListener('click', ()=>{
+      const rows = [['Tanggal','Kuota (Ton)','Total Order (Ton)','Penambahan (Ton)','Total Akhir (Ton)']];
+      document.querySelectorAll('#tbl tbody tr').forEach(tr => rows.push(Array.from(tr.children).map(td=>td.textContent)));
+      const csv = rows.map(r=>r.map(c=>`"${String(c).replace(/"/g,'""')}"`).join(',')).join('\n');
+      const blob = new Blob([csv], {type:'text/csv'});
+      const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href=url; a.download='recap_order_daily.csv'; a.click(); URL.revokeObjectURL(url);
+    });
+
+    // initialize last 7 days
+    const d = new Date(); toEl.value = d.toISOString().slice(0,10); d.setDate(d.getDate()-6); fromEl.value = d.toISOString().slice(0,10);
+    fetchData();
+  </script>
+</body>
+</html>

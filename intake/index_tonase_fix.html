@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="sps_logo1.png">
+<title>Dashboard Intake — Tonase Fix</title>
+<style>
+/* ── Reset & Base ─────────────────────────────────────────────── */
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
+  background:#f5f5f5;min-height:100vh;color:#222;font-size:13px;}
+
+/* ── Navbar ───────────────────────────────────────────────────── */
+.navbar{background:#e0e0e0;padding:12px 24px;display:flex;
+  justify-content:space-between;align-items:center;
+  position:sticky;top:0;z-index:200;
+  box-shadow:0 2px 12px rgba(0,0,0,0.08);} 
+.navbar-brand{font-size:1.2rem;font-weight:700;color:#222;
+    display:flex;align-items:center;gap:8px;}
+.nav-links{display:flex;gap:8px;} 
+.nav-link{color:#222;text-decoration:none;padding:6px 14px;
+    border-radius:4px;font-size:0.82rem;transition:.2s;} 
+.nav-link:hover,.nav-link.active{background:#bdbdbd;color:#222;} 
+.nav-right{display:flex;align-items:center;gap:12px;} 
+.badge-user{background:#bdbdbd;color:#222;
+  padding:5px 14px;border-radius:20px;font-size:.8rem;font-weight:600;} 
+.btn-logout{background:#757575;color:#fff;border:none;padding:6px 16px;
+  border-radius:16px;cursor:pointer;font-size:.8rem;font-weight:600;transition:.2s;} 
+.btn-logout:hover{background:#212121;}
+
+/* ── Layout ───────────────────────────────────────────────────── */
+.page-wrap{max-width:100%;padding:16px 20px;}
+
+/* ── Stats cards ──────────────────────────────────────────────── */
+.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+           gap:12px;margin-bottom:16px;}
+.stat-card{background:#fff;border:1px solid #bdbdbd;border-radius:8px;
+           padding:14px 18px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,0.07);} 
+.stat-num{font-size:1.5rem;font-weight:700;color:#222;} 
+.stat-lbl{font-size:.72rem;color:#757575;margin-top:4px;text-transform:uppercase;
+          letter-spacing:.5px;}
+
+/* ── Controls ─────────────────────────────────────────────────── */
+.controls{background:#fff;border:1px solid #bdbdbd;border-radius:8px;
+          padding:14px 18px;margin-bottom:14px;box-shadow:0 2px 8px rgba(0,0,0,0.07);} 
+.ctrl-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:10px;} 
+.ctrl-row:last-child{margin-bottom:0;} 
+.ctrl-input,.ctrl-select{background:#e0e0e0;border:1px solid #bdbdbd;color:#222;
+  padding:7px 11px;border-radius:5px;font-size:.82rem;outline:none;transition:.2s;} 
+.ctrl-input:focus,.ctrl-select:focus{border-color:#757575;box-shadow:0 0 0 2px #bdbdbd;} 
+.ctrl-input{min-width:160px;} 
+.ctrl-input.wide{min-width:220px;} 
+.ctrl-select{min-width:140px;} 
+.btn{padding:7px 16px;border:none;border-radius:5px;cursor:pointer;
+     font-size:.82rem;font-weight:600;transition:.2s;display:inline-flex;
+     align-items:center;gap:6px;} 
+.btn-primary{background:#222;color:#fff;} 
+.btn-primary:hover{background:#757575;} 
+.btn-green{background:#757575;color:#fff;} 
+.btn-green:hover{background:#222;} 
+.btn-red{background:#bdbdbd;color:#222;} 
+.btn-red:hover{background:#757575;color:#fff;} 
+.btn-amber{background:#9e9e9e;color:#fff;} 
+.btn-amber:hover{background:#616161;} 
+.lbl-filter{font-size:.78rem;color:#757575;white-space:nowrap;}
+
+/* ── Table container ──────────────────────────────────────────── */
+
+.tbl-wrap{background:#fff;border:1px solid #bdbdbd;border-radius:12px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.06);} 
+.tbl-header{padding:12px 18px;display:flex;justify-content:space-between;
+            align-items:center;border-bottom:1.5px solid #bdbdbd;background:#e0e0e0;} 
+.tbl-title{font-weight:700;font-size:.95rem;color:#222;} 
+.tbl-count{font-size:.78rem;color:#1976d2;}
+
+/* ── Simple tonase table styles ───────────────────────────────── */
+.tonase-controls{display:flex;gap:8px;align-items:center;margin-bottom:10px}
+.tonase-table{width:100%;border-collapse:collapse}
+.tonase-table th,.tonase-table td{padding:8px;border:1px solid #e0e0e0;text-align:left}
+.tonase-table th{background:#f0f0f0}
+.num{text-align:right}
+
+</style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar">
+  <div class="navbar-brand">📋 Dashboard Intake — Tonase Fix</div>
+  <div class="nav-links">
+    <a href="https://supracor.co.id/op_report" class="nav-link">📋 MC List</a>
+    <a href="#" class="nav-link active">📋 Dashboard Intake</a>
+  </div>
+  <div class="nav-right">
+    <span class="badge-user">👤 <span id="userLabel">User</span></span>
+    <button class="btn-logout" onclick="if(confirm('Logout?'))window.location='index.html'">🚪 Logout</button>
+  </div>
+</nav>
+
+<div class="page-wrap">
+
+  <div class="controls tonase-controls">
+    <label class="lbl-filter">From</label>
+    <input type="date" class="ctrl-input" id="date_from">
+    <label class="lbl-filter">To</label>
+    <input type="date" class="ctrl-input" id="date_to">
+    <label class="lbl-filter">SRJ No</label>
+    <input type="text" class="ctrl-input" id="srj_no" placeholder="opsional">
+    <label class="lbl-filter">OP No</label>
+    <input type="text" class="ctrl-input" id="op_no" placeholder="opsional">
+    <button class="btn btn-primary" id="btnFetch">Fetch</button>
+    <button class="btn btn-green" id="btnExport">Export CSV</button>
+    <a href="index.html" style="margin-left:12px;align-self:center;color:#1976d2">⟵ Kembali ke Dashboard</a>
+  </div>
+
+  <div id="info" style="margin-bottom:8px;color:#666"></div>
+
+  <div class="tbl-wrap">
+    <div class="tbl-header">
+      <span class="tbl-title">📋 Tonase per OP — Rumus VB (fixed)</span>
+      <span class="tbl-count" id="tblCount">— records</span>
+    </div>
+    <div style="padding:12px">
+      <table class="tonase-table" id="tbl">
+        <thead>
+          <tr><th style="width:38px">No</th><th>OP</th><th>SRJ</th><th>Tgl Kirim Min</th><th>Tgl Kirim Max</th><th>Jml Kirim</th><th class="num">Tonase Kirim (kg)</th><th class="num">Tonase Retur (kg)</th><th class="num">Tonase Net (kg)</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const API = 'get_realisasi_tonase_fix.php';
+const $ = id => document.getElementById(id);
+function fmt(n){ return (Number(n)||0).toLocaleString('id-ID'); }
+
+async function fetchData(){
+  const date_from = $('date_from').value;
+  const date_to   = $('date_to').value;
+  const srj_no    = $('srj_no').value.trim();
+  const op_no     = $('op_no').value.trim();
+
+  // intentionally do not send limit — server returns all matches
+  const qs = new URLSearchParams({date_from,date_to,srj_no,op_no});
+  $('info').textContent = 'Memuat...';
+  try{
+    const res = await fetch(API+'?'+qs.toString());
+    const json = await res.json();
+    if(!json.success){
+      $('info').textContent = 'Error: ' + (json.message||JSON.stringify(json.errors||json));
+      return;
+    }
+    renderTable(json.data||[]);
+    $('info').textContent = `Ditemukan ${json.count||0} baris. (${json.timestamp||''})`;
+  }catch(err){
+    console.error(err);
+    $('info').textContent = 'Gagal memuat data: '+(err.message||err);
+  }
+}
+
+function renderTable(rows){
+  const tb = document.querySelector('#tbl tbody'); tb.innerHTML='';
+  rows.forEach((r,i)=>{
+    const tr = document.createElement('tr');
+    const op  = r.op_no||r.cNoOp||'-';
+    const srj = r.cNoSRJ||r.srj_no||'-';
+    const tmin= r.tgl_kirim_min||r.tgl_kirim||'';
+    const tmax= r.tgl_kirim_max||'';
+    const jml = r.jml_kirim||0;
+    const tk  = Number(r.tonase_kg_kirim||0).toFixed(3);
+    const trt = Number(r.tonase_kg_retur||0).toFixed(3);
+    const net = Number(r.tonase_kg_net||(r.tonase_kg_kirim - r.tonase_kg_retur)||0).toFixed(3);
+    tr.innerHTML = `<td>${i+1}</td><td>${op}</td><td>${srj}</td><td>${tmin}</td><td>${tmax}</td><td>${jml}</td><td class="num">${fmt(tk)}</td><td class="num">${fmt(trt)}</td><td class="num">${fmt(net)}</td>`;
+    tb.appendChild(tr);
+  });
+  $('tblCount').textContent = `${rows.length} records`;
+}
+
+$('btnFetch').addEventListener('click', fetchData);
+
+$('btnExport').addEventListener('click', ()=>{
+  const rows = Array.from(document.querySelectorAll('#tbl tbody tr'));
+  if(!rows.length) return alert('Tidak ada data');
+  const csv = [['No','OP','SRJ','Tgl Kirim Min','Tgl Kirim Max','Jml Kirim','Tonase Kirim(kg)','Tonase Retur(kg)','Tonase Net(kg)']]
+  rows.forEach(tr=>{ csv.push(Array.from(tr.children).map(td=>td.textContent.trim())); });
+  const csvStr = csv.map(r=>r.map(c=>`"${c.replace(/"/g,'""') }"`).join(',')).join('\n');
+  const blob = new Blob([csvStr],{type:'text/csv'}); const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href=url; a.download='tonase_op.csv'; a.click(); URL.revokeObjectURL(url);
+});
+
+(function(){ const d2=new Date(), d1=new Date(); d1.setDate(d2.getDate()-7); $('date_from').value=d1.toISOString().slice(0,10); $('date_to').value=d2.toISOString().slice(0,10); })();
+</script>
+</body>
+</html>

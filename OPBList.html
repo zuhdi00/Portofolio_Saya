@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard OPB - Pencarian & Filter</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>/* minimal reuse of BPB styles omitted for brevity - keep same CSS as BPBList.html */
+    /* For brevity in workspace file, full CSS is identical to BPBList.html */
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📋 Dashboard OPB</h1>
+            <p>Sistem Pencarian & Monitoring Order Permintaan Barang (OPB)</p>
+        </div>
+
+        <div class="search-section">
+            <div class="search-grid">
+                <div class="form-group">
+                    <label for="search">🔍 Pencarian Umum</label>
+                    <input type="text" id="search" placeholder="Cari No PB, Departemen, Barang...">
+                </div>
+
+                <div class="form-group">
+                    <label for="keyword1">🔑 Keyword 1</label>
+                    <input type="text" id="keyword1" placeholder="Departemen, Nama Barang...">
+                </div>
+
+                <div class="form-group">
+                    <label for="keyword2">🔑 Keyword 2</label>
+                    <input type="text" id="keyword2" placeholder="Ukuran, Keterangan...">
+                </div>
+
+                <div class="form-group">
+                    <label for="dateFrom">📅 Tanggal Dari</label>
+                    <input type="date" id="dateFrom">
+                </div>
+
+                <div class="form-group">
+                    <label for="dateTo">📅 Tanggal Sampai</label>
+                    <input type="date" id="dateTo">
+                </div>
+
+                <div class="form-group">
+                    <label for="limit">📊 Jumlah Data</label>
+                    <select id="limit">
+                        <option value="50">50 Data</option>
+                        <option value="100" selected>100 Data</option>
+                        <option value="200">200 Data</option>
+                        <option value="500">500 Data</option>
+                        <option value="1000">1000 Data</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="searchData()">🔍 Cari Data</button>
+                <button class="btn btn-secondary" onclick="resetFilters()">🔄 Reset Filter</button>
+                <button class="btn btn-success" onclick="exportToExcel()">📥 Export Excel</button>
+            </div>
+        </div>
+
+        <div class="table-section">
+            <div id="loadingMessage" class="loading" style="display: none;">⏳ Memuat data...</div>
+            <div id="errorMessage" class="error" style="display: none;"></div>
+
+            <div id="tableContainer" style="display: none;">
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>No PB</th>
+                                <th>Tanggal</th>
+                                <th>Kode Bahan</th>
+                                <th>Departemen</th>
+                                <th>Nama Barang</th>
+                                <th>Tgl Pakai</th>
+                                <th>Ukuran</th>
+                                <th>Jumlah</th>
+                                <th>Satuan</th>
+                                <th>Keterangan</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="noDataMessage" class="no-data" style="display: none;">📭 Tidak ada data yang ditemukan</div>
+        </div>
+
+        <div class="pagination" id="paginationSection" style="display: none;">
+            <div class="pagination-info" id="paginationInfo"></div>
+            <div class="pagination-buttons">
+                <button class="btn btn-secondary" id="prevBtn" onclick="previousPage()" disabled>← Previous</button>
+                <button class="btn btn-secondary" id="nextBtn" onclick="nextPage()" disabled>Next →</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE_URL = 'http://edp2:8081/OPB';
+        let currentOffset = 0;
+        let currentLimit = 100;
+        let totalRecords = 0;
+
+        window.onload = function() {
+            const today = new Date();
+            const defaultFrom = new Date('2020-01-01');
+            document.getElementById('dateTo').valueAsDate = today;
+            document.getElementById('dateFrom').valueAsDate = defaultFrom;
+            searchData();
+        };
+
+        function searchData() {
+            const search = document.getElementById('search').value;
+            const keyword1 = document.getElementById('keyword1').value;
+            const keyword2 = document.getElementById('keyword2').value;
+            const dateFrom = document.getElementById('dateFrom').value;
+            const dateTo = document.getElementById('dateTo').value;
+            const limit = document.getElementById('limit').value;
+
+            currentLimit = parseInt(limit);
+            currentOffset = 0;
+
+            const params = new URLSearchParams({
+                search: search,
+                keyword1: keyword1,
+                keyword2: keyword2,
+                date_from: dateFrom,
+                date_to: dateTo,
+                limit: limit,
+                offset: currentOffset
+            });
+
+            fetchData(params);
+        }
+
+        function fetchData(params) {
+            showLoading();
+            fetch(`${API_BASE_URL}/get_bpb_list.php?${params}`)
+                .then(response => response.json())
+                .then(data => {
+                    hideLoading();
+                    if (data.success) {
+                        displayData(data);
+                        updateStats(data);
+                        updatePagination(data.pagination);
+                    } else {
+                        showError(data.message || 'Terjadi kesalahan saat memuat data');
+                    }
+                })
+                .catch(error => {
+                    hideLoading();
+                    showError('Error: ' + error.message);
+                });
+        }
+
+        function displayData(data) {
+            const tbody = document.getElementById('tableBody');
+            tbody.innerHTML = '';
+
+            if (data.data && data.data.length > 0) {
+                data.data.forEach((row, index) => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${currentOffset + index + 1}</td>
+                        <td><strong>${row.cNoPB || '-'}</strong></td>
+                        <td>${formatDate(row.dTanggal)}</td>
+                        <td><code>${row.cKodeBahan || '-'}</code></td>
+                        <td>${row.dept || '-'}</td>
+                        <td>${row.nama_barang || '-'}</td>
+                        <td>${formatDate(row.cTglPakai)}</td>
+                        <td>${row.ukuran || '-'}</td>
+                        <td><strong>${formatNumber(row.jumlah)}</strong></td>
+                        <td>${row.satuan || '-'}</td>
+                        <td>${row.cKeterangan || '-'}</td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+
+                document.getElementById('tableContainer').style.display = 'block';
+                document.getElementById('noDataMessage').style.display = 'none';
+            } else {
+                document.getElementById('tableContainer').style.display = 'none';
+                document.getElementById('noDataMessage').style.display = 'block';
+            }
+        }
+
+        function updateStats(data) {
+            // reuse existing stats UI if present
+            // minimal: show pagination info
+            if (data.pagination) {
+                totalRecords = data.pagination.total_records || 0;
+            }
+        }
+
+        function updatePagination(pagination) {
+            if (!pagination) return;
+            totalRecords = pagination.total_records;
+            const info = `Menampilkan ${currentOffset + 1} - ${Math.min(currentOffset + currentLimit, totalRecords)} dari ${totalRecords} data`;
+            document.getElementById('paginationInfo').textContent = info;
+            document.getElementById('prevBtn').disabled = !pagination.has_prev;
+            document.getElementById('nextBtn').disabled = !pagination.has_next;
+            document.getElementById('paginationSection').style.display = 'flex';
+        }
+
+        function previousPage() {
+            if (currentOffset >= currentLimit) {
+                currentOffset -= currentLimit;
+                const params = buildSearchParams();
+                params.set('offset', currentOffset);
+                fetchData(params);
+            }
+        }
+
+        function nextPage() {
+            if (currentOffset + currentLimit < totalRecords) {
+                currentOffset += currentLimit;
+                const params = buildSearchParams();
+                params.set('offset', currentOffset);
+                fetchData(params);
+            }
+        }
+
+        function buildSearchParams() {
+            return new URLSearchParams({
+                search: document.getElementById('search').value,
+                keyword1: document.getElementById('keyword1').value,
+                keyword2: document.getElementById('keyword2').value,
+                date_from: document.getElementById('dateFrom').value,
+                date_to: document.getElementById('dateTo').value,
+                limit: currentLimit,
+                offset: currentOffset
+            });
+        }
+
+        function resetFilters() {
+            document.getElementById('search').value = '';
+            document.getElementById('keyword1').value = '';
+            document.getElementById('keyword2').value = '';
+            const today = new Date();
+            const defaultFrom = new Date('2020-01-01');
+            document.getElementById('dateTo').valueAsDate = today;
+            document.getElementById('dateFrom').valueAsDate = defaultFrom;
+            document.getElementById('limit').value = '100';
+            searchData();
+        }
+
+        function exportToExcel() {
+            const params = buildSearchParams();
+            params.set('export', 'excel');
+            window.location.href = `${API_BASE_URL}/get_bpb_list.php?${params}`;
+        }
+
+        function showLoading() { document.getElementById('loadingMessage').style.display = 'block'; }
+        function hideLoading() { document.getElementById('loadingMessage').style.display = 'none'; }
+        function showError(msg) { document.getElementById('errorMessage').textContent = msg; document.getElementById('errorMessage').style.display = 'block'; }
+
+        function formatDate(dateString) {
+            if (!dateString) return '-';
+            const date = new Date(dateString);
+            if (isNaN(date)) return dateString;
+            return date.toLocaleDateString('id-ID', { year: 'numeric', month: 'short', day: 'numeric' });
+        }
+
+        function formatNumber(num) { if (!num && num !== 0) return '0'; return parseFloat(num).toLocaleString('id-ID', { minimumFractionDigits: 0, maximumFractionDigits: 2 }); }
+    </script>
+</body>
+</html>

@@ -1,0 +1,1264 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pencarian File Gambar</title>
+    <link rel="icon" type="image/png" href="sps_logo.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #667eea;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: #4facfe;
+            padding: 30px;
+            text-align: center;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .search-section {
+            padding: 40px;
+            background: white;
+        }
+
+        .search-container {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            align-items: center;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 15px 20px;
+            border: 2px solid #e1e1e1;
+            border-radius: 50px;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .search-input:focus {
+            border-color: #4facfe;
+        }
+
+        .search-btn {
+            padding: 15px 30px;
+            background: #4facfe;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            min-width: 120px;
+        }
+
+        .search-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #4facfe;
+            border-radius: 50%;
+            margin: 0 auto 10px;
+        }
+
+        .results-section {
+            padding: 0 40px 40px;
+        }
+
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .results-count {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .view-toggle {
+            display: flex;
+            gap: 10px;
+        }
+
+        .toggle-btn {
+            padding: 8px 15px;
+            border: 2px solid #e1e1e1;
+            background: white;
+            border-radius: 25px;
+            cursor: pointer;
+        }
+
+        .toggle-btn.active {
+            background: #4facfe;
+            color: white;
+            border-color: #4facfe;
+        }
+
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .image-list {
+            display: none;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .image-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .image-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .print-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            opacity: 0.7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: #333;
+        }
+
+        .image-card:hover .print-btn {
+            opacity: 1;
+        }
+
+        .print-btn:hover {
+            background: #4facfe;
+            color: white;
+        }
+
+        .add-to-queue-btn {
+            position: absolute;
+            top: 10px;
+            right: 60px;
+            background: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            opacity: 0.7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: #333;
+        }
+
+        .image-card:hover .add-to-queue-btn {
+            opacity: 1;
+        }
+
+        .add-to-queue-btn.in-queue {
+            background: #28a745;
+            color: white;
+        }
+
+        .print-dialog {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .print-dialog-content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            max-width: 500px;
+            width: 90%;
+        }
+
+        .print-dialog h3 {
+            margin-bottom: 20px;
+            color: #333;
+            text-align: center;
+        }
+
+        .print-preview {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 2px dashed #ddd;
+            border-radius: 10px;
+        }
+
+        .print-preview img {
+            max-width: 200px;
+            max-height: 150px;
+            object-fit: contain;
+            border-radius: 5px;
+        }
+
+        .print-options {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .print-options label {
+            font-weight: 500;
+        }
+
+        .print-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .image-info {
+            padding: 15px;
+        }
+
+        .image-name {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+            word-break: break-word;
+        }
+
+        .image-size {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .list-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        .list-thumbnail {
+            width: 80px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-right: 15px;
+        }
+
+        .list-info {
+            flex: 1;
+        }
+
+        .list-print-btn {
+            background: #4facfe;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 8px 15px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-left: 15px;
+        }
+
+        .list-add-to-queue-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 8px 15px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-left: 10px;
+        }
+        .list-add-to-queue-btn.in-queue { background: #dc3545; }
+
+        .error-message {
+            text-align: center;
+            padding: 40px 20px;
+            color: #e74c3c;
+            font-size: 1.1rem;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 40px 20px;
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+        }
+
+        .modal-content {
+            position: relative;
+            display: block;
+            max-width: 800px;
+            max-height: 80%;
+            object-fit: contain;
+            cursor: grab;
+        }
+        .modal-content.is-dragging {
+            cursor: grabbing;
+        }
+
+        .close {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            opacity: 0.7;
+        }
+
+        @media print {
+            html {
+                height: 0;
+            }
+            body {
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+            body * {
+                visibility: hidden;
+            }
+            .print-area,
+            .print-area * {
+                visibility: visible;
+            }
+            .print-area {
+                position: absolute;
+                left: 0;
+                top: 0;
+                margin: 0;
+                padding: 0;
+            }
+            .print-landscape .print-area {
+                width: 297mm;
+                height: 210mm;
+            }
+            .print-landscape .image-container {
+                width: 100%;
+                height: 100%;
+            }
+            .print-landscape img {
+                max-width: 297mm;
+                max-height: 210mm;
+                object-fit: contain;
+            }
+            .print-portrait .print-area {
+                width: 210mm;
+                height: 297mm;
+                padding: 10mm;
+            }
+            .print-portrait .image-container {
+                width: 100%;
+                height: 100%;
+                align-items: flex-start;
+            }
+            .print-portrait img {
+                max-width: 190mm;
+                max-height: 277mm;
+                object-fit: contain;
+            }
+            .image-container {
+                position: relative;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 100%;
+                height: 100%;
+            }
+            .image-title {
+                display: none;
+            }
+            img#printImageElement {
+                page-break-inside: avoid;
+                -webkit-print-color-adjust: exact;
+                display: block;
+            }
+            .timestamp {
+                position: absolute;
+                bottom: 5mm;
+                right: 5mm;
+                background: #000;
+                color: white !important;
+                padding: 6px 12px;
+                border-radius: 4px;
+                font-size: 12px;
+                font-weight: bold;
+                font-family: 'Courier New', monospace;
+                letter-spacing: 0.5px;
+                z-index: 10;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            }
+            .print-all-page {
+                page-break-after: always;
+                position: relative;
+                width: 100%;
+                height: 100%;
+            }
+            .print-info {
+                display: none;
+            }
+        }
+
+        .pagination-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 30px 0 10px;
+            gap: 15px;
+        }
+
+        .pagination-btn {
+            padding: 10px 20px;
+            background: #4facfe;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .pagination-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .modal-controls {
+            position: absolute;
+            top: 20px;
+            right: 90px;
+            z-index: 1001;
+            display: flex;
+            gap: 10px;
+        }
+
+        .modal-control-btn {
+            background: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            line-height: 1;
+        }
+
+        .modal-control-btn:hover {
+            background: #eee;
+        }
+
+        .modal-image-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            .search-container {
+                flex-direction: column;
+            }
+            .image-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 15px;
+            }
+            .search-section, .results-section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔍 Pencarian Gambar Master 🔍</h1>
+            <p>Temukan file JPG dari Master Design</p>
+        </div>
+
+        <div class="search-section">
+            <div class="search-container">
+                <input type="text" class="search-input" id="searchInput" placeholder="Masukkan nama file atau kata kunci..." />
+                <button class="search-btn" id="searchBtn">
+                    <span id="searchText">Cari</span>
+                </button>
+            </div>
+            
+            <!-- Debug buttons -->
+            <div style="text-align: center; margin-bottom: 20px;">
+                <button onclick="testPHP()" style="padding: 8px 16px; margin: 0 5px; background: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer;">Test PHP</button>
+                <button onclick="testConnection()" style="padding: 8px 16px; margin: 0 5px; background: #17a2b8; color: white; border: none; border-radius: 5px; cursor: pointer;">Test Connection</button>
+                <button id="resetQueueBtn" style="padding: 8px 16px; margin: 0 5px; background: #dc3545; color: white; border: none; border-radius: 5px; cursor: pointer; display: none;">Reset Print all</button>
+                <button id="printAllBtn" style="padding: 8px 16px; margin: 0 5px; background: #ffc107; color: white; border: none; border-radius: 5px; cursor: pointer; display: none;">Print All (0)</button>
+            </div>
+            
+            <div class="loading" id="loading">
+                <div class="loading-spinner"></div>
+                <p>Mencari file gambar...</p>
+            </div>
+        </div>
+
+        <div class="results-section" id="resultsSection" style="display: none;">
+            <div class="results-header">
+                <div class="results-count" id="resultsCount">0 file ditemukan</div>
+                <div class="view-toggle">
+                    <button class="toggle-btn active" id="gridView">Grid</button>
+                    <button class="toggle-btn" id="listView">List</button>
+                </div>
+            </div>
+            
+            <div class="image-grid" id="imageGrid"></div>
+            <div class="image-list" id="imageList"></div>
+
+            <div class="pagination-container" id="paginationContainer" style="display: none;">
+                <button class="pagination-btn" id="prevBtn">Previous</button>
+                <span id="pageInfo"></span>
+                <button class="pagination-btn" id="nextBtn">Next</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="imageModal">
+        <span class="close" id="closeModal">&times;</span>
+        <div class="modal-controls">
+            <button id="zoomOutBtn" class="modal-control-btn" title="Zoom Out">-</button>
+            <button id="zoomInBtn" class="modal-control-btn" title="Zoom In">+</button>
+            <button id="zoomResetBtn" class="modal-control-btn" title="Reset Zoom">⟲</button>
+        </div>
+        <div class="modal-image-container">
+            <img class="modal-content" id="modalImage">
+        </div>
+    </div>
+
+    <!-- Print Dialog -->
+    <div id="printDialog" class="print-dialog">
+        <div class="print-dialog-content">
+            <h3>Opsi Cetak</h3>
+            <div class="print-preview">
+                <img id="dialogPreviewImage" src="" alt="Preview">
+                <p id="dialogImageName" style="margin-top: 10px; font-weight: 600;"></p>
+            </div>
+            <div class="print-options">
+                <label for="printOrientation">Orientasi:</label>
+                <select id="printOrientation" class="search-input" style="flex: initial; width: 200px; padding: 8px 12px;">
+                    <option value="portrait">Portrait</option>
+                    <option value="landscape">Landscape</option>
+                    <option value="full-landscape" selected>Auto Print</option>
+                </select>
+            </div>
+            <div class="print-actions">
+                <button id="printConfirm" class="search-btn" style="min-width: 120px;">🖨️ Cetak</button>
+                <button id="printCancel" class="search-btn" style="background: #6c757d;">Batal</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden print container dengan timestamp -->
+    <div id="printContainer" class="print-area" style="display: none;">
+        <div class="image-title" id="printTitle"></div>
+        <!-- This container will be used for single print and as a template for print all -->
+        <div class="image-container">
+            <img id="printImageElement" />
+            <div class="timestamp" id="printTimestamp"></div>
+        </div>
+        <div class="print-info" id="printInfo"></div>
+    </div>
+
+    <script>
+    // Kompatibel Firefox 50: Tidak ada class, let, const, arrow function, async/await, fetch
+    (function() {
+        // Helper untuk querySelector
+        function $(id) { return document.getElementById(id); }
+
+        function ImageSearchApp() {
+            // Properti
+            this.searchInput = $('searchInput');
+            this.searchBtn = $('searchBtn');
+            this.loading = $('loading');
+            this.resultsSection = $('resultsSection');
+            this.resultsCount = $('resultsCount');
+            this.imageGrid = $('imageGrid');
+            this.imageList = $('imageList');
+            this.gridViewBtn = $('gridView');
+            this.listViewBtn = $('listView');
+            this.modal = $('imageModal');
+            this.modalImage = $('modalImage');
+            this.closeModal = $('closeModal');
+            this.printDialog = $('printDialog');
+            this.dialogPreviewImage = $('dialogPreviewImage');
+            this.dialogImageName = $('dialogImageName');
+            this.printOrientation = $('printOrientation');
+            this.printConfirm = $('printConfirm');
+            this.printCancel = $('printCancel');
+            this.currentPrintImage = null;
+            this.printContainer = $('printContainer');
+            this.printTitle = $('printTitle');
+            this.printImageElement = $('printImageElement');
+            this.printTimestamp = $('printTimestamp');
+            this.printInfo = $('printInfo');
+            this.printAllBtn = $('printAllBtn');
+            this.resetQueueBtn = $('resetQueueBtn');
+            this.printQueue = [];
+            this.currentView = 'grid';
+            this.currentResults = [];
+            this.currentPage = 1;
+            this.itemsPerPage = 10;
+            this.paginationContainer = $('paginationContainer');
+            this.prevBtn = $('prevBtn');
+            this.nextBtn = $('nextBtn');
+            this.pageInfo = $('pageInfo');
+            this.zoomInBtn = $('zoomInBtn');
+            this.zoomOutBtn = $('zoomOutBtn');
+            this.zoomResetBtn = $('zoomResetBtn');
+            this.zoomLevel = 1;
+            this.panX = 0;
+            this.panY = 0;
+            this.isDragging = false;
+            this.startPos = { x: 0, y: 0 };
+
+            this.initEventListeners();
+        }
+
+        ImageSearchApp.prototype.initEventListeners = function() {
+            var self = this;
+            this.searchBtn.onclick = function() { self.performSearch(); };
+            this.searchInput.onkeypress = function(e) {
+                e = e || window.event;
+                var key = e.keyCode || e.which;
+                if (key === 13) self.performSearch();
+            };
+            this.gridViewBtn.onclick = function() { self.switchView('grid'); };
+            this.listViewBtn.onclick = function() { self.switchView('list'); };
+            this.closeModal.onclick = function() { self.closeImageModal(); };
+            this.modal.onclick = function(e) {
+                if (e.target === self.modal) self.closeImageModal();
+            };
+            this.printConfirm.onclick = function() { self.executePrint(); };
+            this.printCancel.onclick = function() { self.closePrintDialog(); };
+            this.printDialog.onclick = function(e) {
+                if (e.target === self.printDialog) self.closePrintDialog();
+            };
+            this.printAllBtn.onclick = function() { self.executePrintAll(); };
+            this.resetQueueBtn.onclick = function() { self.resetPrintQueue(); };
+            document.onkeydown = function(e) {
+                e = e || window.event;
+                var key = e.keyCode || e.which;
+                if (key === 27) {
+                    self.closeImageModal();
+                    self.closePrintDialog();
+                }
+            };
+            this.prevBtn.onclick = function() {
+                if (self.currentPage > 1) self.changePage(self.currentPage - 1);
+            };
+            this.nextBtn.onclick = function() {
+                var totalPages = Math.ceil(self.currentResults.length / self.itemsPerPage);
+                if (self.currentPage < totalPages) self.changePage(self.currentPage + 1);
+            };
+            this.zoomInBtn.onclick = function() { self.zoom(1.2); };
+            this.zoomOutBtn.onclick = function() { self.zoom(1 / 1.2); };
+            this.zoomResetBtn.onclick = function() { self.resetZoom(); };
+            this.modalImage.onwheel = function(e) {
+                e = e || window.event;
+                if (e.preventDefault) e.preventDefault();
+                var delta = (e.deltaY && e.deltaY > 0) ? 1 / 1.1 : 1.1;
+                self.zoom(delta);
+                return false;
+            };
+            this.modalImage.onmousedown = function(e) {
+                if (self.zoomLevel > 1) {
+                    e = e || window.event;
+                    if (e.preventDefault) e.preventDefault();
+                    self.isDragging = true;
+                    self.startPos.x = e.clientX - self.panX;
+                    self.startPos.y = e.clientY - self.panY;
+                    self.modalImage.className += ' is-dragging';
+                }
+            };
+            window.onmousemove = function(e) {
+                if (self.isDragging) {
+                    self.panX = e.clientX - self.startPos.x;
+                    self.panY = e.clientY - self.startPos.y;
+                    self.applyTransform();
+                }
+            };
+            window.onmouseup = function() {
+                self.isDragging = false;
+                self.modalImage.className = self.modalImage.className.replace(' is-dragging', '');
+            };
+        };
+
+        ImageSearchApp.prototype.performSearch = function() {
+            var self = this;
+            var query = this.searchInput.value.replace(/^\s+|\s+$/g, '');
+            if (!query) {
+                alert('Masukkan kata kunci pencarian');
+                return;
+            }
+            self.showLoading(true);
+            self.hideResults();
+
+            // Gunakan XMLHttpRequest agar kompatibel
+            var apiUrl = './search_images_cmd.php?q=' + encodeURIComponent(query);
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', apiUrl, true);
+            xhr.setRequestHeader('Accept', 'application/json');
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4) {
+                    self.showLoading(false);
+                    if (xhr.status === 200) {
+                        var data;
+                        try {
+                            data = JSON.parse(xhr.responseText);
+                        } catch (e) {
+                            self.showError('Server returned invalid JSON.');
+                            return;
+                        }
+                        if (!data.success) {
+                            self.showError(data.error || 'Unknown server error');
+                            return;
+                        }
+                        self.currentResults = data.images || [];
+                        self.displayResults();
+                    } else {
+                        self.showError('HTTP ' + xhr.status + ': ' + xhr.statusText);
+                    }
+                }
+            };
+            xhr.send();
+        };
+
+        ImageSearchApp.prototype.displayResults = function() {
+            this.showResults();
+            this.updateResultsCount();
+            if (this.currentResults.length === 0) {
+                this.showNoResults();
+                return;
+            }
+            this.setupPagination();
+        };
+
+        ImageSearchApp.prototype.setupPagination = function() {
+            this.currentPage = 1;
+            var totalPages = Math.ceil(this.currentResults.length / this.itemsPerPage);
+            if (totalPages > 1) {
+                this.paginationContainer.style.display = 'flex';
+            } else {
+                this.paginationContainer.style.display = 'none';
+            }
+            this.renderCurrentPage();
+        };
+
+        ImageSearchApp.prototype.changePage = function(page) {
+            this.currentPage = page;
+            this.renderCurrentPage();
+        };
+
+        ImageSearchApp.prototype.renderCurrentPage = function() {
+            var startIndex = (this.currentPage - 1) * this.itemsPerPage;
+            var endIndex = startIndex + this.itemsPerPage;
+            var paginatedItems = this.currentResults.slice(startIndex, endIndex);
+            this.renderImages(paginatedItems);
+            this.updatePaginationControls();
+        };
+
+        ImageSearchApp.prototype.renderImages = function(imagesToRender) {
+            this.imageGrid.innerHTML = '';
+            this.imageList.innerHTML = '';
+            for (var i = 0; i < imagesToRender.length; i++) {
+                var image = imagesToRender[i];
+                var gridCard = this.createGridCard(image, i);
+                this.imageGrid.appendChild(gridCard);
+                var listItem = this.createListItem(image, i);
+                this.imageList.appendChild(listItem);
+            }
+        };
+
+        ImageSearchApp.prototype.updatePaginationControls = function() {
+            var totalPages = Math.ceil(this.currentResults.length / this.itemsPerPage);
+            this.pageInfo.textContent = 'Halaman ' + this.currentPage + ' dari ' + totalPages;
+            this.prevBtn.disabled = this.currentPage === 1;
+            this.nextBtn.disabled = this.currentPage === totalPages;
+        };
+
+        ImageSearchApp.prototype.createGridCard = function(image, index) {
+            var self = this;
+            var card = document.createElement('div');
+            card.className = 'image-card';
+            card.innerHTML =
+                '<img src="' + image.url + '" alt="' + image.name + '" loading="lazy" />' +
+                '<button class="print-btn" title="Print Gambar" onclick="event.stopPropagation()">🖨️</button>' +
+                '<button class="add-to-queue-btn" title="Tambah ke antrian Cetak">➕</button>' +
+                '<div class="image-info">' +
+                '<div class="image-name">' + image.name + '</div>' +
+                '<div class="image-size">' + self.formatFileSize(image.size) + '</div>' +
+                '</div>';
+            card.onclick = function(e) {
+                e = e || window.event;
+                if (!e.target.className || e.target.className.indexOf('print-btn') === -1) {
+                    self.openImageModal(image.url);
+                }
+            };
+            var printBtn = card.getElementsByClassName('print-btn')[0];
+            printBtn.onclick = function(e) {
+                if (e.stopPropagation) e.stopPropagation();
+                self.showPrintDialog(image.url, image.name);
+            };
+            var addToQueueBtn = card.getElementsByClassName('add-to-queue-btn')[0];
+            addToQueueBtn.onclick = function(e) {
+                if (e.stopPropagation) e.stopPropagation();
+                self.togglePrintQueue(image, addToQueueBtn);
+            };
+            return card;
+        };
+
+        ImageSearchApp.prototype.createListItem = function(image, index) {
+            var self = this;
+            var item = document.createElement('div');
+            item.className = 'list-item';
+            item.innerHTML =
+                '<img src="' + image.url + '" alt="' + image.name + '" class="list-thumbnail" loading="lazy" />' +
+                '<div class="list-info">' +
+                '<div class="image-name">' + image.name + '</div>' +
+                '<div class="image-size">' + self.formatFileSize(image.size) + '</div>' +
+                '</div>' +
+                '<button class="list-print-btn" title="Print Gambar">🖨️ Print</button>' +
+                '<button class="list-add-to-queue-btn" title="Tambah ke antrian Cetak">➕ Tambah</button>';
+            item.onclick = function(e) {
+                e = e || window.event;
+                if (!e.target.className || e.target.className.indexOf('list-print-btn') === -1) {
+                    self.openImageModal(image.url);
+                }
+            };
+            var printBtn = item.getElementsByClassName('list-print-btn')[0];
+            printBtn.onclick = function(e) {
+                if (e.stopPropagation) e.stopPropagation();
+                self.showPrintDialog(image.url, image.name);
+            };
+            var addToQueueBtn = item.getElementsByClassName('list-add-to-queue-btn')[0];
+            addToQueueBtn.onclick = function(e) {
+                if (e.stopPropagation) e.stopPropagation();
+                self.togglePrintQueue(image, addToQueueBtn);
+            };
+            return item;
+        };
+
+        ImageSearchApp.prototype.togglePrintQueue = function(image, button) {
+            var indexInQueue = -1;
+            for (var i = 0; i < this.printQueue.length; i++) {
+                if (this.printQueue[i].url === image.url) {
+                    indexInQueue = i;
+                    break;
+                }
+            }
+            if (indexInQueue > -1) {
+                this.printQueue.splice(indexInQueue, 1);
+                button.className = button.className.replace(' in-queue', '');
+                if (button.className.indexOf('list-add-to-queue-btn') !== -1) {
+                    button.textContent = '➕ Tambah';
+                } else {
+                    button.innerHTML = '➕';
+                }
+            } else {
+                this.printQueue.push(image);
+                if (button.className.indexOf('in-queue') === -1) {
+                    button.className += ' in-queue';
+                }
+                if (button.className.indexOf('list-add-to-queue-btn') !== -1) {
+                    button.textContent = '✔️ Terpilih';
+                } else {
+                    button.innerHTML = '✔️';
+                }
+            }
+            this.updatePrintAllButton();
+        };
+
+        ImageSearchApp.prototype.updatePrintAllButton = function() {
+            var count = this.printQueue.length;
+            if (count > 0) {
+                this.resetQueueBtn.style.display = 'inline-block';
+                this.printAllBtn.style.display = 'inline-block';
+                this.printAllBtn.textContent = 'Print All (' + count + ')';
+            } else {
+                this.resetQueueBtn.style.display = 'none';
+                this.printAllBtn.style.display = 'none';
+            }
+        };
+
+        ImageSearchApp.prototype.resetPrintQueue = function() {
+            if (this.printQueue.length === 0) return;
+            if (confirm('Anda yakin ingin mengosongkan ' + this.printQueue.length + ' gambar dari antrian cetak?')) {
+                this.printQueue = [];
+                var btns = document.querySelectorAll('.add-to-queue-btn.in-queue, .list-add-to-queue-btn.in-queue');
+                for (var i = 0; i < btns.length; i++) {
+                    btns[i].className = btns[i].className.replace(' in-queue', '');
+                    if (btns[i].className.indexOf('list-add-to-queue-btn') !== -1) {
+                        btns[i].textContent = '➕ Tambah';
+                    } else {
+                        btns[i].innerHTML = '➕';
+                    }
+                }
+                this.updatePrintAllButton();
+            }
+        };
+
+        ImageSearchApp.prototype.executePrintAll = function() {
+            if (this.printQueue.length === 0) {
+                alert('Tidak ada gambar dalam antrian cetak.');
+                return;
+            }
+            this.printContainer.innerHTML = '';
+            for (var i = 0; i < this.printQueue.length; i++) {
+                var page = this.createPrintPage(this.printQueue[i]);
+                this.printContainer.appendChild(page);
+            }
+            this.executePrintLogic('print-landscape');
+        };
+
+        ImageSearchApp.prototype.showPrintDialog = function(imageUrl, imageName) {
+            this.currentPrintImage = { url: imageUrl, name: imageName };
+            this.dialogPreviewImage.src = imageUrl;
+            this.dialogImageName.textContent = imageName;
+            this.printDialog.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        };
+
+        ImageSearchApp.prototype.closePrintDialog = function() {
+            this.printDialog.style.display = 'none';
+            document.body.style.overflow = 'auto';
+            this.currentPrintImage = null;
+        };
+
+        ImageSearchApp.prototype.executePrint = function() {
+            if (!this.currentPrintImage) return;
+            var orientation = this.printOrientation.value;
+            var existingStyle = document.getElementById('dynamic-print-style');
+            if (existingStyle) {
+                existingStyle.parentNode.removeChild(existingStyle);
+            }
+            this.printContainer.innerHTML =
+                '<div class="image-container">' +
+                '<img id="printImageElement" />' +
+                '<div class="timestamp" id="printTimestamp"></div>' +
+                '</div>';
+            this.printImageElement = $('printImageElement');
+            this.printTimestamp = $('printTimestamp');
+            var style = document.createElement('style');
+            style.id = 'dynamic-print-style';
+            if (orientation === 'landscape') {
+                style.innerHTML = '@media print { @page { size: A4 landscape; margin: 0; } body { -webkit-print-color-adjust: exact; } }';
+            } else {
+                style.innerHTML = '@media print { @page { size: A4 portrait; margin: 0; } }';
+            }
+            document.head.appendChild(style);
+            var now = new Date();
+            var timestamp = this.formatTimestamp(now);
+            this.printTitle.textContent = this.currentPrintImage.name;
+            this.printImageElement.src = this.currentPrintImage.url;
+            this.printTimestamp.textContent = timestamp;
+            this.printInfo.textContent = 'Dicetak pada: ' + this.formatFullDate(now) + ' | Dari: Master Design';
+            this.executePrintLogic(orientation);
+        };
+
+        ImageSearchApp.prototype.createPrintPage = function(image) {
+            var page = document.createElement('div');
+            page.className = 'print-all-page';
+            var imageContainer = document.createElement('div');
+            imageContainer.className = 'image-container';
+            var img = document.createElement('img');
+            img.src = image.url;
+            var timestampDiv = document.createElement('div');
+            timestampDiv.className = 'timestamp';
+            timestampDiv.textContent = this.formatTimestamp(new Date());
+            imageContainer.appendChild(img);
+            imageContainer.appendChild(timestampDiv);
+            page.appendChild(imageContainer);
+            return page;
+        };
+
+        ImageSearchApp.prototype.executePrintLogic = function(orientation) {
+            var self = this;
+            this.closePrintDialog();
+            document.body.className = document.body.className.replace(/print-(landscape|portrait)/g, '');
+            document.body.className += ' print-' + orientation;
+            this.printContainer.style.display = 'block';
+            var cleanupAfterPrint = function() {
+                self.printContainer.style.display = 'none';
+                document.body.className = document.body.className.replace(' print-' + orientation, '');
+                var style = document.getElementById('dynamic-print-style');
+                if (style) style.parentNode.removeChild(style);
+                window.removeEventListener('afterprint', cleanupAfterPrint);
+                self.printContainer.innerHTML = '';
+                self.printImageElement = null;
+                self.printTimestamp = null;
+            };
+            setTimeout(function() {
+                window.print();
+                window.addEventListener('afterprint', cleanupAfterPrint, false);
+                setTimeout(cleanupAfterPrint, 2000);
+            }, 500);
+            this.printImageElement.onerror = function() {
+                alert('Gagal memuat gambar untuk print');
+                self.closePrintDialog();
+                var style = document.getElementById('dynamic-print-style');
+                if (style) style.parentNode.removeChild(style);
+            };
+        };
+
+        ImageSearchApp.prototype.formatTimestamp = function(date) {
+            function pad(n) { return n < 10 ? '0' + n : n; }
+            return pad(date.getDate()) + '/' + pad(date.getMonth() + 1) + '/' + date.getFullYear() +
+                ' ' + pad(date.getHours()) + ':' + pad(date.getMinutes());
+        };
+
+        ImageSearchApp.prototype.formatFullDate = function(date) {
+            var months = [
+                'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+                'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+            ];
+            function pad(n) { return n < 10 ? '0' + n : n; }
+            return date.getDate() + ' ' + months[date.getMonth()] + ' ' + date.getFullYear() +
+                ', ' + pad(date.getHours()) + ':' + pad(date.getMinutes());
+        };
+
+        ImageSearchApp.prototype.formatFileSize = function(bytes) {
+            if (!bytes) return 'Unknown size';
+            var sizes = ['B', 'KB', 'MB', 'GB'];
+            var i = Math.floor(Math.log(bytes) / Math.log(1024));
+            return Math.round(bytes / Math.pow(1024, i) * 100) / 100 + ' ' + sizes[i];
+        };
+
+        ImageSearchApp.prototype.switchView = function(view) {
+            this.currentView = view;
+            if (view === 'grid') {
+                this.imageGrid.style.display = 'grid';
+                this.imageList.style.display = 'none';
+                this.gridViewBtn.className += ' active';
+                this.listViewBtn.className = this.listViewBtn.className.replace(' active', '');
+            } else {
+                this.imageGrid.style.display = 'none';
+                this.imageList.style.display = 'flex';
+                this.gridViewBtn.className = this.gridViewBtn.className.replace(' active', '');
+                this.listViewBtn.className += ' active';
+            }
+        };
+
+        ImageSearchApp.prototype.zoom = function(factor) {
+            var newZoomLevel = this.zoomLevel * factor;
+            if (newZoomLevel > 10) {
+                this.zoomLevel = 10;
+            } else if (newZoomLevel < 0.5) {
+                this.zoomLevel = 0.5;
+            } else {
+                this.zoomLevel = newZoomLevel;
+            }
+            if (this.zoomLevel === 1) {
+                this.resetZoom();
+            } else {
+                this.applyTransform();
+            }
+        };
+
+        ImageSearchApp.prototype.resetZoom = function() {
+            this.zoomLevel = 1;
+            this.panX = 0;
+            this.panY = 0;
+            this.applyTransform();
+        };
+
+        ImageSearchApp.prototype.applyTransform = function() {
+            this.modalImage.style.transform = 'translate(' + this.panX + 'px, ' + this.panY + 'px) scale(' + this.zoomLevel + ')';
+        };
+
+        ImageSearchApp.prototype.openImageModal = function(imageUrl) {
+            this.resetZoom();
+            this.modalImage.src = imageUrl;
+            this.modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        };
+
+        ImageSearchApp.prototype.closeImageModal = function() {
+            if (this.modal.style.display === 'block') {
+                this.modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+                this.resetZoom();
+            }
+        };
+
+        ImageSearchApp.prototype.showLoading = function(show) {
+            this.loading.style.display = show ? 'block' : 'none';
+            this.searchBtn.disabled = show;
+            $('searchText').textContent = show ? 'Mencari...' : 'Cari';
+        };
+
+        ImageSearchApp.prototype.showResults = function() {
+            this.resultsSection.style.display = 'block';
+        };
+
+        ImageSearchApp.prototype.hideResults = function() {
+            this.resultsSection.style.display = 'none';
+        };
+
+        ImageSearchApp.prototype.updateResultsCount = function() {
+            var count = this.currentResults.length;
+            this.resultsCount.textContent = count + ' file ditemukan';
+        };
+
+        ImageSearchApp.prototype.showError = function(message) {
+            this.imageGrid.innerHTML = '<div class="error-message">' + message + '</div>';
+            this.showResults();
+        };
+
+        ImageSearchApp.prototype.showNoResults = function() {
+            this.imageGrid.innerHTML = '<div class="no-results">Tidak ada file yang ditemukan. Coba dengan kata kunci lain.</div>';
+            this.paginationContainer.style.display = 'none';
+        };
+
+        // Inisialisasi
+        if (document.addEventListener) {
+            document.addEventListener('DOMContentLoaded', function() {
+                new ImageSearchApp();
+            }, false);
+        } else if (window.attachEvent) {
+            window.attachEvent('onload', function() {
+                new ImageSearchApp();
+            });
+        }
+
+        // Test functions (gunakan XMLHttpRequest agar kompatibel)
+        window.testPHP = function() {
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', './test_simple.php?q=test', true);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4) {
+                    try {
+                        var data = JSON.parse(xhr.responseText);
+                        alert('PHP Test Success: ' + data.message);
+                    } catch (e) {
+                        alert('PHP Test Failed: ' + xhr.responseText);
+                    }
+                }
+            };
+            xhr.send();
+        };
+
+        window.testConnection = function() {
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', './test_connection.php', true);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4) {
+                    try {
+                        var data = JSON.parse(xhr.responseText);
+                        var message = 'Overall Status: ' + data.summary.overall_status + '\n';
+                        if (data.summary.critical_issues.length > 0) {
+                            message += 'Critical Issues:\n- ' + data.summary.critical_issues.join('\n- ');
+                        } else {
+                            message += 'No critical issues found!';
+                        }
+                        alert(message);
+                    } catch (e) {
+                        alert('Connection Test Failed: ' + xhr.responseText);
+                    }
+                }
+            };
+            xhr.send();
+        };
+    })();
+    </script>
+</body>
+</html>

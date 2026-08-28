@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pencocokan Stok vs Excel — PT Supracor Sejahtera</title>
+<link rel="icon" type="image/png" href="http://edp2:8081/SPS_Logo1.png">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+:root{
+  --bg:#f0f2f8; --white:#fff; --surface:#f8f9fc; --border:#e2e6f0; --border2:#d0d6e8;
+  --accent:#3b6ef8; --accent-lt:#eef2ff; --accent-dk:#2553d8;
+  --green:#16a34a; --green-lt:#dcfce7; --red:#dc2626; --red-lt:#fee2e2;
+  --amber:#d97706; --amber-lt:#fef3c7; --violet:#7c3aed; --violet-lt:#f3e8ff;
+  --text:#111827; --text2:#374151; --muted:#6b7280; --muted2:#9ca3af;
+  --mono:'JetBrains Mono',monospace; --sans:'Plus Jakarta Sans',sans-serif;
+  --radius:12px; --shadow-sm:0 1px 3px rgba(0,0,0,.06),0 1px 2px rgba(0,0,0,.04);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--sans);background:var(--bg);color:var(--text);min-height:100vh;padding:0 0 56px;font-size:14px}
+.wrap{max-width:1440px;margin:0 auto;padding:0 20px}
+header{background:var(--white);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:20;box-shadow:var(--shadow-sm)}
+.hd{display:flex;align-items:center;gap:16px;padding:14px 0;flex-wrap:wrap}
+.brand{display:flex;flex-direction:column;gap:2px;margin-right:auto}
+.brand h1{font-size:1.05rem;font-weight:700;letter-spacing:-.01em}
+.brand span{font-size:.75rem;color:var(--muted);font-weight:500}
+.pill{display:inline-flex;align-items:center;gap:6px;padding:5px 11px;border-radius:999px;font-size:.72rem;font-weight:600;background:var(--surface);border:1px solid var(--border);color:var(--text2)}
+.pill.ro{background:var(--green-lt);border-color:#86efac;color:#166534}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--muted2);flex:none}
+.dot.on{background:var(--green);box-shadow:0 0 0 3px var(--green-lt)}
+.dot.err{background:var(--red);box-shadow:0 0 0 3px var(--red-lt)}
+.btn{font-family:var(--sans);font-size:.78rem;font-weight:600;padding:8px 14px;border-radius:9px;border:1px solid var(--border2);background:var(--white);color:var(--text2);cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:.15s}
+.btn:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-lt)}
+.btn.pri{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn.pri:hover{background:var(--accent-dk)}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
+input[type=date],select,input[type=search]{font-family:var(--sans);font-size:.78rem;font-weight:500;padding:8px 11px;border-radius:9px;border:1px solid var(--border2);background:var(--white);color:var(--text)}
+input[type=search]{min-width:260px}
+.banner{margin:16px 0 0;padding:12px 16px;border-radius:var(--radius);font-size:.82rem;font-weight:500;display:none;line-height:1.55}
+.banner.err{display:block;background:var(--red-lt);border:1px solid #fca5a5;color:#991b1b}
+.banner.warn{display:block;background:var(--amber-lt);border:1px solid #fcd34d;color:#92400e}
+.banner.ok{display:block;background:var(--green-lt);border:1px solid #86efac;color:#166534}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;margin:18px 0}
+.kpi{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;box-shadow:var(--shadow-sm)}
+.kpi .lbl{font-size:.68rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.kpi .val{font-family:var(--mono);font-size:1.6rem;font-weight:600;letter-spacing:-.02em;margin-top:7px;line-height:1.1}
+.kpi .sub{font-size:.72rem;color:var(--muted);margin-top:4px;font-weight:500}
+.kpi.acc{border-left:3px solid var(--accent)}
+.kpi.grn .val{color:var(--green)} .kpi.red .val{color:var(--red)} .kpi.amb .val{color:var(--amber)}
+.card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-sm);overflow:hidden;margin-bottom:14px}
+.card>h2{font-size:.8rem;font-weight:700;padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;justify-content:space-between;flex-wrap:wrap}
+.card>h2 em{font-style:normal;font-size:.7rem;font-weight:500;color:var(--muted)}
+.card .body{padding:16px 18px}
+.bars{display:flex;flex-direction:column;gap:11px}
+.bar{display:grid;grid-template-columns:170px 1fr 108px;gap:12px;align-items:center;font-size:.78rem;cursor:pointer}
+.bar:hover .track{outline:2px solid var(--accent-lt)}
+.bar .nm{font-weight:600;color:var(--text2)}
+.track{height:9px;background:var(--surface);border-radius:999px;overflow:hidden}
+.fill{height:100%;border-radius:999px;transition:width .4s}
+.bar .qt{font-family:var(--mono);font-size:.75rem;text-align:right;color:var(--muted)}
+.tools{display:flex;gap:9px;flex-wrap:wrap;align-items:center}
+.tw{overflow-x:auto;max-height:620px}
+table{width:100%;border-collapse:collapse;font-size:.79rem}
+thead th{position:sticky;top:0;background:var(--surface);border-bottom:1px solid var(--border2);padding:10px 12px;text-align:left;font-weight:700;font-size:.7rem;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);white-space:nowrap;z-index:2}
+tbody td{padding:9px 12px;border-bottom:1px solid var(--border);vertical-align:top}
+tbody tr:hover{background:var(--accent-lt)}
+.num{font-family:var(--mono);text-align:right;white-space:nowrap}
+.pos{color:var(--green);font-weight:600} .neg{color:var(--red);font-weight:600}
+.tag{display:inline-block;padding:2px 8px;border-radius:999px;font-size:.66rem;font-weight:700;white-space:nowrap}
+.t-sama{background:var(--green-lt);color:#166534}
+.t-kecil{background:var(--accent-lt);color:var(--accent-dk)}
+.t-besar{background:var(--red-lt);color:#991b1b}
+.t-xl{background:var(--amber-lt);color:#92400e}
+.t-sy{background:var(--violet-lt);color:#5b21b6}
+.empty{padding:40px;text-align:center;color:var(--muted);font-size:.85rem}
+.note{font-size:.78rem;color:var(--muted);line-height:1.6;margin-top:10px}
+.skel{height:13px;background:linear-gradient(90deg,var(--surface) 25%,#eef0f6 50%,var(--surface) 75%);background-size:200% 100%;animation:sh 1.4s infinite;border-radius:5px}
+@keyframes sh{0%{background-position:200% 0}100%{background-position:-200% 0}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap hd">
+    <div class="brand">
+      <h1>Pencocokan Stok Sistem vs Excel Gudang</h1>
+      <span>PT Supracor Sejahtera — alat pemeriksaan, bukan dashboard operasional</span>
+    </div>
+    <span class="pill ro">Hanya membaca</span>
+    <span class="pill"><span class="dot" id="dot"></span><span id="stat">Menghubungkan…</span></span>
+    <label class="sw" style="font-size:.75rem;font-weight:600;color:var(--text2)">Posisi tanggal
+      <input type="date" id="tgl" value="2026-08-05" min="2026-08-01" max="2026-08-31">
+    </label>
+    <button class="btn" id="btnXls">Unduh Excel</button>
+    <button class="btn pri" id="btnGo">Cocokkan</button>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="banner" id="ban"></div>
+
+  <div class="kpis" id="kpis">
+    <div class="kpi acc"><div class="lbl">Menurut Excel</div><div class="val" id="kXl">—</div><div class="sub" id="kXlS">gudang</div></div>
+    <div class="kpi acc"><div class="lbl">Menurut Sistem</div><div class="val" id="kSy">—</div><div class="sub" id="kSyS">database</div></div>
+    <div class="kpi"><div class="lbl">Selisih</div><div class="val" id="kSel">—</div><div class="sub">sistem dikurangi excel</div></div>
+    <div class="kpi"><div class="lbl">Akurasi Total</div><div class="val" id="kAk">—</div><div class="sub">berdasarkan jumlah pc</div></div>
+    <div class="kpi"><div class="lbl">NO. OP Cocok</div><div class="val" id="kOp">—</div><div class="sub" id="kOpS">selisih maksimal 100 pc</div></div>
+  </div>
+
+  <div class="card">
+    <h2>Tingkat kecocokan per NO. OP <em>klik baris untuk menyaring tabel</em></h2>
+    <div class="body"><div class="bars" id="bars">
+      <div class="skel" style="height:44px"></div><div class="skel" style="height:44px"></div>
+    </div></div>
+  </div>
+
+  <div class="card">
+    <h2>
+      <span>Rincian per NO. OP</span>
+      <div class="tools">
+        <input type="search" id="q" placeholder="Cari customer, item, nomor SC…">
+        <select id="fKel"><option value="">Semua kelompok</option></select>
+        <button class="btn" id="btnClr">Bersihkan</button>
+      </div>
+    </h2>
+    <div class="tw">
+      <table>
+        <thead><tr>
+          <th data-k="sc">NO. SC</th>
+          <th data-k="customer">Customer</th>
+          <th data-k="item">Item</th>
+          <th data-k="excel" class="num">Excel</th>
+          <th data-k="sistem" class="num">Sistem</th>
+          <th data-k="selisih" class="num">Selisih</th>
+          <th data-k="kelompok">Kelompok</th>
+        </tr></thead>
+        <tbody id="tb"><tr><td colspan="7" class="empty">Memuat…</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  <p class="note">
+    Halaman ini hanya menjalankan perintah baca. Tabel stok, snapshot, dan dashboard operasional
+    tidak terpengaruh sama sekali. Perbandingan hanya setara bila tanggal posisi sama dengan
+    tanggal terakhir yang sudah terisi di file Excel gudang.
+  </p>
+</div>
+
+<script>
+var API = 'cek_backend.php';
+var DATA = null, VIEW = [], sortK = 'selisih', sortDir = -1;
+function $(i){ return document.getElementById(i); }
+function fmt(n){ return (n === null || n === undefined) ? '—' : Number(n).toLocaleString('id-ID'); }
+function status(t, c){ $('stat').textContent = t; $('dot').className = 'dot' + (c ? ' ' + c : ''); }
+function banner(t, c){ var b = $('ban'); if(!t){ b.className='banner'; b.textContent=''; return; } b.className='banner '+c; b.textContent=t; }
+
+var TAG = { 'SAMA PERSIS':'t-sama', 'BEDA <= 100 pc':'t-kecil', 'BEDA > 100 pc':'t-besar',
+            'HANYA DI EXCEL':'t-xl', 'HANYA DI SISTEM':'t-sy' };
+var WARNA = { 'SAMA PERSIS':'var(--green)', 'BEDA <= 100 pc':'var(--accent)', 'BEDA > 100 pc':'var(--red)',
+              'HANYA DI EXCEL':'var(--amber)', 'HANYA DI SISTEM':'var(--violet)' };
+
+function muat(){
+  var t = $('tgl').value || '2026-08-05';
+  status('Menghitung posisi ' + t + '…');
+  $('btnGo').disabled = true;
+  banner('');
+
+  fetch(API + '?tanggal=' + encodeURIComponent(t) + '&_=' + Date.now(), { cache:'no-store' })
+    .then(function(r){ return r.json(); })
+    .then(function(j){
+      if (!j.success) {
+        status('Gagal', 'err');
+        banner((j.message || 'Gagal memuat') + (j.hint ? ' — ' + j.hint : ''), 'err');
+        $('tb').innerHTML = '<tr><td colspan="7" class="empty">' + (j.message || 'Gagal') + '</td></tr>';
+        return;
+      }
+      DATA = j;
+      status('Terhubung', 'on');
+      gambar();
+    })
+    .catch(function(e){
+      status('Gagal', 'err');
+      banner('Tidak bisa menghubungi ' + API + '. ' + e.message, 'err');
+    })
+    .then(function(){ $('btnGo').disabled = false; });
+}
+
+function gambar(){
+  var r = DATA.ringkas;
+  $('kXl').textContent = fmt(r.excel_pc);
+  $('kXlS').textContent = 'posisi ' + (DATA.posisi_excel || '—');
+  $('kSy').textContent = fmt(r.sistem_pc);
+  $('kSyS').textContent = 'posisi ' + DATA.tanggal;
+
+  var ks = $('kSel');
+  ks.textContent = (r.selisih_pc > 0 ? '+' : '') + fmt(r.selisih_pc);
+  ks.parentNode.className = 'kpi ' + (Math.abs(r.selisih_pc) <= 5000 ? 'grn' : (Math.abs(r.selisih_pc) <= 50000 ? 'amb' : 'red'));
+
+  var ka = $('kAk');
+  ka.textContent = (r.akurasi === null ? '—' : r.akurasi + '%');
+  ka.parentNode.className = 'kpi ' + (r.akurasi >= 97 ? 'grn' : (r.akurasi >= 90 ? 'amb' : 'red'));
+
+  $('kOp').textContent = fmt(r.op_cocok) + ' / ' + fmt(r.jml_op);
+  $('kOpS').textContent = (r.persen_op === null ? '' : r.persen_op + '% dari seluruh NO. OP');
+
+  if (!DATA.setara) {
+    banner('Tanggal posisi (' + DATA.tanggal + ') berbeda dengan posisi terakhir file Excel (' +
+           (DATA.posisi_excel || 'tidak diketahui') + '). Selisih yang muncul wajar, karena dua ' +
+           'angka ini menggambarkan hari yang berbeda. Samakan tanggalnya agar perbandingan setara.', 'warn');
+  } else if (r.akurasi >= 97) {
+    banner('Tanggal posisi sudah sama dan akurasinya ' + r.akurasi + '%. Angka sistem bisa dipercaya.', 'ok');
+  }
+
+  var maks = 1;
+  DATA.kelompok.forEach(function(k){ if (k.op > maks) maks = k.op; });
+  $('bars').innerHTML = DATA.kelompok.map(function(k){
+    return '<div class="bar" data-k="' + k.kelompok + '">' +
+      '<span class="nm">' + k.kelompok + '</span>' +
+      '<span class="track"><span class="fill" style="width:' + (100 * k.op / maks) +
+      '%;background:' + (WARNA[k.kelompok] || 'var(--muted)') + '"></span></span>' +
+      '<span class="qt">' + fmt(k.op) + ' OP</span></div>';
+  }).join('');
+  Array.prototype.forEach.call(document.querySelectorAll('.bar'), function(b){
+    b.onclick = function(){ $('fKel').value = b.getAttribute('data-k'); saring(); };
+  });
+
+  var sel = $('fKel'), lama = sel.value;
+  sel.innerHTML = '<option value="">Semua kelompok</option>';
+  DATA.kelompok.forEach(function(k){
+    if (!k.op) return;
+    var o = document.createElement('option');
+    o.value = k.kelompok; o.textContent = k.kelompok + ' (' + k.op + ')';
+    sel.appendChild(o);
+  });
+  sel.value = lama;
+  saring();
+}
+
+function saring(){
+  if (!DATA) return;
+  var q = $('q').value.trim().toLowerCase(), kel = $('fKel').value;
+  VIEW = DATA.rows.filter(function(r){
+    if (kel && r.kelompok !== kel) return false;
+    if (q) {
+      var s = (r.sc + ' ' + r.customer + ' ' + r.item).toLowerCase();
+      if (s.indexOf(q) < 0) return false;
+    }
+    return true;
+  });
+  VIEW.sort(function(a, b){
+    var x = a[sortK], y = b[sortK];
+    if (sortK === 'selisih') { x = Math.abs(x); y = Math.abs(y); }
+    if (typeof x === 'string') return sortDir * x.localeCompare(y);
+    return sortDir * ((x || 0) - (y || 0));
+  });
+  tabel();
+}
+
+function tabel(){
+  if (!VIEW.length) { $('tb').innerHTML = '<tr><td colspan="7" class="empty">Tidak ada baris yang cocok.</td></tr>'; return; }
+  $('tb').innerHTML = VIEW.slice(0, 800).map(function(r){
+    var c = r.selisih > 0 ? 'pos' : (r.selisih < 0 ? 'neg' : '');
+    return '<tr>' +
+      '<td class="num" style="text-align:left">' + r.sc + '</td>' +
+      '<td>' + (r.customer || '—') + '</td>' +
+      '<td>' + (r.item || '—') + '</td>' +
+      '<td class="num">' + fmt(r.excel) + '</td>' +
+      '<td class="num">' + fmt(r.sistem) + '</td>' +
+      '<td class="num ' + c + '">' + (r.selisih > 0 ? '+' : '') + fmt(r.selisih) + '</td>' +
+      '<td><span class="tag ' + (TAG[r.kelompok] || '') + '">' + r.kelompok + '</span></td>' +
+      '</tr>';
+  }).join('');
+}
+
+$('btnGo').onclick = function(){ muat(); };
+$('tgl').onchange = function(){ muat(); };
+$('q').oninput = saring;
+$('fKel').onchange = saring;
+$('btnClr').onclick = function(){ $('q').value = ''; $('fKel').value = ''; saring(); };
+
+Array.prototype.forEach.call(document.querySelectorAll('thead th'), function(th){
+  th.onclick = function(){
+    var k = th.getAttribute('data-k');
+    if (sortK === k) sortDir = -sortDir;
+    else { sortK = k; sortDir = (k === 'excel' || k === 'sistem' || k === 'selisih') ? -1 : 1; }
+    saring();
+  };
+});
+
+$('btnXls').onclick = function(){
+  if (!DATA) return;
+  var wb = XLSX.utils.book_new();
+  var r = DATA.ringkas;
+  XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet([
+    ['PENCOCOKAN STOK SISTEM vs EXCEL GUDANG'], [],
+    ['Posisi sistem', DATA.tanggal],
+    ['Posisi Excel', DATA.posisi_excel],
+    ['Dihitung pada', DATA.dihitung_pada], [],
+    ['Menurut Excel (pc)', r.excel_pc],
+    ['Menurut Sistem (pc)', r.sistem_pc],
+    ['Selisih (pc)', r.selisih_pc],
+    ['Akurasi total (%)', r.akurasi],
+    ['NO. OP cocok', r.op_cocok + ' dari ' + r.jml_op]
+  ]), 'RINGKASAN');
+  XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(DATA.kelompok), 'KELOMPOK');
+  XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(VIEW.map(function(x){
+    return { 'NO SC': x.sc, 'CUSTOMER': x.customer, 'ITEM': x.item,
+             'EXCEL (PC)': x.excel, 'SISTEM (PC)': x.sistem, 'SELISIH': x.selisih, 'KELOMPOK': x.kelompok };
+  })), 'RINCIAN');
+  XLSX.writeFile(wb, 'Cek_Stok_' + DATA.tanggal + '.xlsx');
+};
+
+muat();
+</script>
+</body>
+</html>

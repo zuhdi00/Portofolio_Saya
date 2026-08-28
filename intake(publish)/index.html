@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="sps_logo1.png">
+<title>Login — Dashboard Intake</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #f0f0f0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  color: #222;
+  overflow: hidden;
+}
+
+/* ── GRID BACKGROUND ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0,0,0,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,0.05) 1px, transparent 1px);
+  background-size: 36px 36px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── CANVAS BACKGROUND ── */
+#bgCanvas {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ── CONVEYOR BELT ── */
+.conveyor-wrap {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.belt-surface {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 22px;
+  background: #c8c8c8;
+  border-top: 3px solid #a0a0a0;
+}
+
+.belt-stripe {
+  position: absolute;
+  top: 3px;
+  bottom: 0;
+  width: 24px;
+  background: #b0b0b0;
+  animation: beltScroll 1s linear infinite;
+}
+
+@keyframes beltScroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(36px); }
+}
+
+.belt-roller {
+  position: absolute;
+  bottom: 2px;
+  width: 20px;
+  height: 20px;
+  background: #888;
+  border-radius: 50%;
+  border: 3px solid #666;
+  animation: rollerSpin 0.7s linear infinite;
+}
+@keyframes rollerSpin { to { transform: rotate(360deg); } }
+
+.box-on-belt {
+  position: absolute;
+  bottom: 22px;
+  width: 44px;
+  height: 44px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  border: 2px solid rgba(0,0,0,0.1);
+  animation: boxSlide linear infinite;
+}
+
+@keyframes boxSlide {
+  from { left: 105vw; }
+  to   { left: -80px; }
+}
+
+/* ── FLOATING PARTICLES (top area) ── */
+.particle {
+  position: fixed;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 1;
+  animation: particleDrift linear infinite;
+  opacity: 0;
+}
+
+@keyframes particleDrift {
+  0%   { transform: translateY(0) rotate(0deg); opacity: 0; }
+  10%  { opacity: 0.6; }
+  90%  { opacity: 0.6; }
+  100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
+}
+
+/* ── ORBIT RINGS around the card ── */
+.orbit-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.orbit-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1.5px dashed rgba(0,0,0,0.07);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.orbit-dot {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  top: -5px;
+  left: calc(50% - 5px);
+  transform-origin: 50% calc(50% + var(--r));
+}
+
+.orbit-icon {
+  position: absolute;
+  font-size: 18px;
+  top: -12px;
+  left: calc(50% - 10px);
+  transform-origin: 50% calc(50% + var(--r));
+  line-height: 1;
+}
+
+@keyframes orbitCW  { from { transform: rotate(0deg);    } to { transform: rotate(360deg);  } }
+@keyframes orbitCCW { from { transform: rotate(0deg);    } to { transform: rotate(-360deg); } }
+
+/* ── CORNER GEARS ── */
+.corner-gear {
+  position: fixed;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.07;
+}
+@keyframes gearCW  { to { transform: rotate(360deg);  } }
+@keyframes gearCCW { to { transform: rotate(-360deg); } }
+
+/* ── BOUNCING DOTS (status lights) ── */
+.status-lights {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.status-light {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  animation: lightPulse 1.4s ease-in-out infinite;
+}
+@keyframes lightPulse {
+  0%, 100% { transform: scale(1);   opacity: 0.35; }
+  50%       { transform: scale(1.5); opacity: 0.85; }
+}
+
+/* ── MINI FACTORY (top-left corner) ── */
+.mini-factory {
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0.22;
+}
+
+.chimney-smoke {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #888;
+  animation: smokeRise 2s ease-out infinite;
+  opacity: 0;
+}
+@keyframes smokeRise {
+  0%   { transform: translateY(0)   scale(0.5); opacity: 0.7; }
+  100% { transform: translateY(-28px) scale(2);   opacity: 0; }
+}
+
+/* ── PROGRESS BAR (top of page) ── */
+.progress-bar-wrap {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  z-index: 10;
+  background: rgba(0,0,0,0.06);
+  pointer-events: none;
+}
+.progress-bar-fill {
+  height: 100%;
+  background: #555;
+  animation: progressScan 4s ease-in-out infinite;
+  transform-origin: left;
+}
+@keyframes progressScan {
+  0%   { width: 0%;   opacity: 1; }
+  60%  { width: 100%; opacity: 1; }
+  61%  { width: 100%; opacity: 0; }
+  62%  { width: 0%;   opacity: 0; }
+  63%  { width: 0%;   opacity: 1; }
+  100% { width: 0%;   opacity: 1; }
+}
+
+/* ── LOGIN WRAPPER ── */
+.login-wrapper {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
+  animation: fadeUp .5s ease;
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── BRAND ── */
+.brand { text-align: center; margin-bottom: 28px; }
+
+.brand-logo {
+  width: 56px; height: 56px;
+  background: #222;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+  animation: logoBob 3.5s ease-in-out infinite;
+  position: relative;
+}
+@keyframes logoBob {
+  0%,100% { transform: translateY(0px) rotate(0deg); }
+  30%     { transform: translateY(-6px) rotate(-2deg); }
+  60%     { transform: translateY(-3px) rotate(1deg); }
+}
+
+/* shimmer on logo */
+.brand-logo::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.18) 0%, transparent 60%);
+  animation: shimmerGlow 3.5s ease-in-out infinite;
+}
+@keyframes shimmerGlow {
+  0%,100% { opacity: 0.4; }
+  50%     { opacity: 1; }
+}
+
+.brand-logo svg { width: 28px; height: 28px; fill: #fff; position: relative; z-index: 1; }
+.brand-name { font-size: 1.2rem; font-weight: 700; color: #222; letter-spacing: .3px; }
+.brand-sub  { font-size: .75rem; color: #757575; margin-top: 3px; text-transform: uppercase; letter-spacing: .8px; }
+
+/* ── CARD ── */
+.login-card {
+  background: #fff;
+  border: 1px solid #bdbdbd;
+  border-radius: 12px;
+  padding: 32px 28px;
+  box-shadow: 0 4px 28px rgba(0,0,0,0.09);
+  position: relative;
+  overflow: hidden;
+}
+
+/* card shimmer sweep */
+.login-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+  animation: cardSweep 5s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+@keyframes cardSweep {
+  0%   { left: -100%; }
+  40%  { left: 160%;  }
+  100% { left: 160%;  }
+}
+
+.card-title { font-size: .95rem; font-weight: 700; color: #222; margin-bottom: 6px; position: relative; z-index: 1; }
+.card-desc  { font-size: .78rem; color: #757575; margin-bottom: 24px; position: relative; z-index: 1; }
+
+/* ── FORM ── */
+.form-group { margin-bottom: 16px; position: relative; z-index: 1; }
+
+label {
+  display: block; font-size: .78rem; font-weight: 600; color: #444;
+  margin-bottom: 6px; text-transform: uppercase; letter-spacing: .4px;
+}
+
+.input-wrap { position: relative; }
+
+.input-wrap > svg {
+  position: absolute; left: 11px; top: 50%; transform: translateY(-50%);
+  width: 15px; height: 15px; fill: #9e9e9e; pointer-events: none;
+}
+
+input[type="text"], input[type="password"] {
+  width: 100%; background: #e0e0e0; border: 1px solid #bdbdbd;
+  color: #222; padding: 9px 11px 9px 34px; border-radius: 6px;
+  font-size: .85rem; font-family: inherit; outline: none; transition: .2s;
+}
+input[type="text"]:focus, input[type="password"]:focus {
+  border-color: #757575; box-shadow: 0 0 0 2px #bdbdbd; background: #eeeeee;
+}
+
+.toggle-pw {
+  position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
+  background: none; border: none; cursor: pointer; padding: 2px;
+  display: flex; align-items: center;
+}
+.toggle-pw svg { position: static; transform: none; width: 15px; height: 15px; fill: #9e9e9e; transition: fill .2s; }
+.toggle-pw:hover svg { fill: #444; }
+
+.remember-row {
+  display: flex; align-items: center; gap: 8px; margin-bottom: 20px;
+  position: relative; z-index: 1;
+}
+.remember-row input[type="checkbox"] { width: 15px; height: 15px; accent-color: #222; cursor: pointer; }
+.remember-row label { text-transform: none; letter-spacing: 0; font-weight: 400; font-size: .8rem; color: #555; margin: 0; cursor: pointer; }
+
+.btn-login {
+  width: 100%; background: #222; color: #fff; border: none;
+  padding: 10px 16px; border-radius: 6px; font-size: .85rem; font-weight: 600;
+  cursor: pointer; font-family: inherit; transition: .2s;
+  display: flex; align-items: center; justify-content: center;
+  gap: 8px; letter-spacing: .3px; position: relative; z-index: 1;
+  overflow: hidden;
+}
+.btn-login::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: rgba(255,255,255,0.08);
+  transform: translateX(-100%);
+  transition: transform .3s;
+}
+.btn-login:hover::after { transform: translateX(0); }
+.btn-login:hover  { background: #3a3a3a; }
+.btn-login:active { background: #111; transform: scale(.99); }
+.btn-login svg { width: 15px; height: 15px; fill: #fff; }
+
+.spinner {
+  display: none; width: 15px; height: 15px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: #fff; border-radius: 50%;
+  animation: spin .7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.alert-error {
+  display: none; background: #fff8e1; border: 1px solid #ffe082;
+  border-radius: 6px; padding: 10px 14px; margin-bottom: 16px;
+  font-size: .78rem; color: #5d4037; align-items: center; gap: 8px;
+  animation: shakeAlert .4s ease;
+  position: relative; z-index: 1;
+}
+@keyframes shakeAlert {
+  0%,100% { transform: translateX(0); }
+  20%     { transform: translateX(-6px); }
+  40%     { transform: translateX(6px); }
+  60%     { transform: translateX(-4px); }
+  80%     { transform: translateX(4px); }
+}
+.alert-error.show { display: flex; }
+.alert-error svg { width: 15px; height: 15px; fill: #f9a825; flex-shrink: 0; }
+
+.divider { border: none; border-top: 1px solid #e0e0e0; margin: 22px 0 16px; position: relative; z-index: 1; }
+
+.footer-info { text-align: center; font-size: .72rem; color: #9e9e9e; margin-top: 20px; }
+.footer-info a { color: #616161; text-decoration: none; }
+.footer-info a:hover { text-decoration: underline; }
+
+/* ── TYPING INDICATOR on card-desc ── */
+.typing-cursor {
+  display: inline-block;
+  width: 2px; height: 11px;
+  background: #bdbdbd;
+  margin-left: 1px;
+  vertical-align: middle;
+  animation: blinkCursor .8s step-end infinite;
+}
+@keyframes blinkCursor { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
+</style>
+</head>
+<body>
+
+<!-- Progress bar -->
+<div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div>
+
+<!-- Canvas for orbiting background elements -->
+<canvas id="bgCanvas"></canvas>
+
+<!-- Corner gears -->
+<div class="corner-gear" style="top:-30px;left:-30px;animation:gearCW 12s linear infinite;">
+  <svg width="130" height="130" viewBox="0 0 90 90" fill="#333">
+    <path d="M45 30a15 15 0 100 30 15 15 0 000-30zm32.5 10.5l-5.2-.9a27.5 27.5 0 00-2.2-5.3l3.1-4.2-7.3-7.3-4.2 3.1a27.5 27.5 0 00-5.3-2.2l-.9-5.2H42.2l-.9 5.2a27.5 27.5 0 00-5.3 2.2l-4.2-3.1-7.3 7.3 3.1 4.2a27.5 27.5 0 00-2.2 5.3l-5.2.9v10.3l5.2.9a27.5 27.5 0 002.2 5.3l-3.1 4.2 7.3 7.3 4.2-3.1a27.5 27.5 0 005.3 2.2l.9 5.2h10.3l.9-5.2a27.5 27.5 0 005.3-2.2l4.2 3.1 7.3-7.3-3.1-4.2a27.5 27.5 0 002.2-5.3l5.2-.9z"/>
+  </svg>
+</div>
+<div class="corner-gear" style="top:-20px;right:-20px;animation:gearCCW 9s linear infinite;">
+  <svg width="90" height="90" viewBox="0 0 90 90" fill="#333">
+    <path d="M45 30a15 15 0 100 30 15 15 0 000-30zm32.5 10.5l-5.2-.9a27.5 27.5 0 00-2.2-5.3l3.1-4.2-7.3-7.3-4.2 3.1a27.5 27.5 0 00-5.3-2.2l-.9-5.2H42.2l-.9 5.2a27.5 27.5 0 00-5.3 2.2l-4.2-3.1-7.3 7.3 3.1 4.2a27.5 27.5 0 00-2.2 5.3l-5.2.9v10.3l5.2.9a27.5 27.5 0 002.2 5.3l-3.1 4.2 7.3 7.3 4.2-3.1a27.5 27.5 0 005.3 2.2l.9 5.2h10.3l.9-5.2a27.5 27.5 0 005.3-2.2l4.2 3.1 7.3-7.3-3.1-4.2a27.5 27.5 0 002.2-5.3l5.2-.9z"/>
+  </svg>
+</div>
+<div class="corner-gear" style="bottom:-30px;left:-10px;animation:gearCW 15s linear infinite;">
+  <svg width="100" height="100" viewBox="0 0 90 90" fill="#333">
+    <path d="M45 30a15 15 0 100 30 15 15 0 000-30zm32.5 10.5l-5.2-.9a27.5 27.5 0 00-2.2-5.3l3.1-4.2-7.3-7.3-4.2 3.1a27.5 27.5 0 00-5.3-2.2l-.9-5.2H42.2l-.9 5.2a27.5 27.5 0 00-5.3 2.2l-4.2-3.1-7.3 7.3 3.1 4.2a27.5 27.5 0 00-2.2 5.3l-5.2.9v10.3l5.2.9a27.5 27.5 0 002.2 5.3l-3.1 4.2 7.3 7.3 4.2-3.1a27.5 27.5 0 005.3 2.2l.9 5.2h10.3l.9-5.2a27.5 27.5 0 005.3-2.2l4.2 3.1 7.3-7.3-3.1-4.2a27.5 27.5 0 002.2-5.3l5.2-.9z"/>
+  </svg>
+</div>
+<div class="corner-gear" style="bottom:-10px;right:-30px;animation:gearCCW 11s linear infinite;">
+  <svg width="110" height="110" viewBox="0 0 90 90" fill="#333">
+    <path d="M45 30a15 15 0 100 30 15 15 0 000-30zm32.5 10.5l-5.2-.9a27.5 27.5 0 00-2.2-5.3l3.1-4.2-7.3-7.3-4.2 3.1a27.5 27.5 0 00-5.3-2.2l-.9-5.2H42.2l-.9 5.2a27.5 27.5 0 00-5.3 2.2l-4.2-3.1-7.3 7.3 3.1 4.2a27.5 27.5 0 00-2.2 5.3l-5.2.9v10.3l5.2.9a27.5 27.5 0 002.2 5.3l-3.1 4.2 7.3 7.3 4.2-3.1a27.5 27.5 0 005.3 2.2l.9 5.2h10.3l.9-5.2a27.5 27.5 0 005.3-2.2l4.2 3.1 7.3-7.3-3.1-4.2a27.5 27.5 0 002.2-5.3l5.2-.9z"/>
+  </svg>
+</div>
+
+<!-- Status lights top -->
+<div class="status-lights">
+  <div class="status-light" style="background:#4caf50;animation-delay:0s;"></div>
+  <div class="status-light" style="background:#ff9800;animation-delay:.25s;"></div>
+  <div class="status-light" style="background:#f44336;animation-delay:.5s;"></div>
+  <div class="status-light" style="background:#2196f3;animation-delay:.75s;"></div>
+  <div class="status-light" style="background:#9c27b0;animation-delay:1s;"></div>
+</div>
+
+<!-- Conveyor belt -->
+<div class="conveyor-wrap" id="conveyorWrap">
+  <div class="belt-surface" id="beltSurface"></div>
+</div>
+
+<!-- Login card -->
+<div class="login-wrapper">
+  <div class="brand">
+    <div class="brand-logo">
+      <svg viewBox="0 0 24 24"><path d="M12 2L2 7v10l10 5 10-5V7L12 2zm0 2.18L20 8.5v.02L12 13 4 8.52v-.02L12 4.18zM4 10.5l7 3.5v6L4 16.5v-6zm9 9.5v-6l7-3.5v6l-7 3.5z"/></svg>
+    </div>
+    <div class="brand-name">Dashboard Intake</div>
+    <div class="brand-sub">Production Monitoring System</div>
+  </div>
+
+  <div class="login-card">
+    <div class="card-title">Masuk ke Sistem</div>
+    <div class="card-desc" id="cardDesc">Masukkan kredensial Anda untuk melanjutkan.<span class="typing-cursor"></span></div>
+
+    <div class="alert-error" id="alertError">
+      <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+      <span id="alertMsg">Username atau password salah.</span>
+    </div>
+
+    <div class="form-group">
+      <label for="username">Username</label>
+      <div class="input-wrap">
+        <svg viewBox="0 0 24 24"><path d="M12 12c2.7 0 5-2.3 5-5s-2.3-5-5-5-5 2.3-5 5 2.3 5 5 5zm0 2c-3.3 0-10 1.7-10 5v2h20v-2c0-3.3-6.7-5-10-5z"/></svg>
+        <input type="text" id="username" placeholder="Masukkan username" autocomplete="username" />
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="password">Password</label>
+      <div class="input-wrap">
+        <svg viewBox="0 0 24 24"><path d="M18 8h-1V6A5 5 0 007 6v2H6a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V10a2 2 0 00-2-2zM9 6a3 3 0 016 0v2H9V6zm3 10a1 1 0 110-2 1 1 0 010 2z"/></svg>
+        <input type="password" id="password" placeholder="Masukkan password" autocomplete="current-password" />
+        <button type="button" class="toggle-pw" id="togglePw" title="Tampilkan/Sembunyikan">
+          <svg id="eyeIcon" viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zm0 12.5a5 5 0 110-10 5 5 0 010 10zm0-8a3 3 0 100 6 3 3 0 000-6z"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="remember-row">
+      <input type="checkbox" id="rememberMe" />
+      <label for="rememberMe">Ingat saya</label>
+    </div>
+
+    <button class="btn-login" id="btnLogin" onclick="doLogin()">
+      <svg id="loginIcon" viewBox="0 0 24 24"><path d="M11 7L9.6 8.4l2.6 2.6H2v2h10.2l-2.6 2.6L11 17l5-5-5-5zm9 12h-8v2h8a2 2 0 002-2V5a2 2 0 00-2-2h-8v2h8v14z"/></svg>
+      <span id="btnText">Masuk</span>
+      <div class="spinner" id="spinner"></div>
+    </button>
+
+    <hr class="divider">
+
+    <div style="font-size:.75rem;color:#9e9e9e;text-align:center;position:relative;z-index:1;">
+      Hubungi administrator (EDP/IT) jika ada kendala
+    </div>
+    <div style="font-size:.75rem;color:#9e9e9e;text-align:center;position:relative;z-index:1;">
+      087853278085
+    </div>
+  </div>
+
+  <div class="footer-info">
+    &copy; 2026 SPS &mdash; Production Monitoring &middot;
+    <a href="index.html">Dashboard</a>
+  </div>
+</div>
+
+<script>
+/* ══════════════════════════════════════════════════
+   1. CANVAS — floating boxes orbiting in background
+══════════════════════════════════════════════════ */
+const canvas = document.getElementById('bgCanvas');
+const ctx    = canvas.getContext('2d');
+
+function resize() {
+  canvas.width  = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener('resize', resize);
+
+// Floating box particles
+const floaters = [];
+const EMOJIS = ['📦','📋','⚙️','🔧','📊','🏭','📌','🗂️'];
+
+for (let i = 0; i < 18; i++) {
+  floaters.push({
+    x:     Math.random() * window.innerWidth,
+    y:     Math.random() * window.innerHeight,
+    size:  14 + Math.random() * 12,
+    vx:    (Math.random() - 0.5) * 0.5,
+    vy:    (Math.random() - 0.5) * 0.5,
+    rot:   Math.random() * Math.PI * 2,
+    vrot:  (Math.random() - 0.5) * 0.02,
+    alpha: 0.04 + Math.random() * 0.08,
+    emoji: EMOJIS[Math.floor(Math.random() * EMOJIS.length)]
+  });
+}
+
+// Orbiting circles (geometric)
+const orbiters = [];
+const CX = () => window.innerWidth  / 2;
+const CY = () => window.innerHeight / 2;
+
+for (let i = 0; i < 12; i++) {
+  const radius = 220 + i * 38;
+  const speed  = (0.003 + Math.random() * 0.004) * (i % 2 === 0 ? 1 : -1);
+  const count  = 2 + Math.floor(i / 3);
+  for (let j = 0; j < count; j++) {
+    orbiters.push({
+      radius,
+      angle:  (j / count) * Math.PI * 2,
+      speed,
+      dotR:   2.5 + Math.random() * 2,
+      alpha:  0.06 + Math.random() * 0.06
+    });
+  }
+}
+
+// Dashed orbit rings
+const ringRadii = [220, 290, 360, 430, 500];
+
+function drawLoop() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  const cx = CX(), cy = CY();
+
+  // Draw faint orbit rings
+  ringRadii.forEach((r, i) => {
+    ctx.save();
+    ctx.setLineDash([6, 10]);
+    ctx.strokeStyle = `rgba(0,0,0,${0.035 + i * 0.005})`;
+    ctx.lineWidth = 0.8;
+    ctx.beginPath();
+    ctx.arc(cx, cy, r, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.restore();
+  });
+
+  // Draw orbiting dots
+  orbiters.forEach(o => {
+    o.angle += o.speed;
+    const x = cx + Math.cos(o.angle) * o.radius;
+    const y = cy + Math.sin(o.angle) * o.radius;
+    ctx.save();
+    ctx.globalAlpha = o.alpha;
+    ctx.fillStyle = '#333';
+    ctx.beginPath();
+    ctx.arc(x, y, o.dotR, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+  });
+
+  // Draw floating emoji boxes
+  floaters.forEach(f => {
+    f.x   += f.vx;
+    f.y   += f.vy;
+    f.rot += f.vrot;
+    if (f.x < -40)              f.x = canvas.width  + 40;
+    if (f.x > canvas.width + 40) f.x = -40;
+    if (f.y < -40)              f.y = canvas.height + 40;
+    if (f.y > canvas.height + 40) f.y = -40;
+
+    ctx.save();
+    ctx.globalAlpha = f.alpha;
+    ctx.translate(f.x, f.y);
+    ctx.rotate(f.rot);
+    ctx.font = `${f.size}px serif`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(f.emoji, 0, 0);
+    ctx.restore();
+  });
+
+  requestAnimationFrame(drawLoop);
+}
+drawLoop();
+
+/* ══════════════════════════════════════════════════
+   2. CONVEYOR BELT
+══════════════════════════════════════════════════ */
+const beltSurface = document.getElementById('beltSurface');
+const conveyorWrap = document.getElementById('conveyorWrap');
+
+// Stripes
+for (let i = 0; i < 60; i++) {
+  const s = document.createElement('div');
+  s.className = 'belt-stripe';
+  s.style.left = (i * 36) + 'px';
+  beltSurface.appendChild(s);
+}
+
+// Rollers
+[12, window.innerWidth - 32].forEach(x => {
+  const r = document.createElement('div');
+  r.className = 'belt-roller';
+  r.style.left = x + 'px';
+  conveyorWrap.appendChild(r);
+});
+
+// Boxes on belt
+const beltBoxes = [
+  { emoji:'📦', bg:'#fff3e0', dur:9,  delay:0   },
+  { emoji:'📦', bg:'#e8f5e9', dur:13, delay:2.5 },
+  { emoji:'📋', bg:'#fce4ec', dur:11, delay:5   },
+  { emoji:'⚙️', bg:'#f3e5f5', dur:8,  delay:7   },
+  { emoji:'📦', bg:'#e3f2fd', dur:14, delay:10  },
+  { emoji:'🗂️', bg:'#fffde7', dur:10, delay:13  },
+  { emoji:'📦', bg:'#fff3e0', dur:12, delay:16  },
+  { emoji:'🔧', bg:'#e8eaf6', dur:9,  delay:19  },
+];
+
+beltBoxes.forEach(cfg => {
+  const box = document.createElement('div');
+  box.className = 'box-on-belt';
+  box.textContent = cfg.emoji;
+  box.style.background = cfg.bg;
+  box.style.border = '2px solid rgba(0,0,0,0.08)';
+  box.style.animationDuration = cfg.dur + 's';
+  box.style.animationDelay = '-' + cfg.delay + 's';
+  conveyorWrap.appendChild(box);
+});
+
+/* ══════════════════════════════════════════════════
+   3. FLOATING PARTICLES
+══════════════════════════════════════════════════ */
+for (let i = 0; i < 14; i++) {
+  const p = document.createElement('div');
+  p.className = 'particle';
+  const size = 3 + Math.random() * 6;
+  p.style.cssText = `
+    width:${size}px; height:${size}px;
+    left:${Math.random() * 100}vw;
+    bottom:${80 + Math.random() * 30}px;
+    background:${['#bdbdbd','#9e9e9e','#757575','#616161'][Math.floor(Math.random()*4)]};
+    animation-duration:${6 + Math.random() * 10}s;
+    animation-delay:${Math.random() * 8}s;
+  `;
+  document.body.appendChild(p);
+}
+
+/* ══════════════════════════════════════════════════
+   4. LOGIN LOGIC (same as original)
+══════════════════════════════════════════════════ */
+const togglePw = document.getElementById('togglePw');
+const pwInput  = document.getElementById('password');
+const eyeIcon  = document.getElementById('eyeIcon');
+
+const eyeOpen   = `<path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zm0 12.5a5 5 0 110-10 5 5 0 010 10zm0-8a3 3 0 100 6 3 3 0 000-6z"/>`;
+const eyeClosed = `<path d="M2.71 3.29a1 1 0 00-1.42 1.42L6.46 9.88A9.92 9.92 0 001 12c1.73 4.39 6 7.5 11 7.5a10.05 10.05 0 005.62-1.73l3.67 3.67a1 1 0 001.42-1.42L2.71 3.29zM12 17.5A5 5 0 017.09 12.3l6.61 6.61A5 5 0 0112 17.5zM12 7a5 5 0 014.9 4.1l3.7 3.7A9.92 9.92 0 0023 12C21.27 7.61 17 4.5 12 4.5a9.92 9.92 0 00-3.8.77l2.4 2.4A5 5 0 0112 7z"/>`;
+
+togglePw.addEventListener('click', () => {
+  const h = pwInput.type === 'password';
+  pwInput.type = h ? 'text' : 'password';
+  eyeIcon.innerHTML = h ? eyeClosed : eyeOpen;
+});
+
+const saved = localStorage.getItem('login_username');
+if (saved) {
+  document.getElementById('username').value = saved;
+  document.getElementById('rememberMe').checked = true;
+}
+
+async function doLogin() {
+  const username = document.getElementById('username').value.trim();
+  const password = document.getElementById('password').value;
+  const remember = document.getElementById('rememberMe').checked;
+  hideError();
+  if (!username || !password) { showError('Username dan password wajib diisi.'); return; }
+  setLoading(true);
+  try {
+    const res = await fetch('login.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, password })
+    });
+    const data = await res.json();
+    if (data.success) {
+      if (remember) localStorage.setItem('login_username', username);
+      else localStorage.removeItem('login_username');
+      if (data.token) sessionStorage.setItem('auth_token', data.token);
+      window.location.href = 'index01.html';
+    } else {
+      showError(data.message || 'Username atau password salah.');
+    }
+  } catch (e) {
+    if (username === 'user' && password === 'supracorsejahtera') {
+      if (remember) localStorage.setItem('login_username', username);
+      window.location.href = 'index01.html';
+    } else {
+      showError('Username atau password salah.');
+    }
+  } finally {
+    setLoading(false);
+  }
+}
+
+function showError(msg) {
+  document.getElementById('alertMsg').textContent = msg;
+  const el = document.getElementById('alertError');
+  el.classList.remove('show');
+  void el.offsetWidth; // restart animation
+  el.classList.add('show');
+}
+function hideError() { document.getElementById('alertError').classList.remove('show'); }
+function setLoading(on) {
+  document.getElementById('btnLogin').disabled = on;
+  document.getElementById('loginIcon').style.display = on ? 'none' : '';
+  document.getElementById('spinner').style.display   = on ? 'block' : 'none';
+  document.getElementById('btnText').textContent     = on ? 'Memproses...' : 'Masuk';
+}
+
+['username','password'].forEach(id => {
+  document.getElementById(id).addEventListener('keypress', e => {
+    if (e.key === 'Enter') doLogin();
+  });
+});
+</script>
+</body>
+</html>

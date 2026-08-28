@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proposal Pengadaan Server</title>
+    <style>
+        @media print {
+            body { margin: 0; }
+            .page-break { page-break-after: always; }
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 210mm;
+            margin: 0 auto;
+            padding: 20mm;
+            background: #f5f5f5;
+        }
+        
+        .document {
+            background: white;
+            padding: 40px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #2c5aa0;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            color: #2c5aa0;
+            margin: 10px 0;
+            font-size: 24px;
+        }
+        
+        .header p {
+            margin: 5px 0;
+            color: #666;
+        }
+        
+        .section {
+            margin: 25px 0;
+        }
+        
+        .section h2 {
+            color: #2c5aa0;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 8px;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        
+        .section h3 {
+            color: #333;
+            margin-top: 20px;
+            font-size: 16px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        
+        table th {
+            background: #2c5aa0;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        table tr:hover {
+            background: #f9f9f9;
+        }
+        
+        .spec-table td:first-child {
+            font-weight: 600;
+            color: #333;
+            width: 35%;
+        }
+        
+        .budget-table {
+            background: #f8f9fa;
+            border: 2px solid #2c5aa0;
+        }
+        
+        .budget-table .total-row {
+            background: #2c5aa0;
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        
+        .budget-table .subtotal-row {
+            background: #e3f2fd;
+            font-weight: 600;
+        }
+        
+        .note {
+            background: #fff9e6;
+            padding: 12px;
+            border-left: 4px solid #ffb300;
+            margin: 15px 0;
+            font-size: 14px;
+        }
+        
+        .benefits {
+            background: #e8f5e9;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        
+        .benefits ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        
+        .benefits li {
+            margin: 8px 0;
+        }
+        
+        .footer {
+            margin-top: 50px;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .signature {
+            text-align: center;
+            width: 200px;
+        }
+        
+        .signature-line {
+            border-top: 1px solid #333;
+            margin-top: 60px;
+            padding-top: 5px;
+        }
+        
+        @media print {
+            body { background: white; padding: 0; }
+            .document { box-shadow: none; padding: 20px; }
+            button { display: none; }
+        }
+        
+        .print-btn {
+            background: #2c5aa0;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin: 20px 0;
+            display: block;
+        }
+        
+        .print-btn:hover {
+            background: #1e3a6f;
+        }
+
+        .budget-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .budget-card {
+            border: 2px solid #e0e0e0;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .budget-card.recommended {
+            border-color: #4caf50;
+            background: #f1f8f4;
+        }
+
+        .budget-card h3 {
+            margin: 0 0 10px 0;
+            color: #2c5aa0;
+            font-size: 14px;
+        }
+
+        .budget-card .price {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            margin: 10px 0;
+        }
+
+        .budget-card .label {
+            display: inline-block;
+            padding: 4px 12px;
+            background: #4caf50;
+            color: white;
+            border-radius: 12px;
+            font-size: 12px;
+            margin-top: 8px;
+        }
+    </style>
+</head>
+<body>
+    <button class="print-btn" onclick="window.print()">🖨️ Cetak / Simpan PDF</button>
+    
+    <div class="document">
+        <div class="header">
+            <h1>PROPOSAL PENGADAAN SERVER</h1>
+            <p><strong>Upgrade Infrastruktur IT Perusahaan</strong></p>
+            <p>Tahun 2025</p>
+        </div>
+        
+        <div class="section">
+            <h2>1. LATAR BELAKANG</h2>
+            <p>Dalam rangka meningkatkan efisiensi operasional dan mendukung pertumbuhan perusahaan manufaktur yang kini memiliki 100-200 karyawan, diperlukan pengadaan server yang handal untuk mengelola sistem informasi perusahaan, meliputi:</p>
+            <ul>
+                <li>Sistem manajemen produksi dan inventory</li>
+                <li>Database karyawan dan payroll</li>
+                <li>File server untuk dokumen perusahaan</li>
+                <li>Email dan sistem komunikasi internal</li>
+                <li>Backup dan keamanan data</li>
+            </ul>
+            <p>Server baru ini diharapkan dapat melayani kebutuhan operasional selama 3-5 tahun ke depan dengan performa yang optimal.</p>
+        </div>
+        
+        <div class="section">
+            <h2>2. TUJUAN PENGADAAN</h2>
+            <ul>
+                <li>Meningkatkan kecepatan akses dan pengolahan data perusahaan</li>
+                <li>Menyediakan platform yang stabil untuk aplikasi bisnis</li>
+                <li>Meningkatkan keamanan dan backup data</li>
+                <li>Mengurangi downtime sistem yang dapat mengganggu produktivitas</li>
+                <li>Menyediakan infrastruktur untuk digitalisasi proses bisnis</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>3. SPESIFIKASI TEKNIS SERVER</h2>
+            <table class="spec-table">
+                <tr>
+                    <th colspan="2">Spesifikasi Server yang Diajukan</th>
+                </tr>
+                <tr>
+                    <td>Prosesor</td>
+                    <td>Intel Xeon Silver 4210 (10 Core, 20 Thread, 2.2 GHz base hingga 3.2 GHz turbo)</td>
+                </tr>
+                <tr>
+                    <td>RAM</td>
+                    <td>16 GB DDR4 ECC RAM (2 x 8GB) - dapat diupgrade di masa depan</td>
+                </tr>
+                <tr>
+                    <td>Penyimpanan</td>
+                    <td>• 1 TB SSD SATA untuk sistem operasi dan aplikasi<br>
+                        • 2 TB HDD 7200 RPM untuk penyimpanan data</td>
+                </tr>
+                <tr>
+                    <td>Network Interface</td>
+                    <td>2 x Gigabit Ethernet (1000 Mbps) untuk redundansi jaringan</td>
+                </tr>
+                <tr>
+                    <td>RAID Support</td>
+                    <td>Software RAID atau Hardware RAID (optional)</td>
+                </tr>
+                <tr>
+                    <td>Power Supply</td>
+                    <td>Single atau Redundant PSU 500-650W</td>
+                </tr>
+                <tr>
+                    <td>Chassis</td>
+                    <td>Tower atau 2U Rackmount Server</td>
+                </tr>
+                <tr>
+                    <td>Sistem Operasi</td>
+                    <td>Windows Server 2022 Essentials / Standard atau Linux Ubuntu Server</td>
+                </tr>
+                <tr>
+                    <td>Warranty</td>
+                    <td>1-3 tahun garansi distributor resmi</td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="section">
+            <h2>4. PILIHAN ANGGARAN</h2>
+            
+            <div class="budget-options" style="grid-template-columns: 1fr 1fr;">
+                <div class="budget-card">
+                    <h3>PAKET BASIC</h3>
+                    <div class="price">Rp 10-15 Juta</div>
+                    <p style="font-size: 13px; color: #666; margin: 10px 0;">PC Standard dengan CPU Consumer<br>Untuk kantor kecil</p>
+                </div>
+                
+                <div class="budget-card">
+                    <h3>PAKET EKONOMIS</h3>
+                    <div class="price">Rp 16-20 Juta</div>
+                    <p style="font-size: 13px; color: #666; margin: 10px 0;">PC Workstation Grade<br>Untuk 50-100 user</p>
+                </div>
+                
+                <div class="budget-card recommended">
+                    <h3>PAKET STANDARD</h3>
+                    <div class="price">Rp 21-25 Juta</div>
+                    <span class="label">REKOMENDASI</span>
+                    <p style="font-size: 13px; color: #666; margin: 10px 0;">Server Entry Level<br>Optimal untuk 100-200 user</p>
+                </div>
+                
+                <div class="budget-card">
+                    <h3>PAKET PREMIUM</h3>
+                    <div class="price">Rp 26-30 Juta</div>
+                    <p style="font-size: 13px; color: #666; margin: 10px 0;">Server Full Spec<br>Performa maksimal</p>
+                </div>
+            </div>
+
+            <h3 style="margin-top: 30px;">Rincian Budget - Paket Standard (Rekomendasi)</h3>
+            <table class="budget-table">
+                <tr>
+                    <th style="width: 50%">Item</th>
+                    <th style="width: 15%; text-align: center">Qty</th>
+                    <th style="width: 35%; text-align: right">Harga (IDR)</th>
+                </tr>
+                <tr>
+                    <td>PC Casing Standard ATX / Tower</td>
+                    <td style="text-align: center">1</td>
+                    <td style="text-align: right">Rp 800.000</td>
+                </tr>
+                <tr>
+                    <td>Intel Xeon Silver 4210 Processor</td>
+                    <td style="text-align: center">1</td>
+                    <td style="text-align: right">Rp 8.500.000</td>
+                </tr>
+                <tr>
+                    <td>Motherboard Server LGA 3647 (compatible)</td>
+                    <td style="text-align: center">1</td>
+                    <td style="text-align: right">Rp 4.000.000</td>
+                </tr>
+                <tr>
+                    <td>RAM 16GB DDR4 ECC (8GB x 2)</td>
+                    <td style="text-align: center">1</td>
+                    <td style="text-align: right">Rp 3.200.000</td>
+                </tr>
+                <tr>
+                    <td>SSD 1TB SATA (Kingston/WD/Samsung)</td>
+                    <td style="text-align: center">1</td>
+                    <td style="text-align: right">Rp 1.500.000</td>
+                </tr>
+                <tr>
+                    <td>HDD 2TB 7200 RPM (WD/Seagate)</td>
+                    <td style="text-align: center">1</td>
+                    <td style="text-align: right">Rp 1.100.000</td>
+                </tr>
+                <tr>
+                    <td>Network Card Dual Gigabit Ethernet</td>
+                    <td style="text-align: center">1</td>
+                    <td style="text-align: right">Rp 600.000</td>
+                </tr>
+                <tr>
+                    <td>Power Supply 650W (80+ Bronze)</td>
+                    <td style="text-align: center">1</td>
+                    <td style="text-align: right">Rp 1.000.000</td>
+                </tr>
+                <tr>
+                    <td>CPU Cooler Tower / Stock Cooler</td>
+                    <td style="text-align: center">1</td>
+                    <td style="text-align: right">Rp 500.000</td>
+                </tr>
+                <tr>
+                    <td>Windows Server 2022 Essentials License</td>
+                    <td style="text-align: center">1</td>
+                    <td style="text-align: right">Rp 3.000.000</td>
+                </tr>
+                <tr class="subtotal-row">
+                    <td colspan="2" style="text-align: right; padding-right: 20px">Sub Total:</td>
+                    <td style="text-align: right">Rp 24.200.000</td>
+                </tr>
+                <tr>
+                    <td>Kabel, Aksesoris & Komponen Lain</td>
+                    <td style="text-align: center">-</td>
+                    <td style="text-align: right">Rp 800.000</td>
+                </tr>
+                <tr class="total-row">
+                    <td colspan="2" style="text-align: right; padding-right: 20px">TOTAL ESTIMASI ANGGARAN:</td>
+                    <td style="text-align: right">Rp 25.000.000</td>
+                </tr>
+            </table>
+            
+            <div class="note">
+                <strong>Catatan Penting:</strong>
+                <ul style="margin: 5px 0; padding-left: 20px;">
+                    <li>Harga dapat bervariasi ±10-15% tergantung vendor, brand, dan ketersediaan</li>
+                    <li>Menggunakan PC casing standard ATX untuk efisiensi biaya</li>
+                    <li>Budget Rp 21-25 juta untuk konfigurasi optimal dengan casing standard</li>
+                    <li>Instalasi dan konfigurasi dikerjakan oleh tim IT internal (in-house)</li>
+                    <li>Belum termasuk: UPS, Monitor, Keyboard, Mouse, atau perangkat network lainnya</li>
+                    <li>Opsi Linux Ubuntu Server (gratis) dapat menghemat Rp 3 juta dari lisensi Windows</li>
+                    <li>Casing standard PC lebih mudah perawatan dan upgrade komponennya</li>
+                </ul>
+            </div>
+
+            <h3>Perbandingan 4 Paket Budget:</h3>
+            <table>
+                <tr>
+                    <th style="width: 20%">Paket</th>
+                    <th style="width: 50%">Spesifikasi & Konfigurasi</th>
+                    <th style="width: 30%">Estimasi Total</th>
+                </tr>
+                <tr>
+                    <td><strong>Paket Basic</strong></td>
+                    <td>• CPU: Intel Core i5/i7 Gen 12/13 (Consumer Grade)<br>
+                        • RAM: 16GB DDR4 Non-ECC<br>
+                        • Storage: 512GB SSD + 1TB HDD<br>
+                        • Casing: Standard ATX PC<br>
+                        • OS: Windows 10 Pro / Linux</td>
+                    <td>Rp 10-15 Juta</td>
+                </tr>
+                <tr>
+                    <td><strong>Paket Ekonomis</strong></td>
+                    <td>• CPU: Intel Xeon E-2300 Series / AMD Ryzen Pro<br>
+                        • RAM: 16GB DDR4 ECC<br>
+                        • Storage: 500GB SSD + 2TB HDD<br>
+                        • Casing: Standard ATX PC<br>
+                        • OS: Windows Server Essentials / Linux</td>
+                    <td>Rp 16-20 Juta</td>
+                </tr>
+                <tr style="background: #f1f8f4;">
+                    <td><strong>Paket Standard ⭐</strong></td>
+                    <td>• CPU: Intel Xeon Silver 4210 (10C/20T)<br>
+                        • RAM: 16GB DDR4 ECC<br>
+                        • Storage: 1TB SSD + 2TB HDD<br>
+                        • Network: Dual Gigabit Ethernet<br>
+                        • Casing: Standard ATX PC<br>
+                        • OS: Windows Server 2022 Essentials</td>
+                    <td><strong>Rp 21-25 Juta</strong></td>
+                </tr>
+                <tr>
+                    <td><strong>Paket Premium</strong></td>
+                    <td>• CPU: Intel Xeon Silver 4210<br>
+                        • RAM: 32GB DDR4 ECC<br>
+                        • Storage: 1TB NVMe SSD + 4TB HDD<br>
+                        • Network: Dual Gigabit Ethernet<br>
+                        • Hardware RAID Controller<br>
+                        • Casing: 2U Rackmount Server<br>
+                        • OS: Windows Server 2022 Standard</td>
+                    <td>Rp 26-30 Juta</td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="section">
+            <h2>5. JUSTIFIKASI PEMILIHAN SPESIFIKASI</h2>
+            
+            <p><strong>Intel Xeon Silver 4210 (10 Core, 20 Thread)</strong><br>
+            Prosesor entry-level Xeon yang handal untuk menangani workload perusahaan menengah. Dengan 10 core, mampu menjalankan multiple aplikasi dan melayani 100-200 user secara bersamaan dengan baik.</p>
+            
+            <p><strong>16 GB ECC RAM</strong><br>
+            ECC (Error Correcting Code) RAM mencegah data corruption dan lebih stabil untuk server. Kapasitas 16GB cukup untuk kebutuhan saat ini dan dapat diupgrade hingga 64-128GB jika diperlukan.</p>
+            
+            <p><strong>1 TB SSD + 2 TB HDD</strong><br>
+            Kombinasi SSD untuk kecepatan akses sistem dan aplikasi, serta HDD untuk penyimpanan data yang lebih ekonomis. Total kapasitas 3TB cukup untuk data perusahaan menengah.</p>
+            
+            <p><strong>Dual Gigabit Ethernet</strong><br>
+            Dua port network memberikan redundansi dan load balancing. Jika satu port bermasalah, server tetap dapat diakses melalui port kedua.</p>
+        </div>
+        
+        <div class="section">
+            <h2>6. MANFAAT YANG DIHARAPKAN</h2>
+            <div class="benefits">
+                <ul>
+                    <li><strong>Peningkatan Performa:</strong> Akses data 3-5x lebih cepat dibanding sistem lama</li>
+                    <li><strong>Kapasitas Memadai:</strong> Dapat menangani 100-200 user concurrent dengan lancar</li>
+                    <li><strong>Stabilitas Sistem:</strong> Uptime lebih baik dengan komponen server-grade</li>
+                    <li><strong>Keamanan Data:</strong> ECC RAM dan dual storage mencegah kehilangan data</li>
+                    <li><strong>Skalabilitas:</strong> Dapat diupgrade RAM dan storage sesuai pertumbuhan bisnis</li>
+                    <li><strong>Cost Effective:</strong> Budget terjangkau dengan performa optimal untuk perusahaan menengah</li>
+                    <li><strong>ROI:</strong> Investasi 3-4 tahun tanpa perlu upgrade signifikan</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>7. TIMELINE IMPLEMENTASI</h2>
+            <table>
+                <tr>
+                    <th style="width: 40%">Tahapan</th>
+                    <th style="width: 30%">Durasi</th>
+                    <th style="width: 30%">PIC</th>
+                </tr>
+                <tr>
+                    <td>Persetujuan Proposal & Budget</td>
+                    <td>3-5 hari kerja</td>
+                    <td>Management</td>
+                </tr>
+                <tr>
+                    <td>Survey Vendor & Penawaran Harga</td>
+                    <td>1 minggu</td>
+                    <td>Purchasing + IT</td>
+                </tr>
+                <tr>
+                    <td>Procurement & Pembelian</td>
+                    <td>1-2 minggu</td>
+                    <td>Purchasing</td>
+                </tr>
+                <tr>
+                    <td>Assembly & Initial Setup</td>
+                    <td>3-5 hari</td>
+                    <td>IT Team</td>
+                </tr>
+                <tr>
+                    <td>Instalasi OS & Konfigurasi</td>
+                    <td>1 minggu</td>
+                    <td>IT Team</td>
+                </tr>
+                <tr>
+                    <td>Testing & Migration Data</td>
+                    <td>3-5 hari</td>
+                    <td>IT Team</td>
+                </tr>
+                <tr>
+                    <td>Go-Live & Monitoring</td>
+                    <td>1 minggu</td>
+                    <td>IT Team</td>
+                </tr>
+            </table>
+            <p><strong>Total Estimasi Waktu: 5-7 minggu sejak approval</strong></p>
+        </div>
+        
+        <div class="section">
+            <h2>8. REKOMENDASI VENDOR</h2>
+            <p>Untuk mendapatkan harga terbaik, disarankan melakukan survey ke beberapa vendor:</p>
+            <ul>
+                <li>Distributor server lokal (HP, Dell, Lenovo reseller)</li>
+                <li>Toko komputer spesialis server (Harco Mangga Dua, ITC, dll)</li>
+                <li>Online marketplace B2B (Bhinneka, Rakuten, dll)</li>
+                <li>Vendor IT lokal yang trusted</li>
+            </ul>
+            <p>Lakukan perbandingan minimal 3 vendor untuk mendapatkan penawaran terbaik dalam range budget Rp 28-32 juta.</p>
+        </div>
+        
+        <div class="section">
+            <h2>9. KESIMPULAN</h2>
+            <p>Pengadaan server dengan spesifikasi Intel Xeon Silver 4210, 16GB RAM, 1TB SSD + 2TB HDD dalam casing PC standard ATX merupakan solusi yang tepat dan cost-effective untuk kebutuhan perusahaan manufaktur dengan 100-200 karyawan.</p>
+            <p>Dengan budget <strong>Rp 21-25 juta (Paket Standard - Rekomendasi)</strong>, perusahaan akan mendapatkan server yang handal, stabil, dan dapat menunjang operasional selama 3-4 tahun ke depan. Penggunaan casing PC standard memudahkan perawatan dan upgrade di masa depan, serta instalasi in-house membantu menghemat biaya implementasi.</p>
+            <p>Tersedia juga pilihan paket mulai dari <strong>Rp 10 juta (Paket Basic)</strong> hingga <strong>Rp 30 juta (Paket Premium)</strong> yang dapat disesuaikan dengan kebutuhan dan kondisi budget perusahaan.</p>
+            <p>Server ini akan meningkatkan efisiensi kerja, keamanan data, dan mendukung proses digitalisasi perusahaan ke depannya.</p>
+        </div>
+        
+        <div class="footer">
+            <div class="signature">
+                <p>Diajukan oleh,</p>
+                <div class="signature-line">
+                    <p><strong>IT Manager / Supervisor IT</strong></p>
+                </div>
+            </div>
+            
+            <div class="signature">
+                <p>Disetujui oleh,</p>
+                <div class="signature-line">
+                    <p><strong>Support Manager</strong></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

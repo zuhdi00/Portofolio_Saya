@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Recap Order Harian</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0f1117;
+      --surface:   #1a1d27;
+      --surface2:  #22263a;
+      --border:    #2e3248;
+      --accent:    #4f8ef7;
+      --accent2:   #36d399;
+      --warn:      #f97316;
+      --danger:    #ef4444;
+      --text:      #e2e8f0;
+      --muted:     #8892aa;
+      --radius:    10px;
+      --mono:      'JetBrains Mono', monospace;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 24px 16px 48px;
+    }
+
+    /* ── HEADER ───────────────────────────────────────────── */
+    .header {
+      max-width: 1100px;
+      margin: 0 auto 28px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .header-icon {
+      width: 44px; height: 44px;
+      background: linear-gradient(135deg, var(--accent), #7c5fe6);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+    .header h1 { font-size: 20px; font-weight: 700; }
+    .header p  { font-size: 13px; color: var(--muted); margin-top: 2px; }
+    .header-badge {
+      margin-left: auto;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 5px 12px;
+      font-size: 12px;
+      color: var(--muted);
+      font-family: var(--mono);
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .live-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--accent2);
+      flex-shrink: 0;
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: .4; transform: scale(.7); }
+    }
+
+    /* ── STAT CARDS ───────────────────────────────────────── */
+    .cards {
+      max-width: 1100px;
+      margin: 0 auto 24px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 14px;
+    }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px 20px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color .2s;
+    }
+    .card:hover { border-color: var(--accent); }
+    .card::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--card-accent, var(--accent));
+      border-radius: var(--radius) var(--radius) 0 0;
+    }
+    .card.green  { --card-accent: var(--accent2); }
+    .card.orange { --card-accent: var(--warn); }
+    .card.purple { --card-accent: #a78bfa; }
+    .card-label { font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+    .card-val   { font-family: var(--mono); font-size: 26px; font-weight: 600; line-height: 1; }
+    .card-unit  { font-size: 12px; color: var(--muted); margin-top: 4px; }
+
+    /* ── FILTERS ──────────────────────────────────────────── */
+    .panel {
+      max-width: 1100px;
+      margin: 0 auto 18px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+    }
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: flex-end;
+    }
+    .filter-group { display: flex; flex-direction: column; gap: 4px; }
+    .filter-group label { font-size: 11px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); }
+    input[type=date] {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 8px 11px;
+      border-radius: 7px;
+      font-family: var(--mono);
+      font-size: 13px;
+      outline: none;
+      transition: border-color .2s;
+    }
+    input[type=date]:focus { border-color: var(--accent); }
+
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      cursor: pointer;
+      user-select: none;
+      font-size: 13px;
+      transition: border-color .2s;
+      align-self: flex-end;
+    }
+    .checkbox-group:hover { border-color: var(--accent); }
+    .checkbox-group input { accent-color: var(--accent); cursor: pointer; }
+
+    .btn {
+      padding: 8px 18px;
+      border-radius: 7px;
+      border: none;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity .2s, transform .1s;
+      align-self: flex-end;
+    }
+    .btn:active { transform: scale(.97); }
+    .btn:disabled { opacity: .4; cursor: not-allowed; }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:hover:not(:disabled) { opacity: .88; }
+    .btn-ghost {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+    .btn-ghost:hover:not(:disabled) { border-color: var(--accent2); color: var(--accent2); }
+
+    /* ── TABLE ────────────────────────────────────────────── */
+    .table-wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .table-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--border);
+    }
+    .table-title { font-size: 14px; font-weight: 600; }
+    .row-count { font-size: 12px; color: var(--muted); font-family: var(--mono); }
+    .scroll { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; min-width: 620px; }
+    thead tr { background: var(--surface2); }
+    th {
+      padding: 11px 14px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-align: right;
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+    th:first-child { text-align: left; }
+    td {
+      padding: 11px 14px;
+      font-size: 13px;
+      border-bottom: 1px solid var(--border);
+      text-align: right;
+      font-family: var(--mono);
+    }
+    td:first-child { text-align: left; font-family: 'Inter', sans-serif; }
+    tbody tr:last-child td { border-bottom: none; }
+    tbody tr { transition: background .15s; }
+    tbody tr:hover { background: var(--surface2); }
+
+    /* value coloring */
+    .pos { color: var(--accent2); }
+    .neg { color: var(--danger); }
+    .neutral { color: var(--accent); }
+
+    /* progress bar inside table */
+    .prog-wrap { display: flex; align-items: center; gap: 8px; justify-content: flex-end; }
+    .prog-bar {
+      width: 64px; height: 5px;
+      background: var(--surface2);
+      border-radius: 99px;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .prog-fill {
+      height: 100%;
+      border-radius: 99px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      transition: width .4s ease;
+    }
+
+    /* date tag */
+    .date-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+    }
+    .date-tag .dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+
+    /* ── EMPTY / LOADING ──────────────────────────────────── */
+    .state-row td {
+      text-align: center !important;
+      font-family: 'Inter', sans-serif !important;
+      color: var(--muted);
+      padding: 40px 14px !important;
+    }
+    .loader {
+      display: inline-block;
+      width: 18px; height: 18px;
+      border: 2px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+      vertical-align: middle;
+      margin-right: 6px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── FOOTER TOTAL ROW ─────────────────────────────────── */
+    tfoot tr { background: var(--surface2); }
+    tfoot td {
+      font-weight: 700;
+      border-top: 2px solid var(--border);
+      border-bottom: none;
+      color: var(--accent2);
+    }
+    tfoot td:first-child { color: var(--muted); font-family: 'Inter', sans-serif; font-size: 12px; text-transform: uppercase; letter-spacing: .05em; }
+
+    /* ── RESPONSIVE ───────────────────────────────────────── */
+    @media (max-width: 600px) {
+      body { padding: 14px 10px 40px; }
+      .card-val { font-size: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-icon">📦</div>
+    <div>
+      <h1>Recap Order Harian</h1>
+      <p>Kuota harian vs. total order masuk — satuan ton</p>
+    </div>
+    <span class="header-badge" id="lastUpdate"><span class="live-dot"></span>Memuat…</span>
+  </div>
+
+  <!-- STAT CARDS -->
+  <div class="cards">
+    <div class="card">
+      <div class="card-label">Kuota / Hari</div>
+      <div class="card-val" id="sQuota">—</div>
+      <div class="card-unit">Ton</div>
+    </div>
+    <div class="card green">
+      <div class="card-label">Total Order (Periode)</div>
+      <div class="card-val" id="sGrandTotal">—</div>
+      <div class="card-unit">Ton</div>
+    </div>
+    <div class="card orange">
+      <div class="card-label">Rata-rata / Hari</div>
+      <div class="card-val" id="sAvg">—</div>
+      <div class="card-unit">Ton</div>
+    </div>
+    <div class="card purple">
+      <div class="card-label">Jumlah Hari</div>
+      <div class="card-val" id="sDays">—</div>
+      <div class="card-unit">Hari data</div>
+    </div>
+  </div>
+
+  <!-- FILTERS -->
+  <div class="panel">
+    <div class="filters">
+      <div class="filter-group">
+        <label>Dari Tanggal</label>
+        <input id="from" type="date">
+      </div>
+      <div class="filter-group">
+        <label>Sampai Tanggal</label>
+        <input id="to" type="date">
+      </div>
+      <label class="checkbox-group">
+        <input id="allChk" type="checkbox">
+        Tampilkan semua tanggal
+      </label>
+      <button class="btn btn-primary" id="fetchBtn">🔍 Tampilkan</button>
+      <button class="btn btn-ghost" id="csvBtn">⬇ Export CSV</button>
+    </div>
+  </div>
+
+  <!-- TABLE -->
+  <div class="table-wrap">
+    <div class="table-header">
+      <span class="table-title">Detail Per Hari</span>
+      <span class="row-count" id="rowCount">0 baris</span>
+    </div>
+    <div class="scroll">
+      <table id="tbl">
+        <thead>
+          <tr>
+            <th>Tanggal</th>
+            <th>Kuota (Ton)</th>
+            <th>Total Order (Ton)</th>
+            <th>% Terpakai</th>
+            <th>Penambahan (Ton)</th>
+            <th>Total Akhir (Ton)</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+        <tfoot>
+          <tr id="footerRow" style="display:none">
+            <td>TOTAL</td>
+            <td id="fKuota">—</td>
+            <td id="fOrder">—</td>
+            <td></td>
+            <td id="fPenambahan">—</td>
+            <td id="fAkhir">—</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    const fmt  = n => (typeof n === 'number' ? n.toFixed(2) : parseFloat(n||0).toFixed(2));
+    const el   = id => document.getElementById(id);
+    const tbody = document.querySelector('#tbl tbody');
+
+    let lastRows = [];
+
+    function pct(order, kuota) {
+      if (!kuota) return 0;
+      return Math.min(Math.round((order / kuota) * 100), 100);
+    }
+
+    function updateCards(j) {
+      el('sQuota').textContent      = fmt(j.quota_ton);
+      el('sGrandTotal').textContent = fmt(j.summary.grand_total_ton);
+      el('sAvg').textContent        = fmt(j.summary.avg_order_ton);
+      el('sDays').textContent       = j.summary.total_days;
+      el('lastUpdate').innerHTML    = `<span class="live-dot"></span>Update: ${new Date().toLocaleTimeString('id-ID')}`;
+    }
+
+    function updateFooter(rows) {
+      if (!rows.length) { el('footerRow').style.display = 'none'; return; }
+      const sumOrder     = rows.reduce((s,r) => s + parseFloat(r.total_order_ton), 0);
+      const sumKuota     = rows.reduce((s,r) => s + parseFloat(r.kuota_ton), 0);
+      const sumPenam     = rows.reduce((s,r) => s + parseFloat(r.penambahan_ton), 0);
+      const sumAkhir     = rows.reduce((s,r) => s + parseFloat(r.total_akhir_ton), 0);
+      el('fKuota').textContent       = fmt(sumKuota);
+      el('fOrder').textContent       = fmt(sumOrder);
+      el('fPenambahan').textContent  = fmt(sumPenam);
+      el('fAkhir').textContent       = fmt(sumAkhir);
+      el('footerRow').style.display  = '';
+    }
+
+    async function fetchData() {
+      const from = el('from').value, to = el('to').value, all = el('allChk').checked;
+      el('fetchBtn').disabled = true;
+      tbody.innerHTML = `<tr class="state-row"><td colspan="6"><span class="loader"></span>Memuat data…</td></tr>`;
+      el('rowCount').textContent = '—';
+      el('footerRow').style.display = 'none';
+
+      try {
+        const params = new URLSearchParams();
+        if (all) {
+          params.append('all', '1');
+        } else {
+          if (from) params.append('from', from);
+          if (to)   params.append('to', to);
+        }
+        const res = await fetch('recap_order_action.php', { method: 'POST', body: params });
+        const j   = await res.json();
+
+        if (!j.success) {
+          tbody.innerHTML = `<tr class="state-row"><td colspan="6">⚠️ Error: ${j.message || 'tidak diketahui'}</td></tr>`;
+          return;
+        }
+
+        lastRows = j.rows || [];
+        updateCards(j);
+        tbody.innerHTML = '';
+
+        if (!lastRows.length) {
+          tbody.innerHTML = `<tr class="state-row"><td colspan="6">Tidak ada data untuk periode ini.</td></tr>`;
+          el('rowCount').textContent = '0 baris';
+          return;
+        }
+
+        lastRows.forEach(r => {
+          const order  = parseFloat(r.total_order_ton);
+          const kuota  = parseFloat(r.kuota_ton);
+          const p      = pct(order, kuota);
+          const penPos = parseFloat(r.penambahan_ton) >= 0;
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td><span class="date-tag"><span class="dot"></span>${r.date}</span></td>
+            <td class="neutral">${fmt(kuota)}</td>
+            <td>${fmt(order)}</td>
+            <td>
+              <div class="prog-wrap">
+                <span>${p}%</span>
+                <div class="prog-bar"><div class="prog-fill" style="width:${p}%"></div></div>
+              </div>
+            </td>
+            <td class="${penPos ? 'pos' : 'neg'}">${fmt(parseFloat(r.penambahan_ton))}</td>
+            <td class="neutral">${fmt(parseFloat(r.total_akhir_ton))}</td>
+          `;
+          tbody.appendChild(tr);
+        });
+
+        el('rowCount').textContent = lastRows.length + ' baris';
+        updateFooter(lastRows);
+      } catch (e) {
+        tbody.innerHTML = `<tr class="state-row"><td colspan="6">❌ Koneksi gagal: ${e.message}</td></tr>`;
+      } finally {
+        el('fetchBtn').disabled = false;
+      }
+    }
+
+    el('fetchBtn').addEventListener('click', fetchData);
+
+    el('csvBtn').addEventListener('click', () => {
+      if (!lastRows.length) { alert('Tidak ada data untuk diekspor.'); return; }
+      const headers = ['Tanggal','Kuota (Ton)','Total Order (Ton)','Penambahan (Ton)','Total Akhir (Ton)'];
+      const csvRows = [headers, ...lastRows.map(r => [r.date, r.kuota_ton, r.total_order_ton, r.penambahan_ton, r.total_akhir_ton])];
+      const csv  = csvRows.map(row => row.map(c => `"${String(c).replace(/"/g,'""')}"`).join(',')).join('\n');
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const a    = document.createElement('a');
+      a.href     = URL.createObjectURL(blob);
+      a.download = `recap_order_${el('from').value||'all'}_${el('to').value||'all'}.csv`;
+      a.click();
+      URL.revokeObjectURL(a.href);
+    });
+
+    // Checkbox "Tampilkan semua" → disable/enable input tanggal
+    el('allChk').addEventListener('change', function() {
+      const disabled = this.checked;
+      el('from').disabled = disabled;
+      el('to').disabled   = disabled;
+    });
+
+    // Default: 7 hari terakhir sampai hari ini
+    (function setDefaultDates() {
+      const today = new Date();
+      const yyyy  = today.getFullYear();
+      const mm    = String(today.getMonth() + 1).padStart(2, '0');
+      const dd    = String(today.getDate()).padStart(2, '0');
+      el('to').value = `${yyyy}-${mm}-${dd}`;
+
+      const from = new Date(today);
+      from.setDate(from.getDate() - 6);
+      const fy = from.getFullYear();
+      const fm = String(from.getMonth() + 1).padStart(2, '0');
+      const fd = String(from.getDate()).padStart(2, '0');
+      el('from').value = `${fy}-${fm}-${fd}`;
+    })();
+
+    // Auto-load saat halaman dibuka
+    fetchData();
+
+    // Auto-refresh setiap 5 menit (sama seperti surat_jalan_summary_v1.html)
+    setInterval(fetchData, 5 * 60 * 1000);
+  </script>
+</body>
+</html>

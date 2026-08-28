@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recap Order Harian</title>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #eef2f7;
+            color: #333;
+            min-height: 100vh;
+            padding: 24px 16px;
+        }
+
+        .container { max-width: 1100px; margin: 0 auto; }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #1a4f8a 0%, #2d7dd2 100%);
+            color: #fff;
+            border-radius: 12px;
+            padding: 24px 32px;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .header h1 { font-size: 1.5rem; font-weight: 700; }
+        .header .subtitle { font-size: .85rem; opacity: .85; margin-top: 4px; }
+        .last-update { font-size: .8rem; opacity: .75; }
+
+        /* Filter Bar */
+        .filter-bar {
+            background: #fff;
+            border-radius: 10px;
+            padding: 16px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,.08);
+            display: flex;
+            align-items: flex-end;
+            flex-wrap: wrap;
+            gap: 14px;
+        }
+        .filter-group { display: flex; flex-direction: column; gap: 4px; }
+        .filter-group label { font-size: .75rem; font-weight: 600; color: #555; text-transform: uppercase; letter-spacing: .4px; }
+        .filter-group input[type="date"] {
+            padding: 7px 10px;
+            border: 1px solid #cdd5e0;
+            border-radius: 6px;
+            font-size: .88rem;
+            color: #333;
+            background: #f9fafb;
+            outline: none;
+            transition: border .2s;
+        }
+        .filter-group input[type="date"]:focus { border-color: #2d7dd2; background: #fff; }
+
+        .filter-actions { display: flex; gap: 8px; align-items: flex-end; }
+        .btn-filter  { background: #2d7dd2; color: #fff; }
+        .btn-filter:hover  { background: #1a5da8; }
+        .btn-reset   { background: #6c757d; color: #fff; }
+        .btn-reset:hover   { background: #545b62; }
+
+        /* Preset buttons */
+        .filter-presets { display: flex; gap: 6px; align-items: flex-end; flex-wrap: wrap; }
+        .btn-preset {
+            padding: 7px 12px;
+            border: 1px solid #cdd5e0;
+            border-radius: 6px;
+            background: #f9fafb;
+            color: #555;
+            font-size: .78rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background .15s, border-color .15s, color .15s;
+        }
+        .btn-preset:hover,
+        .btn-preset.active { background: #e8f0fc; border-color: #2d7dd2; color: #1a4f8a; }
+
+        /* Summary Cards */
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .card {
+            background: #fff;
+            border-radius: 10px;
+            padding: 18px 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,.08);
+            border-left: 4px solid #2d7dd2;
+        }
+        .card.green  { border-left-color: #28a745; }
+        .card.orange { border-left-color: #fd7e14; }
+        .card.purple { border-left-color: #6f42c1; }
+        .card-label { font-size: .75rem; text-transform: uppercase; color: #888; letter-spacing: .5px; margin-bottom: 6px; }
+        .card-value { font-size: 1.5rem; font-weight: 700; color: #1a4f8a; }
+        .card.green  .card-value { color: #1e7e34; }
+        .card.orange .card-value { color: #c85e00; }
+        .card.purple .card-value { color: #4e2c9e; }
+
+        /* Toolbar */
+        .toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+        .toolbar h2 { font-size: 1.1rem; font-weight: 600; color: #1a4f8a; }
+        .toolbar .period-label { font-size: .8rem; color: #888; margin-left: 8px; }
+        .btn-group { display: flex; gap: 8px; }
+        button {
+            padding: 8px 18px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: .85rem;
+            font-weight: 600;
+            transition: background .2s, transform .1s;
+        }
+        button:active { transform: scale(.97); }
+        .btn-refresh { background: #2d7dd2; color: #fff; }
+        .btn-refresh:hover { background: #1a5da8; }
+        .btn-export  { background: #28a745; color: #fff; }
+        .btn-export:hover  { background: #1e7e34; }
+
+        /* Table */
+        .table-wrapper {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,.08);
+            overflow-x: auto;
+        }
+        table { width: 100%; border-collapse: collapse; font-size: .88rem; }
+        thead tr { background: #1a4f8a; color: #fff; }
+        thead th { padding: 12px 14px; text-align: left; font-weight: 600; white-space: nowrap; }
+        thead th.right { text-align: right; }
+        tbody tr { border-bottom: 1px solid #eee; transition: background .15s; }
+        tbody tr:last-child { border-bottom: none; }
+        tbody tr:hover { background: #f0f6ff; }
+        tbody td { padding: 11px 14px; white-space: nowrap; }
+        tbody td.right { text-align: right; font-variant-numeric: tabular-nums; }
+
+        tfoot tr { background: #e9f0fb; font-weight: 700; }
+        tfoot td { padding: 12px 14px; border-top: 2px solid #2d7dd2; }
+        tfoot td.right { text-align: right; }
+
+        .state-row td { text-align: center; padding: 32px; color: #888; font-style: italic; }
+        .spinner {
+            display: inline-block;
+            width: 18px; height: 18px;
+            border: 3px solid #ccc;
+            border-top-color: #2d7dd2;
+            border-radius: 50%;
+            animation: spin .7s linear infinite;
+            vertical-align: middle;
+            margin-right: 8px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .badge { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: .75rem; font-weight: 600; }
+        .badge-neg { background: #fde8e8; color: #c0392b; }
+        .badge-pos { background: #e8f8ee; color: #1e7e34; }
+
+        .error-banner {
+            background: #fde8e8;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+            border-radius: 8px;
+            padding: 14px 18px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        @media (max-width: 600px) {
+            .header { padding: 18px 20px; }
+            .header h1 { font-size: 1.2rem; }
+            .filter-bar { flex-direction: column; align-items: stretch; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <div class="header">
+        <div>
+            <h1>📦 Recap Order Harian</h1>
+            <div class="subtitle">Rekap order vs kuota harian</div>
+        </div>
+        <div class="last-update" id="lastUpdate">Belum diperbarui</div>
+    </div>
+
+    <div class="error-banner" id="errorBanner"></div>
+
+    <!-- Filter Bar -->
+    <div class="filter-bar">
+        <div class="filter-group">
+            <label>Dari Tanggal</label>
+            <input type="date" id="filterFrom">
+        </div>
+        <div class="filter-group">
+            <label>Sampai Tanggal</label>
+            <input type="date" id="filterTo">
+        </div>
+        <div class="filter-actions">
+            <button class="btn-filter" onclick="applyFilter()">🔍 Tampilkan</button>
+            <button class="btn-reset"  onclick="resetFilter()">✕ Reset</button>
+        </div>
+        <div class="filter-presets">
+            <button class="btn-preset" onclick="setPreset(7)"  id="preset7">7 Hari</button>
+            <button class="btn-preset active" onclick="setPreset(30)" id="preset30">30 Hari</button>
+            <button class="btn-preset" onclick="setPreset('bulanini')" id="presetBulan">Bulan Ini</button>
+            <button class="btn-preset" onclick="setPreset('bulankemarin')" id="presetBulanKemarin">Bulan Lalu</button>
+        </div>
+    </div>
+
+    <!-- Summary Cards -->
+    <div class="summary-grid">
+        <div class="card">
+            <div class="card-label">Kuota Harian</div>
+            <div class="card-value" id="cardKuota">—</div>
+        </div>
+        <div class="card green">
+            <div class="card-label">Total Order Periode</div>
+            <div class="card-value" id="cardTotalOrder">—</div>
+        </div>
+        <div class="card orange">
+            <div class="card-label">Jumlah Hari</div>
+            <div class="card-value" id="cardJumlahHari">—</div>
+        </div>
+        <div class="card purple">
+            <div class="card-label">Total Akhir Kumulatif</div>
+            <div class="card-value" id="cardTotalAkhir">—</div>
+        </div>
+    </div>
+
+    <!-- Table -->
+    <div class="toolbar">
+        <div>
+            <h2 style="display:inline">Detail Harian</h2>
+            <span class="period-label" id="periodLabel"></span>
+        </div>
+        <div class="btn-group">
+            <button class="btn-refresh" onclick="applyFilter()">🔄 Refresh</button>
+            <button class="btn-export"  onclick="exportCSV()">⬇ Export CSV</button>
+        </div>
+    </div>
+
+    <div class="table-wrapper">
+        <table id="mainTable">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Tanggal</th>
+                    <th class="right">Kuota (Ton)</th>
+                    <th class="right">Total Order (Ton)</th>
+                    <th class="right">Penambahan Order</th>
+                    <th class="right">Total Akhir (Ton)</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+                <tr class="state-row"><td colspan="6"><span class="spinner"></span>Memuat data…</td></tr>
+            </tbody>
+            <tfoot id="tableFoot" style="display:none">
+                <tr>
+                    <td colspan="2"><strong>Grand Total</strong></td>
+                    <td class="right">—</td>
+                    <td class="right" id="footTotalOrder">—</td>
+                    <td class="right">—</td>
+                    <td class="right" id="footTotalAkhir">—</td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+</div>
+
+<script>
+    let cachedData = [];
+
+    // Format date to YYYY-MM-DD
+    function fmt(d) { return d.toISOString().slice(0,10); }
+
+    // Format display dd/mm/yyyy
+    function fmtDisp(s) {
+        if (!s) return '';
+        const [y,m,d] = s.split('-');
+        return `${d}/${m}/${y}`;
+    }
+
+    function setPreset(val) {
+        // Remove active from all presets
+        document.querySelectorAll('.btn-preset').forEach(b => b.classList.remove('active'));
+
+        const today = new Date();
+        today.setHours(0,0,0,0);
+        let from, to = fmt(today);
+
+        if (val === 'bulanini') {
+            from = fmt(new Date(today.getFullYear(), today.getMonth(), 1));
+            to   = fmt(today);
+            document.getElementById('presetBulan').classList.add('active');
+        } else if (val === 'bulankemarin') {
+            const firstThisMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+            const lastLastMonth  = new Date(firstThisMonth - 1);
+            const firstLastMonth = new Date(lastLastMonth.getFullYear(), lastLastMonth.getMonth(), 1);
+            from = fmt(firstLastMonth);
+            to   = fmt(lastLastMonth);
+            document.getElementById('presetBulanKemarin').classList.add('active');
+        } else {
+            const days = parseInt(val);
+            const d = new Date(today);
+            d.setDate(d.getDate() - (days - 1));
+            from = fmt(d);
+            document.getElementById('preset' + days).classList.add('active');
+        }
+
+        document.getElementById('filterFrom').value = from;
+        document.getElementById('filterTo').value   = to;
+        fetchData(from, to);
+    }
+
+    async function applyFilter() {
+        const from = document.getElementById('filterFrom').value;
+        const to   = document.getElementById('filterTo').value;
+        if (!from || !to) { alert('Pilih rentang tanggal terlebih dahulu.'); return; }
+        if (from > to)    { alert('Tanggal awal tidak boleh lebih besar dari tanggal akhir.'); return; }
+        document.querySelectorAll('.btn-preset').forEach(b => b.classList.remove('active'));
+        fetchData(from, to);
+    }
+
+    function resetFilter() {
+        setPreset(30);
+    }
+
+    async function fetchData(from, to) {
+        const tbody     = document.getElementById('tableBody');
+        const foot      = document.getElementById('tableFoot');
+        const errBanner = document.getElementById('errorBanner');
+
+        tbody.innerHTML = '<tr class="state-row"><td colspan="6"><span class="spinner"></span>Memuat data…</td></tr>';
+        foot.style.display = 'none';
+        errBanner.style.display = 'none';
+
+        const params = new URLSearchParams();
+        if (from) params.append('from', from);
+        if (to)   params.append('to',   to);
+
+        try {
+            const res  = await fetch('recap_order_harian.php?' + params.toString());
+            const json = await res.json();
+
+            if (!json.success) throw new Error(json.message || 'Gagal mengambil data.');
+
+            cachedData = json.data || [];
+            renderTable(cachedData, json);
+
+            document.getElementById('cardKuota').textContent      = json.kuota_ton          || '—';
+            document.getElementById('cardTotalOrder').textContent  = json.grand_total_order  || '—';
+            document.getElementById('cardJumlahHari').textContent  = cachedData.length + ' hari';
+            document.getElementById('cardTotalAkhir').textContent  = json.grand_total_akhir  || '—';
+            document.getElementById('lastUpdate').textContent      = 'Diperbarui: ' + json.timestamp;
+
+            // Period label
+            if (from && to) {
+                document.getElementById('periodLabel').textContent =
+                    fmtDisp(from) + ' — ' + fmtDisp(to);
+            }
+
+        } catch (err) {
+            tbody.innerHTML = '<tr class="state-row"><td colspan="6">⚠️ ' + err.message + '</td></tr>';
+            errBanner.textContent = 'Error: ' + err.message;
+            errBanner.style.display = 'block';
+            console.error(err);
+        }
+    }
+
+    function renderTable(data, json) {
+        const tbody = document.getElementById('tableBody');
+        const foot  = document.getElementById('tableFoot');
+
+        if (!data.length) {
+            tbody.innerHTML = '<tr class="state-row"><td colspan="6">Tidak ada data untuk ditampilkan.</td></tr>';
+            return;
+        }
+
+        tbody.innerHTML = '';
+        data.forEach((row, idx) => {
+            const penNum = parseFloat(row.penambahan_order);
+            const isNeg  = penNum < 0;
+            const badge  = isNeg
+                ? `<span class="badge badge-neg">${row.penambahan_order}</span>`
+                : `<span class="badge badge-pos">${row.penambahan_order}</span>`;
+
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${idx + 1}</td>
+                <td><strong>${row.tanggal}</strong></td>
+                <td class="right">${row.kuota_ton}</td>
+                <td class="right">${row.total_order_ton}</td>
+                <td class="right">${badge}</td>
+                <td class="right">${row.total_akhir_ton}</td>
+            `;
+            tbody.appendChild(tr);
+        });
+
+        document.getElementById('footTotalOrder').textContent = json.grand_total_order || '—';
+        document.getElementById('footTotalAkhir').textContent = json.grand_total_akhir || '—';
+        foot.style.display = '';
+    }
+
+    function exportCSV() {
+        if (!cachedData.length) { alert('Tidak ada data untuk di-export.'); return; }
+        const header = ['No','Tanggal','Kuota (Ton)','Total Order (Ton)','Penambahan Order','Total Akhir (Ton)'];
+        const rows   = cachedData.map((r,i) => [i+1, r.tanggal, r.kuota_ton, r.total_order_ton, r.penambahan_order, r.total_akhir_ton]);
+        const csv    = [header,...rows].map(r => r.map(v => '"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\n');
+        const blob   = new Blob(['\uFEFF'+csv], {type:'text/csv;charset=utf-8;'});
+        const url    = URL.createObjectURL(blob);
+        const a      = document.createElement('a');
+        a.href = url; a.download = 'recap_order_harian_'+new Date().toISOString().slice(0,10)+'.csv';
+        a.click(); URL.revokeObjectURL(url);
+    }
+
+    // Auto-refresh setiap 5 menit (gunakan range yang sedang aktif)
+    setInterval(() => {
+        const from = document.getElementById('filterFrom').value;
+        const to   = document.getElementById('filterTo').value;
+        if (from && to) fetchData(from, to);
+    }, 5 * 60 * 1000);
+
+    // Load awal: default 30 hari
+    setPreset(30);
+</script>
+</body>
+</html>

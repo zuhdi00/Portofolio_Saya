@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Profesional - Card Menu Navigation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        /* 1. VARIABEL CSS UNTUK TEMA (THEMING) */
+        :root {
+            /* Default: Light Mode */
+            --bg-body: #f4f7f9;
+            --bg-header: #ffffff;
+            --bg-card: #ffffff;
+            --color-text-primary: #1f2937;
+            --color-text-secondary: #6b7280;
+            --color-accent: #3b82f6; /* Biru Primer */
+            --color-accent-hover: #1d4ed8;
+            --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
+            --theme-transition: 0.5s ease;
+        }
+
+        /* Dark Mode */
+        .dark-mode {
+            --bg-body: #111827;
+            --bg-header: #1f2937;
+            --bg-card: #1f2937;
+            --color-text-primary: #f3f4f6;
+            --color-text-secondary: #9ca3af;
+            --color-accent: #22c55e; /* Hijau neon */
+            --color-accent-hover: #16a34a;
+            --shadow-card: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -4px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Blue Gradation Mode */
+        .blue-gradation-mode {
+            --bg-body: #e0f2f1;
+            --bg-header: linear-gradient(90deg, #1e3a8a, #0c4a6e); /* Gradasi Biru untuk Header */
+            --bg-card: #f0f9ff;
+            --color-text-primary: #0f172a;
+            --color-text-secondary: #334155;
+            --color-accent: #06b6d4; /* Cyan */
+            --color-accent-hover: #0891b2;
+            --shadow-card: 0 10px 20px -5px rgba(30, 58, 138, 0.3);
+        }
+        .blue-gradation-mode .header {
+             color: white; /* Teks header menjadi putih */
+        }
+        .blue-gradation-mode .theme-toggle button {
+             color: var(--color-text-primary);
+             background-color: white;
+        }
+
+
+        /* 2. BASE STYLES & TRANSITIONS */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            transition: background-color var(--theme-transition), color var(--theme-transition), box-shadow var(--theme-transition);
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-body);
+            color: var(--color-text-primary);
+            min-height: 100vh;
+        }
+
+        /* 3. HEADER */
+        .header {
+            background-color: var(--bg-header);
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--color-text-primary);
+            transition: color var(--theme-transition);
+        }
+        .blue-gradation-mode .header h1 {
+            color: white;
+        }
+
+        /* Tombol Toggle Tema */
+        .theme-toggle button {
+            background-color: var(--color-accent);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            margin-left: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.2s ease, transform 0.2s ease;
+        }
+
+        .theme-toggle button:hover {
+            background-color: var(--color-accent-hover);
+            transform: translateY(-2px); /* Animasi angkat */
+        }
+
+        /* 4. MAIN CONTENT & GRID CARD MENU */
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 30px 30px;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        /* CARD MENU STYLES */
+        .menu-card {
+            background-color: var(--bg-card);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: var(--shadow-card);
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.27), box-shadow 0.3s ease; /* Animasi spring/bounce */
+            text-decoration: none;
+            color: inherit;
+            border: 2px solid transparent; /* Untuk efek border saat hover */
+        }
+
+        /* ANIMASI CARD HOVER (Memanjakan Mata) */
+        .menu-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+            border-color: var(--color-accent);
+        }
+        
+        .menu-card i {
+            font-size: 3rem;
+            color: var(--color-accent);
+            margin-bottom: 15px;
+            display: block;
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+        
+        .menu-card:hover i {
+             transform: rotate(5deg) scale(1.1); /* Animasi putar ringan */
+        }
+
+        .menu-card h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .menu-card p {
+            font-size: 0.9rem;
+            color: var(--color-text-secondary);
+        }
+
+        /* 5. KONTEN DETAIL (SImulasi Halaman Kedua) */
+        .detail-card {
+            background-color: var(--bg-card);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: var(--shadow-card);
+            min-height: 400px;
+        }
+        
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            background: none;
+            border: none;
+            color: var(--color-accent);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 20px;
+            transition: color 0.2s ease, transform 0.2s ease;
+        }
+        .back-button:hover {
+            color: var(--color-accent-hover);
+            transform: translateX(-5px);
+        }
+        .back-button i {
+            margin-right: 8px;
+        }
+
+        /* 6. RESPONSIFITAS */
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .header h1 {
+                margin-bottom: 15px;
+            }
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+            .main-content {
+                padding: 0 15px 15px;
+            }
+        }
+    </style>
+</head>
+<body class="light-mode">
+
+    <div class="header">
+        <h1>Dashboard Utama</h1>
+        <div class="theme-toggle">
+            <button onclick="setTheme('light-mode')">Light</button>
+            <button onclick="setTheme('dark-mode')">Dark</button>
+            <button onclick="setTheme('blue-gradation-mode')">Gradasi</button>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div id="contentArea">
+            </div>
+    </div>
+
+    <script>
+        const body = document.body;
+        const contentArea = document.getElementById('contentArea');
+        const menuItems = [
+            { id: 'dashboard', title: 'Dashboard Utama', icon: 'fas fa-chart-pie', description: 'Lihat ringkasan metrik dan KPI utama Anda.' },
+            { id: 'analitik', title: 'Analitik Data', icon: 'fas fa-chart-line', description: 'Telusuri data mendalam dan tren historis.' },
+            { id: 'proyek', title: 'Manajemen Proyek', icon: 'fas fa-tasks', description: 'Pantau status dan kemajuan semua proyek.' },
+            { id: 'keuangan', title: 'Laporan Keuangan', icon: 'fas fa-dollar-sign', description: 'Akses laporan laba rugi dan arus kas.' },
+            { id: 'pengguna', title: 'Pengaturan Pengguna', icon: 'fas fa-users-cog', description: 'Kelola hak akses dan profil anggota tim.' },
+            { id: 'notifikasi', title: 'Pesan & Notifikasi', icon: 'fas fa-bell', description: 'Lihat semua pesan penting dan peringatan sistem.' },
+            { id: 'bantuan', title: 'Bantuan & Dukungan', icon: 'fas fa-headset', description: 'Temukan dokumentasi dan ajukan tiket dukungan.' }
+        ];
+
+        // FUNGSI 1: MENGGANTI TEMA
+        function setTheme(theme) {
+            body.className = theme;
+            localStorage.setItem('dashboardTheme', theme);
+        }
+
+        // FUNGSI 2: MENAMPILKAN MENU UTAMA (CARD)
+        function showMainMenu() {
+            let html = `
+                <h2>Pilih Area Kerja Anda</h2>
+                <p style="margin-bottom: 30px; color: var(--color-text-secondary);">Klik kartu di bawah untuk masuk ke modul yang diinginkan.</p>
+                <div class="menu-grid">
+            `;
+
+            menuItems.forEach(item => {
+                html += `
+                    <a href="#" class="menu-card" data-menu-id="${item.id}" onclick="showDetail('${item.id}', '${item.title}', event)">
+                        <i class="${item.icon}"></i>
+                        <h3>${item.title}</h3>
+                        <p>${item.description}</p>
+                    </a>
+                `;
+            });
+
+            html += '</div>';
+            contentArea.innerHTML = html;
+        }
+
+        // FUNGSI 3: MENAMPILKAN DETAIL KONTEN (SIMULASI LINK)
+        function showDetail(id, title, event) {
+            event.preventDefault(); // Mencegah link pindah halaman
+            
+            contentArea.innerHTML = `
+                <button class="back-button" onclick="showMainMenu()">
+                    <i class="fas fa-arrow-left"></i> Kembali ke Menu Utama
+                </button>
+                <div class="detail-card">
+                    <h2 style="color: var(--color-accent); margin-bottom: 15px;">${title}</h2>
+                    <p style="color: var(--color-text-secondary); margin-bottom: 20px;">Ini adalah halaman detail untuk modul **${title}**.</p>
+                    
+                    <div style="padding: 20px; border: 1px dashed var(--color-text-secondary); border-radius: 8px;">
+                        <h4 style="margin-bottom: 10px;">Data Simulasi:</h4>
+                        <p>Di sini akan dimuat data, grafik, dan tabel spesifik terkait ${title} menggunakan AJAX/Fetch API dari server.</p>
+                        <p style="margin-top: 10px; font-size: 0.9rem;">(Animasi Loading dan Transition dapat ditambahkan saat konten dimuat.)</p>
+                    </div>
+                </div>
+            `;
+            // Mengubah judul header untuk mencerminkan halaman saat ini
+            document.querySelector('.header h1').textContent = title;
+        }
+
+
+        // FUNGSI INISIALISASI
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. Terapkan tema yang tersimpan
+            const savedTheme = localStorage.getItem('dashboardTheme') || 'light-mode';
+            setTheme(savedTheme);
+
+            // 2. Tampilkan Menu Utama
+            showMainMenu();
+        });
+    </script>
+</body>
+</html>

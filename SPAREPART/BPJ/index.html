@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard BPJ - Pencarian & Filter</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="http://edp2:8081/SPS_Logo.png">
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+        :root{ --accent-1:#667eea; --accent-2:#764ba2; --muted:#6c757d; --glass-bg:rgba(255,255,255,0.9); }
+        body{ font-family:'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Arial; min-height:100vh; padding:28px; margin:0; background:linear-gradient(180deg, rgba(0,0,0,0.28), rgba(0,0,0,0.28)), url('../Background.png'); background-size:cover; background-position:center; background-attachment:fixed; color:#222; }
+        .container{ max-width:1300px; margin:0 auto; background:var(--glass-bg); border-radius:12px; box-shadow:0 10px 30px rgba(8,15,30,0.25); overflow:hidden; border:1px solid rgba(255,255,255,0.5); }
+        .header{ padding:22px 28px; display:flex; align-items:center; gap:16px; }
+        .header h1{ font-size:1.5rem; color:rgb(95,116,182); margin:0 }
+        .header p{ margin:0; color:#6c757d }
+        .search-section{ padding:18px 28px; border-bottom:1px solid rgba(0,0,0,0.04) }
+        .search-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px; margin-bottom:12px }
+        .form-group label{ display:block; font-weight:600; margin-bottom:6px; color:#495057 }
+        .form-group input, .form-group select{ padding:10px 12px; border-radius:10px; border:1px solid rgba(0,0,0,0.06); width:100%; background:white }
+        .button-group{ display:flex; gap:10px; }
+        .btn{ padding:10px 16px; border-radius:10px; border:0; cursor:pointer; font-weight:600 }
+        .btn-primary{ background:linear-gradient(90deg,var(--accent-1),var(--accent-2)); color:#fff }
+        .btn-secondary{ background:#6c757d; color:#fff }
+        .btn-success{ background:#28a745; color:#fff }
+        .table-section{ padding:18px 28px 26px 28px; }
+        .table-container{ border-radius:10px; overflow-x:auto; border:1px solid rgba(0,0,0,0.06); background:#fff }
+        table{ width:100%; border-collapse:collapse }
+        thead{ background:linear-gradient(90deg,var(--accent-1),var(--accent-2)); color:#fff }
+        thead th{ padding:12px 14px; font-weight:700; text-transform:uppercase; font-size:0.82em }
+        tbody td{ padding:12px 14px; border-bottom:1px solid rgba(0,0,0,0.04); color:#495057 }
+        tbody tr:hover{ background:rgba(102,126,234,0.03) }
+        .loading{ padding:36px; text-align:center; color:var(--muted) }
+        .no-data{ padding:40px; text-align:center; color:var(--muted) }
+        .error{ padding:12px; background:#f8d7da; color:#721c24; border-radius:8px; margin:12px 0 }
+        .pagination{ padding:12px 28px; display:flex; justify-content:space-between; align-items:center }
+        .pagination-info{ color:#6c757d }
+        .pagination-buttons{ display:flex; gap:10px }
+        @media(max-width:900px){ .search-grid{ grid-template-columns:1fr } }
+        thead th{ position:sticky; top:0; z-index:2 }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📋 Dashboard BPJ</h1>
+            <p>Monitoring Bukti Permintaan Barang</p>
+        </div>
+
+        <div class="search-section">
+            <div class="search-grid">
+                <div class="form-group">
+                    <label for="search">🔍 Pencarian Umum</label>
+                    <input id="search" type="text" placeholder="Cari No BPJ, No PP, Kode, Nama...">
+                </div>
+                <div class="form-group">
+                    <label for="keyword1">🔑 Keyword 1</label>
+                    <input id="keyword1" type="text" placeholder="Supplier / No PP...">
+                </div>
+                <div class="form-group">
+                    <label for="keyword2">🔑 Keyword 2</label>
+                    <input id="keyword2" type="text" placeholder="Ukuran / Note...">
+                </div>
+                <div class="form-group">
+                    <label for="dateFrom">📅 Tanggal Dari</label>
+                    <input id="dateFrom" type="date">
+                </div>
+                <div class="form-group">
+                    <label for="dateTo">📅 Tanggal Sampai</label>
+                    <input id="dateTo" type="date">
+                </div>
+                <div class="form-group">
+                    <label for="limit">📊 Jumlah Data</label>
+                    <select id="limit"><option value="50">50</option><option value="100" selected>100</option><option value="200">200</option><option value="500">500</option></select>
+                </div>
+            </div>
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="searchData()">🔍 Cari Data</button>
+                <button class="btn btn-secondary" onclick="resetFilters()">🔄 Reset</button>
+                <button class="btn btn-success" onclick="exportToExcel()">📥 Export</button>
+            </div>
+        </div>
+
+        <div class="table-section">
+            <div id="loadingMessage" class="loading" style="display:none">⏳ Memuat data...</div>
+            <div id="errorMessage" class="error" style="display:none"></div>
+
+            <div id="tableContainer" style="display:none">
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>No BPJ</th>
+                                <th>PJS</th>
+                                <th>Tanggal</th>
+                                <th>Kode Bahan</th>
+                                <th>Nama Barang</th>
+                                <th>Ukuran</th>
+                                <th>Jumlah</th>
+                                <th>Note</th>
+                                <th>Keterangan</th>
+                                <th>Supplier</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="noDataMessage" class="no-data" style="display:none">📭 Tidak ada data yang ditemukan</div>
+        </div>
+
+        <div class="pagination" id="paginationSection" style="display:none">
+            <div class="pagination-info" id="paginationInfo"></div>
+            <div class="pagination-buttons">
+                <button id="prevBtn" class="btn btn-secondary" onclick="previousPage()">‹ Sebelumnya</button>
+                <button id="nextBtn" class="btn btn-primary" onclick="nextPage()">Berikutnya ›</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Point to hosted proxy for BPJ
+        const API_BASE_URL = window.location.origin + '/sparepart/BPJ/get_bpj_list.php';
+        let currentOffset = 0; let currentLimit = 100; let totalRecords = 0;
+
+        window.onload = function(){ const today=new Date(); const defaultFrom=new Date('2020-01-01'); document.getElementById('dateTo').valueAsDate = today; document.getElementById('dateFrom').valueAsDate = defaultFrom;
+            // Trigger search when Enter is pressed in the search inputs
+            ['search','keyword1','keyword2'].forEach(id=>{
+                const el = document.getElementById(id);
+                if(el){ el.addEventListener('keydown', function(e){ if(e.key === 'Enter'){ e.preventDefault(); searchData(); }}); }
+            });
+            searchData(); };
+
+        function searchData(){
+            currentLimit = parseInt(document.getElementById('limit').value);
+            currentOffset = 0;
+            const params = new URLSearchParams({ search: document.getElementById('search').value, keyword1: document.getElementById('keyword1').value, keyword2: document.getElementById('keyword2').value, date_from: document.getElementById('dateFrom').value, date_to: document.getElementById('dateTo').value, limit: currentLimit, offset: currentOffset });
+            fetchData(params);
+        }
+
+        function fetchData(params){ showLoading(); fetch(`${API_BASE_URL}?${params}`).then(r=>r.json()).then(data=>{ hideLoading(); if(data.success){ displayData(data); updatePagination(data.pagination);} else { showError(data.message||'Error'); }}).catch(err=>{ hideLoading(); showError('Error: '+err.message); }); }
+
+        function displayData(resp){ const tbody=document.getElementById('tableBody'); tbody.innerHTML=''; if(resp.data && resp.data.length){ resp.data.forEach((row,i)=>{ const tr=document.createElement('tr'); tr.innerHTML = ` <td>${currentOffset+i+1}</td> <td><strong>${row.cNoBPJ || '-'}</strong></td> <td>${row.cNoPP||'-'}</td> <td>${formatDate(row.dTanggal)||'-'}</td> <td><code>${row.cKodeBahan||'-'}</code></td> <td>${row.nama_barang||'-'}</td> <td>${row.ukuran||'-'}</td> <td><strong>${row.jumlah_satuan || (formatNumber(row.jumlah) + (row.satuan ? ' '+row.satuan : ''))}</strong></td> <td>${row.cNote||'-'}</td> <td>${row.cKeterangan||'-'}</td> <td>${row.supplier||'-'}</td>`; tbody.appendChild(tr); }); document.getElementById('tableContainer').style.display='block'; document.getElementById('noDataMessage').style.display='none'; } else { document.getElementById('tableContainer').style.display='none'; document.getElementById('noDataMessage').style.display='block'; } }
+
+        function updatePagination(p){ if(!p) return; totalRecords=p.total_records; const info=`Menampilkan ${currentOffset+1} - ${Math.min(currentOffset+currentLimit,totalRecords)} dari ${totalRecords} data`; document.getElementById('paginationInfo').textContent=info; document.getElementById('prevBtn').disabled=!p.has_prev; document.getElementById('nextBtn').disabled=!p.has_next; document.getElementById('paginationSection').style.display='flex'; }
+
+        function previousPage(){ if(currentOffset>=currentLimit){ currentOffset-=currentLimit; const params=new URLSearchParams({ search: document.getElementById('search').value, keyword1: document.getElementById('keyword1').value, keyword2: document.getElementById('keyword2').value, date_from: document.getElementById('dateFrom').value, date_to: document.getElementById('dateTo').value, limit: currentLimit, offset: currentOffset }); fetchData(params); } }
+
+        function nextPage(){ if(currentOffset+currentLimit<totalRecords){ currentOffset+=currentLimit; const params=new URLSearchParams({ search: document.getElementById('search').value, keyword1: document.getElementById('keyword1').value, keyword2: document.getElementById('keyword2').value, date_from: document.getElementById('dateFrom').value, date_to: document.getElementById('dateTo').value, limit: currentLimit, offset: currentOffset }); fetchData(params); } }
+
+        function resetFilters(){ document.getElementById('search').value=''; document.getElementById('keyword1').value=''; document.getElementById('keyword2').value=''; document.getElementById('dateTo').valueAsDate=new Date(); document.getElementById('dateFrom').valueAsDate=new Date('2020-01-01'); document.getElementById('limit').value='100'; searchData(); }
+
+        function exportToExcel(){ const params=new URLSearchParams({ search: document.getElementById('search').value, keyword1: document.getElementById('keyword1').value, keyword2: document.getElementById('keyword2').value, date_from: document.getElementById('dateFrom').value, date_to: document.getElementById('dateTo').value, limit: currentLimit, offset: currentOffset }); params.set('export','excel'); window.location.href=`${API_BASE_URL}?${params}`; }
+
+        function showLoading(){ document.getElementById('loadingMessage').style.display='block'; document.getElementById('errorMessage').style.display='none'; document.getElementById('tableContainer').style.display='none'; document.getElementById('noDataMessage').style.display='none'; }
+        function hideLoading(){ document.getElementById('loadingMessage').style.display='none'; }
+        function showError(msg){ const el=document.getElementById('errorMessage'); el.textContent=msg; el.style.display='block'; document.getElementById('tableContainer').style.display='none'; document.getElementById('noDataMessage').style.display='none'; }
+        function formatDate(s){ if(!s) return '-'; const d=new Date(s); if(isNaN(d)) return s; return d.toLocaleDateString('id-ID',{year:'numeric',month:'short',day:'numeric'}); }
+        function formatNumber(n){ if(n===0) return '0'; if(!n) return '0'; return parseFloat(n).toLocaleString('id-ID',{minimumFractionDigits:0,maximumFractionDigits:2}); }
+    </script>
+</body>
+</html>

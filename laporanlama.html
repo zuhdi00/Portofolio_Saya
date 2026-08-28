@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Laporan O.P</title>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+  <style>
+    @page {
+      size: A4;
+      margin: 0;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      font-size: 16px;
+      padding: 20px;
+      margin: 0;
+    }
+    .report {
+      border: 1px solid #000;
+      padding: 20px;
+      width: 100%;
+      max-width: 800px;
+      margin: 0 auto;
+      position: relative;
+      box-sizing: border-box;
+      page-break-after: always;
+      min-height: 1120px;
+    }
+    .row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      font-size: 18px;
+    }
+    .label {
+      font-weight: bold;
+      width: 220px;
+    }
+    .value {
+      flex: 1;
+    }
+    #qrcode {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+    }
+    #qrcode canvas {
+      width: 240px !important;
+      height: 240px !important;
+    }
+    .print-btn {
+      margin-top: 30px;
+      text-align: center;
+    }
+    .logo {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      height: 70px;
+    }
+    .title-header {
+      text-align: center;
+      font-weight: bold;
+      font-size: 20px;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+    }
+    .signature-section {
+      margin-top: 60px;
+      text-align: center;
+      margin-bottom: 200px;
+    }
+    .signature-prod {
+      width: 40%;
+      margin: 0 auto 40px auto;
+      border: 1px solid black;
+      padding: 15px 10px;
+      height: 90px;
+      box-sizing: border-box;
+      font-size: 15px;
+    }
+    .signature-below {
+      display: flex;
+      justify-content: space-around;
+    }
+    .signature-box {
+      width: 30%;
+      border: 1px solid black;
+      padding: 15px 10px;
+      height: 90px;
+      box-sizing: border-box;
+      font-size: 15px;
+    }
+
+    input[type="text"],
+    input[type="number"] {
+      font-size: 16px;
+      padding: 5px;
+    }
+
+    button {
+      font-size: 16px;
+      padding: 8px 12px;
+      cursor: pointer;
+    }
+
+    h2 {
+      font-size: 20px;
+    }
+
+    @media print {
+      body {
+        padding: 0;
+        margin: 0;
+      }
+      .print-btn, input, button, h2, .manual-input {
+        display: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h2>Cari Laporan Berdasarkan No. O.P</h2>
+  <input type="text" id="inputOP" placeholder="Contoh: 2503/00990-B06" />
+  <button onclick="fetchData()">Cari</button>
+
+  <div id="reportContainer" class="report" style="display:none;">
+    <img src="http://36.76.126.98:8081/SPS_Logo.png" class="logo" alt="SPS Logo" />
+    <div id="qrcode"></div>
+
+    <div class="title-header">PT. Supracor Sejahtera</div>
+    <div class="title-header">Corrugated Carton Box</div>
+
+    <div class="row"><span class="label">Tanggal Cetak:</span><span class="value" id="tanggalCetak"></span></div>
+    <div class="row"><span class="label">Tanggal Kirim:</span><span class="value" id="tglKirim"></span></div>
+    <div class="row"><span class="label">No. O.P:</span><span class="value" id="op"></span></div>
+    <div class="row"><span class="label">Nama Barang:</span><span class="value" id="namaBarang"></span></div>
+    <div class="row"><span class="label">Kode Barang:</span><span class="value" id="kodeBarang"></span></div>
+    <div class="row"><span class="label">Pemesan:</span><span class="value" id="pemesan"></span></div>
+    <div class="row"><span class="label">Ukuran:</span><span class="value" id="ukuran"></span></div>
+    <div class="row"><span class="label">Jumlah Order:</span><span class="value" id="qty"></span></div>
+    <div class="row manual-input">
+      <span class="label">Jumlah Koli :</span>
+      <span class="value"><input type="number" id="manualKoli" placeholder="Masukkan jumlah koli" style="width: 100%;" /></span>
+    </div>
+    <div class="row">
+      <span class="label">Jumlah Koli :</span>
+      <span class="value" id="koliDisplay"></span>
+    </div>
+
+    <div class="row manual-input">
+      <span class="label">Jumlah Pallet :</span>
+      <span class="value"><input type="number" id="manualPalet" placeholder="Masukkan jumlah pallet" style="width: 100%;" /></span>
+    </div>
+    <div class="row">
+      <span class="label">Jumlah Pallet :</span>
+      <span class="value" id="palletDisplay"></span>
+    </div>
+    
+    <div class="row">
+      <span class="label">Jumlah Hasil Terbaik :</span>
+      <span class="value" id="qtyKG"></span>
+    </div>
+    <div class="row"><span class="label">Lokasi Barang:</span><span class="value" id="rak"></span></div>
+
+    <div class="signature-section">
+      <div class="signature-prod">PROD<br><br><br>________________</div>
+      <div class="signature-below">
+        <div class="signature-box">G. BJ<br><br><br>________________</div>
+        <div class="signature-box">QC<br><br><br>________________</div>
+      </div>
+    </div>
+
+    <div class="print-btn">
+      <button onclick="saveAndPrint()">Simpan & Cetak</button>
+    </div>
+  </div>
+
+  <script>
+    let currentOp = "";
+
+    function fetchData() {
+      let op = document.getElementById("inputOP").value.trim();
+      if (!op) {
+        alert("Silakan masukkan nomor O.P");
+        return;
+      }
+
+      if (!op.startsWith("SPS/")) {
+        op = "SPS/" + op;
+      }
+
+      axios.get(`http://36.76.126.98:8081/api_get_item_detail_v2.php?barcode=${encodeURIComponent(op)}`)
+        .then(response => {
+          if (response.data.success) {
+            const d = response.data.data;
+            const today = new Date().toISOString().split('T')[0];
+
+            currentOp = d.cNoOp;
+
+            document.getElementById("tanggalCetak").textContent = today;
+            document.getElementById("tglKirim").textContent = d.dTglkirim || '-';
+            document.getElementById("op").textContent = d.cNoOp;
+            document.getElementById("namaBarang").textContent = d.cNamabrg;
+            document.getElementById("kodeBarang").textContent = d.cNoMC;
+            document.getElementById("pemesan").textContent = d.cNama;
+            document.getElementById("ukuran").textContent = `${d.nPanjang} x ${d.nLebar} x ${d.nTinggi}`;
+            document.getElementById("qty").textContent = d.nQty;
+            document.getElementById("qtyKG").textContent = '0';
+            document.getElementById("rak").textContent = d.cRak;
+
+            document.getElementById("manualPalet").value = '';
+            document.getElementById("palletDisplay").textContent = '';
+            document.getElementById("manualKoli").value = '';
+            document.getElementById("koliDisplay").textContent = '';
+
+            document.getElementById("reportContainer").style.display = "block";
+            generateQRCode(d.cNoOp);
+          } else {
+            alert(response.data.message);
+          }
+        })
+        .catch(error => {
+          alert("Gagal mengambil data: " + error);
+        });
+    }
+
+    function generateQRCode(text) {
+      const qrContainer = document.getElementById("qrcode");
+      qrContainer.innerHTML = "";
+      const canvas = document.createElement("canvas");
+      qrContainer.appendChild(canvas);
+      QRCode.toCanvas(canvas, text, { width: 240 }, function (error) {
+        if (error) console.error(error);
+      });
+    }
+
+    function saveAndPrint() {
+      const pallet = parseInt(document.getElementById("manualPalet").value);
+      const koli = parseInt(document.getElementById("manualKoli").value);
+
+      if (!currentOp) {
+        alert("Data O.P belum dimuat");
+        return;
+      }
+
+      if (!pallet || isNaN(pallet)) {
+        alert("Masukkan jumlah pallet yang valid");
+        return;
+      }
+
+      if (!koli || isNaN(koli)) {
+        alert("Masukkan jumlah koli yang valid");
+        return;
+      }
+
+      axios.post('http://36.76.126.98:8081/api_save_pallet.php', {
+        op: currentOp,
+        pallet: pallet,
+        koli: koli
+      })
+      .then(response => {
+        if (response.data.success) {
+          document.getElementById("palletDisplay").textContent = pallet;
+          document.getElementById("koliDisplay").textContent = koli;
+          document.getElementById("qtyKG").textContent = pallet * koli;
+          window.print();
+        } else {
+          alert("Gagal menyimpan data: " + response.data.message);
+        }
+      })
+      .catch(error => {
+        alert("Terjadi kesalahan saat menyimpan: " + error);
+      });
+    }
+  </script>
+</body>
+</html>

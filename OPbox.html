@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Order Produksi BOX</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #e9ecef 0%, #b2fefa 100%);
+            margin: 0;
+            padding: 0;
+        }
+        .opbox-container {
+            max-width: 980px;
+            margin: 32px auto;
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 8px 32px #bfc9d133, 0 2px 8px #2193b033;
+            padding: 32px 32px 24px 32px;
+            border: 1px solid #dbeafe;
+        }
+        .opbox-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 18px;
+        }
+        .opbox-header h2 {
+            font-size: 22px;
+            font-weight: bold;
+            margin: 0;
+            color: #2193b0;
+            letter-spacing: 1px;
+            text-shadow: 1px 1px 2px #b2fefa55;
+        }
+        .opbox-header .opbox-date {
+            font-size: 15px;
+            color: #444;
+        }
+        .opbox-form, .opbox-row, .opbox-row-small {
+            display: grid;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+        .opbox-form { grid-template-columns: repeat(12, 1fr); }
+        .opbox-row { grid-template-columns: repeat(12, 1fr); }
+        .opbox-row-small { grid-template-columns: repeat(8, 1fr); }
+        .opbox-label {
+            font-size: 12px;
+            color: #2193b0;
+            margin-bottom: 2px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            text-shadow: 1px 1px 2px #b2fefa33;
+        }
+        .opbox-input, .opbox-select, .opbox-textarea {
+            width: 100%;
+            padding: 8px 10px;
+            font-size: 13px;
+            border: 1.5px solid #bfc9d1;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #f8fafc 60%, #e0f7fa 100%);
+            box-sizing: border-box;
+            box-shadow: 0 2px 6px #bfc9d133;
+            transition: border 0.2s, box-shadow 0.2s;
+        }
+        .opbox-input:focus, .opbox-select:focus, .opbox-textarea:focus {
+            border-color: #2193b0;
+            outline: none;
+            box-shadow: 0 0 0 2px #6dd5ed55;
+        }
+        .opbox-checkbox {
+            margin-right: 4px;
+            accent-color: #2193b0;
+            transform: scale(1.2);
+        }
+        .opbox-checkbox-label {
+            font-size: 12px;
+            color: #2193b0;
+            margin-left: 2px;
+            text-shadow: 1px 1px 2px #b2fefa33;
+        }
+        .opbox-row-checkbox {
+            display: flex;
+            gap: 24px;
+            margin-bottom: 12px;
+            margin-left: 2px;
+        }
+        .opbox-preview-area {
+            display: flex;
+            gap: 18px;
+            margin-top: 16px;
+        }
+        .opbox-preview {
+            background: linear-gradient(135deg, #f5f7fa 60%, #e0f7fa 100%);
+            border: 1.5px solid #bfc9d1;
+            border-radius: 14px;
+            padding: 18px;
+            flex: 1;
+            min-width: 320px;
+            box-shadow: 0 4px 16px #bfc9d133;
+        }
+        .opbox-preview-btn {
+            background: linear-gradient(90deg, #2193b0 0%, #6dd5ed 100%);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 32px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 12px;
+            font-size: 1rem;
+            box-shadow: 0 2px 8px #b2fefa33, 0 1px 4px #2193b033;
+            transition: background 0.2s, transform 0.1s;
+        }
+        .opbox-preview-btn:hover {
+            background: linear-gradient(90deg, #6dd5ed 0%, #2193b0 100%);
+            transform: translateY(-2px) scale(1.04);
+        }
+        .opbox-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 12px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px #bfc9d133;
+        }
+        .opbox-table th, .opbox-table td {
+            border: 1px solid #bfc9d1;
+            padding: 8px 12px;
+            font-size: 13px;
+            text-align: left;
+            background: #f8fafc;
+        }
+        .opbox-table th {
+            background: linear-gradient(90deg, #e9ecef 60%, #b2fefa 100%);
+            color: #2193b0;
+        }
+        .opbox-flex-row {
+            display: flex;
+            gap: 0;
+            align-items: stretch;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+        .box-section {
+            border:2px solid #bfc9d1;
+            min-width:60px;
+            text-align:center;
+            font-size:13px;
+            background: linear-gradient(135deg, #fff 60%, #e0f7fa 100%);
+            border-radius:8px;
+            padding:10px 0;
+            color: #2193b0;
+            font-weight: 600;
+            flex: 1;
+            margin: 0 4px;
+            box-shadow: 0 2px 8px #bfc9d133;
+        }
+        .opbox-right {
+            flex: 1.2;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+        .opbox-bottom-table {
+            margin-top: 8px;
+        }
+        @media (max-width: 1100px) {
+            .opbox-container { max-width: 99vw; }
+            .opbox-preview-area { flex-direction: column; }
+        }
+        @media (max-width: 700px) {
+            .opbox-form, .opbox-row, .opbox-row-small { grid-template-columns: repeat(2, 1fr); }
+            .opbox-container { padding: 8px 2vw; }
+            .opbox-preview-area { flex-direction: column; }
+        }
+    </style>
+    <!-- Tambahkan library jsPDF dan html-docx.js untuk export PDF/Word -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html-docx-js/0.4.1/html-docx.js"></script>
+</head>
+<body>
+<div class="opbox-container" id="opbox-content">
+    <div class="opbox-header">
+        <h2>Order Produksi BOX </h2>
+        <div class="opbox-date">
+            Tgl <input type="date" class="opbox-input" style="width:120px;" value="2025-11-14">
+        </div>
+    </div>
+    <!-- Baris 1: No OP, No OP2 -->
+    <div class="opbox-form">
+        <div style="grid-column: span 3;">
+            <div class="opbox-label">No OP</div>
+            <input type="text" class="opbox-input" value="SPS/2511/00627-B01">
+        </div>
+        <div style="grid-column: span 3;">
+            <div class="opbox-label"></div>
+            <input type="text" class="opbox-input" value="SPS/2511/00627-B01">
+        </div>
+        <div style="grid-column: span 2;">
+            <div class="opbox-label"></div>
+            <input type="text" class="opbox-input" value="">
+        </div>
+    </div>
+    <!-- Baris 2 -->
+    <div class="opbox-row">
+        <div>
+            <div class="opbox-label">OP. Top - Bottom</div>
+            <input type="checkbox" class="opbox-checkbox">
+        </div>
+        <div>
+            <div class="opbox-label">ScDtl (B/T)</div>
+            <input type="text" class="opbox-input" value="">
+        </div>
+        <!-- Barang listbox -->
+        <div>
+            <div class="opbox-label">Barang</div>
+            <select class="opbox-input">
+                <option value="">-- Pilih Barang --</option>
+                <option value="Box">Box</option>
+                <option value="Sheet">Sheet</option>
+                <option value="Lainnya">Lainnya</option>
+            </select>
+        </div>
+        <div>
+            <div class="opbox-label">No.SC</div>
+            <input type="text" class="opbox-input" value="SLC/2511/00627">
+        </div>
+        <!-- Tipe Toleransi listbox -->
+        <div>
+            <div class="opbox-label">Tipe Toleransi</div>
+            <select class="opbox-input">
+                <option value="">-- Pilih Toleransi --</option>
+                <option value="Standar">Standar</option>
+                <option value="Khusus">Khusus</option>
+                <option value="Lainnya">Lainnya</option>
+            </select>
+        </div>
+        <div>
+            <div class="opbox-label">Ket.Order</div>
+            <input type="text" class="opbox-input" value="ORDER ULANG">
+        </div>
+        <div>
+            <div class="opbox-label">BOX</div>
+            <input type="text" class="opbox-input" value="">
+        </div>
+        <div></div><div></div><div></div><div></div>
+    </div>
+    <!-- Baris 3 -->
+    <div class="opbox-row">
+        <div>
+            <div class="opbox-label">No.MC</div>
+            <input type="text" class="opbox-input" value="0014777">
+        </div>
+        <div>
+            <div class="opbox-label">Toleransi</div>
+            <input type="text" class="opbox-input" value="1">
+        </div>
+        <div>
+            <div class="opbox-label">Ukuran</div>
+            <input type="text" class="opbox-input" value="340">
+        </div>
+        <div>
+            <div class="opbox-label">Berat</div>
+            <input type="text" class="opbox-input" value="0.20328">
+        </div>
+        <div>
+            <div class="opbox-label">Berat Real</div>
+            <input type="text" class="opbox-input" value="0.00000">
+        </div>
+        <div>
+            <div class="opbox-label">P x L x T</div>
+            <input type="text" class="opbox-input" value="231">
+        </div>
+        <div>
+            <div class="opbox-label">Act</div>
+            <input type="text" class="opbox-input" value="">
+        </div>
+        <div>
+            <div class="opbox-label">Normal</div>
+            <input type="text" class="opbox-input" value="">
+        </div>
+        <div></div><div></div><div></div><div></div>
+    </div>
+    <!-- Baris 4 -->
+    <div class="opbox-row">
+        <div>
+            <div class="opbox-label">APR Join MC</div>
+            <input type="text" class="opbox-input" value="">
+        </div>
+        <div>
+            <div class="opbox-label">DC Join MC</div>
+            <input type="text" class="opbox-input" value="">
+        </div>
+        <div>
+            <div class="opbox-label">Pemesan</div>
+            <input type="text" class="opbox-input" value="RUGUN">
+        </div>
+        <div style="grid-column: span 2;">
+            <div class="opbox-label">Nama Barang</div>
+            <input type="text" class="opbox-input" value="MEDISTI 48 X 220 ML">
+        </div>
+        <!-- Type Creasing listbox -->
+        <div>
+            <div class="opbox-label">Type Creasing</div>
+            <select class="opbox-input">
+                <option value="">-- Pilih Type --</option>
+                <option value="1-Tunggal">1-Tunggal</option>
+                <option value="2-Ganda">2-Ganda</option>
+                <option value="3-Tunggal">3-Tunggal</option>
+            </select>
+        </div>
+        <!-- Ket. Creasing listbox -->
+        <div>
+            <div class="opbox-label">Ket. Creasing</div>
+            <select class="opbox-input">
+                <option value="">-- Pilih Keterangan --</option>
+                <option value="Standar">Standar</option>
+                <option value="Khusus">Khusus</option>
+                <option value="Lainnya">Lainnya</option>
+            </select>
+        </div>
+        <div>
+            <div class="opbox-label">Design Pas Cl</div>
+            <input type="text" class="opbox-input" value="">
+        </div>
+        <div>
+            <div class="opbox-label">Creasing</div>
+            <input type="text" class="opbox-input" value="">
+        </div>
+        <div></div><div></div><div></div>
+    </div>
+    <!-- Baris 5 -->
+    <div class="opbox-row">
+        <div>
+            <div class="opbox-label">Substance</div>
+            <input type="text" class="opbox-input" value="K125">
+        </div>
+        <div>
+            <div class="opbox-label"></div>
+            <input type="text" class="opbox-input" value="M125">
+        </div>
+        <div>
+            <div class="opbox-label"></div>
+            <input type="text" class="opbox-input" value="K110">
+        </div>
+        <div>
+            <div class="opbox-label">BF</div>
+            <input type="text" class="opbox-input" value="">
+        </div>
+        <div>
+            <div class="opbox-label">Kertas</div>
+            <input type="text" class="opbox-input" value="BK-AF">
+        </div>
+        <div>
+            <div class="opbox-label"></div>
+            <input type="text" class="opbox-input" value="BK-AF">
+        </div>
+        <div>
+            <div class="opbox-label">Sambungan</div>
+            <input type="text" class="opbox-input" value="GLUE">
+        </div>
+        <div style="grid-column: span 2;">
+            <div class="opbox-label">Warna</div>
+            <input type="text" class="opbox-input" value="BLUE 113 - GREEN 163 - RED 01 - BLUE 90">
+        </div>
+        <div>
+            <div class="opbox-label">Bungkus</div>
+            <input type="text" class="opbox-input" value="">
+        </div>
+        <div>
+            <div class="opbox-label">Part / Layer</div>
+            <input type="text" class="opbox-input" value="">
+        </div>
+        <div>
+            <div class="opbox-label">A1</div>
+            <select class="opbox-input">
+                <option value="">-- Pilih A1 --</option>
+                <option value="A1-1">A1-1</option>
+                <option value="A1-2">A1-2</option>
+                <option value="A1-3">A1-3</option>
+            </select>
+        </div>
+    </div>
+    <!-- Baris 6 -->
+    <div class="opbox-row-small">
+        <div>
+            <div class="opbox-label">Ambil Stok</div>
+            <input type="text" class="opbox-input" value="">
+        </div>
+        <div>
+            <div class="opbox-label">Jml Order</div>
+            <input type="text" class="opbox-input" value="20000">
+        </div>
+        <div>
+            <div class="opbox-label">Corr</div>
+            <input type="text" class="opbox-input" value="4400">
+        </div>
+        <div>
+            <div class="opbox-label">Jml Prod</div>
+            <input type="text" class="opbox-input" value="20000">
+        </div>
+        <div>
+            <div class="opbox-label">R.M</div>
+            <input type="text" class="opbox-input" value="4771">
+        </div>
+        <div>
+            <div class="opbox-label">Slot</div>
+            <input type="checkbox" class="opbox-checkbox">
+        </div>
+        <div>
+            <div class="opbox-label">Gambar Atas</div>
+            <input type="checkbox" class="opbox-checkbox">
+        </div>
+        <div>
+            <div class="opbox-label">Tgl Kirim</div>
+            <input type="text" class="opbox-input" value="25/11/2025">
+        </div>
+    </div>
+    <!-- Baris 7 -->
+    <div class="opbox-row">
+        <div>
+            <div class="opbox-label">Ikatan</div>
+            <input type="text" class="opbox-input" value="20">
+        </div>
+        <div>
+            <div class="opbox-label">Sisa</div>
+            <input type="text" class="opbox-input" value="NAC">
+        </div>
+        <div>
+            <div class="opbox-label">Sheet Corr</div>
+            <input type="text" class="opbox-input" value="">
+        </div>
+        <div style="grid-column: span 2;">
+            <div class="opbox-label">Ket Corr</div>
+            <input type="text" class="opbox-input" value="SHEET MINTA KERAS">
+        </div>
+        <div style="grid-column: span 3;">
+            <div class="opbox-label">Ket Finish</div>
+            <input type="text" class="opbox-input" value="OUP CUST MINTA KERAS, OUP DSGN(3TGL), OUP KM(5) ASALK110M1">
+        </div>
+        <div>
+            <div class="opbox-label">Wax</div>
+            <input type="text" class="opbox-input" value="">
+        </div>
+        <div>
+            <div class="opbox-label">Water Repellant</div>
+            <input type="text" class="opbox-input" value="">
+        </div>
+        <div>
+            <div class="opbox-label">Palet</div>
+            <input type="text" class="opbox-input" value="">
+        </div>
+        <div>
+            <div class="opbox-label">Pcs</div>
+            <input type="text" class="opbox-input" value="">
+        </div>
+        <div>
+            <div class="opbox-label">Flexo</div>
+            <input type="text" class="opbox-input" value="FLEXO 4 4">
+        </div>
+    </div>
+    <!-- Checkbox group -->
+    <div class="opbox-row-checkbox">
+        <div>
+            <input type="checkbox" class="opbox-checkbox" id="cbLidahKanan">
+            <label for="cbLidahKanan" class="opbox-checkbox-label">Lidah Sebelah Kanan</label>
+        </div>
+        <div>
+            <input type="checkbox" class="opbox-checkbox" id="cbLidahLebar">
+            <label for="cbLidahLebar" class="opbox-checkbox-label">Lidah Pada Sisi Lebar</label>
+        </div>
+        <div>
+            <input type="checkbox" class="opbox-checkbox" id="cbFlutingTerbalik">
+            <label for="cbFlutingTerbalik" class="opbox-checkbox-label">Fluting Terbalik</label>
+        </div>
+        <div>
+            <input type="checkbox" class="opbox-checkbox" id="cbTungguKabar">
+            <label for="cbTungguKabar" class="opbox-checkbox-label">Tunggu Kabar</label>
+        </div>
+    </div>
+    <!-- Preview Box & Table -->
+    <div class="opbox-preview-area">
+        <div class="opbox-preview">
+            <div class="opbox-flex-row">
+                <div class="box-section">P1<br>30</div>
+                <div class="box-section">343</div>
+                <div class="box-section">L1<br>231</div>
+                <div class="box-section">P2<br>343</div>
+                <div class="box-section">L2<br>231</div>
+            </div>
+            <button class="opbox-preview-btn">Preview</button>
+        </div>
+        <div class="opbox-right">
+            <table class="opbox-table opbox-bottom-table">
+                <thead>
+                    <tr>
+                        <th>Nomer OP</th>
+                        <th>Tgl Kirim</th>
+                        <th>Keterangan</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>*</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- Export PDF/Word -->
+    <div style="text-align:center; margin:32px 0;">
+        <button onclick="downloadPDF()">Download PDF</button>
+        <button onclick="downloadWord()">Download Word</button>
+    </div>
+</div>
+<script>
+    // PDF Export
+    function downloadPDF() {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF('p', 'pt', 'a4');
+        doc.html(document.getElementById('opbox-content'), {
+            callback: function (pdf) {
+                pdf.save('Order_Produksi_BOX.pdf');
+            },
+            margin: [20, 20, 20, 20],
+            autoPaging: 'text',
+            x: 10,
+            y: 10,
+            width: 570
+        });
+    }
+
+    // Word Export
+    function downloadWord() {
+        var content = document.getElementById('opbox-content').innerHTML;
+        var converted = window.htmlDocx.asBlob('<html><head><meta charset="utf-8"></head><body>' + content + '</body></html>');
+        var link = document.createElement('a');
+        link.href = URL.createObjectURL(converted);
+        link.download = 'Order_Produksi_BOX.docx';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+</script>
+</body>
+</html>

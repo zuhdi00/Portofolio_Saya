@@ -1,0 +1,236 @@
+<?php
+header('Content-Type: application/json; charset=utf-8');
+header('Access-Control-Allow-Origin: *');
+
+$serverName = "spsdmz2";
+$connectionOptions = [
+    "Database" => "dbSopanusa",
+    "Uid" => "sa",
+    "PWD" => "supracor",
+    "ReturnDatesAsStrings" => true,
+    "CharacterSet" => "UTF-8"
+];
+
+function dbConnect($serverName, $opts) {
+    $conn = sqlsrv_connect($serverName, $opts);
+    if (!$conn) { echo json_encode(['success'=>false,'message'=>'DB connect failed']); exit; }
+    return $conn;
+}
+function safeStr($v){ if ($v===null) return ''; return is_string($v)? trim($v) : $v; }
+
+$action = $_GET['action'] ?? 'list';
+if (!in_array($action, ['list','mc_suggest'])) {
+    echo json_encode(['success'=>false,'message'=>'only list and mc_suggest supported']); exit;
+}
+
+$conn = dbConnect($serverName, $connectionOptions);
+
+// mc_suggest: return distinct MC (cNoMc) from tbOP for autocomplete
+if ($action === 'mc_suggest') {
+    $q = trim($_GET['search'] ?? '');
+    $out = ['success'=>true,'data'=>[]];
+    if ($q === '' || strlen($q) < 2) { echo json_encode($out); sqlsrv_close($conn); exit; }
+    $like = '%' . $q . '%';
+    $msql = "SELECT DISTINCT TOP 30 ISNULL(cNoMc,'') AS cNoMc FROM tbOP WITH (NOLOCK) WHERE cNoMc LIKE ? ORDER BY cNoMc";
+    $mstmt = sqlsrv_query($conn, $msql, [$like], ["QueryTimeout"=>300]);
+    if ($mstmt !== false) {
+        while ($r = sqlsrv_fetch_array($mstmt, SQLSRV_FETCH_ASSOC)) { $out['data'][] = $r['cNoMc']; }
+        sqlsrv_free_stmt($mstmt);
+    }
+    sqlsrv_close($conn);
+    echo json_encode($out, JSON_UNESCAPED_UNICODE);
+    exit;
+}
+// params
+$mc = trim($_GET['mc'] ?? '');
+$flexo = trim($_GET['flexo'] ?? '');
+$shipFrom = trim($_GET['ship_from'] ?? '');
+$shipTo = trim($_GET['ship_to'] ?? '');
+$scNo = trim($_GET['sc_no'] ?? '');
+$dateFrom = trim($_GET['date_from'] ?? '');
+$dateTo = trim($_GET['date_to'] ?? '');
+// Shipment date filters from UI; apply them to dTglkirim2 (shipment date)
+$dateScFrom = trim($_GET['date_sc_from'] ?? '');
+$dateScTo   = trim($_GET['date_sc_to'] ?? '');
+$status     = trim($_GET['status'] ?? ''); // '', 'OPEN', or 'CLOSE'
+$search = trim($_GET['search'] ?? '');
+$limit = (int)($_GET['limit'] ?? 200);
+$offset = (int)($_GET['offset'] ?? 0);
+
+// Build SQL (tbOP as base, no tbSC/tbSRJ)
+$sql = "SELECT
+    op.cNoOp AS cNoOp,
+    ISNULL(op.cnm_c,'') AS customer,
+    ISNULL(op.cnm_brg,'') AS nama_brg,
+    ISNULL(sc.cSales, '') AS sales,
+    ISNULL(sc.cStatus, 'OPEN') AS sc_status,
+    ISNULL(op.cNoMc,'') AS cNoMc,
+    ISNULL(op.cNoSc,'') AS cNoSc,
+    -- op date (used as Tgl OP / mapped from SC filter in UI)
+    ISNULL(CONVERT(VARCHAR(19), op.dTgl, 120),'') AS tgl_op,
+    -- Qty Produksi: gunakan nQtyStok dari tbOP
+    ISNULL(op.nQtyStok,0) AS qty_prod,
+    -- netto per box (gram)
+    ISNULL(op.nTot_netto,0) AS netto,
+    -- tonase in kg: qty_stok * netto(g) / 1000
+    CAST(ISNULL(op.nQtyStok,0) * ISNULL(op.nTot_netto,0) / 1000.0 AS DECIMAL(18,2)) AS tonase,
+    -- duplicate tonase as 'tinase' for compatibility
+    CAST(ISNULL(op.nQtyStok,0) * ISNULL(op.nTot_netto,0) / 1000.0 AS DECIMAL(18,2)) AS tinase,
+    ISNULL(op.cFlexo,'') AS cFlexo,
+    ISNULL(op.cDC,'') AS cDC,
+    ISNULL([plan].plan_pcs,0) AS plan_corr,
+    ISNULL([hsl].hsl_corr,0) AS hsl_corr,
+    ISNULL([stb].jml_stb,0) AS jml_stb,
+    -- Beban Corr: plan_pcs - hsl_pcs (pcs) dan kg
+    CASE WHEN ISNULL([plan].plan_pcs,0) - ISNULL([hsl].hsl_corr,0) > 0 THEN ISNULL([plan].plan_pcs,0) - ISNULL([hsl].hsl_corr,0) ELSE 0 END AS beban_corr_pcs,
+    CASE WHEN ISNULL([plan].plan_kg,0) - ISNULL([hsl].hsl_corr_kg,0) > 0 THEN ISNULL([plan].plan_kg,0) - ISNULL([hsl].hsl_corr_kg,0) ELSE 0 END AS beban_corr_kg,
+    -- Beban Conv: hsl_corr - jml_stb (pcs) dan kg
+    CASE WHEN ISNULL([hsl].hsl_corr,0) - ISNULL([stb].jml_stb,0) > 0 THEN ISNULL([hsl].hsl_corr,0) - ISNULL([stb].jml_stb,0) ELSE 0 END AS beban_conv_pcs,
+    CASE WHEN ISNULL([hsl].hsl_corr_kg,0) - ISNULL([stb].jml_stb_kg,0) > 0 THEN ISNULL([hsl].hsl_corr_kg,0) - ISNULL([stb].jml_stb_kg,0) ELSE 0 END AS beban_conv_kg,
+    -- Beban JO: 1 jika plan_corr=0 AND hsl_corr=0 AND jml_stb=0
+    CASE WHEN ISNULL([plan].plan_pcs,0)=0 AND ISNULL([hsl].hsl_corr,0)=0 AND ISNULL([stb].jml_stb,0)=0 THEN 1 ELSE 0 END AS is_beban_jo,
+    -- Total STB data with kg
+    ISNULL([stb].jml_stb,0) AS jml_stb_filtered,
+    ISNULL([stb].jml_stb_kg,0) AS jml_stb_filtered_kg
+FROM tbOP op WITH (NOLOCK)
+
+LEFT JOIN tbSC sc WITH (NOLOCK) ON sc.cNoSc = op.cNoSc
+
+LEFT JOIN (
+    SELECT s.cNoOp, SUM(ISNULL(s.nQty,0)) AS jml_stb, SUM(ISNULL(s.nQtyKg,0)) AS jml_stb_kg
+    FROM tbStbBJ s WITH (NOLOCK)
+    GROUP BY s.cNoOp
+) [stb] ON [stb].cNoOp = op.cNoOp
+
+LEFT JOIN (
+    SELECT cNoOp, SUM(hsl_pcs) AS hsl_corr, SUM(hsl_kg) AS hsl_corr_kg
+    FROM (
+        SELECT d.cNoOp, SUM(ISNULL(d.nHasil,0)) AS hsl_pcs, SUM(ISNULL(d.nBerat,0)) AS hsl_kg
+        FROM tbHslCorrDtl d WITH (NOLOCK)
+        GROUP BY d.cNoOp
+    ) t
+    GROUP BY cNoOp
+) [hsl] ON [hsl].cNoOp = op.cNoOp
+
+LEFT JOIN (
+    SELECT cd.cNoOp, SUM(ISNULL(cd.nQtyOrder,0)) AS plan_pcs, 
+           SUM(ISNULL(cd.nQtyOrder,0) * ISNULL(op2.nTot_netto,0) / 1000.0) AS plan_kg
+    FROM tbCorrDtl cd WITH (NOLOCK)
+    LEFT JOIN tbOP op2 WITH (NOLOCK) ON op2.cNoOp = cd.cNoOp
+    GROUP BY cd.cNoOp
+) [plan] ON [plan].cNoOp = op.cNoOp
+
+";
+
+$where = [];
+$params = [];
+// Status filter (tbSC.cStatus): only applied when the user explicitly picks OPEN or CLOSE.
+// Left empty ('Semua'), no status filtering is applied at all.
+if ($status === 'OPEN') {
+    $where[] = "ISNULL(sc.cStatus,'OPEN') = 'OPEN'";
+} elseif ($status === 'CLOSE') {
+    $where[] = "ISNULL(sc.cStatus,'OPEN') = 'CLOSE'";
+}
+if ($mc) { $where[] = "op.cNoMc LIKE ?"; $params[] = '%'.$mc.'%'; }
+if ($flexo) { $where[] = "op.cFlexo = ?"; $params[] = $flexo; }
+if ($scNo) { $where[] = "(op.cNoSc LIKE ? OR op.cNoOp LIKE ?)"; $params[] = '%'.$scNo.'%'; $params[] = $scNo . '%'; }
+if ($search) {
+    // Flexible search: allow entering partial OP like '2605/00012' or MC/item/customer
+    $where[] = "(op.cNoOp LIKE ? OR op.cNoOp LIKE ? OR op.cNoSc LIKE ? OR op.cNoMc LIKE ? OR op.cnm_brg LIKE ? OR op.cnm_c LIKE ? )";
+    $params[] = $search . '%';        // matches prefix searches
+    $params[] = '%' . $search . '%';   // matches fragments anywhere
+    $params[] = '%' . $search . '%';
+    $params[] = '%' . $search . '%';
+    $params[] = '%' . $search . '%';
+    $params[] = '%' . $search . '%';
+}
+// Prefer Shipment date filter if provided (UI uses SC date inputs for shipment date)
+if ($dateScFrom) {
+    $where[] = "COALESCE(op.dTglkirim2, op.dTglkirim) >= ?"; $params[] = $dateScFrom;
+} elseif ($dateFrom) {
+    $where[] = "COALESCE(op.dTglkirim2, op.dTglkirim) >= ?"; $params[] = $dateFrom;
+}
+if ($dateScTo) {
+    $where[] = "COALESCE(op.dTglkirim2, op.dTglkirim) <= ?"; $params[] = $dateScTo . ' 23:59:59';
+} elseif ($dateTo) {
+    $where[] = "COALESCE(op.dTglkirim2, op.dTglkirim) <= ?"; $params[] = $dateTo . ' 23:59:59';
+}
+if ($shipFrom && $shipTo) {
+    $where[] = "COALESCE(op.dTglkirim2, op.dTglkirim) >= ? AND COALESCE(op.dTglkirim2, op.dTglkirim) <= ?";
+    $params[] = $shipFrom; $params[] = $shipTo . ' 23:59:59';
+} elseif ($shipFrom) {
+    $where[] = "COALESCE(op.dTglkirim2, op.dTglkirim) >= ?"; $params[] = $shipFrom;
+} elseif ($shipTo) {
+    $where[] = "COALESCE(op.dTglkirim2, op.dTglkirim) <= ?"; $params[] = $shipTo . ' 23:59:59';
+}
+
+if (!empty($where)) { $sql .= " WHERE " . implode(' AND ', $where); }
+
+// count
+$countSql = "SELECT COUNT(*) AS total FROM tbOP op WITH (NOLOCK)";
+if (!empty($where)) $countSql .= " WHERE " . implode(' AND ', $where);
+
+$cStmt = sqlsrv_query($conn, $countSql, $params, ["QueryTimeout"=>600]);
+$total = 0; if ($cStmt) { $crow = sqlsrv_fetch_array($cStmt, SQLSRV_FETCH_ASSOC); $total = (int)($crow['total'] ?? 0); sqlsrv_free_stmt($cStmt); }
+
+// paging: avoid OFFSET/FETCH to support servers with varying SQL support.
+// When $limit>0 we use a TOP() prefix to limit rows and slice in PHP.
+if ($limit > 0) {
+    $fetchTop = $offset + $limit;
+    // inject TOP N after the initial SELECT
+    $sql = preg_replace('/^SELECT\s+/i', "SELECT TOP $fetchTop ", $sql, 1);
+    // ensure there is a deterministic ORDER BY for stable paging
+       $sql .= " ORDER BY op.dTgl DESC, op.cNoOp DESC";
+}
+
+$stmt = sqlsrv_query($conn, $sql, $params, ["QueryTimeout"=>600]);
+$rows = [];
+if ($stmt === false) {
+    $errs = sqlsrv_errors();
+    sqlsrv_close($conn);
+    echo json_encode(['success'=>false,'message'=>'Query failed','errors'=>$errs,'debug'=>['sql'=>$sql,'params'=>$params]], JSON_UNESCAPED_UNICODE);
+    exit;
+} else {
+    while ($r = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)) {
+        $clean = [];
+        foreach ($r as $k=>$v) { $clean[$k] = is_string($v)? safeStr($v) : $v; }
+        $rows[] = $clean;
+    }
+    sqlsrv_free_stmt($stmt);
+}
+
+// If we used TOP-based paging, slice the results to the requested page
+if ($limit > 0 && count($rows) > 0) {
+    if ($offset > 0) {
+        $rows = array_slice($rows, $offset, $limit);
+    } else {
+        $rows = array_slice($rows, 0, $limit);
+    }
+}
+
+// If count says there are rows but fetch returned none, include SQL for debugging
+if (empty($rows) && isset($total) && $total > 0) {
+    sqlsrv_close($conn);
+    echo json_encode(['success'=>true,'data'=>[],'pagination'=>['total_records'=>$total,'total_pages'=> $limit>0 ? ceil($total / $limit) : 1,'current_page'=> $limit>0 ? floor($offset/$limit)+1 : 1,'records_per_page'=>$limit,'offset'=>$offset,'has_prev'=>$offset>0,'has_next'=> ($offset+$limit) < $total],'debug'=>['sql'=>$sql,'params'=>$params]], JSON_UNESCAPED_UNICODE);
+    exit;
+}
+sqlsrv_close($conn);
+
+// add sequential numbering
+$no = $offset + 1;
+foreach ($rows as &$r) { $r['no'] = $no++; }
+unset($r);
+
+echo json_encode([
+    'success'=>true,
+    'data'=>$rows,
+    'pagination'=>[
+        'total_records'=>(int)$total,
+        'total_pages'=> $limit>0 ? ceil($total / $limit) : 1,
+        'current_page'=> $limit>0 ? floor($offset/$limit)+1 : 1,
+        'records_per_page'=>$limit,
+        'offset'=>$offset,
+        'has_prev'=>$offset>0,
+        'has_next'=> ($offset+$limit) < $total
+    ]
+], JSON_UNESCAPED_UNICODE);

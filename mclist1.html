@@ -1,0 +1,1343 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Produksi - Monitoring Order Produksi</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            min-height: 100vh;
+            color: #ecf0f1;
+            line-height: 1.6;
+        }
+
+        .navbar {
+            background: #2c3e50;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ecf0f1;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .navbar-brand i {
+            font-size: 1.2em;
+        }
+
+        .navbar-nav {
+            display: flex;
+            gap: 20px;
+            list-style: none;
+        }
+
+        .nav-link {
+            color: #bdc3c7;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.95rem;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: #3498db;
+            color: white;
+        }
+
+        .admin-badge {
+            background: #1abc9c;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+        
+        #tableContent {
+            overflow-x: auto;
+            width: 100%;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #3498db, #1abc9c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .page-subtitle {
+            font-size: 1.1rem;
+            opacity: 0.8;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            transition: transform 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #3498db;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .controls-panel {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .search-row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .search-container {
+            flex: 1;
+            min-width: 250px;
+            position: relative;
+        }
+
+        .mc-search-container {
+            min-width: 200px;
+            position: relative;
+        }
+
+        .search-input, .mc-input, .date-input {
+            width: 100%;
+            padding: 15px 50px 15px 20px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .search-input::placeholder, .mc-input::placeholder, .date-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .search-input:focus, .mc-input:focus, .date-input:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.3);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.6);
+            pointer-events: none;
+        }
+
+        /* Autocomplete Styles */
+        .autocomplete-container {
+            position: relative;
+        }
+
+        .autocomplete-suggestions {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 2px solid #3498db;
+            border-top: none;
+            border-radius: 0 0 15px 15px;
+            max-height: 400px;
+            overflow-y: auto;
+            z-index: 1000;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            display: none;
+        }
+
+        .autocomplete-suggestion {
+            padding: 12px 20px;
+            cursor: pointer;
+            border-bottom: 1px solid #ecf0f1;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+        }
+
+        .autocomplete-suggestion:hover, .autocomplete-suggestion.active {
+            background: #3498db;
+            color: white;
+        }
+
+        .autocomplete-suggestion:last-child {
+            border-bottom: none;
+        }
+
+
+        .suggestion-mc .fa-warehouse {color: #e67e22;}
+        .suggestion-mc .fa-industry {color: #3498db;}
+
+        .suggestion-mc {
+            font-weight: bold;
+            color: #2c3e50;
+            font-size: 1rem;
+            width: 100%;
+            margin-bottom: 5px;
+        }
+
+        .suggestion-info {
+            font-size: 0.85rem;
+            color: #7f8c8d;
+            width: 100%;
+            margin-bottom: 3px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .suggestion-info i {
+            font-size: 0.8em;
+        }
+
+        .suggestion-usage {
+            font-size: 0.8rem;
+            background: #ecf0f1;
+            color: #2c3e50;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .autocomplete-suggestion:hover .suggestion-mc,
+        .autocomplete-suggestion.active .suggestion-mc {
+            color: white;
+        }
+
+        .autocomplete-suggestion:hover .suggestion-info,
+        .autocomplete-suggestion.active .suggestion-info {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .autocomplete-suggestion:hover .suggestion-usage,
+        .autocomplete-suggestion.active .suggestion-usage {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+
+        .autocomplete-loading {
+            padding: 15px 20px;
+            text-align: center;
+            color: #7f8c8d;
+            font-style: italic;
+        }
+
+        .autocomplete-no-results {
+            padding: 15px 20px;
+            text-align: center;
+            color: #e74c3c;
+            font-style: italic;
+        }
+
+        .controls-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .status-indicators {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .status-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        .status-online {
+            background: #2ecc71;
+        }
+
+        .status-loading {
+            background: #f39c12;
+        }
+
+        .status-error {
+            background: #e74c3c;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #3498db, #2980b9);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95rem;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-clear {
+            background: linear-gradient(45deg, #e74c3c, #c0392b);
+        }
+
+        .btn-clear:hover {
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4);
+        }
+
+        .btn-filter {
+            background: linear-gradient(45deg, #f39c12, #e67e22);
+        }
+
+        .btn-filter:hover {
+            box-shadow: 0 5px 15px rgba(243, 156, 18, 0.4);
+        }
+
+        .btn-refresh {
+            background: linear-gradient(45deg, #2ecc71, #27ae60);
+        }
+
+        .btn-refresh:hover {
+            box-shadow: 0 5px 15px rgba(46, 204, 113, 0.4);
+        }
+
+        .data-table-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            margin-bottom: 30px;
+        }
+
+        .table-header {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .table-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        .table-head {
+            background: #3498db;
+            color: white;
+            position: sticky;
+            top: 0;
+        }
+
+        .table-head th {
+            padding: 15px 12px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid #2980b9;
+        }
+
+        .table-row {
+            transition: all 0.3s ease;
+            border-bottom: 1px solid #ecf0f1;
+        }
+
+        .table-row:hover {
+            background: #f8f9fa;
+            transform: scale(1.005);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .table-row:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .table-row:nth-child(even):hover {
+            background: #e9ecef;
+        }
+
+        .table-cell {
+            padding: 15px 12px;
+            color: #2c3e50;
+            font-size: 0.9rem;
+            vertical-align: top;
+        }
+
+        .order-number {
+            font-weight: bold;
+            color: #3498db;
+            font-size: 1rem;
+        }
+
+        .date-cell {
+            color: #7f8c8d;
+            font-size: 0.85rem;
+            white-space: nowrap;
+        }
+
+        .client-name {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .product-name {
+            color: #27ae60;
+            font-weight: 500;
+        }
+
+        .quantity-badge {
+            background: #3498db;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-block;
+            min-width: 40px;
+            text-align: center;
+        }
+
+        .currency {
+            color: #27ae60;
+            font-weight: 600;
+        }
+
+        .dimensions {
+            font-size: 0.8rem;
+            color: #7f8c8d;
+            line-height: 1.3;
+        }
+
+        .color-indicator {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            margin-right: 8px;
+            vertical-align: middle;
+            border: 2px solid #ddd;
+        }
+
+        .loading-spinner {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 60px;
+            color: #2c3e50;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #ecf0f1;
+            border-top: 5px solid #3498db;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error-message {
+            text-align: center;
+            padding: 40px;
+            color: #e74c3c;
+            background: rgba(231, 76, 60, 0.1);
+            border-radius: 10px;
+            margin: 20px;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 60px;
+            color: #7f8c8d;
+        }
+
+        .filter-info {
+            background: rgba(52, 152, 219, 0.1);
+            color: #3498db;
+            padding: 10px 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: none;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .filter-info.active {
+            display: flex;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            color: #ecf0f1;
+            margin-top: 20px;
+        }
+
+        .pagination button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .pagination button:hover:not(:disabled) {
+            background: #2980b9;
+        }
+
+        .pagination button:disabled {
+            background: #7f8c8d;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .pagination span {
+            font-weight: bold;
+            min-width: 100px;
+            text-align: center;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 1200px) {
+            .page-title {
+                font-size: 2rem;
+            }
+            
+            .stat-card {
+                padding: 20px;
+            }
+            
+            .stat-number {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .navbar-nav {
+                display: none;
+            }
+            
+            .page-title {
+                font-size: 1.8rem;
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 15px;
+            }
+            
+            .page-header {
+                padding: 30px 15px;
+            }
+            
+            .search-row {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 15px;
+            }
+            
+            .search-container, .mc-search-container {
+                min-width: auto;
+            }
+            
+            .controls-bottom {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 15px;
+            }
+            
+            .data-table-container {
+                overflow-x: auto;
+            }
+            
+            .table-cell {
+                padding: 10px 8px;
+                font-size: 0.8rem;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .pagination {
+                flex-wrap: wrap;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .navbar {
+                padding: 15px;
+            }
+            
+            .navbar-brand {
+                font-size: 1.2rem;
+            }
+            
+            .admin-badge {
+                padding: 6px 12px;
+                font-size: 0.8rem;
+            }
+            
+            .page-title {
+                font-size: 1.5rem;
+            }
+            
+            .page-subtitle {
+                font-size: 1rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stat-card {
+                padding: 15px;
+            }
+            
+            .stat-number {
+                font-size: 1.8rem;
+            }
+            
+            .controls-panel {
+                padding: 20px 15px;
+            }
+            
+            .search-input, .mc-input, .date-input {
+                padding: 12px 40px 12px 15px;
+            }
+            
+            .search-icon {
+                right: 15px;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="#" class="navbar-brand">
+            <i class="fas fa-tachometer-alt"></i>
+            <span>Dashboard Produksi</span>
+        </a>
+        <ul class="navbar-nav">
+            <li><a href="#" class="nav-link"><i class="fas fa-home"></i> Beranda</a></li>
+            <li><a href="#" class="nav-link"><i class="fas fa-users"></i> Pelanggan</a></li>
+            <li><a href="#" class="nav-link active"><i class="fas fa-clipboard-list"></i> Order Produksi</a></li>
+            <li><a href="#" class="nav-link"><i class="fas fa-chart-line"></i> Laporan</a></li>
+        </ul>
+        <div class="admin-badge">
+            <i class="fas fa-user-shield"></i>
+            <span>Administrator</span>
+            <i class="fas fa-chevron-down"></i>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <h1 class="page-title">
+                <i class="fas fa-clipboard-list"></i>
+                <span>📋 Dashboard Order Produksi</span>
+            </h1>
+            <p class="page-subtitle">Monitoring real-time order produksi - Data dari sistem Order Produksi</p>
+        </div>
+
+        <div class="stats-grid" id="statsGrid">
+            <div class="stat-card">
+                <div class="stat-number" id="totalOrders">-</div>
+                <div class="stat-label">Total Order</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="totalQuantity">-</div>
+                <div class="stat-label">Total Kuantitas</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="totalRM">-</div>
+                <div class="stat-label">Total RM (Kg)</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="activeClients">-</div>
+                <div class="stat-label">Pelanggan Aktif</div>
+            </div>
+        </div>
+
+        <div class="filter-info" id="filterInfo">
+            <span><i class="fas fa-filter"></i></span>
+            <span id="filterText">Filter aktif</span>
+            <button class="btn btn-clear" onclick="clearFilters()">
+                <i class="fas fa-times"></i> Hapus Filter
+            </button>
+        </div>
+
+        <div class="controls-panel">
+            <div class="search-row">
+                <div class="search-container">
+                    <input type="text" class="search-input" id="searchInput" placeholder="Cari berdasarkan No. Order, Pelanggan, Produk, atau Warna...">
+                    <span class="search-icon"><i class="fas fa-search"></i></span>
+                </div>
+                <div class="mc-search-container autocomplete-container">
+                    <input type="text" class="mc-input" id="mcInput" placeholder="mencari MC atau Lokasi..." autocomplete="off">
+                    <span class="search-icon"><i class="fas fa-industry"></i></span>
+                    <div class="autocomplete-suggestions" id="mcSuggestions"></div>
+                </div>
+            </div>
+            <div class="search-row" style="margin-bottom: 0;">
+                <div class="search-container">
+                    <input type="date" class="date-input" id="dateFromInput" placeholder="Dari Tanggal">
+                    <span class="search-icon"><i class="far fa-calendar-alt"></i></span>
+                </div>
+                <div class="search-container">
+                    <input type="date" class="date-input" id="dateToInput" placeholder="Sampai Tanggal">
+                    <span class="search-icon"><i class="far fa-calendar-alt"></i></span>
+                </div>
+                <button class="btn btn-filter" onclick="loadData()">
+                    <i class="fas fa-sliders-h" id="filterIcon"></i>
+                    Terapkan Filter
+                </button>
+            </div>
+            <div class="controls-bottom">
+                <div class="status-indicators">
+                    <div class="status-dot status-online" id="statusDot"></div>
+                    <span id="statusText">Menyambungkan...</span>
+                </div>
+                <div style="display: flex; gap: 10px;">
+                    <button class="btn btn-clear" onclick="clearAllFilters()">
+                        <i class="fas fa-broom"></i> Hapus Semua
+                    </button>
+                    <button class="btn btn-refresh" onclick="loadData()">
+                        <i class="fas fa-sync-alt" id="refreshIcon"></i>
+                        Muat Ulang
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="data-table-container">
+            <div class="table-header">
+                <h2 class="table-title">
+                    <i class="fas fa-table"></i>
+                    <span>Daftar Order Produksi</span>
+                </h2>
+            </div>
+            
+            <div id="tableContent">
+                <div class="loading-spinner">
+                    <div class="spinner"></div>
+                    <span>Memuat data...</span>
+                </div>
+            </div>
+
+            <div class="pagination">
+                <button id="prevPageBtn" disabled>
+                    <i class="fas fa-chevron-left"></i> Sebelumnya
+                </button>
+                <span>Halaman <span id="currentPage">1</span> dari <span id="totalPages">1</span></span>
+                <button id="nextPageBtn">
+                    Berikutnya <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // API endpoints
+        const API_MC_LIST = 'get_mc_list_new.php';
+        const API_DATA_LIST = 'get_data_list1.php';
+        
+        // DOM elements
+        const mcInput = document.getElementById('mcInput');
+        const mcSuggestions = document.getElementById('mcSuggestions');
+        const searchInput = document.getElementById('searchInput');
+        const dateFromInput = document.getElementById('dateFromInput');
+        const dateToInput = document.getElementById('dateToInput');
+        const tableContent = document.getElementById('tableContent');
+        const statusDot = document.getElementById('statusDot');
+        const statusText = document.getElementById('statusText');
+        const refreshIcon = document.getElementById('refreshIcon');
+        const filterInfo = document.getElementById('filterInfo');
+        const filterText = document.getElementById('filterText');
+        const totalOrdersStat = document.getElementById('totalOrders');
+        const totalQuantityStat = document.getElementById('totalQuantity');
+        const totalRMStat = document.getElementById('totalRM');
+        const activeClientsStat = document.getElementById('activeClients');
+        const prevPageBtn = document.getElementById('prevPageBtn');
+        const nextPageBtn = document.getElementById('nextPageBtn');
+        const currentPageSpan = document.getElementById('currentPage');
+        const totalPagesSpan = document.getElementById('totalPages');
+
+        // State variables
+        let currentActiveSuggestion = -1;
+        let debounceTimer;
+        let currentPage = 1;
+        let recordsPerPage = 100;
+        let totalRecords = 0;
+
+        // Set default dates (last 30 days)
+        function setDefaultDates() {
+            const today = new Date();
+            const thirtyDaysAgo = new Date();
+            thirtyDaysAgo.setDate(today.getDate() - 30);
+            
+            dateFromInput.valueAsDate = thirtyDaysAgo;
+            dateToInput.valueAsDate = today;
+        }
+
+        // Update connection status UI
+        function updateStatus(status, message) {
+            statusDot.className = `status-dot status-${status}`;
+            statusText.textContent = message;
+        }
+
+        // Fetch MC suggestions with debounce
+        async function fetchMcSuggestions(query) {
+            if (query.length < 2) {
+                mcSuggestions.style.display = 'none';
+                return;
+            }
+
+            mcSuggestions.innerHTML = '<div class="autocomplete-loading"><i class="fas fa-spinner fa-spin"></i> Memuat...</div>';
+            mcSuggestions.style.display = 'block';
+            updateStatus('loading', 'Mencari MC...');
+
+            try {
+                const response = await fetch(`${API_MC_LIST}?search=${encodeURIComponent(query)}`);
+                const data = await response.json();
+
+                if (!response.ok || !data.success) {
+                    throw new Error(data.message || 'Gagal memuat saran MC.');
+                }
+
+                displayMcSuggestions(data.data);
+                updateStatus('online', 'Terhubung');
+            } catch (error) {
+                console.error('Error fetching MC suggestions:', error);
+                mcSuggestions.innerHTML = `<div class="autocomplete-no-results"><i class="fas fa-exclamation-circle"></i> Error: ${error.message}</div>`;
+                updateStatus('error', 'Error pencarian MC');
+            }
+        }
+
+        // Display MC suggestions with rich information
+function displayMcSuggestions(suggestions) {
+    mcSuggestions.innerHTML = '';
+    
+    if (suggestions.length === 0) {
+        mcSuggestions.innerHTML = '<div class="autocomplete-no-results"><i class="fas fa-info-circle"></i> Tidak ditemukan hasil.</div>';
+    } else {
+        suggestions.forEach((item, index) => {
+            const div = document.createElement('div');
+            div.classList.add('autocomplete-suggestion');
+            
+            // Tentukan ikon dan info tambahan berdasarkan jenis pencarian
+            const icon = item.search_type === 'mc' ? 'fa-industry' : 'fa-warehouse';
+            const typeLabel = item.search_type === 'mc' ? 'MC' : 'Rak';
+            
+            // Format informasi tambahan
+            const usageInfo = item.search_type === 'mc' ? 
+                `<div class="suggestion-info">
+                    <i class="fas fa-history"></i>
+                    Digunakan ${item.usage_count}x oleh ${item.unique_clients} klien
+                </div>` :
+                `<div class="suggestion-info">
+                    <i class="fas fa-microchip"></i>
+                    ${item.mc_count} MC terdaftar, ${item.total_ops} total operasi
+                </div>`;
+                
+            const quantityInfo = item.search_type === 'mc' ? 
+                `<i class="fas fa-boxes"></i> ${item.total_quantity}` : 
+                `<i class="fas fa-box-open"></i> ${item.total_quantity}`;
+                
+            div.innerHTML = `
+                <div style="flex: 1;">
+                    <div class="suggestion-mc">
+                        <i class="fas ${icon}"></i>
+                        ${item.search_key} (${typeLabel})
+                    </div>
+                    ${usageInfo}
+                    <div class="suggestion-info">
+                        <i class="far fa-clock"></i>
+                        Terakhir Digunakan: ${item.last_used || 'N/A'}
+                    </div>
+                </div>
+                <span class="suggestion-usage">
+                    ${quantityInfo}
+                </span>
+            `;
+            
+            div.addEventListener('click', () => {
+                mcInput.value = item.search_key;
+                mcSuggestions.style.display = 'none';
+                currentPage = 1;
+                mcInput.dataset.searchType = item.search_type;
+                loadData();
+            });
+            mcSuggestions.appendChild(div);
+        });
+    }
+    mcSuggestions.style.display = 'block';
+    currentActiveSuggestion = -1;
+}
+        // Truncate long text with ellipsis
+        function truncateText(text, maxLength) {
+            if (!text) return '';
+            if (text.length <= maxLength) return text;
+            return text.substring(0, maxLength) + '...';
+        }
+
+        // Format date for display
+        function formatDate(dateString) {
+            if (!dateString) return '';
+            const date = new Date(dateString);
+            return date.toLocaleDateString('id-ID') + ' ' + date.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+        }
+
+        // Highlight suggestion in autocomplete
+        function highlightSuggestion(index) {
+            const suggestions = mcSuggestions.querySelectorAll('.autocomplete-suggestion');
+            suggestions.forEach((s, i) => {
+                if (i === index) {
+                    s.classList.add('active');
+                    s.scrollIntoView({ block: 'nearest' });
+                } else {
+                    s.classList.remove('active');
+                }
+            });
+        }
+
+        // Load data from API
+async function loadData() {
+    updateStatus('loading', 'Memuat data...');
+    tableContent.innerHTML = `
+        <div class="loading-spinner">
+            <div class="spinner"></div>
+            <span>Memuat data...</span>
+        </div>
+    `;
+    refreshIcon.classList.add('fa-spin');
+
+    const generalSearch = searchInput.value;
+    const locationFilter = mcInput.value;
+    const dateFrom = dateFromInput.value;
+    const dateTo = dateToInput.value;
+    const offset = (currentPage - 1) * recordsPerPage;
+
+    const params = new URLSearchParams({
+        limit: recordsPerPage,
+        offset: offset
+    });
+
+    if (generalSearch) params.append('search', generalSearch);
+    
+    // Deteksi apakah input adalah MC atau Rak
+if (locationFilter) {
+    const searchType = mcInput.dataset.searchType || '';
+
+    if (searchType === 'rak') {
+        params.append('rak', locationFilter.trim());
+    } else {
+        params.append('mc', locationFilter.trim());
+    }
+}
+    
+    if (dateFrom) params.append('date_from', dateFrom);
+    if (dateTo) params.append('date_to', dateTo);
+
+    try {
+        const response = await fetch(`${API_DATA_LIST}?${params.toString()}`);
+        const data = await response.json();
+
+        if (!response.ok || !data.success) {
+            throw new Error(data.message || 'Gagal memuat data.');
+        }
+
+        renderTable(data.data);
+        updateStats(data.data);
+        updateFilterInfo(data.search_params);
+        updatePagination(data.pagination);
+        updateStatus('online', 'Data terbaru');
+    } catch (error) {
+        console.error('Error loading data:', error);
+        tableContent.innerHTML = `
+            <div class="error-message">
+                <i class="fas fa-exclamation-triangle"></i><br><br>
+                Error: ${error.message}<br>
+                Silakan coba muat ulang data.
+            </div>
+        `;
+        updateStats([]);
+        updateFilterInfo({});
+        updatePagination({ current_page: 0, total_pages: 0, total_records: 0, records_per_page: recordsPerPage });
+        updateStatus('error', 'Error memuat data');
+    } finally {
+        refreshIcon.classList.remove('fa-spin');
+    }
+}
+
+        // Render table with data
+        function renderTable(data) {
+            if (data.length === 0) {
+                tableContent.innerHTML = `
+                    <div class="no-data">
+                        <i class="far fa-folder-open"></i><br><br>
+                        Tidak ditemukan data untuk filter saat ini.
+                    </div>
+                `;
+                return;
+            }
+
+            let tableHtml = `
+            <div style="overflow-x: auto;">
+                <table class="data-table">
+                    <thead class="table-head">
+                        <tr>
+                            <th>No. Order</th>
+                            <th>No. MC</th>
+                            <th>Pelanggan</th>
+                            <th>Produk</th>
+                            <th>Dimensi (P x L x T)</th>
+                            <th>Qty</th>
+                            <th>RM (Kg)</th>
+                            <th>Warna</th>
+                            <th>Tgl Produksi</th>
+                            <th>Tgl Kirim</th>
+                            <th>Tipe</th>
+                            <th>No. SC</th>
+                            <th>Lokasi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            </div>
+            `;
+
+            data.forEach(row => {
+                const dimensions = `${row.nPanjang || 0} × ${row.nLebar || 0} × ${row.nTinggi || 0}`;
+                const productionDate = row.dTgl ? formatDate(row.dTgl) : '';
+                const shippingDate = row.dTglkirim ? formatDate(row.dTglkirim) : '';
+                
+                tableHtml += `
+                    <tr class="table-row">
+                        <td class="table-cell order-number">${row.cNoOp || '-'}</td>
+                        <td class="table-cell">${row.cNoMc || '-'}</td>
+                        <td class="table-cell client-name">${row.cnm_c || '-'}</td>
+                        <td class="table-cell product-name">${row.cnm_brg || '-'}</td>
+                        <td class="table-cell dimensions">${dimensions}</td>
+                        <td class="table-cell"><span class="quantity-badge">${row.nQty ? row.nQty.toLocaleString() : '0'}</span></td>
+                        <td class="table-cell">${row.nRm ? row.nRm.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : '0.00'}</td>
+                        <td class="table-cell">
+                            <span class="color-indicator" style="background-color: ${getColorFromName(row.cWarna)};"></span>
+                            ${row.cWarna || '-'}
+                        </td>
+                        <td class="table-cell date-cell">${productionDate}</td>
+                        <td class="table-cell date-cell">${shippingDate}</td>
+                        <td class="table-cell">${row.cTipe || '-'}</td>
+                        <td class="table-cell">${row.cNoSc || '-'}</td>
+                        <td class="table-cell">${row.cRak || '-'}</td>
+                    </tr>
+                `;
+            });
+
+            tableHtml += `
+                    </tbody>
+                </table>
+            `;
+            tableContent.innerHTML = tableHtml;
+        }
+
+        // Update statistics cards
+        function updateStats(data) {
+            const totalOrders = data.length;
+            const totalQuantity = data.reduce((sum, row) => sum + (parseFloat(row.nQty) || 0), 0);
+            const totalRM = data.reduce((sum, row) => sum + (parseFloat(row.nRm) || 0), 0);
+            const uniqueClients = new Set(data.map(row => row.cnm_c)).size;
+
+            totalOrdersStat.textContent = totalOrders.toLocaleString();
+            totalQuantityStat.textContent = totalQuantity.toLocaleString();
+            totalRMStat.textContent = totalRM.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            activeClientsStat.textContent = uniqueClients.toLocaleString();
+        }
+
+        // Update filter info panel
+function updateFilterInfo(searchParams) {
+    const filters = [];
+    if (searchParams.search) filters.push(`Pencarian: "${searchParams.search}"`);
+    if (searchParams.mc) filters.push(`MC: "${searchParams.mc}"`);
+    if (searchParams.rak) filters.push(`Rak: "${searchParams.rak}"`);
+    if (searchParams.date_from) filters.push(`Dari: "${searchParams.date_from}"`);
+    if (searchParams.date_to) filters.push(`Sampai: "${searchParams.date_to}"`);
+    
+    if (filters.length > 0) {
+        filterText.innerHTML = `Filter aktif: <strong>${filters.join(', ')}</strong>`;
+        filterInfo.classList.add('active');
+    } else {
+        filterInfo.classList.remove('active');
+        filterText.textContent = '';
+    }
+}
+
+        // Update pagination controls
+        function updatePagination(pagination) {
+            currentPage = pagination.current_page;
+            totalRecords = pagination.total_records;
+            recordsPerPage = pagination.records_per_page;
+            const totalPages = pagination.total_pages;
+
+            currentPageSpan.textContent = currentPage;
+            totalPagesSpan.textContent = totalPages;
+
+            prevPageBtn.disabled = !pagination.has_prev;
+            nextPageBtn.disabled = !pagination.has_next;
+        }
+
+        // Clear all filters
+        function clearAllFilters() {
+            searchInput.value = '';
+            mcInput.value = '';
+            dateFromInput.value = '';
+            dateToInput.value = '';
+            currentPage = 1;
+            loadData();
+        }
+
+        // Get color from name for color indicator
+        function getColorFromName(colorName) {
+            if (!colorName) return '#bdc3c7';
+            
+            const colorMap = {
+                'biru': '#3498db',
+                'merah': '#e74c3c',
+                'hijau': '#2ecc71',
+                'kuning': '#f1c40f',
+                'hitam': '#2c3e50',
+                'putih': '#ecf0f1',
+                'orange': '#e67e22',
+                'ungu': '#9b59b6',
+                'pink': '#e91e63',
+                'abu': '#95a5a6'
+            };
+
+            const lowerColor = colorName.toLowerCase();
+            return colorMap[lowerColor] || '#bdc3c7';
+        }
+
+        // Event listeners
+        mcInput.addEventListener('input', () => {
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(() => {
+                fetchMcSuggestions(mcInput.value);
+            }, 300);
+        });
+
+        mcInput.addEventListener('keydown', (e) => {
+            const suggestions = mcSuggestions.querySelectorAll('.autocomplete-suggestion');
+            if (suggestions.length === 0) return;
+
+            if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                currentActiveSuggestion = (currentActiveSuggestion + 1) % suggestions.length;
+                highlightSuggestion(currentActiveSuggestion);
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                currentActiveSuggestion = (currentActiveSuggestion - 1 + suggestions.length) % suggestions.length;
+                highlightSuggestion(currentActiveSuggestion);
+            } else if (e.key === 'Enter') {
+                e.preventDefault();
+                if (currentActiveSuggestion > -1) {
+                    suggestions[currentActiveSuggestion].click();
+                } else {
+                    mcSuggestions.style.display = 'none';
+                    loadData(); 
+                }
+            } else if (e.key === 'Escape') {
+                mcSuggestions.style.display = 'none';
+            }
+        });
+
+        mcInput.addEventListener('focus', () => {
+            if (mcInput.value.length >= 2) {
+                fetchMcSuggestions(mcInput.value);
+            }
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!mcSuggestions.contains(e.target) && e.target !== mcInput) {
+                mcSuggestions.style.display = 'none';
+            }
+        });
+
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                currentPage = 1;
+                loadData();
+            }
+        });
+
+        prevPageBtn.addEventListener('click', () => {
+            if (currentPage > 1) {
+                currentPage--;
+                loadData();
+            }
+        });
+
+        nextPageBtn.addEventListener('click', () => {
+            if ((currentPage * recordsPerPage) < totalRecords) {
+                currentPage++;
+                loadData();
+            }
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            setDefaultDates();
+            loadData();
+        });
+    </script>
+</body>
+</html>

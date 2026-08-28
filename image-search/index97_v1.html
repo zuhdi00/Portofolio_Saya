@@ -1,0 +1,1342 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pencarian File Gambar</title>
+    <link rel="icon" type="image/png" href="sps_logo.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            padding: 30px;
+            text-align: center;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .search-section {
+            padding: 40px;
+            background: white;
+        }
+
+        .search-container {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            align-items: center;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 15px 20px;
+            border: 2px solid #e1e1e1;
+            border-radius: 50px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .search-input:focus {
+            border-color: #4facfe;
+            box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
+        }
+
+        .search-btn {
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 120px;
+        }
+
+        .search-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(79, 172, 254, 0.3);
+        }
+
+        .search-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #4facfe;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .results-section {
+            padding: 0 40px 40px;
+        }
+
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .results-count {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .view-toggle {
+            display: flex;
+            gap: 10px;
+        }
+
+        .toggle-btn {
+            padding: 8px 15px;
+            border: 2px solid #e1e1e1;
+            background: white;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-btn.active {
+            background: #4facfe;
+            color: white;
+            border-color: #4facfe;
+        }
+
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .image-list {
+            display: none;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .image-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .image-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+
+        .image-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .image-card:hover img {
+            transform: scale(1.05);
+        }
+
+        /* Print button styles */
+        .print-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            opacity: 0;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: #333;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .image-card:hover .print-btn {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+
+        .print-btn:hover {
+            background: rgba(79, 172, 254, 0.9);
+            color: white;
+            transform: scale(1.2) !important;
+        }
+
+        .print-btn:active {
+            transform: scale(0.95) !important;
+        }
+
+        /* Add to queue button styles */
+        .add-to-queue-btn {
+            position: absolute;
+            top: 10px;
+            right: 60px; /* Next to the print button */
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            opacity: 0;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: #333;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .image-card:hover .add-to-queue-btn {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+
+        .add-to-queue-btn.in-queue {
+            background: #28a745;
+            color: white;
+        }
+
+        /* Print Dialog Styles */
+        .print-dialog {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 2000;
+            animation: fadeIn 0.3s ease;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .print-dialog-content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            max-width: 500px;
+            width: 90%;
+            animation: zoomIn 0.3s ease;
+        }
+
+        .print-dialog h3 {
+            margin-bottom: 20px;
+            color: #333;
+            text-align: center;
+        }
+
+        .print-preview {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 2px dashed #ddd;
+            border-radius: 10px;
+        }
+
+        .print-preview img {
+            max-width: 200px;
+            max-height: 150px;
+            object-fit: contain;
+            border-radius: 5px;
+        }
+
+        .print-options {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .print-options label {
+            font-weight: 500;
+        }
+
+        .print-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .image-info {
+            padding: 15px;
+        }
+
+        .image-name {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+            word-break: break-word;
+        }
+
+        .image-size {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .list-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .list-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+
+        .list-thumbnail {
+            width: 80px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-right: 15px;
+        }
+
+        .list-info {
+            flex: 1;
+        }
+
+        /* Print button for list view */
+        .list-print-btn {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 8px 15px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            margin-left: 15px;
+        }
+
+        /* Add to queue button for list view */
+        .list-add-to-queue-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 8px 15px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            margin-left: 10px;
+        }
+        .list-add-to-queue-btn.in-queue { background: #dc3545; }
+
+        .list-print-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(79, 172, 254, 0.3);
+        }
+
+        .error-message {
+            text-align: center;
+            padding: 40px 20px;
+            color: #e74c3c;
+            font-size: 1.1rem;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 40px 20px;
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.9);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-content {
+            position: relative;
+            margin: auto;
+            display: block;
+            width: 90%;
+            max-width: 800px;
+            max-height: 80%;
+            object-fit: contain;
+            top: 50%;
+            transform: translateY(-50%);
+            animation: zoomIn 0.3s ease;
+        }
+
+        .close {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+        }
+
+        .close:hover {
+            opacity: 0.7;
+        }
+
+        /* Inline login modal */
+        .login-overlay {
+            position: fixed;
+            inset: 0;
+            display: none;
+            background: rgba(0,0,0,0.75);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .login-card {
+            background: #ffffff;
+            color: #222;
+            padding: 24px;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+        }
+
+        .login-card h3 { margin-bottom: 12px; }
+
+        .login-card input[type="text"],
+        .login-card input[type="password"] {
+            width: 100%;
+            padding: 10px 12px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        .login-card .btn {
+            width: 100%;
+            padding: 10px 12px;
+            background: linear-gradient(135deg,#4facfe 0%,#00f2fe 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .login-error {
+            display: none;
+            margin-bottom: 10px;
+            padding: 8px;
+            border-radius: 6px;
+            background: #fdecea;
+            color: #b71c1c;
+        }
+
+        /* Print styles - Dinamis */
+        @media print {
+            html {
+                height: 0; /* Reset html */
+            }
+            body {
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+
+            body * {
+                visibility: hidden;
+            }
+            
+            .print-area,
+            .print-area * {
+                visibility: visible;
+            }
+
+            .print-area {
+                position: absolute;
+                left: 0;
+                top: 0;
+                margin: 0;
+                padding: 0;
+            }
+
+            /* --- A4 Landscape --- */
+            .print-landscape .print-area {
+                width: 297mm;
+                height: 210mm;
+            }
+            .print-landscape .image-container {
+                width: 100%;
+                height: 100%;
+            }
+            .print-landscape img {
+                max-width: 297mm;
+                max-height: 210mm;
+                object-fit: contain;
+            }
+
+            /* --- A4 Portrait --- */
+            .print-portrait .print-area {
+                width: 210mm;
+                height: 297mm;
+                padding: 10mm; /* Beri margin */
+            }
+            .print-portrait .image-container {
+                width: 100%;
+                height: 100%;
+                align-items: flex-start; /* Pindahkan gambar ke atas */
+            }
+            .print-portrait img {
+                max-width: 190mm; /* 210mm - 2*10mm margin */
+                max-height: 277mm; /* 297mm - 2*10mm margin */
+                object-fit: contain;
+            }
+
+            /* Elemen Umum */
+            .image-container {
+                position: relative;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 100%;
+                height: 100%;
+            }
+
+            .image-title {
+                display: none;
+            }
+
+            img#printImageElement {
+                page-break-inside: avoid;
+                -webkit-print-color-adjust: exact;
+                display: block;
+            }
+            
+            .timestamp {
+                position: absolute;
+                bottom: 5mm;
+                right: 5mm;
+                background: rgba(0, 0, 0, 0.7);
+                color: white !important;
+                padding: 6px 12px;
+                border-radius: 4px;
+                font-size: 12px;
+                font-weight: bold;
+                font-family: 'Courier New', monospace;
+                letter-spacing: 0.5px;
+                backdrop-filter: blur(5px);
+                z-index: 10;
+                -webkit-print-color-adjust: exact;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            }
+
+            /* For Print All */
+            .print-all-page {
+                page-break-after: always;
+                position: relative;
+                width: 100%;
+                height: 100%;
+            }
+            
+            .print-info {
+                display: none;
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes zoomIn {
+            from { transform: translateY(-50%) scale(0.5); }
+            to { transform: translateY(-50%) scale(1); }
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .search-container {
+                flex-direction: column;
+            }
+            
+            .image-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 15px;
+            }
+            
+            .search-section, .results-section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Session info / logout modal (no inline login) -->
+    <div id="loginModal" class="login-overlay">
+        <div class="login-card">
+            <h3>Session</h3>
+            <div id="sessionInfo">Signed in as <strong id="sessionUser">-</strong></div>
+            <div id="loginError" class="login-error"></div>
+            <div style="display:flex;gap:8px;margin-top:12px;">
+                <button id="logoutBtn" class="btn">Logout</button>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="header">
+            <h1>🔍 Pencarian Gambar Master 🔍</h1>
+            <p>Temukan file JPG dari Master Design</p>
+        </div>
+
+        <div class="search-section">
+            <div class="search-container">
+                <input type="text" class="search-input" id="searchInput" placeholder="Masukkan nama file atau kata kunci..." />
+                <button class="search-btn" id="searchBtn">
+                    <span id="searchText">Cari</span>
+                </button>
+            </div>
+            
+            <!-- Debug buttons -->
+            <div style="text-align: center; margin-bottom: 20px;">
+                <button onclick="testPHP()" style="padding: 8px 16px; margin: 0 5px; background: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer;">Test PHP</button>
+                <button onclick="testConnection()" style="padding: 8px 16px; margin: 0 5px; background: #17a2b8; color: white; border: none; border-radius: 5px; cursor: pointer;">Test Connection</button>
+                <button id="printAllBtn" style="padding: 8px 16px; margin: 0 5px; background: #ffc107; color: white; border: none; border-radius: 5px; cursor: pointer; display: none;">Print All (0)</button>
+            </div>
+            
+            <div class="loading" id="loading">
+                <div class="loading-spinner"></div>
+                <p>Mencari file gambar...</p>
+            </div>
+        </div>
+
+        <div class="results-section" id="resultsSection" style="display: none;">
+            <div class="results-header">
+                <div class="results-count" id="resultsCount">0 file ditemukan</div>
+                <div class="view-toggle">
+                    <button class="toggle-btn active" id="gridView">Grid</button>
+                    <button class="toggle-btn" id="listView">List</button>
+                </div>
+            </div>
+            
+            <div class="image-grid" id="imageGrid"></div>
+            <div class="image-list" id="imageList"></div>
+        </div>
+    </div>
+
+    <div class="modal" id="imageModal">
+        <span class="close" id="closeModal">&times;</span>
+        <img class="modal-content" id="modalImage">
+    </div>
+
+    <!-- Print Dialog -->
+    <div id="printDialog" class="print-dialog">
+        <div class="print-dialog-content">
+            <h3>Opsi Cetak</h3>
+            <div class="print-preview">
+                <img id="dialogPreviewImage" src="" alt="Preview">
+                <p id="dialogImageName" style="margin-top: 10px; font-weight: 600;"></p>
+            </div>
+            <div class="print-options">
+                <label for="printOrientation">Orientasi:</label>
+                <select id="printOrientation" class="search-input" style="flex: initial; width: 200px; padding: 8px 12px;">
+                    <option value="portrait">Portrait</option>
+                    <option value="landscape">Landscape</option>
+                    <option value="full-landscape" selected>Auto Print</option>
+                </select>
+            </div>
+            <div class="print-actions">
+                <button id="printConfirm" class="search-btn" style="min-width: 120px;">🖨️ Cetak</button>
+                <button id="printCancel" class="search-btn" style="background: #6c757d;">Batal</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden print container dengan timestamp -->
+    <div id="printContainer" class="print-area" style="display: none;">
+        <div class="image-title" id="printTitle"></div>
+        <!-- This container will be used for single print and as a template for print all -->
+        <div class="image-container">
+            <img id="printImageElement" />
+            <div class="timestamp" id="printTimestamp"></div>
+        </div>
+        <div class="print-info" id="printInfo"></div>
+    </div>
+
+    <script>
+        class ImageSearchApp {
+            constructor() {
+                this.searchInput = document.getElementById('searchInput');
+                this.searchBtn = document.getElementById('searchBtn');
+                this.loading = document.getElementById('loading');
+                this.resultsSection = document.getElementById('resultsSection');
+                this.resultsCount = document.getElementById('resultsCount');
+                this.imageGrid = document.getElementById('imageGrid');
+                this.imageList = document.getElementById('imageList');
+                this.gridViewBtn = document.getElementById('gridView');
+                this.listViewBtn = document.getElementById('listView');
+                this.modal = document.getElementById('imageModal');
+                this.modalImage = document.getElementById('modalImage');
+                this.closeModal = document.getElementById('closeModal');
+                
+                this.printDialog = document.getElementById('printDialog');
+                this.dialogPreviewImage = document.getElementById('dialogPreviewImage');
+                this.dialogImageName = document.getElementById('dialogImageName');
+                this.printOrientation = document.getElementById('printOrientation');
+                this.printConfirm = document.getElementById('printConfirm');
+                this.printCancel = document.getElementById('printCancel');
+                this.currentPrintImage = null;
+
+                this.printContainer = document.getElementById('printContainer');
+                this.printTitle = document.getElementById('printTitle');
+                this.printImageElement = document.getElementById('printImageElement');
+                this.printTimestamp = document.getElementById('printTimestamp');
+                this.printInfo = document.getElementById('printInfo');
+                
+                this.printAllBtn = document.getElementById('printAllBtn');
+                this.printQueue = [];
+                this.currentView = 'grid';
+                this.currentResults = [];
+                
+                this.initEventListeners();
+            }
+
+            initEventListeners() {
+                this.searchBtn.addEventListener('click', () => this.performSearch());
+                this.searchInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') this.performSearch();
+                });
+                
+                this.gridViewBtn.addEventListener('click', () => this.switchView('grid'));
+                this.listViewBtn.addEventListener('click', () => this.switchView('list'));
+                
+                this.closeModal.addEventListener('click', () => this.closeImageModal());
+                this.modal.addEventListener('click', (e) => {
+                    if (e.target === this.modal) this.closeImageModal();
+                });
+                
+                // Print dialog event listeners
+                this.printConfirm.addEventListener('click', () => this.executePrint());
+                this.printCancel.addEventListener('click', () => this.closePrintDialog());
+                this.printDialog.addEventListener('click', (e) => {
+                    if (e.target === this.printDialog) this.closePrintDialog();
+                });
+
+                this.printAllBtn.addEventListener('click', () => this.executePrintAll());
+
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape') {
+                        this.closeImageModal();
+                        this.closePrintDialog();
+                    }
+                });
+            }
+
+            async performSearch() {
+                const query = this.searchInput.value.trim();
+                if (!query) {
+                    alert('Masukkan kata kunci pencarian');
+                    return;
+                }
+
+                this.showLoading(true);
+                this.hideResults();
+
+                try {
+                    // Gunakan method CMD yang bypass permission issues
+                    const apiUrl = `./search_images_cmd.php?q=${encodeURIComponent(query)}`;
+                    console.log('Fetching from:', apiUrl);
+                    
+                    const response = await fetch(apiUrl, {
+                        method: 'GET',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        }
+                    });
+                    
+                    console.log('Response status:', response.status);
+                    console.log('Response headers:', [...response.headers.entries()]);
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                    }
+                    
+                    // Ambil response sebagai text dulu untuk debugging
+                    const responseText = await response.text();
+                    console.log('Raw response:', responseText);
+                    
+                    // Coba parse sebagai JSON
+                    let data;
+                    try {
+                        data = JSON.parse(responseText);
+                    } catch (parseError) {
+                        console.error('JSON Parse Error:', parseError);
+                        console.error('Response that failed to parse:', responseText);
+                        throw new Error(`Server returned invalid JSON. Response: ${responseText.substring(0, 200)}${responseText.length > 200 ? '...' : ''}`);
+                    }
+                    
+                    console.log('Parsed data:', data);
+                    
+                    if (!data.success) {
+                        throw new Error(data.error || 'Unknown server error');
+                    }
+                    
+                    this.currentResults = data.images || [];
+                    this.displayResults();
+                    
+                } catch (error) {
+                    console.error('Search Error:', error);
+                    this.showError('Error: ' + error.message);
+                } finally {
+                    this.showLoading(false);
+                }
+            }
+
+            displayResults() {
+                this.showResults();
+                this.updateResultsCount();
+                
+                if (this.currentResults.length === 0) {
+                    this.showNoResults();
+                    return;
+                }
+                
+                this.renderImages();
+            }
+
+            renderImages() {
+                this.imageGrid.innerHTML = '';
+                this.imageList.innerHTML = '';
+                
+                this.currentResults.forEach((image, index) => {
+                    // Grid view
+                    const gridCard = this.createGridCard(image, index);
+                    this.imageGrid.appendChild(gridCard);
+                    
+                    // List view
+                    const listItem = this.createListItem(image, index);
+                    this.imageList.appendChild(listItem);
+                });
+            }
+
+            createGridCard(image, index) {
+                const card = document.createElement('div');
+                card.className = 'image-card';
+                card.innerHTML = `
+                    <img src="${image.url}" alt="${image.name}" loading="lazy" />
+                    <button class="print-btn" title="Print Gambar" onclick="event.stopPropagation()">
+                        🖨️
+                    </button>
+                    <button class="add-to-queue-btn" title="Tambah ke antrian Cetak">
+                        🖨️
+                    </button>
+                    <div class="image-info">
+                        <div class="image-name">${image.name}</div>
+                        <div class="image-size">${this.formatFileSize(image.size)}</div>
+                    </div>
+                `;
+                
+                // Add click event for modal (excluding print button)
+                card.addEventListener('click', (e) => {
+                    if (!e.target.classList.contains('print-btn')) {
+                        this.openImageModal(image.url);
+                    }
+                });
+                
+                // Add print functionality - langsung print tanpa dialog
+                const printBtn = card.querySelector('.print-btn');
+                printBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    this.showPrintDialog(image.url, image.name);
+                });
+
+                const addToQueueBtn = card.querySelector('.add-to-queue-btn');
+                addToQueueBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    this.togglePrintQueue(image, addToQueueBtn);
+                });
+                
+                return card;
+            }
+
+            createListItem(image, index) {
+                const item = document.createElement('div');
+                item.className = 'list-item';
+                item.innerHTML = `
+                    <img src="${image.url}" alt="${image.name}" class="list-thumbnail" loading="lazy" />
+                    <div class="list-info">
+                        <div class="image-name">${image.name}</div>
+                        <div class="image-size">${this.formatFileSize(image.size)}</div>
+                    </div>
+                    <button class="list-print-btn" title="Print Gambar">
+                        🖨️ Print
+                    </button>
+                    <button class="list-add-to-queue-btn" title="Tambah ke antrian Cetak">
+                        ➕ Tambah
+                    </button>
+                `;
+                
+                // Add click event for modal (excluding print button)
+                item.addEventListener('click', (e) => {
+                    if (!e.target.classList.contains('list-print-btn')) {
+                        this.openImageModal(image.url);
+                    }
+                });
+                
+                // Add print functionality - langsung print tanpa dialog
+                const printBtn = item.querySelector('.list-print-btn');
+                printBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    this.showPrintDialog(image.url, image.name);
+                });
+
+                const addToQueueBtn = item.querySelector('.list-add-to-queue-btn');
+                addToQueueBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    this.togglePrintQueue(image, addToQueueBtn);
+                });
+                
+                return item;
+            }
+
+            togglePrintQueue(image, button) {
+                const indexInQueue = this.printQueue.findIndex(item => item.url === image.url);
+
+                if (indexInQueue > -1) {
+                    // Hapus dari antrian
+                    this.printQueue.splice(indexInQueue, 1);
+                    button.classList.remove('in-queue');
+                    if (button.classList.contains('list-add-to-queue-btn')) {
+                        button.textContent = '➕ Tambah';
+                    } else {
+                        button.innerHTML = '➕';
+                    }
+                } else {
+                    // Tambah ke antrian
+                    this.printQueue.push(image);
+                    button.classList.add('in-queue');
+                    if (button.classList.contains('list-add-to-queue-btn')) {
+                        button.textContent = '✔️ Terpilih';
+                    } else {
+                        button.innerHTML = '✔️';
+                    }
+                }
+
+                this.updatePrintAllButton();
+            }
+
+            updatePrintAllButton() {
+                const count = this.printQueue.length;
+                if (count > 0) {
+                    this.printAllBtn.style.display = 'inline-block';
+                    this.printAllBtn.textContent = `Print All (${count})`;
+                } else {
+                    this.printAllBtn.style.display = 'none';
+                }
+            }
+
+            executePrintAll() {
+                if (this.printQueue.length === 0) {
+                    alert('Tidak ada gambar dalam antrian cetak.');
+                    return;
+                }
+
+                this.printContainer.innerHTML = ''; // Kosongkan container
+
+                this.printQueue.forEach(image => {
+                    const page = this.createPrintPage(image);
+                    this.printContainer.appendChild(page);
+                });
+                this.executePrintLogic('print-landscape'); // Asumsi semua landscape
+            }
+
+            showPrintDialog(imageUrl, imageName) {
+                this.currentPrintImage = { url: imageUrl, name: imageName };
+                this.dialogPreviewImage.src = imageUrl;
+                this.dialogImageName.textContent = imageName;
+                this.printDialog.style.display = 'flex';
+                document.body.style.overflow = 'hidden'; // Mencegah scroll di background
+            }
+
+            closePrintDialog() {
+                this.printDialog.style.display = 'none';
+                document.body.style.overflow = 'auto';
+                this.currentPrintImage = null;
+            }
+
+            executePrint() {
+                if (!this.currentPrintImage) return;
+
+                const orientation = this.printOrientation.value;
+
+                // Buat style tag untuk @page rule secara dinamis
+                const existingStyle = document.getElementById('dynamic-print-style');
+                if (existingStyle) {
+                    existingStyle.remove();
+                }
+
+                this.printContainer.innerHTML = `
+                    <div class="image-container">
+                        <img id="printImageElement" />
+                        <div class="timestamp" id="printTimestamp"></div>
+                    </div>`;
+                this.printImageElement = document.getElementById('printImageElement');
+                this.printTimestamp = document.getElementById('printTimestamp');
+
+                const style = document.createElement('style');
+                style.id = 'dynamic-print-style'; // Beri ID agar mudah dihapus
+                if (orientation === 'landscape') {
+                    style.innerHTML = `@media print { @page { size: A4 landscape; margin: 0; } body { -webkit-print-color-adjust: exact; } }`;
+                } else { // portrait
+                    style.innerHTML = `@media print { @page { size: A4 portrait; margin: 0; } }`;
+                }
+                document.head.appendChild(style);
+
+                // Generate timestamp
+                const now = new Date();
+                const timestamp = this.formatTimestamp(now);
+                
+                // Set print container content
+                this.printTitle.textContent = this.currentPrintImage.name;
+                this.printImageElement.src = this.currentPrintImage.url;
+                this.printTimestamp.textContent = timestamp;
+                this.printInfo.textContent = `Dicetak pada: ${this.formatFullDate(now)} | Dari: Master Design`;
+
+                this.executePrintLogic(orientation);
+            }
+
+            createPrintPage(image) {
+                const page = document.createElement('div');
+                page.className = 'print-all-page';
+
+                const imageContainer = document.createElement('div');
+                imageContainer.className = 'image-container';
+
+                const img = document.createElement('img');
+                img.src = image.url;
+
+                const timestampDiv = document.createElement('div');
+                timestampDiv.className = 'timestamp';
+                timestampDiv.textContent = this.formatTimestamp(new Date());
+
+                imageContainer.appendChild(img);
+                imageContainer.appendChild(timestampDiv);
+                page.appendChild(imageContainer);
+                return page;
+            }
+
+            executePrintLogic(orientation) {
+                 // Wait for images to load (simplified for this example)
+                 this.closePrintDialog();
+                
+                 // Add orientation class to body for styling content
+                 document.body.classList.remove('print-landscape', 'print-portrait');
+                 document.body.classList.add(`print-${orientation}`);
+                 this.printContainer.style.display = 'block';
+                 
+                 const cleanupAfterPrint = () => {
+                     this.printContainer.style.display = 'none';
+                     document.body.classList.remove(`print-${orientation}`);
+                     document.getElementById('dynamic-print-style')?.remove();
+                     window.removeEventListener('afterprint', cleanupAfterPrint);                     
+                     // Kosongkan container untuk persiapan print selanjutnya (baik single atau all)
+                     this.printContainer.innerHTML = ''; 
+                     // Restore referensi elemen untuk jaga-jaga
+                     this.printImageElement = null;
+                     this.printTimestamp = null;
+                 };
+
+                 setTimeout(() => {
+                     window.print();
+                     window.addEventListener('afterprint', cleanupAfterPrint, { once: true });
+                     setTimeout(cleanupAfterPrint, 2000); // Fallback
+                 }, 500); // Delay to allow images to render
+
+                this.printImageElement.onerror = () => {
+                    alert('Gagal memuat gambar untuk print');
+                    this.closePrintDialog();
+                    document.getElementById('dynamic-print-style')?.remove();
+                };
+            }
+
+            // Format timestamp untuk watermark
+            formatTimestamp(date) {
+                const day = String(date.getDate()).padStart(2, '0');
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const year = date.getFullYear();
+                const hours = String(date.getHours()).padStart(2, '0');
+                const minutes = String(date.getMinutes()).padStart(2, '0');
+                
+                return `${day}/${month}/${year} ${hours}:${minutes}`;
+            }
+
+            // Format full date untuk info
+            formatFullDate(date) {
+                const months = [
+                    'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+                    'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+                ];
+                
+                const day = date.getDate();
+                const month = months[date.getMonth()];
+                const year = date.getFullYear();
+                const hours = String(date.getHours()).padStart(2, '0');
+                const minutes = String(date.getMinutes()).padStart(2, '0');
+                
+                return `${day} ${month} ${year}, ${hours}:${minutes}`;
+            }
+
+            formatFileSize(bytes) {
+                if (!bytes) return 'Unknown size';
+                const sizes = ['B', 'KB', 'MB', 'GB'];
+                const i = Math.floor(Math.log(bytes) / Math.log(1024));
+                return Math.round(bytes / Math.pow(1024, i) * 100) / 100 + ' ' + sizes[i];
+            }
+
+            switchView(view) {
+                this.currentView = view;
+                
+                if (view === 'grid') {
+                    this.imageGrid.style.display = 'grid';
+                    this.imageList.style.display = 'none';
+                    this.gridViewBtn.classList.add('active');
+                    this.listViewBtn.classList.remove('active');
+                } else {
+                    this.imageGrid.style.display = 'none';
+                    this.imageList.style.display = 'flex';
+                    this.gridViewBtn.classList.remove('active');
+                    this.listViewBtn.classList.add('active');
+                }
+            }
+
+            openImageModal(imageUrl) {
+                this.modalImage.src = imageUrl;
+                this.modal.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+            }
+
+            closeImageModal() {
+                this.modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+
+            showLoading(show) {
+                this.loading.style.display = show ? 'block' : 'none';
+                this.searchBtn.disabled = show;
+                document.getElementById('searchText').textContent = show ? 'Mencari...' : 'Cari';
+            }
+
+            showResults() {
+                this.resultsSection.style.display = 'block';
+            }
+
+            hideResults() {
+                this.resultsSection.style.display = 'none';
+            }
+
+            updateResultsCount() {
+                const count = this.currentResults.length;
+                this.resultsCount.textContent = `${count} file ditemukan`;
+            }
+
+            showError(message) {
+                this.imageGrid.innerHTML = `<div class="error-message">${message}</div>`;
+                this.showResults();
+            }
+
+            showNoResults() {
+                this.imageGrid.innerHTML = '<div class="no-results">Tidak ada file yang ditemukan. Coba dengan kata kunci lain.</div>';
+            }
+        }
+
+        // Initialize app after auth check
+        document.addEventListener('DOMContentLoaded', () => {
+            checkAuthAndInit();
+        });
+
+        async function checkAuthAndInit() {
+            try {
+                    const resp = await fetch('./auth_new.php?action=check', { credentials: 'include' });
+                const info = await resp.json();
+                        if (info.logged_in) {
+                            // proceed
+                            window.__currentUser = info.username;
+                            // show session info and start inactivity timer
+                            const sessionUserEl = document.getElementById('sessionUser');
+                            if (sessionUserEl) sessionUserEl.textContent = (info.username || '').toUpperCase();
+                            startInactivityTimer();
+                            new ImageSearchApp();
+                            return;
+                        }
+            } catch (err) {
+                console.error('Auth check failed', err);
+            }
+            // not logged in -> redirect to new local login page
+            window.location.href = 'index_1.php';
+        }
+        // Logout function (POST to auth1.php?action=logout)
+        async function logoutAndRedirect() {
+                try {
+                    await fetch('./auth_new.php', {
+                        method: 'POST',
+                        credentials: 'include',
+                        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                        body: 'action=logout'
+                    });
+                } catch (e) {
+                    console.error('Logout error', e);
+                }
+                // Always go to local login page
+                window.location.href = 'login_new.html';
+        }
+
+        // Inactivity timer: logout after timeout (30 minutes)
+        const INACTIVITY_TIMEOUT_MS = 30 * 60 * 1000; // 30 minutes
+        let inactivityTimer = null;
+
+        function resetInactivityTimer() {
+            if (inactivityTimer) clearTimeout(inactivityTimer);
+            inactivityTimer = setTimeout(() => {
+                // auto logout
+                logoutAndRedirect();
+            }, INACTIVITY_TIMEOUT_MS);
+        }
+
+        function startInactivityTimer() {
+            // Reset on common user interactions
+            ['mousemove', 'keydown', 'click', 'touchstart'].forEach(evt => {
+                window.addEventListener(evt, resetInactivityTimer, { passive: true });
+            });
+            resetInactivityTimer();
+        }
+
+        // Wire logout button
+        document.addEventListener('DOMContentLoaded', () => {
+            const logoutBtn = document.getElementById('logoutBtn');
+            if (logoutBtn) logoutBtn.addEventListener('click', () => {
+                logoutAndRedirect();
+            });
+        });
+        
+        // Test functions
+        async function testPHP() {
+            console.log('Testing PHP...');
+            try {
+                const response = await fetch('./test_simple.php?q=test');
+                const text = await response.text();
+                console.log('PHP Test Response:', text);
+                
+                const data = JSON.parse(text);
+                alert('PHP Test Success: ' + data.message);
+            } catch (error) {
+                console.error('PHP Test Error:', error);
+                alert('PHP Test Failed: ' + error.message);
+            }
+        }
+        
+        async function testConnection() {
+            console.log('Testing connection...');
+            try {
+                const response = await fetch('./test_connection.php');
+                const text = await response.text();
+                console.log('Connection Test Response:', text);
+                
+                const data = JSON.parse(text);
+                console.log('Parsed connection test:', data);
+                
+                let message = `Overall Status: ${data.summary.overall_status}\n`;
+                if (data.summary.critical_issues.length > 0) {
+                    message += 'Critical Issues:\n- ' + data.summary.critical_issues.join('\n- ');
+                } else {
+                    message += 'No critical issues found!';
+                }
+                
+                alert(message);
+            } catch (error) {
+                console.error('Connection Test Error:', error);
+                alert('Connection Test Failed: ' + error.message);
+            }
+        }
+    </script>
+</body>
+</html>

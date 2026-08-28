@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator Biaya Instalasi Jaringan WiFi</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            opacity: 0.9;
+            font-size: 14px;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .table-container {
+            overflow-x: auto;
+            margin-bottom: 30px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+        
+        th {
+            background: #667eea;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+        }
+        
+        td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        tr:hover {
+            background: #f5f5f5;
+        }
+        
+        input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            border: 2px solid #e0e0e0;
+            border-radius: 5px;
+            font-size: 14px;
+            transition: border 0.3s;
+        }
+        
+        input[type="number"]:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .summary-section {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 15px;
+        }
+        
+        .summary-item {
+            background: rgba(255,255,255,0.2);
+            padding: 15px;
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .summary-label {
+            font-size: 13px;
+            opacity: 0.9;
+            margin-bottom: 5px;
+        }
+        
+        .summary-value {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .btn-container {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            flex: 1;
+            min-width: 150px;
+        }
+        
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102,126,234,0.4);
+        }
+        
+        .btn-secondary {
+            background: #48bb78;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: #38a169;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(72,187,120,0.4);
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            font-size: 13px;
+            background: #f8f9fa;
+        }
+        
+        .category-header {
+            background: #764ba2;
+            color: white;
+            font-weight: bold;
+        }
+        
+        @media print {
+            body {
+                background: white;
+            }
+            .btn-container {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📡 Kalkulator Biaya Instalasi Jaringan WiFi</h1>
+            <p>Perhitungan Material & Biaya untuk Pabrik Manufaktur</p>
+        </div>
+        
+        <div class="content">
+            <div class="table-container">
+                <table id="materialTable">
+                    <thead>
+                        <tr>
+                            <th style="width: 5%;">No</th>
+                            <th style="width: 30%;">Nama Material</th>
+                            <th style="width: 10%;">Satuan</th>
+                            <th style="width: 12%;">Jumlah</th>
+                            <th style="width: 15%;">Harga Satuan (Rp)</th>
+                            <th style="width: 15%;">Subtotal (Rp)</th>
+                            <th style="width: 13%;">Total (Rp)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="summary-section">
+                <h2 style="margin-bottom: 15px;">📊 Ringkasan Biaya</h2>
+                <div class="summary-grid">
+                    <div class="summary-item">
+                        <div class="summary-label">Total Material</div>
+                        <div class="summary-value" id="totalMaterial">Rp 0</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-label">Biaya Instalasi (15%)</div>
+                        <div class="summary-value" id="biayaInstalasi">Rp 0</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-label">Kontingensi (10%)</div>
+                        <div class="summary-value" id="kontingensi">Rp 0</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-label">TOTAL KESELURUHAN</div>
+                        <div class="summary-value" id="grandTotal">Rp 0</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="btn-container">
+                <button class="btn-primary" onclick="resetData()">🔄 Reset Data</button>
+                <button class="btn-secondary" onclick="window.print()">🖨️ Cetak / Simpan PDF</button>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>© 2025 - Kalkulator Instalasi Jaringan WiFi Pabrik | Dibuat untuk kemudahan perencanaan budget</p>
+        </div>
+    </div>
+
+    <script>
+        const materials = [
+            { category: 'PERANGKAT UTAMA', items: [
+                { name: 'Router WiFi (Dual Band)', unit: 'Unit', qty: 1, price: 850000 },
+                { name: 'WiFi Extender / Repeater', unit: 'Unit', qty: 2, price: 450000 },
+                { name: 'Access Point (untuk area luas)', unit: 'Unit', qty: 1, price: 1200000 }
+            ]},
+            { category: 'KABEL & KONEKSI', items: [
+                { name: 'Kabel LAN Cat6 (per meter)', unit: 'Meter', qty: 100, price: 5000 },
+                { name: 'Konektor RJ45', unit: 'Pcs', qty: 20, price: 2000 },
+                { name: 'Patch Cord Cat6 (3 meter)', unit: 'Pcs', qty: 5, price: 35000 },
+                { name: 'Cable Tray / Ducting', unit: 'Meter', qty: 50, price: 15000 }
+            ]},
+            { category: 'ADAPTER & DONGLE', items: [
+                { name: 'USB WiFi Dongle (untuk PC)', unit: 'Unit', qty: 10, price: 125000 },
+                { name: 'PCI WiFi Card', unit: 'Unit', qty: 3, price: 275000 },
+                { name: 'Power over Ethernet (PoE) Injector', unit: 'Unit', qty: 2, price: 185000 }
+            ]},
+            { category: 'PERANGKAT PENDUKUNG', items: [
+                { name: 'Switch Network 8 Port Gigabit', unit: 'Unit', qty: 1, price: 650000 },
+                { name: 'UPS untuk Router (500VA)', unit: 'Unit', qty: 1, price: 750000 },
+                { name: 'Cable Tester', unit: 'Unit', qty: 1, price: 185000 },
+                { name: 'Tang Crimping RJ45', unit: 'Unit', qty: 1, price: 95000 }
+            ]},
+            { category: 'INSTALASI & LAIN-LAIN', items: [
+                { name: 'Cable Clip / Pengikat Kabel', unit: 'Pack', qty: 5, price: 25000 },
+                { name: 'Label Kabel', unit: 'Pack', qty: 2, price: 35000 },
+                { name: 'Isolasi & Lakban', unit: 'Roll', qty: 3, price: 15000 },
+                { name: 'Bracket Mounting', unit: 'Set', qty: 3, price: 45000 }
+            ]}
+        ];
+
+        function formatRupiah(amount) {
+            return new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR',
+                minimumFractionDigits: 0
+            }).format(amount);
+        }
+
+        function renderTable() {
+            const tbody = document.getElementById('tableBody');
+            tbody.innerHTML = '';
+            
+            let no = 1;
+            materials.forEach((category, catIndex) => {
+                const categoryRow = document.createElement('tr');
+                categoryRow.innerHTML = `
+                    <td colspan="7" class="category-header">${category.category}</td>
+                `;
+                tbody.appendChild(categoryRow);
+                
+                category.items.forEach((item, itemIndex) => {
+                    const row = document.createElement('tr');
+                    const subtotal = item.qty * item.price;
+                    
+                    row.innerHTML = `
+                        <td style="text-align: center;">${no++}</td>
+                        <td>${item.name}</td>
+                        <td>${item.unit}</td>
+                        <td><input type="number" value="${item.qty}" min="0" onchange="updateQty(${catIndex}, ${itemIndex}, this.value)"></td>
+                        <td><input type="number" value="${item.price}" min="0" onchange="updatePrice(${catIndex}, ${itemIndex}, this.value)"></td>
+                        <td style="text-align: right; font-weight: 600;">${formatRupiah(subtotal)}</td>
+                        <td style="text-align: right; font-weight: 600;">${formatRupiah(subtotal)}</td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            });
+            
+            calculateTotal();
+        }
+
+        function updateQty(catIndex, itemIndex, value) {
+            materials[catIndex].items[itemIndex].qty = parseFloat(value) || 0;
+            renderTable();
+        }
+
+        function updatePrice(catIndex, itemIndex, value) {
+            materials[catIndex].items[itemIndex].price = parseFloat(value) || 0;
+            renderTable();
+        }
+
+        function calculateTotal() {
+            let total = 0;
+            materials.forEach(category => {
+                category.items.forEach(item => {
+                    total += item.qty * item.price;
+                });
+            });
+            
+            const instalasi = total * 0.15;
+            const kontingensi = total * 0.10;
+            const grandTotal = total + instalasi + kontingensi;
+            
+            document.getElementById('totalMaterial').textContent = formatRupiah(total);
+            document.getElementById('biayaInstalasi').textContent = formatRupiah(instalasi);
+            document.getElementById('kontingensi').textContent = formatRupiah(kontingensi);
+            document.getElementById('grandTotal').textContent = formatRupiah(grandTotal);
+        }
+
+        function resetData() {
+            if (confirm('Apakah Anda yakin ingin mereset semua data ke nilai awal?')) {
+                location.reload();
+            }
+        }
+
+        renderTable();
+    </script>
+</body>
+</html>

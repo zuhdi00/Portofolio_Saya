@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Data Monitoring</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+            padding: 25px;
+            text-align: center;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            background: #f8f9fa;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #4CAF50;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .controls {
+            padding: 20px;
+            background: white;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.3);
+        }
+
+        .btn-secondary {
+            background: #2196F3;
+        }
+
+        .btn-secondary:hover {
+            background: #1976D2;
+        }
+
+        .file-input {
+            margin-left: auto;
+        }
+
+        .file-input input[type="file"] {
+            display: none;
+        }
+
+        .file-input label {
+            background: #FF9800;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .file-input label:hover {
+            background: #F57C00;
+            transform: translateY(-2px);
+        }
+
+        .table-container {
+            padding: 20px;
+            overflow-x: auto;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .data-table th {
+            background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
+            color: white;
+            padding: 15px 12px;
+            text-align: left;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.8em;
+            letter-spacing: 1px;
+        }
+
+        .data-table td {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+            transition: background 0.3s ease;
+        }
+
+        .data-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .data-table tr:nth-child(even) {
+            background: #fafafa;
+        }
+
+        .data-table tr:nth-child(even):hover {
+            background: #f0f0f0;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .status-active {
+            background: #4CAF50;
+            box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+        }
+
+        .status-inactive {
+            background: #f44336;
+            box-shadow: 0 0 10px rgba(244, 67, 54, 0.5);
+        }
+
+        .timestamp {
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+            font-size: 1.1em;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #4CAF50;
+            font-size: 1.1em;
+        }
+
+        .alert {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 10px 0;
+        }
+
+        .search-box {
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            width: 200px;
+            transition: border-color 0.3s ease;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: #4CAF50;
+        }
+
+        @media (max-width: 768px) {
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .file-input {
+                margin-left: 0;
+                margin-top: 10px;
+            }
+
+            .stats-row {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .header h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 Dashboard Data Monitoring</h1>
+            <p>Real-time monitoring dan analisis data sistem</p>
+        </div>
+
+        <div class="stats-row">
+            <div class="stat-card">
+                <div class="stat-number" id="totalRecords">0</div>
+                <div class="stat-label">Total Records</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="activeRecords">0</div>
+                <div class="stat-label">Active Records</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="lastUpdate">--:--</div>
+                <div class="stat-label">Last Update</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="avgValue">0</div>
+                <div class="stat-label">Avg Value</div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="btn" onclick="loadData()">🔄 Refresh Data</button>
+            <button class="btn btn-secondary" onclick="autoRefresh()">⚡ Auto Refresh</button>
+            <input type="text" class="search-box" id="searchBox" placeholder="Cari data..." onkeyup="filterData()">
+            
+            <div class="file-input">
+                <input type="file" id="fileInput" accept=".txt" onchange="handleFileUpload(event)">
+                <label for="fileInput">📁 Upload File</label>
+            </div>
+        </div>
+
+        <div class="table-container">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Seq#</th>
+                        <th>Customer#</th>
+                        <th>Location</th>
+                        <th>Type</th>
+                        <th>Code</th>
+                        <th>Value 1</th>
+                        <th>Value 2</th>
+                        <th>Status</th>
+                        <th>Timestamp</th>
+                        <th>Details</th>
+                    </tr>
+                </thead>
+                <tbody id="dataTableBody">
+                    <tr>
+                        <td colspan="10" class="no-data">
+                            Tidak ada data. Silakan upload file atau refresh untuk memuat data.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        let rawData = [];
+        let filteredData = [];
+        let autoRefreshInterval = null;
+
+        // Sample data untuk demo
+        const sampleData = [
+            {
+                seq: "350",
+                customer: "DIA",
+                location: "BC",
+                type: "BK",
+                code: "C125",
+                value1: 2050,
+                value2: 1439,
+                status: "active",
+                timestamp: "2508/09/01 04:30:19",
+                details: "BKAF135 MBF135 BKC135"
+            },
+            {
+                seq: "360",
+                customer: "LOTUS",
+                location: "B",
+                type: "WK",
+                code: "C150",
+                value1: 2050,
+                value2: 1416,
+                status: "active",
+                timestamp: "2508/09/01 04:45:27",
+                details: "BKC150 MB135 MAF110"
+            },
+            {
+                seq: "362",
+                customer: "DIA",
+                location: "BC",
+                type: "BK",
+                code: "C125",
+                value1: 2050,
+                value2: 1439,
+                status: "inactive",
+                timestamp: "2508/09/01 03:20:15",
+                details: "BKAF135 MBF135 BKC135"
+            }
+        ];
+
+        function parseDataLine(line) {
+            // Parse format data sesuai dengan contoh yang diberikan
+            const parts = line.trim().split(/\s+/);
+            if (parts.length < 10) return null;
+
+            return {
+                seq: parts[0] || '',
+                customer: parts[1] || '',
+                location: parts[2] || '',
+                type: parts[3] || '',
+                code: parts[4] || '',
+                value1: parseInt(parts[5]) || 0,
+                value2: parseInt(parts[6]) || 0,
+                status: Math.random() > 0.3 ? 'active' : 'inactive',
+                timestamp: getCurrentTimestamp(),
+                details: parts.slice(7).join(' ') || ''
+            };
+        }
+
+        function getCurrentTimestamp() {
+            const now = new Date();
+            return now.getFullYear().toString().slice(-2) + 
+                   String(now.getMonth() + 1).padStart(2, '0') + '/' +
+                   String(now.getDate()).padStart(2, '0') + ' ' +
+                   String(now.getHours()).padStart(2, '0') + ':' +
+                   String(now.getMinutes()).padStart(2, '0') + ':' +
+                   String(now.getSeconds()).padStart(2, '0');
+        }
+
+        function handleFileUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const content = e.target.result;
+                const lines = content.split('\n').filter(line => line.trim());
+                
+                rawData = [];
+                lines.forEach(line => {
+                    const parsed = parseDataLine(line);
+                    if (parsed) {
+                        rawData.push(parsed);
+                    }
+                });
+
+                filteredData = [...rawData];
+                updateDisplay();
+                showAlert('File berhasil dimuat! Total ' + rawData.length + ' records.', 'success');
+            };
+            reader.readAsText(file);
+        }
+
+        async function loadDataFromNetwork() {
+            try {
+                showAlert('Mencoba memuat data dari R:\\250830.txt...', 'info');
+                const response = await fetch('load_data.php');
+                const data = await response.json();
+                
+               rawData = data;
+               filteredData = [...rawData];
+               updateDisplay();
+                } catch (error) {
+                showAlert('Error: Tidak dapat memuat data dari network. Pastikan file tersedia di R:\\250830.txt', 'error');
+                console.error('Error loading data:', error);
+            }
+        }
+
+        function loadData() {
+            document.getElementById('dataTableBody').innerHTML = '<tr><td colspan="10" class="loading">Memuat data...</td></tr>';
+            loadDataFromNetwork();
+        }
+
+        function updateDisplay() {
+            updateStats();
+            updateTable();
+        }
+
+        function updateStats() {
+            const total = filteredData.length;
+            const active = filteredData.filter(item => item.status === 'active').length;
+            const avgValue = total > 0 ? Math.round(filteredData.reduce((sum, item) => sum + item.value1, 0) / total) : 0;
+            
+            document.getElementById('totalRecords').textContent = total;
+            document.getElementById('activeRecords').textContent = active;
+            document.getElementById('lastUpdate').textContent = new Date().toLocaleTimeString();
+            document.getElementById('avgValue').textContent = avgValue.toLocaleString();
+        }
+
+        function updateTable() {
+            const tbody = document.getElementById('dataTableBody');
+            
+            if (filteredData.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="10" class="no-data">Tidak ada data yang ditemukan.</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = filteredData.map(item => `
+                <tr>
+                    <td><strong>${item.seq}</strong></td>
+                    <td>${item.customer}</td>
+                    <td>${item.location}</td>
+                    <td><span class="badge">${item.type}</span></td>
+                    <td><code>${item.code}</code></td>
+                    <td><strong>${item.value1.toLocaleString()}</strong></td>
+                    <td><strong>${item.value2.toLocaleString()}</strong></td>
+                    <td>
+                        <span class="status-indicator ${item.status === 'active' ? 'status-active' : 'status-inactive'}"></span>
+                        ${item.status.toUpperCase()}
+                    </td>
+                    <td class="timestamp">${item.timestamp}</td>
+                    <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis;">${item.details}</td>
+                </tr>
+            `).join('');
+        }
+
+        function filterData() {
+            const searchTerm = document.getElementById('searchBox').value.toLowerCase();
+            
+            if (!searchTerm) {
+                filteredData = [...rawData];
+            } else {
+                filteredData = rawData.filter(item => 
+                    Object.values(item).some(value => 
+                        value.toString().toLowerCase().includes(searchTerm)
+                    )
+                );
+            }
+            
+            updateDisplay();
+        }
+
+        function autoRefresh() {
+            if (autoRefreshInterval) {
+                clearInterval(autoRefreshInterval);
+                autoRefreshInterval = null;
+                showAlert('Auto refresh dimatikan.', 'info');
+                return;
+            }
+
+            autoRefreshInterval = setInterval(() => {
+                loadData();
+            }, 30000); 
+
+            showAlert('Auto refresh diaktifkan (30 detik).', 'success');
+        }
+
+        function showAlert(message, type = 'info') {
+            const existingAlerts = document.querySelectorAll('.alert');
+            existingAlerts.forEach(alert => alert.remove());
+
+            const alert = document.createElement('div');
+            alert.className = `alert alert-${type}`;
+            alert.textContent = message;
+            
+            const controls = document.querySelector('.controls');
+            controls.parentNode.insertBefore(alert, controls.nextSibling);
+
+            setTimeout(() => {
+                alert.remove();
+            }, 5000);
+        }
+
+        window.onload = function() {
+            rawData = [...sampleData];
+            filteredData = [...rawData];
+            updateDisplay();
+            showAlert('Dashboard siap! Upload file atau klik "Refresh Data" untuk memuat data terbaru.', 'info');
+        };
+
+        setInterval(updateStats, 5 * 60 * 1000);
+    </script>
+
+    <style>
+        .badge {
+            background: #e3f2fd;
+            color: #1976d2;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+
+        code {
+            background: #f5f5f5;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+        }
+
+        .alert-error {
+            background: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+
+        .alert-info {
+            background: #cce7ff;
+            border-color: #b3d9ff;
+            color: #004085;
+        }
+    </style>
+</body>
+</html>

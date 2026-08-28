@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Profesional - Card Menu Navigation</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="icon" type="image/png" href="assets/Logo_SPS-removebg-preview.png">
+</head>
+
+<body class="dark-mode">
+
+    <div class="header">
+        <!-- Ganti 'src' dengan path logo perusahaan Anda -->
+        <img src="assets/Logo_SPS-removebg-preview.png" alt="Logo PT Supracor Sejahtera" class="header-logo">
+        <h1>Dashboard Website PT Supracor Sejahtera</h1>
+        <div class="header-controls">
+            <div class="theme-toggle">
+                <button id="theme-light" onclick="setTheme('light-mode')">Light</button>
+                <button id="theme-dark" onclick="setTheme('dark-mode')">Dark</button>
+            </div>
+            <button id="logout-button" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div id="contentArea">
+            <!-- Konten akan dimuat oleh JavaScript -->
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>

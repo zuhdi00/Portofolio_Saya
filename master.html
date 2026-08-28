@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pencari File Gambar</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+
+        .search-section {
+            padding: 40px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .search-form {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .search-input {
+            flex: 1;
+            min-width: 200px;
+            padding: 15px 20px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #4CAF50;
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+        }
+
+        .search-btn {
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .search-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+        }
+
+        .path-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .path-btn {
+            padding: 10px 15px;
+            background: #f8f9fa;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .path-btn.active {
+            background: #4CAF50;
+            color: white;
+            border-color: #4CAF50;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            font-size: 18px;
+            color: #666;
+            display: none;
+        }
+
+        .loading.show {
+            display: block;
+        }
+
+        .results-section {
+            padding: 40px;
+        }
+
+        .results-header {
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #eee;
+        }
+
+        .results-count {
+            font-size: 1.2em;
+            color: #4CAF50;
+            font-weight: 600;
+        }
+
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .image-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .image-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .image-container {
+            position: relative;
+            height: 200px;
+            overflow: hidden;
+            background: #f8f9fa;
+        }
+
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .image-card:hover .image-container img {
+            transform: scale(1.1);
+        }
+
+        .image-info {
+            padding: 15px;
+        }
+
+        .image-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #333;
+            font-size: 14px;
+            word-break: break-word;
+        }
+
+        .image-path {
+            font-size: 12px;
+            color: #666;
+            word-break: break-all;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+
+        .no-results i {
+            font-size: 4em;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.9);
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 90%;
+            max-height: 90%;
+        }
+
+        .modal-content img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        .close {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            color: white;
+            font-size: 35px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .error-message {
+            background: #ffebee;
+            color: #c62828;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #c62828;
+        }
+
+        @media (max-width: 768px) {
+            .search-form {
+                flex-direction: column;
+            }
+            
+            .search-input {
+                min-width: 100%;
+            }
+            
+            .image-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔍 Pencari File Gambar</h1>
+            <p>Cari dan tampilkan file JPG dari folder lokal dan network drive</p>
+        </div>
+
+        <div class="search-section">
+            <div class="path-selector">
+                <button class="path-btn active" data-path="local">📁 Folder Lokal</button>
+                <button class="path-btn" data-path="network">🌐 Network Drive (\\192.168.0.204\Master Design)</button>
+            </div>
+            
+            <form class="search-form" id="searchForm">
+                <input type="text" class="search-input" id="searchInput" placeholder="Masukkan nama file atau kata kunci...">
+                <button type="submit" class="search-btn">🔍 Cari Gambar</button>
+            </form>
+
+            <div class="loading" id="loading">
+                <p>⏳ Mencari file gambar...</p>
+            </div>
+        </div>
+
+        <div class="results-section">
+            <div class="results-header" id="resultsHeader" style="display: none;">
+                <div class="results-count" id="resultsCount"></div>
+            </div>
+            
+            <div id="errorMessage"></div>
+            <div class="image-grid" id="imageGrid"></div>
+            
+            <div class="no-results" id="noResults" style="display: none;">
+                <div style="font-size: 4em; margin-bottom: 20px; opacity: 0.5;">📷</div>
+                <h3>Tidak ada gambar ditemukan</h3>
+                <p>Coba ubah kata kunci pencarian atau periksa koneksi network drive</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal untuk preview gambar -->
+    <div id="imageModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <img id="modalImage" src="" alt="">
+        </div>
+    </div>
+
+    <script>
+        let currentPath = 'local';
+        let searchResults = [];
+
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            // Path selector
+            document.querySelectorAll('.path-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.path-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    currentPath = this.dataset.path;
+                });
+            });
+
+            // Search form
+            document.getElementById('searchForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                performSearch();
+            });
+
+            // Modal
+            const modal = document.getElementById('imageModal');
+            const closeBtn = document.querySelector('.close');
+            
+            closeBtn.addEventListener('click', function() {
+                modal.style.display = 'none';
+            });
+
+            window.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        });
+
+        function performSearch() {
+            const searchTerm = document.getElementById('searchInput').value.trim();
+            const loading = document.getElementById('loading');
+            const resultsHeader = document.getElementById('resultsHeader');
+            const imageGrid = document.getElementById('imageGrid');
+            const noResults = document.getElementById('noResults');
+            const errorMessage = document.getElementById('errorMessage');
+
+            // Reset display
+            loading.classList.add('show');
+            resultsHeader.style.display = 'none';
+            imageGrid.innerHTML = '';
+            noResults.style.display = 'none';
+            errorMessage.innerHTML = '';
+
+            if (!searchTerm) {
+                loading.classList.remove('show');
+                errorMessage.innerHTML = '<div class="error-message">Silakan masukkan kata kunci pencarian</div>';
+                return;
+            }
+
+            // Call PHP backend
+            const params = new URLSearchParams({
+                search: searchTerm,
+
+        function generateMockResults(searchTerm) {
+            // Mock data untuk demonstrasi
+            const mockImages = [
+                { name: `${searchTerm}_design1.jpg`, path: currentPath === 'local' ? 'C:/xampp/htdocs/images/' : '\\\\192.168.0.204\\Master Design\\' },
+                { name: `${searchTerm}_photo.jpg`, path: currentPath === 'local' ? 'C:/xampp/htdocs/images/' : '\\\\192.168.0.204\\Master Design\\' },
+                { name: `project_${searchTerm}.jpg`, path: currentPath === 'local' ? 'C:/xampp/htdocs/images/' : '\\\\192.168.0.204\\Master Design\\' }
+            ];
+
+            return searchTerm.length > 0 ? mockImages : [];
+        }
+
+        function displayResults(results) {
+            const resultsHeader = document.getElementById('resultsHeader');
+            const resultsCount = document.getElementById('resultsCount');
+            const imageGrid = document.getElementById('imageGrid');
+            const noResults = document.getElementById('noResults');
+
+            if (results.length > 0) {
+                resultsHeader.style.display = 'block';
+                resultsCount.textContent = `Ditemukan ${results.length} gambar`;
+                
+                imageGrid.innerHTML = results.map((img, index) => `
+                    <div class="image-card" onclick="openModal('${img.path}${img.name}')">
+                        <div class="image-container">
+                            <img src="data:image/svg+xml;base64,${generatePlaceholderImage(img.name)}" alt="${img.name}" loading="lazy">
+                        </div>
+                        <div class="image-info">
+                            <div class="image-name">${img.name}</div>
+                            <div class="image-path">${img.path}</div>
+                        </div>
+                    </div>
+                `).join('');
+            } else {
+                noResults.style.display = 'block';
+            }
+        }
+
+        function generatePlaceholderImage(filename) {
+            // Generate placeholder SVG
+            const svg = `
+                <svg width="250" height="200" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="100%" height="100%" fill="#f0f0f0"/>
+                    <text x="50%" y="45%" text-anchor="middle" fill="#999" font-size="14" font-family="Arial">
+                        📷
+                    </text>
+                    <text x="50%" y="65%" text-anchor="middle" fill="#666" font-size="10" font-family="Arial">
+                        ${filename}
+                    </text>
+                </svg>
+            `;
+            return btoa(svg);
+        }
+
+        function openModal(imagePath) {
+            const modal = document.getElementById('imageModal');
+            const modalImage = document.getElementById('modalImage');
+            
+            // Dalam implementasi nyata, ini akan menampilkan gambar yang sebenarnya
+            modalImage.src = `data:image/svg+xml;base64,${generatePlaceholderImage(imagePath.split(/[\\/]/).pop())}`;
+            modal.style.display = 'block';
+        }
+    </script>
+</body>
+</html>

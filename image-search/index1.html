@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pencarian File Gambar</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            padding: 30px;
+            text-align: center;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .search-section {
+            padding: 40px;
+            background: white;
+        }
+
+        .search-container {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            align-items: center;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 15px 20px;
+            border: 2px solid #e1e1e1;
+            border-radius: 50px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .search-input:focus {
+            border-color: #4facfe;
+            box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
+        }
+
+        .search-btn {
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 120px;
+        }
+
+        .search-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(79, 172, 254, 0.3);
+        }
+
+        .search-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #4facfe;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .results-section {
+            padding: 0 40px 40px;
+        }
+
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .results-count {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .view-toggle {
+            display: flex;
+            gap: 10px;
+        }
+
+        .toggle-btn {
+            padding: 8px 15px;
+            border: 2px solid #e1e1e1;
+            background: white;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-btn.active {
+            background: #4facfe;
+            color: white;
+            border-color: #4facfe;
+        }
+
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .image-list {
+            display: none;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .image-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .image-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+
+        .image-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .image-card:hover img {
+            transform: scale(1.05);
+        }
+
+        /* Print button styles */
+        .print-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            opacity: 0;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: #333;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .image-card:hover .print-btn {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+
+        .print-btn:hover {
+            background: rgba(79, 172, 254, 0.9);
+            color: white;
+            transform: scale(1.2) !important;
+        }
+
+        .print-btn:active {
+            transform: scale(0.95) !important;
+        }
+
+        .image-info {
+            padding: 15px;
+        }
+
+        .image-name {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+            word-break: break-word;
+        }
+
+        .image-size {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .list-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .list-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+
+        .list-thumbnail {
+            width: 80px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-right: 15px;
+        }
+
+        .list-info {
+            flex: 1;
+        }
+
+        /* Print button for list view */
+        .list-print-btn {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 8px 15px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            margin-left: 15px;
+        }
+
+        .list-print-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(79, 172, 254, 0.3);
+        }
+
+        .error-message {
+            text-align: center;
+            padding: 40px 20px;
+            color: #e74c3c;
+            font-size: 1.1rem;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 40px 20px;
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.9);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-content {
+            position: relative;
+            margin: auto;
+            display: block;
+            width: 90%;
+            max-width: 800px;
+            max-height: 80%;
+            object-fit: contain;
+            top: 50%;
+            transform: translateY(-50%);
+            animation: zoomIn 0.3s ease;
+        }
+
+        .close {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+        }
+
+        .close:hover {
+            opacity: 0.7;
+        }
+
+        /* Simplified Print Dialog Styles */
+        .print-dialog {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 2000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .print-dialog-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+        }
+
+        .print-dialog h3 {
+            margin-bottom: 20px;
+            color: #333;
+            font-size: 1.5rem;
+        }
+
+        .print-preview {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 2px dashed #ddd;
+            border-radius: 10px;
+        }
+
+        .print-preview img {
+            max-width: 250px;
+            max-height: 200px;
+            object-fit: contain;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .preview-info {
+            color: #666;
+            font-size: 0.9rem;
+            margin-top: 10px;
+        }
+
+        .print-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .print-confirm-btn {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 16px;
+        }
+
+        .print-confirm-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(79, 172, 254, 0.3);
+        }
+
+        .print-cancel-btn {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 16px;
+        }
+
+        .print-cancel-btn:hover {
+            background: #5a6268;
+        }
+
+        /* Print styles */
+        @media print {
+            @page {
+                margin: 0.5in;
+                size: auto;
+            }
+
+            body * {
+                visibility: hidden;
+            }
+            
+            .print-content,
+            .print-content * {
+                visibility: visible;
+            }
+            
+            .print-content {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                text-align: center;
+                padding: 20px;
+                page-break-inside: avoid;
+            }
+            
+            .print-header {
+                margin-bottom: 20px;
+                padding-bottom: 15px;
+                border-bottom: 2px solid #333;
+            }
+            
+            .print-content h2 {
+                color: #333 !important;
+                font-size: 18px;
+                margin-bottom: 10px;
+                -webkit-print-color-adjust: exact;
+            }
+            
+            .print-timestamp {
+                color: #666 !important;
+                font-size: 12px;
+                margin-bottom: 15px;
+                -webkit-print-color-adjust: exact;
+            }
+            
+            .print-content img {
+                display: block;
+                margin: 0 auto;
+                max-width: 100%;
+                max-height: 8in;
+                page-break-inside: avoid;
+                -webkit-print-color-adjust: exact;
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes zoomIn {
+            from { transform: translateY(-50%) scale(0.5); }
+            to { transform: translateY(-50%) scale(1); }
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .search-container {
+                flex-direction: column;
+            }
+            
+            .image-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 15px;
+            }
+            
+            .search-section, .results-section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔍 Pencarian Gambar Master 🔍</h1>
+            <p>Temukan file JPG dari Master Design</p>
+        </div>
+
+        <div class="search-section">
+            <div class="search-container">
+                <input type="text" class="search-input" id="searchInput" placeholder="Masukkan nama file atau kata kunci..." />
+                <button class="search-btn" id="searchBtn">
+                    <span id="searchText">Cari</span>
+                </button>
+            </div>
+            
+            <!-- Debug buttons -->
+            <div style="text-align: center; margin-bottom: 20px;">
+                <button onclick="testPHP()" style="padding: 8px 16px; margin: 0 5px; background: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer;">Test PHP</button>
+                <button onclick="testConnection()" style="padding: 8px 16px; margin: 0 5px; background: #17a2b8; color: white; border: none; border-radius: 5px; cursor: pointer;">Test Connection</button>
+            </div>
+            
+            <div class="loading" id="loading">
+                <div class="loading-spinner"></div>
+                <p>Mencari file gambar...</p>
+            </div>
+        </div>
+
+        <div class="results-section" id="resultsSection" style="display: none;">
+            <div class="results-header">
+                <div class="results-count" id="resultsCount">0 file ditemukan</div>
+                <div class="view-toggle">
+                    <button class="toggle-btn active" id="gridView">Grid</button>
+                    <button class="toggle-btn" id="listView">List</button>
+                </div>
+            </div>
+            
+            <div class="image-grid" id="imageGrid"></div>
+            <div class="image-list" id="imageList"></div>
+        </div>
+    </div>
+
+    <div class="modal" id="imageModal">
+        <span class="close" id="closeModal">&times;</span>
+        <img class="modal-content" id="modalImage">
+    </div>
+
+    <!-- Simplified Print Dialog -->
+    <div id="printDialog" class="print-dialog">
+        <div class="print-dialog-content">
+            <h3>Print Preview</h3>
+            <div class="print-preview">
+                <img id="dialogPreviewImage" src="" alt="Preview">
+                <p id="dialogImageName" style="margin-top: 10px; font-weight: 600; color: #333;"></p>
+                <div class="preview-info">
+                    <div>Ukuran: Full Page</div>
+                    <div id="previewTimestamp"></div>
+                </div>
+            </div>
+            <div class="print-actions">
+                <button id="printConfirm" class="print-confirm-btn">🖨️ Print Sekarang</button>
+                <button id="printCancel" class="print-cancel-btn">Batal</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden print container -->
+    <div id="printContainer" class="print-content" style="display: none;">
+        <div class="print-header">
+            <h2 id="printTitle"></h2>
+            <div class="print-timestamp" id="printTimestamp"></div>
+        </div>
+        <img id="printImageElement" />
+    </div>
+
+    <script>
+        class ImageSearchApp {
+            constructor() {
+                this.searchInput = document.getElementById('searchInput');
+                this.searchBtn = document.getElementById('searchBtn');
+                this.loading = document.getElementById('loading');
+                this.resultsSection = document.getElementById('resultsSection');
+                this.resultsCount = document.getElementById('resultsCount');
+                this.imageGrid = document.getElementById('imageGrid');
+                this.imageList = document.getElementById('imageList');
+                this.gridViewBtn = document.getElementById('gridView');
+                this.listViewBtn = document.getElementById('listView');
+                this.modal = document.getElementById('imageModal');
+                this.modalImage = document.getElementById('modalImage');
+                this.closeModal = document.getElementById('closeModal');
+                
+                // Print dialog elements
+                this.printDialog = document.getElementById('printDialog');
+                this.dialogPreviewImage = document.getElementById('dialogPreviewImage');
+                this.dialogImageName = document.getElementById('dialogImageName');
+                this.previewTimestamp = document.getElementById('previewTimestamp');
+                this.printConfirm = document.getElementById('printConfirm');
+                this.printCancel = document.getElementById('printCancel');
+                
+                // Print container elements
+                this.printContainer = document.getElementById('printContainer');
+                this.printTitle = document.getElementById('printTitle');
+                this.printTimestamp = document.getElementById('printTimestamp');
+                this.printImageElement = document.getElementById('printImageElement');
+                
+                this.currentView = 'grid';
+                this.currentResults = [];
+                this.currentPrintImage = null;
+                
+                this.initEventListeners();
+            }
+
+            initEventListeners() {
+                this.searchBtn.addEventListener('click', () => this.performSearch());
+                this.searchInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') this.performSearch();
+                });
+                
+                this.gridViewBtn.addEventListener('click', () => this.switchView('grid'));
+                this.listViewBtn.addEventListener('click', () => this.switchView('list'));
+                
+                this.closeModal.addEventListener('click', () => this.closeImageModal());
+                this.modal.addEventListener('click', (e) => {
+                    if (e.target === this.modal) this.closeImageModal();
+                });
+                
+                // Print dialog event listeners
+                this.printConfirm.addEventListener('click', () => this.executePrint());
+                this.printCancel.addEventListener('click', () => this.closePrintDialog());
+                this.printDialog.addEventListener('click', (e) => {
+                    if (e.target === this.printDialog) this.closePrintDialog();
+                });
+                
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape') {
+                        this.closeImageModal();
+                        this.closePrintDialog();
+                    }
+                });
+            }
+
+            async performSearch() {
+                const query = this.searchInput.value.trim();
+                if (!query) {
+                    alert('Masukkan kata kunci pencarian');
+                    return;
+                }
+
+                this.showLoading(true);
+                this.hideResults();
+
+                try {
+                    // Gunakan method CMD yang bypass permission issues
+                    const apiUrl = `./search_images_cmd.php?q=${encodeURIComponent(query)}`;
+                    console.log('Fetching from:', apiUrl);
+                    
+                    const response = await fetch(apiUrl, {
+                        method: 'GET',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        }
+                    });
+                    
+                    console.log('Response status:', response.status);
+                    console.log('Response headers:', [...response.headers.entries()]);
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                    }
+                    
+                    // Ambil response sebagai text dulu untuk debugging
+                    const responseText = await response.text();
+                    console.log('Raw response:', responseText);
+                    
+                    // Coba parse sebagai JSON
+                    let data;
+                    try {
+                        data = JSON.parse(responseText);
+                    } catch (parseError) {
+                        console.error('JSON Parse Error:', parseError);
+                        console.error('Response that failed to parse:', responseText);
+                        throw new Error(`Server returned invalid JSON. Response: ${responseText.substring(0, 200)}${responseText.length > 200 ? '...' : ''}`);
+                    }
+                    
+                    console.log('Parsed data:', data);
+                    
+                    if (!data.success) {
+                        throw new Error(data.error || 'Unknown server error');
+                    }
+                    
+                    this.currentResults = data.images || [];
+                    this.displayResults();
+                    
+                } catch (error) {
+                    console.error('Search Error:', error);
+                    this.showError('Error: ' + error.message);
+                } finally {
+                    this.showLoading(false);
+                }
+            }
+
+            displayResults() {
+                this.showResults();
+                this.updateResultsCount();
+                
+                if (this.currentResults.length === 0) {
+                    this.showNoResults();
+                    return;
+                }
+                
+                this.renderImages();
+            }
+
+            renderImages() {
+                this.imageGrid.innerHTML = '';
+                this.imageList.innerHTML = '';
+                
+                this.currentResults.forEach((image, index) => {
+                    // Grid view
+                    const gridCard = this.createGridCard(image, index);
+                    this.imageGrid.appendChild(gridCard);
+                    
+                    // List view
+                    const listItem = this.createListItem(image, index);
+                    this.imageList.appendChild(listItem);
+                });
+            }
+
+            createGridCard(image, index) {
+                const card = document.createElement('div');
+                card.className = 'image-card';
+                card.innerHTML = `
+                    <img src="${image.url}" alt="${image.name}" loading="lazy" />
+                    <button class="print-btn" title="Print Gambar" onclick="event.stopPropagation()">
+                        🖨️
+                    </button>
+                    <div class="image-info">
+                        <div class="image-name">${image.name}</div>
+                        <div class="image-size">${this.formatFileSize(image.size)}</div>
+                    </div>
+                `;
+                
+                // Add click event for modal (excluding print button)
+                card.addEventListener('click', (e) => {
+                    if (!e.target.classList.contains('print-btn')) {
+                        this.openImageModal(image.url);
+                    }
+                });
+                
+                // Add print functionality
+                const printBtn = card.querySelector('.print-btn');
+                printBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    this.showPrintDialog(image.url, image.name);
+                });
+                
+                return card;
+            }
+
+            createListItem(image, index) {
+                const item = document.createElement('div');
+                item.className = 'list-item';
+                item.innerHTML = `
+                    <img src="${image.url}" alt="${image.name}" class="list-thumbnail" loading="lazy" />
+                    <div class="list-info">
+                        <div class="image-name">${image.name}</div>
+                        <div class="image-size">${this.formatFileSize(image.size)}</div>
+                    </div>
+                    <button class="list-print-btn" title="Print Gambar">
+                        🖨️ Print
+                    </button>
+                `;
+                
+                // Add click event for modal (excluding print button)
+                item.addEventListener('click', (e) => {
+                    if (!e.target.classList.contains('list-print-btn')) {
+                        this.openImageModal(image.url);
+                    }
+                });
+                
+                // Add print functionality
+                const printBtn = item.querySelector('.list-print-btn');
+                printBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    this.showPrintDialog(image.url, image.name);
+                });
+                
+                return item;
+            }
+
+            showPrintDialog(imageUrl, imageName) {
+                this.currentPrintImage = { url: imageUrl, name: imageName };
+                
+                // Set preview image and name
+                this.dialogPreviewImage.src = imageUrl;
+                this.dialogImageName.textContent = imageName;
+                
+                // Generate and show timestamp
+                const now = new Date();
+                const timestamp = this.formatTimestamp(now);
+                this.previewTimestamp.textContent = `Waktu Print: ${timestamp}`;
+                
+                // Show print dialog
+                this.printDialog.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+            }
+
+            closePrintDialog() {
+                this.printDialog.style.display = 'none';
+                document.body.style.overflow = 'auto';
+                this.currentPrintImage = null;
+            }
+
+            formatTimestamp(date) {
+                const options = {
+                    day: '2-digit',
+                    month: '2-digit', 
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit',
+                    timeZone: 'Asia/Jakarta'
+                };
+                
+                return date.toLocaleDateString('id-ID', options).replace(',', ' -');
+            }
+
+            executePrint() {
+                if (!this.currentPrintImage) return;
+                
+                // Generate fresh timestamp for print
+                const now = new Date();
+                const timestamp = this.formatTimestamp(now);
+                
+                // Set print container content
+                this.printTitle.textContent = this.currentPrintImage.name;
+                this.printTimestamp.textContent = `Dicetak pada: ${timestamp}`;
+                this.printImageElement.src = this.currentPrintImage.url;
+                
+                // Wait for image to load
+                this.printImageElement.onload = () => {
+                    // Close dialog first
+                    this.closePrintDialog();
+                    
+                    // Show print container
+                    this.printContainer.style.display = 'block';
+                    
+                    // Small delay to ensure rendering
+                    setTimeout(() => {
+                        // Execute print
+                        window.print();
+                        
+                        // Hide container after print dialog closes
+                        const checkPrintDialog = () => {
+                            // Hide container after a short delay
+                            setTimeout(() => {
+                                this.printContainer.style.display = 'none';
+                            }, 500);
+                        };
+                        
+                        // Listen for afterprint event
+                        window.addEventListener('afterprint', checkPrintDialog, { once: true });
+                        
+                        // Fallback timeout
+                        setTimeout(checkPrintDialog, 3000);
+                        
+                    }, 100);
+                };
+                
+                // Handle error
+                this.printImageElement.onerror = () => {
+                    alert('Gagal memuat gambar untuk print');
+                    this.closePrintDialog();
+                };
+            }
+
+            formatFileSize(bytes) {
+                if (!bytes) return 'Unknown size';
+                const sizes = ['B', 'KB', 'MB', 'GB'];
+                const i = Math.floor(Math.log(bytes) / Math.log(1024));
+                return Math.round(bytes / Math.pow(1024, i) * 100) / 100 + ' ' + sizes[i];
+            }
+
+            switchView(view) {
+                this.currentView = view;
+                
+                if (view === 'grid') {
+                    this.imageGrid.style.display = 'grid';
+                    this.imageList.style.display = 'none';
+                    this.gridViewBtn.classList.add('active');
+                    this.listViewBtn.classList.remove('active');
+                } else {
+                    this.imageGrid.style.display = 'none';
+                    this.imageList.style.display = 'flex';
+                    this.gridViewBtn.classList.remove('active');
+                    this.listViewBtn.classList.add('active');
+                }
+            }
+
+            openImageModal(imageUrl) {
+                this.modalImage.src = imageUrl;
+                this.modal.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+            

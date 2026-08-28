@@ -1,0 +1,4 @@
+2026-03-25 08:48:13 - HTTP 500 JSON ERROR: Malformed UTF-8 characters, possibly incorrectly encoded
+2026-03-25 08:55:12 - HTTP 500 JSON ERROR: Malformed UTF-8 characters, possibly incorrectly encoded
+2026-03-25 08:55:29 - HTTP 500 JSON ERROR: Malformed UTF-8 characters, possibly incorrectly encoded
+2026-03-25 09:00:34 - HTTP 500 JSON ERROR: Malformed UTF-8 characters, possibly incorrectly encoded

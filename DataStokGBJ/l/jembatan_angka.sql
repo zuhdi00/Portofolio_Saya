@@ -1,0 +1,396 @@
+/* ============================================================================
+   PT SUPRACOR SEJAHTERA — JEMBATAN ANGKA EXCEL vs SISTEM
+   Dibuat : 05 Agustus 2026
+
+   PERTANYAANNYA: kenapa total sistem 800.055 sedangkan Excel 379.084?
+
+   JAWABANNYA ADA DI KOLOM 04 AGUSTUS FILE EXCEL
+        Saldo Excel per 03 Agustus ........ 1.004.441 pc
+        DLV 04 Agustus .................... -  626.062 pc  (sudah diisi gudang)
+        STB 04 Agustus ....................        0 pc  (BELUM diisi gudang)
+        SALDO AKHIR Excel .................    379.084 pc
+
+     Barang keluar tanggal 4 sudah dipotong, tapi barang masuk tanggal 4 belum
+     ditambahkan. Jadi saldo Excel sedang lebih rendah dari keadaan sebenarnya.
+     Bukan sistemnya yang melenceng.
+
+   FILE INI MEMBUKTIKANNYA
+     Langkah 2 menyusun jembatan angka dari patokan Excel sampai stok sistem,
+     baris per baris, supaya kelihatan setiap komponennya.
+     Langkah 3 menghitung berapa STB tanggal 4 menurut database — angka inilah
+     yang hilang dari Excel.
+     Langkah 4-5 mengadu mutasi 01-04 Agustus, kini termasuk tanggal 4.
+   ============================================================================ */
+
+USE dbSopanusa;
+GO
+SET NOCOUNT ON;
+SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;
+GO
+
+/* ---------------------------------------------------------------------------
+   LANGKAH 1 — MUAT ULANG MUTASI EXCEL, KINI SAMPAI 04 AGUSTUS
+   --------------------------------------------------------------------------- */
+IF OBJECT_ID('dbo.tbCekMutasiExcel') IS NOT NULL DROP TABLE dbo.tbCekMutasiExcel;
+GO
+CREATE TABLE dbo.tbCekMutasiExcel (
+    cNoScDb  VARCHAR(30) NOT NULL,
+    dTanggal DATE        NOT NULL,
+    nStbPc   INT         NOT NULL DEFAULT 0,
+    nDlvPc   INT         NOT NULL DEFAULT 0,
+    CONSTRAINT PK_tbCekMutasiExcel PRIMARY KEY (cNoScDb, dTanggal)
+);
+GO
+
+INSERT INTO dbo.tbCekMutasiExcel (cNoScDb, dTanggal, nStbPc, nDlvPc) VALUES
+(N'SLC/2601/00476','2026-08-04',0,9800),
+(N'SLC/2603/00050','2026-08-04',0,3920),
+(N'SLC/2603/00600','2026-08-03',4000,0),
+(N'SLC/2603/00600','2026-08-04',0,8000),
+(N'SLC/2603/00713','2026-08-04',0,2500),
+(N'SLC/2603/00967','2026-08-04',0,10680),
+(N'SLC/2604/01451','2026-08-01',2700,0),
+(N'SLC/2605/00355','2026-08-01',29150,16950),
+(N'SLC/2605/00355','2026-08-03',500,9200),
+(N'SLC/2605/00370','2026-08-04',0,8920),
+(N'SLC/2605/00528','2026-08-03',0,600),
+(N'SLC/2605/00530','2026-08-03',0,860),
+(N'SLC/2605/00673','2026-08-04',0,1400),
+(N'SLC/2605/00795','2026-08-03',0,4800),
+(N'SLC/2605/00809','2026-08-01',0,2800),
+(N'SLC/2605/00880','2026-08-01',0,9600),
+(N'SLC/2605/00973','2026-08-04',0,4120),
+(N'SLC/2605/01029','2026-08-04',0,4005),
+(N'SLC/2605/01030','2026-08-03',5250,0),
+(N'SLC/2605/01030','2026-08-04',0,4170),
+(N'SLC/2605/01032','2026-08-01',0,5250),
+(N'SLC/2605/01033','2026-08-03',4980,0),
+(N'SLC/2605/01033','2026-08-04',0,4980),
+(N'SLC/2605/01043','2026-08-01',0,5290),
+(N'SLC/2606/00034','2026-08-03',0,11700),
+(N'SLC/2606/00040','2026-08-03',0,520),
+(N'SLC/2606/00129','2026-08-04',0,38400),
+(N'SLC/2606/00162','2026-08-04',0,2550),
+(N'SLC/2606/00295','2026-08-03',0,4500),
+(N'SLC/2606/00392','2026-08-01',3600,0),
+(N'SLC/2606/00392','2026-08-02',25200,0),
+(N'SLC/2606/00392','2026-08-03',25200,46800),
+(N'SLC/2606/00392','2026-08-04',0,7200),
+(N'SLC/2606/00529','2026-08-01',2450,49000),
+(N'SLC/2606/00621','2026-08-01',0,21120),
+(N'SLC/2606/00621','2026-08-03',16720,0),
+(N'SLC/2606/00621','2026-08-04',0,20340),
+(N'SLC/2606/00658','2026-08-01',0,6600),
+(N'SLC/2606/00745','2026-08-04',0,300),
+(N'SLC/2606/00746','2026-08-04',0,1578),
+(N'SLC/2606/00800','2026-08-03',0,210),
+(N'SLC/2606/00823','2026-08-03',0,960),
+(N'SLC/2606/00827','2026-08-03',0,1990),
+(N'SLC/2606/00828','2026-08-03',0,1200),
+(N'SLC/2606/01108','2026-08-01',1735,0),
+(N'SLC/2606/01108','2026-08-04',0,3475),
+(N'SLC/2606/01241','2026-08-03',31500,31475),
+(N'SLC/2606/01256','2026-08-03',0,5140),
+(N'SLC/2607/00003','2026-08-01',0,900),
+(N'SLC/2607/00018','2026-08-03',14325,0),
+(N'SLC/2607/00018','2026-08-04',0,18500),
+(N'SLC/2607/00020','2026-08-01',0,4060),
+(N'SLC/2607/00072','2026-08-01',258,0),
+(N'SLC/2607/00072','2026-08-03',0,1980),
+(N'SLC/2607/00093','2026-08-01',0,600),
+(N'SLC/2607/00094','2026-08-01',0,2600),
+(N'SLC/2607/00099','2026-08-01',34560,14400),
+(N'SLC/2607/00099','2026-08-03',6240,14400),
+(N'SLC/2607/00130','2026-08-01',3600,0),
+(N'SLC/2607/00130','2026-08-04',0,10800);
+GO
+
+INSERT INTO dbo.tbCekMutasiExcel (cNoScDb, dTanggal, nStbPc, nDlvPc) VALUES
+(N'SLC/2607/00162','2026-08-03',16500,0),
+(N'SLC/2607/00162','2026-08-04',0,14260),
+(N'SLC/2607/00203','2026-08-04',0,1940),
+(N'SLC/2607/00236','2026-08-04',0,6760),
+(N'SLC/2607/00238','2026-08-04',0,4520),
+(N'SLC/2607/00241','2026-08-04',0,5000),
+(N'SLC/2607/00247','2026-08-04',0,600),
+(N'SLC/2607/00250','2026-08-03',3287,0),
+(N'SLC/2607/00250','2026-08-04',0,3507),
+(N'SLC/2607/00251','2026-08-03',0,7740),
+(N'SLC/2607/00285','2026-08-01',0,1800),
+(N'SLC/2607/00286','2026-08-01',0,10500),
+(N'SLC/2607/00287','2026-08-01',0,1500),
+(N'SLC/2607/00322','2026-08-04',0,3200),
+(N'SLC/2607/00323','2026-08-01',0,3575),
+(N'SLC/2607/00323','2026-08-03',0,800),
+(N'SLC/2607/00324','2026-08-01',0,11400),
+(N'SLC/2607/00326','2026-08-04',0,1325),
+(N'SLC/2607/00327','2026-08-03',0,1375),
+(N'SLC/2607/00332','2026-08-01',0,1625),
+(N'SLC/2607/00332','2026-08-03',0,2950),
+(N'SLC/2607/00333','2026-08-01',0,525),
+(N'SLC/2607/00401','2026-08-01',0,560),
+(N'SLC/2607/00406','2026-08-01',0,12900),
+(N'SLC/2607/00408','2026-08-01',362,0),
+(N'SLC/2607/00408','2026-08-03',0,362),
+(N'SLC/2607/00409','2026-08-01',306,0),
+(N'SLC/2607/00409','2026-08-03',0,241),
+(N'SLC/2607/00449','2026-08-01',0,2450),
+(N'SLC/2607/00462','2026-08-01',9500,0),
+(N'SLC/2607/00462','2026-08-03',0,9480),
+(N'SLC/2607/00485','2026-08-01',0,3000),
+(N'SLC/2607/00487','2026-08-01',0,1620),
+(N'SLC/2607/00487','2026-08-03',2920,0),
+(N'SLC/2607/00487','2026-08-04',0,2800),
+(N'SLC/2607/00489','2026-08-03',0,211),
+(N'SLC/2607/00490','2026-08-03',63,222),
+(N'SLC/2607/00507','2026-08-04',0,20000),
+(N'SLC/2607/00514','2026-08-01',350,0),
+(N'SLC/2607/00514','2026-08-03',50,350),
+(N'SLC/2607/00517','2026-08-01',1000,0),
+(N'SLC/2607/00517','2026-08-03',0,1000),
+(N'SLC/2607/00570','2026-08-03',8700,0),
+(N'SLC/2607/00570','2026-08-04',0,19150),
+(N'SLC/2607/00590','2026-08-01',5120,0),
+(N'SLC/2607/00590','2026-08-04',0,5120),
+(N'SLC/2607/00593','2026-08-01',560,0),
+(N'SLC/2607/00594','2026-08-03',9720,15160),
+(N'SLC/2607/00594','2026-08-04',0,5580),
+(N'SLC/2607/00595','2026-08-02',3040,0),
+(N'SLC/2607/00595','2026-08-03',1120,4160),
+(N'SLC/2607/00621','2026-08-01',1280,0),
+(N'SLC/2607/00655','2026-08-03',13360,6000),
+(N'SLC/2607/00657','2026-08-03',5000,5000),
+(N'SLC/2607/00661','2026-08-03',0,1560),
+(N'SLC/2607/00694','2026-08-01',1740,0),
+(N'SLC/2607/00694','2026-08-03',1100,0),
+(N'SLC/2607/00701','2026-08-02',1024,0),
+(N'SLC/2607/00701','2026-08-03',0,634),
+(N'SLC/2607/00706','2026-08-01',0,13200);
+GO
+
+INSERT INTO dbo.tbCekMutasiExcel (cNoScDb, dTanggal, nStbPc, nDlvPc) VALUES
+(N'SLC/2607/00706','2026-08-03',0,13200),
+(N'SLC/2607/00709','2026-08-04',0,3120),
+(N'SLC/2607/00719','2026-08-01',5151,0),
+(N'SLC/2607/00719','2026-08-03',0,5140),
+(N'SLC/2607/00728','2026-08-04',0,5174),
+(N'SLC/2607/00729','2026-08-01',3900,0),
+(N'SLC/2607/00729','2026-08-02',800,0),
+(N'SLC/2607/00729','2026-08-04',0,4700),
+(N'SLC/2607/00743','2026-08-03',580,20800),
+(N'SLC/2607/00774','2026-08-02',24575,0),
+(N'SLC/2607/00774','2026-08-03',5000,31075),
+(N'SLC/2607/00774','2026-08-04',0,50275),
+(N'SLC/2607/00794','2026-08-04',0,7940),
+(N'SLC/2607/00812','2026-08-03',4160,0),
+(N'SLC/2607/00821','2026-08-04',0,222),
+(N'SLC/2607/00824','2026-08-04',0,1500),
+(N'SLC/2607/00827','2026-08-01',0,4740),
+(N'SLC/2607/00829','2026-08-01',1840,6980),
+(N'SLC/2607/00830','2026-08-01',0,8160),
+(N'SLC/2607/00844','2026-08-01',0,4670),
+(N'SLC/2607/00844','2026-08-02',30390,0),
+(N'SLC/2607/00844','2026-08-03',32450,54610),
+(N'SLC/2607/00844','2026-08-04',0,9510),
+(N'SLC/2607/00854','2026-08-03',7520,0),
+(N'SLC/2607/00854','2026-08-04',0,14720),
+(N'SLC/2607/00891','2026-08-03',0,450),
+(N'SLC/2607/00907','2026-08-01',0,510),
+(N'SLC/2607/00908','2026-08-01',0,5040),
+(N'SLC/2607/00922','2026-08-03',647,0),
+(N'SLC/2607/00922','2026-08-04',0,647),
+(N'SLC/2607/00924','2026-08-03',0,515),
+(N'SLC/2607/00925','2026-08-03',9100,0),
+(N'SLC/2607/00925','2026-08-04',0,9100),
+(N'SLC/2607/00926','2026-08-03',13460,0),
+(N'SLC/2607/00926','2026-08-04',0,14080),
+(N'SLC/2607/00927','2026-08-03',23680,0),
+(N'SLC/2607/00927','2026-08-04',0,23680),
+(N'SLC/2607/00928','2026-08-01',0,25200),
+(N'SLC/2607/00928','2026-08-03',0,6020),
+(N'SLC/2607/00929','2026-08-01',3580,0),
+(N'SLC/2607/00929','2026-08-03',0,17440),
+(N'SLC/2607/00930','2026-08-01',0,23760),
+(N'SLC/2607/00931','2026-08-01',1360,0),
+(N'SLC/2607/00931','2026-08-03',7140,0),
+(N'SLC/2607/00931','2026-08-04',0,7120),
+(N'SLC/2607/00932','2026-08-03',21000,21140),
+(N'SLC/2607/00932','2026-08-04',0,21000),
+(N'SLC/2607/00933','2026-08-01',20480,0),
+(N'SLC/2607/00933','2026-08-03',0,20440),
+(N'SLC/2607/00934','2026-08-01',0,3980),
+(N'SLC/2607/00934','2026-08-02',13760,0),
+(N'SLC/2607/00934','2026-08-03',0,13760),
+(N'SLC/2607/00940','2026-08-01',1500,0),
+(N'SLC/2607/00941','2026-08-04',0,2180),
+(N'SLC/2607/00949','2026-08-04',0,6720),
+(N'SLC/2607/00965','2026-08-02',37875,0),
+(N'SLC/2607/00965','2026-08-03',0,43075),
+(N'SLC/2607/00978','2026-08-04',0,4900),
+(N'SLC/2607/00990','2026-08-01',0,7000),
+(N'SLC/2607/01000','2026-08-01',3300,0);
+GO
+
+INSERT INTO dbo.tbCekMutasiExcel (cNoScDb, dTanggal, nStbPc, nDlvPc) VALUES
+(N'SLC/2607/01001','2026-08-01',740,2680),
+(N'SLC/2607/01006','2026-08-01',0,10400),
+(N'SLC/2607/01009','2026-08-03',1940,3570),
+(N'SLC/2607/01011','2026-08-02',500,0),
+(N'SLC/2607/01011','2026-08-03',9180,0),
+(N'SLC/2607/01011','2026-08-04',0,9680),
+(N'SLC/2607/01014','2026-08-03',3900,2000),
+(N'SLC/2607/01029','2026-08-01',0,3150),
+(N'SLC/2607/01058','2026-08-01',0,3900),
+(N'SLC/2607/01058','2026-08-03',0,2000),
+(N'SLC/2607/01074','2026-08-01',5000,0),
+(N'SLC/2607/01074','2026-08-03',0,5000),
+(N'SLC/2607/01082','2026-08-03',0,4800),
+(N'SLC/2607/01083','2026-08-01',21900,6720),
+(N'SLC/2607/01083','2026-08-03',0,14280),
+(N'SLC/2607/01083','2026-08-04',0,9600),
+(N'SLC/2607/01084','2026-08-01',23480,0),
+(N'SLC/2607/01084','2026-08-03',0,23480),
+(N'SLC/2607/01088','2026-08-01',0,1810),
+(N'SLC/2607/01094','2026-08-01',5050,0),
+(N'SLC/2607/01094','2026-08-03',0,5050),
+(N'SLC/2607/01096','2026-08-03',41680,0),
+(N'SLC/2607/01096','2026-08-04',0,40040),
+(N'SLC/2607/01099','2026-08-01',100,1520),
+(N'SLC/2607/01113','2026-08-01',0,400),
+(N'SLC/2607/01113','2026-08-03',18150,17400),
+(N'SLC/2607/01113','2026-08-04',0,1175),
+(N'SLC/2607/01141','2026-08-03',0,3150),
+(N'SLC/2607/01142','2026-08-01',2040,0),
+(N'SLC/2607/01142','2026-08-03',0,3090),
+(N'SLC/2607/01154','2026-08-03',33660,0),
+(N'SLC/2607/01154','2026-08-04',0,48000),
+(N'SLC/2607/01170','2026-08-04',0,3000),
+(N'SLC/2607/01171','2026-08-03',2500,0),
+(N'SLC/2607/01171','2026-08-04',0,2500),
+(N'SLC/2607/01191','2026-08-03',10150,0),
+(N'SLC/2607/01191','2026-08-04',0,10149),
+(N'SLC/2607/01192','2026-08-03',7100,0),
+(N'SLC/2607/01197','2026-08-03',4830,0),
+(N'SLC/2607/01197','2026-08-04',0,4830),
+(N'SLC/2607/01203','2026-08-01',5100,0),
+(N'SLC/2607/01203','2026-08-03',0,5100),
+(N'SLC/2607/01204','2026-08-01',6300,0),
+(N'SLC/2607/01204','2026-08-03',0,6300),
+(N'SLC/2607/01204','2026-08-04',0,6180),
+(N'SLC/2607/01205','2026-08-01',4814,4800),
+(N'SLC/2607/01206','2026-08-02',3840,0),
+(N'SLC/2607/01206','2026-08-03',1400,5240),
+(N'SLC/2607/01208','2026-08-03',5240,0),
+(N'SLC/2607/01208','2026-08-04',0,5240),
+(N'SLC/2607/01228','2026-08-01',0,2000),
+(N'SLC/2607/01229','2026-08-03',19200,0),
+(N'SLC/2607/01229','2026-08-04',0,20160),
+(N'SLC/2607/01244','2026-08-01',6120,6120),
+(N'SLC/2607/01248','2026-08-02',4200,0),
+(N'SLC/2607/01248','2026-08-03',1200,5400),
+(N'SLC/2607/01259','2026-08-01',3060,3060),
+(N'SLC/2607/01260','2026-08-01',0,2617),
+(N'SLC/2607/01290','2026-08-01',5520,12960),
+(N'SLC/2607/01291','2026-08-03',19520,0);
+GO
+
+INSERT INTO dbo.tbCekMutasiExcel (cNoScDb, dTanggal, nStbPc, nDlvPc) VALUES
+(N'SLC/2607/01291','2026-08-04',0,19520),
+(N'SLC/2607/01297','2026-08-01',6080,0),
+(N'SLC/2607/01297','2026-08-03',0,6080),
+(N'SLC/2607/01298','2026-08-02',980,0),
+(N'SLC/2607/01298','2026-08-03',2900,0),
+(N'SLC/2607/01339','2026-08-03',3920,0);
+GO
+
+SELECT dTanggal, SUM(nStbPc) AS stb_excel, SUM(nDlvPc) AS dlv_excel
+FROM   dbo.tbCekMutasiExcel GROUP BY dTanggal ORDER BY dTanggal;
+GO
+
+/* ---------------------------------------------------------------------------
+   LANGKAH 2 — JEMBATAN ANGKA
+   Dari patokan Excel 03 Agustus sampai stok sistem hari ini.
+   Baris terakhir HARUS sama dengan total di tbStokGudangSnap.
+   --------------------------------------------------------------------------- */
+DECLARE @CutOff DATE = '2026-08-03';
+DECLARE @Patokan INT  = (SELECT SUM(nStokAkhirPc) FROM dbo.tbStokGudangExcel);
+DECLARE @Stb INT, @Krm INT, @Ret INT;
+
+SELECT @Stb = SUM(ISNULL(b.nQty,0))
+FROM   dbo.tbStbBJ b
+WHERE  b.dTanggal > @CutOff
+  AND  EXISTS (SELECT 1 FROM dbo.tbStokGudangSnap s WHERE s.cNoSc = RTRIM(b.cNoSc));
+
+SELECT @Krm = SUM(ISNULL(d.nQty,0))
+FROM   dbo.tbSRJ s INNER JOIN dbo.tbSRJDtl d ON d.cNoSRJ = s.cNoSRJ
+WHERE  s.dTanggal > @CutOff
+  AND  EXISTS (SELECT 1 FROM dbo.tbStokGudangSnap t
+               WHERE t.cNoSc = RTRIM(COALESCE(d.cNoScDtl, s.cNoSC)));
+
+SELECT @Ret = SUM(ISNULL(rv.nQty,0))
+FROM   dbo.vwReturnSrj rv
+WHERE  rv.dTgl > @CutOff
+  AND  EXISTS (SELECT 1 FROM dbo.tbStokGudangSnap t WHERE t.cNoSc = RTRIM(rv.cNoSc));
+
+SELECT 1 AS urut, 'Patokan Excel per 03 Agustus'        AS komponen, @Patokan AS pc
+UNION ALL SELECT 2, 'Ditambah STB setelah 03 Agustus',   ISNULL(@Stb,0)
+UNION ALL SELECT 3, 'Dikurangi kirim setelah 03 Agustus',-ISNULL(@Krm,0)
+UNION ALL SELECT 4, 'Ditambah retur setelah 03 Agustus', ISNULL(@Ret,0)
+UNION ALL SELECT 5, '= STOK SISTEM HARI INI',
+                 @Patokan + ISNULL(@Stb,0) - ISNULL(@Krm,0) + ISNULL(@Ret,0)
+UNION ALL SELECT 6, '  (pembanding: isi tbStokGudangSnap)',
+                 (SELECT SUM(nStokPc) FROM dbo.tbStokGudangSnap)
+ORDER BY urut;
+GO
+
+/* ---------------------------------------------------------------------------
+   LANGKAH 3 — ANGKA YANG HILANG DARI EXCEL
+   Berapa STB tanggal 04 Agustus menurut database? Inilah yang belum diisi
+   gudang, dan inilah penyebab utama total Excel terlihat jauh lebih rendah.
+   --------------------------------------------------------------------------- */
+SELECT CAST(dTanggal AS DATE) AS tanggal,
+       SUM(ISNULL(nQty,0))    AS stb_menurut_database,
+       COUNT(DISTINCT RTRIM(cNoSc)) AS jml_sc
+FROM   dbo.tbStbBJ
+WHERE  dTanggal >= '2026-08-01' AND dTanggal < '2026-08-06'
+GROUP  BY CAST(dTanggal AS DATE) ORDER BY tanggal;
+
+-- Perkiraan saldo Excel seandainya STB 04 Agustus sudah diisi
+DECLARE @SaldoExcel INT = 379084;   -- SALDO AKHIR sheet BOX + PART/LAYER
+DECLARE @Stb4 INT = (SELECT SUM(ISNULL(nQty,0)) FROM dbo.tbStbBJ
+                     WHERE dTanggal >= '2026-08-04' AND dTanggal < '2026-08-05');
+SELECT @SaldoExcel                AS saldo_excel_sekarang,
+       @Stb4                      AS stb_04_agu_belum_diisi,
+       @SaldoExcel + @Stb4        AS perkiraan_saldo_excel_lengkap,
+       (SELECT SUM(nStokPc) FROM dbo.tbStokGudangSnap) AS stok_sistem,
+       @SaldoExcel + @Stb4 - (SELECT SUM(nStokPc) FROM dbo.tbStokGudangSnap) AS sisa_selisih;
+GO
+
+/* ---------------------------------------------------------------------------
+   LANGKAH 4 — AKURASI MUTASI 01-04 AGUSTUS
+   --------------------------------------------------------------------------- */
+;WITH db_mut AS (
+    SELECT sc, tgl, SUM(stb) AS stb, SUM(dlv) AS dlv FROM (
+        SELECT RTRIM(cNoSc) AS sc, CAST(dTanggal AS DATE) AS tgl,
+               SUM(ISNULL(nQty,0)) AS stb, 0 AS dlv
+        FROM   dbo.tbStbBJ
+        WHERE  dTanggal >= '2026-08-01' AND dTanggal < '2026-08-05'
+        GROUP  BY RTRIM(cNoSc), CAST(dTanggal AS DATE)
+        UNION ALL
+        SELECT RTRIM(COALESCE(d.cNoScDtl, s.cNoSC)), CAST(s.dTanggal AS DATE),
+               0, SUM(ISNULL(d.nQty,0))
+        FROM   dbo.tbSRJ s INNER JOIN dbo.tbSRJDtl d ON d.cNoSRJ = s.cNoSRJ
+        WHERE  s.dTanggal >= '2026-08-01' AND s.dTanggal < '2026-08-05'
+        GROUP  BY RTRIM(COALESCE(d.cNoScDtl, s.cNoSC)), CAST(s.dTanggal AS DATE)
+    ) t GROUP BY sc, tgl
+)
+SELECT COALESCE(e.dTanggal, b.tgl) AS tanggal,
+       SUM(ISNULL(e.nStbPc,0)) AS stb_excel, SUM(ISNULL(b.stb,0)) AS stb_db,
+       SUM(ISNULL(b.stb,0)) - SUM(ISNULL(e.nStbPc,0)) AS selisih_stb,
+       SUM(ISNULL(e.nDlvPc,0)) AS dlv_excel, SUM(ISNULL(b.dlv,0)) AS dlv_db,
+       SUM(ISNULL(b.dlv,0)) - SUM(ISNULL(e.nDlvPc,0)) AS selisih_dlv
+FROM      dbo.tbCekMutasiExcel e
+FULL JOIN db_mut b ON b.sc = e.cNoScDb AND b.tgl = e.dTanggal
+GROUP BY  COALESCE(e.dTanggal, b.tgl)
+ORDER BY  tanggal;
+GO

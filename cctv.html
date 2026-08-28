@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proposal Pengajuan Internet Router untuk CCTV</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Times New Roman', Times, serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 40px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 3px solid #0066cc;
+            padding-bottom: 20px;
+        }
+        
+        .company-name {
+            font-size: 24px;
+            font-weight: bold;
+            color: #0066cc;
+            margin-bottom: 5px;
+        }
+        
+        .document-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 10px;
+            text-decoration: underline;
+        }
+        
+        .meta-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+            font-size: 13px;
+        }
+        
+        .meta-item {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .meta-label {
+            font-weight: bold;
+            min-width: 100px;
+        }
+        
+        section {
+            margin-bottom: 25px;
+        }
+        
+        .section-title {
+            font-size: 14px;
+            font-weight: bold;
+            background-color: #e6f0ff;
+            padding: 10px 15px;
+            margin-bottom: 12px;
+            border-left: 4px solid #0066cc;
+        }
+        
+        .section-content {
+            font-size: 13px;
+            line-height: 1.8;
+            margin-left: 10px;
+        }
+        
+        .content-text {
+            text-align: justify;
+            margin-bottom: 10px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 12px;
+        }
+        
+        table th {
+            background-color: #0066cc;
+            color: white;
+            padding: 10px;
+            text-align: left;
+            font-weight: bold;
+        }
+        
+        table td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        .highlight {
+            background-color: #fff3cd;
+            padding: 3px 6px;
+        }
+        
+        .bandwidth-summary {
+            background-color: #e6f0ff;
+            padding: 15px;
+            border-left: 4px solid #0066cc;
+            margin: 15px 0;
+            font-size: 13px;
+        }
+        
+        .bandwidth-item {
+            margin: 8px 0;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .bandwidth-label {
+            font-weight: bold;
+        }
+        
+        .total-bandwidth {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 2px solid #0066cc;
+            font-weight: bold;
+            color: #0066cc;
+        }
+        
+        .recommendation {
+            background-color: #d4edda;
+            padding: 15px;
+            border-left: 4px solid #28a745;
+            margin: 15px 0;
+            font-size: 13px;
+        }
+        
+        .recommendation-title {
+            font-weight: bold;
+            color: #28a745;
+            margin-bottom: 8px;
+        }
+        
+        ul {
+            margin-left: 20px;
+            font-size: 13px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+        }
+        
+        .footer {
+            margin-top: 40px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            font-size: 12px;
+        }
+        
+        .signature {
+            text-align: center;
+        }
+        
+        .signature-space {
+            min-height: 60px;
+            border-top: 1px solid #333;
+            margin-bottom: 5px;
+        }
+        
+        .button-group {
+            text-align: center;
+            margin-top: 20px;
+            gap: 10px;
+            display: flex;
+            justify-content: center;
+        }
+        
+        button {
+            padding: 10px 20px;
+            font-size: 13px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .btn-pdf {
+            background-color: #dc3545;
+            color: white;
+        }
+        
+        .btn-pdf:hover {
+            background-color: #c82333;
+        }
+        
+        .btn-print {
+            background-color: #007bff;
+            color: white;
+        }
+        
+        .btn-print:hover {
+            background-color: #0056b3;
+        }
+        
+        @media print {
+            body {
+                background-color: white;
+                padding: 0;
+            }
+            .container {
+                box-shadow: none;
+                max-width: 100%;
+            }
+            .button-group {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- HEADER -->
+        <div class="header">
+            <div class="company-name">PT. SUPRACOR SEJAHTERA</div>
+            <div class="document-title">PROPOSAL PENGAJUAN INTERNET ROUTER</div>
+            <div class="document-title">SISTEM CCTV HIKVISION</div>
+        </div>
+        
+        <!-- META INFORMATION 
+        <div class="meta-info">
+            <div class="meta-item">
+                <span class="meta-label">Nomor Proposal:</span>
+                <span>SKT/PROP/CCTV/2025/001</span>
+            </div>
+            <div class="meta-item">
+                <span class="meta-label">Tanggal:</span>
+                <span>10 Desember 2025</span>
+            </div>
+            <div class="meta-item">
+                <span class="meta-label">Divisi:</span>
+                <span>Infrastruktur IT & Keamanan</span>
+            </div>
+            <div class="meta-item">
+                <span class="meta-label">Status:</span>
+                <span>Perlu Disetujui</span>
+            </div>
+        </div> -->
+        
+        <!-- 1. LATAR BELAKANG -->
+        <section>
+            <div class="section-title">1. LATAR BELAKANG</div>
+            <div class="section-content">
+                <div class="content-text">
+                    Perusahaan membutuhkan sistem pengawasan keamanan yang modern dan terintegrasi untuk memonitor seluruh area operasional. Sistem CCTV dengan teknologi IP (Internet Protocol) dan DVR Hikvision telah dipilih sebagai solusi terbaik karena keandalan, kualitas video, dan kemampuan akses online yang superior.
+                </div>
+                <div class="content-text">
+                    Untuk mengoptimalkan performa sistem CCTV dan memastikan transmisi data yang stabil, diperlukan koneksi internet dengan bandwidth yang memadai. Dengan <span class="highlight">60 unit kamera</span>, sistem ini memerlukan konektivitas khusus yang dedicated dan stabil.
+                </div>
+            </div>
+        </section>
+        
+        <!-- 2. TUJUAN -->
+        <section>
+            <div class="section-title">2. TUJUAN PROPOSAL</div>
+            <div class="section-content">
+                <ul>
+                    <li>Mengajukan permohonan layanan internet dengan paket <span class="highlight">100 Mbps</span> dari penyedia layanan internet (ISP)</li>
+                    <li>Memastikan ketersediaan bandwidth yang cukup untuk operasional sistem CCTV 60 kamera</li>
+                    <li>Mendukung akses online DVR Hikvision untuk monitoring real-time</li>
+                    <li>Menjamin uptime dan kualitas layanan yang optimal</li>
+                </ul>
+            </div>
+        </section>
+        
+        <!-- 3. SPESIFIKASI SISTEM CCTV -->
+        <section>
+            <div class="section-title">3. SPESIFIKASI SISTEM CCTV</div>
+            <div class="section-content">
+                <table>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Spesifikasi</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Jumlah Kamera</strong></td>
+                        <td>60 Unit</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Tipe DVR</strong></td>
+                        <td>Hikvision (Mendukung Online Streaming)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Resolusi Kamera</strong></td>
+                        <td>2MP - 4MP (Full HD - 4K)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Protokol Video</strong></td>
+                        <td>H.264 / H.265</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Koneksi Jaringan</strong></td>
+                        <td>PoE (Power over Ethernet) / Wireless</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Jenis Transmisi</strong></td>
+                        <td>IP-based dengan akses online</td>
+                    </tr>
+                </table>
+            </div>
+        </section>
+        
+        <!-- 4. ANALISIS KEBUTUHAN BANDWIDTH -->
+        <section>
+            <div class="section-title">4. ANALISIS KEBUTUHAN BANDWIDTH</div>
+            <div class="section-content">
+                <div class="content-text">
+                    <strong>Parameter Perhitungan Bandwidth per Kamera:</strong>
+                </div>
+                
+                <table>
+                    <tr>
+                        <th>Resolusi</th>
+                        <th>Bitrate Tipik</th>
+                        <th>Keterangan</th>
+                    </tr>
+                    <tr>
+                        <td>2MP (1080p)</td>
+                        <td>2-4 Mbps</td>
+                        <td>Kompresi H.264/H.265</td>
+                    </tr>
+                    <tr>
+                        <td>4MP (2K)</td>
+                        <td>4-6 Mbps</td>
+                        <td>Kompresi H.264/H.265</td>
+                    </tr>
+                    <tr>
+                        <td>5MP</td>
+                        <td>5-8 Mbps</td>
+                        <td>Kompresi H.264/H.265</td>
+                    </tr>
+                    <tr>
+                        <td>4K (8MP)</td>
+                        <td>8-10 Mbps</td>
+                        <td>Kompresi H.264/H.265</td>
+                    </tr>
+                </table>
+                
+                <div class="bandwidth-summary">
+                    <div class="bandwidth-item">
+                        <span class="bandwidth-label">Jumlah Kamera:</span>
+                        <span>60 Unit</span>
+                    </div>
+                    <div class="bandwidth-item">
+                        <span class="bandwidth-label">Rata-rata Konsumsi per Kamera (Skenario Moderat):</span>
+                        <span>5 Mbps</span>
+                    </div>
+                    <div class="bandwidth-item">
+                        <span class="bandwidth-label">Total Bandwidth Recording:</span>
+                        <span>60 × 5 Mbps = 300 Mbps</span>
+                    </div>
+                    <div class="bandwidth-item">
+                        <span class="bandwidth-label">Bandwidth untuk Streaming Online (10 streams concurrent):</span>
+                        <span>10 × 4 Mbps = 40 Mbps</span>
+                    </div>
+                    <div class="bandwidth-item">
+                        <span class="bandwidth-label">Overhead Jaringan & Management:</span>
+                        <span>15-20%</span>
+                    </div>
+                    <div class="total-bandwidth">
+                        <span class="bandwidth-label">Total Bandwidth yang Dibutuhkan:</span>
+                        <span>~360-380 Mbps (Peak)</span>
+                    </div>
+                </div>
+                
+                <div class="recommendation">
+                    <div class="recommendation-title">⚠ Catatan Penting:</div>
+                    <div class="content-text">
+                        Analisis di atas menunjukkan kebutuhan bandwidth puncak mencapai ~360-380 Mbps. Namun, dalam praktik operasional, sistem CCTV biasanya tidak semua kamera merekam dengan bitrate maksimal secara bersamaan. Dengan menggunakan kompresi H.265 yang lebih efisien dan penjadwalan recording yang optimal, kebutuhan dapat ditekan hingga 30-50% dari estimasi di atas.
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 5. PAKET INTERNET YANG DIAJUKAN -->
+        <section>
+            <div class="section-title">5. PAKET INTERNET YANG DIAJUKAN</div>
+            <div class="section-content">
+                <table>
+                    <tr>
+                        <th>Aspek</th>
+                        <th>Spesifikasi</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Paket Internet</strong></td>
+                        <td>100 Mbps (Download & Upload Symmetrical/Asymmetrical)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Tipe Koneksi</strong></td>
+                        <td>Fiber Optic / Dedicated Line (Direkomendasikan)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>SLA (Service Level Agreement)</strong></td>
+                        <td>99.5% Uptime Minimum</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Kecepatan Upload</strong></td>
+                        <td>Minimum 20 Mbps (untuk streaming online)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Stability</strong></td>
+                        <td>Jitter < 50ms, Latency < 30ms</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Prioritas ISP</strong></td>
+                        <td>Static IP Address</td>
+                    </tr>
+                </table>
+                
+                <div class="recommendation">
+                    <div class="recommendation-title">💡 Rekomendasi Pemilihan Paket:</div>
+                    <div class="content-text">
+                        Paket <span class="highlight">100 Mbps</span> dari Indibiz dengan harga Rp 605.000 (sesuai promo spesial) adalah pilihan yang tepat untuk kebutuhan ini. Paket ini memberikan:
+                    </div>
+                    <ul>
+                        <li>Kecepatan cukup untuk operasional CCTV 60 kamera dengan margin keamanan</li>
+                        <li>Harga kompetitif dengan kualitas layanan terjamin</li>
+                        <li>Fleksibilitas untuk ekspansi sistem di masa depan</li>
+                        <li>Support 24/7 dari tim teknis Indibiz</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 6. KONFIGURASI ROUTER & NETWORKING -->
+        <section>
+            <div class="section-title">6. KONFIGURASI ROUTER & NETWORKING</div>
+            <div class="section-content">
+                <div class="content-text">
+                    <strong>Perangkat yang Diperlukan:</strong>
+                </div>
+                <ul>
+                    <li><strong>Router Gigabit</strong>: Menggunakan router dual/tri-band untuk segregasi traffic CCTV</li>
+                    <li><strong>Switch PoE Managed</strong>: Minimum 48 port untuk menghubungkan 60 kamera IP</li>
+                    <li><strong>UPS (Uninterruptible Power Supply)</strong>: Backup power untuk kontinuitas layanan</li>
+                    <li><strong>Firewall/Security Gateway</strong>: Proteksi DVR dan kamera dari akses tidak sah</li>
+                    <li><strong>QoS Configuration</strong>: Prioritas bandwidth untuk traffic CCTV real-time</li>
+                </ul>
+                
+                <div class="recommendation">
+                    <div class="recommendation-title">🔒 Keamanan Jaringan:</div>
+                    <ul>
+                        <li>Implementasi VLAN terpisah untuk CCTV dan jaringan kantor</li>
+                        <li>Konfigurasi firewall rules untuk DVR Hikvision</li>
+                        <li>Enkripsi transmisi data video dengan SSL/TLS</li>
+                        <li>Pengaturan IP Address static untuk DVR dan kamera</li>
+                        <li>Regular firmware update untuk semua perangkat</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 7. KEUNGGULAN PAKET 100 MBPS INDIBIZ -->
+        <section>
+            <div class="section-title">7. KEUNGGULAN PAKET 100 MBPS INDIBIZ</div>
+            <div class="section-content">
+                <table>
+                    <tr>
+                        <th>Keunggulan</th>
+                        <th>Manfaat untuk CCTV</th>
+                    </tr>
+                    <tr>
+                        <td>Kecepatan 100 Mbps</td>
+                        <td>Cukup untuk 60 kamera dengan margin 20-30%</td>
+                    </tr>
+                    <tr>
+                        <td>High Speed Internet Blends</td>
+                        <td>Koneksi stabil tanpa buffering video</td>
+                    </tr>
+                    <tr>
+                        <td>24/7 Customer Support</td>
+                        <td>Support teknis kapan saja diperlukan</td>
+                    </tr>
+                    <tr>
+                        <td>Unlimited Data</td>
+                        <td>Tidak ada batasan transmisi data CCTV</td>
+                    </tr>
+                    <tr>
+                        <td>Promo Spesial Rp 605.000/bulan</td>
+                        <td>Efisiensi biaya operasional</td>
+                    </tr>
+                </table>
+            </div>
+        </section>
+        
+        <!-- 8. ESTIMASI BIAYA -->
+        <section>
+            <div class="section-title">8. ESTIMASI BIAYA BULANAN</div>
+            <div class="section-content">
+                <table>
+                    <tr>
+                        <th>Item</th>
+                        <th>Harga/Bulan</th>
+                    </tr>
+                    <tr>
+                        <td>Paket Internet 100 Mbps (Indibiz)</td>
+                        <td>Rp 605.000</td>
+                    </tr>
+                    <tr>
+                        <td>Maintenance & Support (Estimasi)</td>
+                        <td>Rp 100.000 - 200.000</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Total Biaya Bulanan</strong></td>
+                        <td><strong>Rp 705.000 - 805.000</strong></td>
+                    </tr>
+                </table>
+            </div>
+        </section>
+        
+        <!-- 9. TIMELINE IMPLEMENTASI
+        <section>
+            <div class="section-title">9. TIMELINE IMPLEMENTASI</div>
+            <div class="section-content">
+                <table>
+                    <tr>
+                        <th>Fase</th>
+                        <th>Deskripsi</th>
+                        <th>Durasi</th>
+                    </tr>
+                    <tr>
+                        <td>Persetujuan</td>
+                        <td>Approval proposal dan penganggaran</td>
+                        <td>1-2 Minggu</td>
+                    </tr>
+                    <tr>
+                        <td>Registrasi ISP</td>
+                        <td>Pengajuan ke Indibiz dan survey lokasi</td>
+                        <td>1 Minggu</td>
+                    </tr>
+                    <tr>
+                        <td>Instalasi</td>
+                        <td>Pemasangan kabel dan konfigurasi awal</td>
+                        <td>2-3 Hari</td>
+                    </tr>
+                    <tr>
+                        <td>Testing & Optimasi</td>
+                        <td>Tes performa dan konfigurasi QoS</td>
+                        <td>2-3 Hari</td>
+                    </tr>
+                    <tr>
+                        <td>Go Live</td>
+                        <td>Sistem operasional penuh</td>
+                        <td>1 Hari</td>
+                    </tr>
+                </table>
+            </div>
+        </section> -->
+        
+        <!-- 10. KESIMPULAN -->
+        <section>
+            <div class="section-title">9. KESIMPULAN DAN REKOMENDASI</div>
+            <div class="section-content">
+                <div class="content-text">
+                    Paket 100 Mbps dari Indibiz dengan harga Rp 605.000/bulan (promosi khusus) adalah solusi optimal yang menawarkan perbandingan biaya-manfaat terbaik untuk operasional sistem CCTV 60 kamera dengan DVR Hikvision online-capable.
+                </div>
+                <!--
+                <ul>
+                    <li><strong>Persetujuan pengajuan paket internet 100 Mbps dari Indibiz</strong> sebagai solusi terbaik yang sesuai dengan kebutuhan sistem</li>
+                    <li><strong>Implementasi infrastruktur networking yang proper</strong> dengan switch PoE managed dan konfigurasi QoS yang optimal</li>
+                    <li><strong>Prioritas keamanan jaringan</strong> melalui VLAN segregation dan firewall rules yang ketat</li>
+                    <li><strong>Monitoring proaktif</strong> terhadap bandwidth utilization untuk antisipasi kebutuhan masa depan</li>
+                </ul> -->
+                <!--
+                <div class="recommendation">
+                    <div class="recommendation-title">✅ Keputusan:</div>
+                    <div class="content-text">
+                        Paket 100 Mbps dari Indibiz dengan harga Rp 605.000/bulan (promosi khusus) adalah solusi optimal yang menawarkan perbandingan biaya-manfaat terbaik untuk operasional sistem CCTV 60 kamera dengan DVR Hikvision online-capable.
+                    </div>
+                </div> -->
+            </div>
+        </section>
+        
+        <!-- FOOTER -->
+        <div class="footer">
+            <!-- <div class="signature">
+                <div style="margin-bottom: 20px; text-align: left;">
+                    <strong>Disiapkan oleh:</strong><br>
+                    Divisi IT & Keamanan
+                </div>
+                <div class="signature-space"></div>
+                <div>___________________</div>
+                <div style="margin-top: 5px; font-size: 11px;">Tanda Tangan & Nama</div>
+            </div>
+            <div class="signature">
+                <div style="margin-bottom: 20px; text-align: left;">
+                    <strong>Disetujui oleh:</strong><br>
+                    Pimpinan/Manager
+                </div>
+                <div class="signature-space"></div>
+                <div>___________________</div>
+                <div style="margin-top: 5px; font-size: 11px;">Tanda Tangan & Nama</div>
+            </div> -->
+        </div>
+        
+        <!-- BUTTONS -->
+        <div class="button-group">
+            <button class="btn-print" onclick="window.print()">🖨️ Cetak / Print</button>
+            <button class="btn-pdf" onclick="downloadPDF()">📄 Download PDF</button>
+        </div>
+    </div>
+    
+    <script>
+        function downloadPDF() {
+            const element = document.querySelector('.container');
+            const opt = {
+                margin: 10,
+                filename: 'Proposal_Internet_CCTV_Hikvision_100Mbps.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { orientation: 'portrait', unit: 'mm', format: 'a4' }
+            };
+            
+            alert('Untuk download PDF, silakan gunakan fitur Print (Ctrl+P) dan pilih "Save as PDF".\n\nAtau gunakan extension browser untuk konversi PDF yang lebih baik.');
+            window.print();
+        }
+    </script>
+</body>
+</html>

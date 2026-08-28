@@ -1,0 +1,194 @@
+<?php include 'report_realisasi_data.php'; ?>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Report Realisasi</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .header, .info, .tables { margin-bottom: 20px; }
+        .header { display: flex; align-items: center; gap: 20px; }
+        .header label { font-weight: bold; }
+        .header input, .header select { padding: 4px 8px; }
+        .header button { padding: 6px 16px; background: #009688; color: #fff; border: none; border-radius: 4px; }
+        .status { color: #1a4fc4; font-size: 1.5em; font-weight: bold; }
+        .info { font-size: 1em; }
+        .info span { display: inline-block; min-width: 180px; }
+        .tables { display: flex; flex-wrap: wrap; gap: 20px; }
+        .table-block { border: 1px solid #ccc; border-radius: 6px; padding: 12px; min-width: 260px; flex: 1; background: #fafbfc; }
+        .table-block h4 { margin: 0 0 8px 0; font-size: 1.1em; color: #333; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 8px; }
+        th, td { border: 1px solid #ddd; padding: 4px 8px; text-align: center; }
+        th { background: #f0f0f0; }
+        .total-row { font-weight: bold; background: #e3e3e3; }
+        .no-data { color: #888; font-style: italic; }
+    </style>
+</head>
+<body>
+    <div class="header" style="margin-bottom:8px;">
+        <form method="get" style="width:100%; display:flex; align-items:center; gap:16px; flex-wrap:wrap;">
+            <div style="display:flex; align-items:center; gap:8px;">
+                <label for="sc" style="min-width:110px;">Nomor SC/SLC :</label>
+                <input type="text" id="sc" name="sc" value="<?= htmlspecialchars($_GET['sc'] ?? '') ?>" style="width:180px;">
+            </div>
+            <div style="display:flex; align-items:center; gap:8px;">
+                <label for="tgl_kirim" style="min-width:110px;">Tanggal Kirim :</label>
+                <input type="date" id="tgl_kirim" name="tgl_kirim" value="<?= htmlspecialchars($_GET['tgl_kirim'] ?? '') ?>" style="width:140px;">
+            </div>
+            <div style="display:flex; align-items:center; gap:8px;">
+                <label for="search" style="min-width:70px;">Search :</label>
+                <input type="text" id="search" name="search" value="<?= htmlspecialchars($_GET['search'] ?? '') ?>" placeholder="Cari..." style="width:140px;">
+            </div>
+            <button type="submit" style="padding:6px 16px; background:#009688; color:#fff; border:none; border-radius:4px;">Cari</button>
+        </form>
+    </div>
+    <?php if (isset($dataSC) && $dataSC): ?>
+        <div class="status" style="color:green;">DATA DITEMUKAN</div>
+        <div class="info">
+            <table style="width:100%; border:none; font-size:1em; margin-bottom:0;">
+                <tr>
+                    <td style="width:18%;"><b>Nama Barang</b></td>
+                    <td style="width:32%">: <?= htmlspecialchars($dataSC['cNmBrg'] ?? '-') ?></td>
+                    <td style="width:15%;"><b>Customer</b></td>
+                    <td>: <?= htmlspecialchars($dataSC['cCustomer'] ?? '-') ?></td>
+                </tr>
+                <tr>
+                    <td><b>Jml Order DT</b></td>
+                    <td>: <?= number_format($dataSC['nQty'] ?? 0) ?> (Box/sheet : <?= number_format($dataSC['nBoxSheet'] ?? 0, 2) ?>)</td>
+                    <td><b>Jadwal Kirim Baru</b></td>
+                    <td>: <?= isset($dataSC['dTglKirim']) && $dataSC['dTglKirim'] ? (is_object($dataSC['dTglKirim']) ? $dataSC['dTglKirim']->format('d/m/Y') : date('d/m/Y', strtotime($dataSC['dTglKirim']))) : '-' ?></td>
+                </tr>
+                <tr>
+                    <td><b>Stok</b></td>
+                    <td>: <?= number_format($dataSC['nStok'] ?? 0) ?></td>
+                    <td><b>Proses Mesin</b></td>
+                    <td>: <?= htmlspecialchars($dataSC['cProsesMesin'] ?? '-') ?></td>
+                </tr>
+                <tr>
+                    <td><b>Warna</b></td>
+                    <td>: <?= htmlspecialchars($dataSC['cWarna'] ?? '-') ?></td>
+                    <td><b>Join</b></td>
+                    <td>: <?= htmlspecialchars($dataSC['cJoin'] ?? '-') ?></td>
+                </tr>
+                <tr>
+                    <td><b>Toleransi</b></td>
+                    <td>: <?= htmlspecialchars($dataSC['cToleransi'] ?? '-') ?></td>
+                    <td><b>Jenis Order</b></td>
+                    <td>: <?= htmlspecialchars($dataSC['cJenisOrder'] ?? '-') ?></td>
+                </tr>
+                <tr>
+                    <td><b>Flute</b></td>
+                    <td>: <?= htmlspecialchars($dataSC['cFlute'] ?? '-') ?></td>
+                    <td><b>Berat/pcs</b></td>
+                    <td>: <?= number_format($dataSC['nBeratPcs'] ?? 0) ?> gr</td>
+                </tr>
+            </table>
+        </div>
+        <div class="tables">
+            <div class="table-block">
+                <h4>Planning Corrugating</h4>
+                <table>
+                    <tr><th>No Corr</th><th>Kode Corr</th><th>Tanggal</th><th>Keterangan</th><th>Berat</th></tr>
+                    <?php $totalCorr = 0; if ($dataCorr) foreach($dataCorr as $row): ?>
+                    <tr>
+                        <td><?= htmlspecialchars($row['cNoCorr'] ?? '') ?></td>
+                        <td><?= htmlspecialchars($row['cKodeCorr'] ?? '') ?></td>
+                        <td><?= isset($row['dTanggal']) && $row['dTanggal'] ? date('d/m/Y', is_object($row['dTanggal']) ? $row['dTanggal']->getTimestamp() : strtotime($row['dTanggal'])) : '' ?></td>
+                        <td><?= htmlspecialchars($row['cKeterangan'] ?? '') ?></td>
+                        <td><?= number_format($row['nBerat'] ?? 0) ?></td>
+                    </tr>
+                    <?php $totalCorr += ($row['nBerat'] ?? 0); endforeach; ?>
+                    <?php if (!$dataCorr): ?><tr><td colspan="5" class="no-data">No data found</td></tr><?php endif; ?>
+                    <tr class="total-row"><td colspan="4">Total Berat</td><td><?= number_format($totalCorr) ?></td></tr>
+                </table>
+                <h4>Hasil Corrugating</h4>
+                <table>
+                    <tr><th>No Corr</th><th>Kode Corr</th><th>Tanggal</th><th>Keterangan</th><th>BrgKg</th></tr>
+                    <?php $totalHslCorr = 0; if ($dataHslCorr) foreach($dataHslCorr as $row): ?>
+                    <tr>
+                        <td><?= htmlspecialchars($row['cNoCorr'] ?? '') ?></td>
+                        <td><?= htmlspecialchars($row['cKodeCorr'] ?? '') ?></td>
+                        <td><?= isset($row['dTanggal']) && $row['dTanggal'] ? date('d/m/Y', is_object($row['dTanggal']) ? $row['dTanggal']->getTimestamp() : strtotime($row['dTanggal'])) : '' ?></td>
+                        <td><?= htmlspecialchars($row['cKeterangan'] ?? '') ?></td>
+                        <td><?= number_format($row['nBrgKg'] ?? 0) ?></td>
+                    </tr>
+                    <?php $totalHslCorr += ($row['nBrgKg'] ?? 0); endforeach; ?>
+                    <?php if (!$dataHslCorr): ?><tr><td colspan="5" class="no-data">No data found</td></tr><?php endif; ?>
+                    <tr class="total-row"><td colspan="4">Total BrgKg</td><td><?= number_format($totalHslCorr) ?></td></tr>
+                </table>
+            </div>
+            <div class="table-block">
+                <h4>Serah Terima</h4>
+                <table>
+                    <tr><th>No STB</th><th>Tanggal</th><th>Qty Palet</th><th>Qty Col</th><th>Qty Lbr</th></tr>
+                    <?php $totalStbBJ = 0; if ($dataStbBJ) foreach($dataStbBJ as $row): ?>
+                    <tr>
+                        <td><?= htmlspecialchars($row['cNoSTB'] ?? '') ?></td>
+                        <td><?= isset($row['dTanggal']) && $row['dTanggal'] ? date('d/m/Y', is_object($row['dTanggal']) ? $row['dTanggal']->getTimestamp() : strtotime($row['dTanggal'])) : '' ?></td>
+                        <td><?= number_format($row['nQtyPalet'] ?? 0) ?></td>
+                        <td><?= number_format($row['nQtyCol'] ?? 0) ?></td>
+                        <td><?= number_format($row['nQtyLbr'] ?? 0) ?></td>
+                    </tr>
+                    <?php $totalStbBJ += ($row['nQtyPalet'] ?? 0) + ($row['nQtyCol'] ?? 0) + ($row['nQtyLbr'] ?? 0); endforeach; ?>
+                    <?php if (!$dataStbBJ): ?><tr><td colspan="5" class="no-data">No data found</td></tr><?php endif; ?>
+                    <tr class="total-row"><td colspan="4">Total Qty</td><td><?= number_format($totalStbBJ) ?></td></tr>
+                </table>
+            </div>
+            <div class="table-block">
+                <h4>Pengiriman</h4>
+                <table>
+                    <tr><th>No SRJ</th><th>Tanggal</th><th>Nama</th><th>Qty</th></tr>
+                    <?php $totalSRJDtl = 0; if ($dataSRJDtl) foreach($dataSRJDtl as $row): ?>
+                    <tr>
+                        <td><?= htmlspecialchars($row['cNoSRJ'] ?? '') ?></td>
+                        <td><?= isset($row['UserDate']) && $row['UserDate'] ? date('d/m/Y', is_object($row['UserDate']) ? $row['UserDate']->getTimestamp() : strtotime($row['UserDate'])) : '' ?></td>
+                        <td><?= htmlspecialchars($row['cNama'] ?? '') ?></td>
+                        <td><?= number_format($row['nQty'] ?? 0) ?></td>
+                    </tr>
+                    <?php $totalSRJDtl += ($row['nQty'] ?? 0); endforeach; ?>
+                    <?php if (!$dataSRJDtl): ?><tr><td colspan="4" class="no-data">No data found</td></tr><?php endif; ?>
+                    <tr class="total-row"><td colspan="3">Total Qty</td><td><?= number_format($totalSRJDtl) ?></td></tr>
+                </table>
+                <h4>Retur Pengiriman</h4>
+                <table>
+                    <tr><th>No Retur</th><th>Tanggal</th><th>Nama</th><th>Qty</th></tr>
+                    <?php $totalRtSrjDtl = 0; if ($dataRtSrjDtl) foreach($dataRtSrjDtl as $row): ?>
+                    <tr>
+                        <td><?= htmlspecialchars($row['cNoSRJ'] ?? '') ?></td>
+                        <td><?= isset($row['UserDate']) && $row['UserDate'] ? date('d/m/Y', is_object($row['UserDate']) ? $row['UserDate']->getTimestamp() : strtotime($row['UserDate'])) : '' ?></td>
+                        <td><?= htmlspecialchars($row['cNama'] ?? '') ?></td>
+                        <td><?= number_format($row['nQty'] ?? 0) ?></td>
+                    </tr>
+                    <?php $totalRtSrjDtl += ($row['nQty'] ?? 0); endforeach; ?>
+                    <?php if (!$dataRtSrjDtl): ?><tr><td colspan="4" class="no-data">No data found</td></tr><?php endif; ?>
+                    <tr class="total-row"><td colspan="3">Total Qty</td><td><?= number_format($totalRtSrjDtl) ?></td></tr>
+                </table>
+            </div>
+            <div class="table-block">
+                <h4>Transfer</h4>
+                <table>
+                    <tr><th>Transfer To</th></tr>
+                    <tr><td class="no-data">No data found</td></tr>
+                </table>
+                <table>
+                    <tr><th>Transfer From</th></tr>
+                    <tr><td class="no-data">No data found</td></tr>
+                </table>
+                <table>
+                    <tr><th>Transfer WIP To</th></tr>
+                    <tr><td class="no-data">No data found</td></tr>
+                </table>
+                <table>
+                    <tr><th>Transfer WIP From</th></tr>
+                    <tr><td class="no-data">No data found</td></tr>
+                </table>
+            </div>
+        </div>
+    <?php elseif(isset($_GET['sc']) && trim($_GET['sc']) !== ''): ?>
+        <div class="status" style="color:red;">DATA TIDAK DITEMUKAN</div>
+        <div class="info">Nomor SC/SLC "<?= htmlspecialchars($_GET['sc']) ?>" tidak ditemukan di database.</div>
+    <?php else: ?>
+        <div class="status">SILAKAN MASUKKAN NOMOR SC/SLC</div>
+    <?php endif; ?>
+</body>
+</html>

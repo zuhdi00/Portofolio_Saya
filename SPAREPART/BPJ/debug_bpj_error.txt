@@ -1,0 +1,82 @@
+=== COUNT EXECUTE ERROR ===
+2026-07-10 12:02:59
+Query: SELECT COUNT(*) as total_records
+                 FROM tbBPJSpDtl d
+                 LEFT JOIN tbBPJSp h ON d.cNoBPJ = h.cNoBPJ
+                 WHERE 1=1 AND (
+            h.cNoBPJ LIKE ? OR
+            d.cKodeBahan LIKE ? OR
+            d.cNama LIKE ? OR
+            d.cNote LIKE ? OR
+            h.cKeterangan LIKE ? OR
+            d.cNoPP LIKE ? OR
+            h.cNama LIKE ?
+        ) AND h.dTanggal >= ? AND h.dTanggal <= ?
+Parameters: Array
+(
+    [0] => %PJS-26040009%
+    [1] => %PJS-26040009%
+    [2] => %PJS-26040009%
+    [3] => %PJS-26040009%
+    [4] => %PJS-26040009%
+    [5] => %PJS-26040009%
+    [6] => 2020-01-01 00:00:00.000
+    [7] => 2026-07-10 23:59:59.000
+)
+
+Errors: Array
+(
+    [0] => Array
+        (
+            [0] => 07002
+            [SQLSTATE] => 07002
+            [1] => 0
+            [code] => 0
+            [2] => [Microsoft][ODBC Driver 17 for SQL Server]COUNT field incorrect or syntax error
+            [message] => [Microsoft][ODBC Driver 17 for SQL Server]COUNT field incorrect or syntax error
+        )
+
+)
+
+
+=== COUNT EXECUTE ERROR ===
+2026-07-10 12:03:09
+Query: SELECT COUNT(*) as total_records
+                 FROM tbBPJSpDtl d
+                 LEFT JOIN tbBPJSp h ON d.cNoBPJ = h.cNoBPJ
+                 WHERE 1=1 AND (
+            h.cNoBPJ LIKE ? OR
+            d.cKodeBahan LIKE ? OR
+            d.cNama LIKE ? OR
+            d.cNote LIKE ? OR
+            h.cKeterangan LIKE ? OR
+            d.cNoPP LIKE ? OR
+            h.cNama LIKE ?
+        ) AND h.dTanggal >= ? AND h.dTanggal <= ?
+Parameters: Array
+(
+    [0] => %BPJ-26070010%
+    [1] => %BPJ-26070010%
+    [2] => %BPJ-26070010%
+    [3] => %BPJ-26070010%
+    [4] => %BPJ-26070010%
+    [5] => %BPJ-26070010%
+    [6] => 2020-01-01 00:00:00.000
+    [7] => 2026-07-10 23:59:59.000
+)
+
+Errors: Array
+(
+    [0] => Array
+        (
+            [0] => 07002
+            [SQLSTATE] => 07002
+            [1] => 0
+            [code] => 0
+            [2] => [Microsoft][ODBC Driver 17 for SQL Server]COUNT field incorrect or syntax error
+            [message] => [Microsoft][ODBC Driver 17 for SQL Server]COUNT field incorrect or syntax error
+        )
+
+)
+
+

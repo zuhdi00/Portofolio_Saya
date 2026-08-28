@@ -1,0 +1,171 @@
+[2026-04-20 08:38:37] Optimized main query with sc_list count=16
+[2026-04-20 08:38:47] Optimized main query with sc_list count=16
+[2026-04-20 08:38:58] Optimized main query with sc_list count=16
+[2026-04-20 09:00:16] Optimized main query with sc_list count=24
+[2026-04-20 09:00:16] Optimized main query with sc_list count=24
+[2026-04-20 09:00:30] Optimized main query with sc_list count=24
+[2026-04-20 09:00:30] Optimized main query with sc_list count=24
+[2026-04-20 09:00:41] Optimized main query with inlined sc_list count=4183
+[2026-04-20 09:00:41] Optimized main query with sc_list count=4183
+[2026-04-20 09:00:45] Optimized main query with inlined sc_list count=4183
+[2026-04-20 09:00:45] Optimized main query with sc_list count=4183
+[2026-04-20 09:00:46] Optimized main query with inlined sc_list count=4183
+[2026-04-20 09:00:46] Optimized main query with sc_list count=4183
+[2026-04-20 09:00:46] Optimized main query with inlined sc_list count=4183
+[2026-04-20 09:00:46] Optimized main query with sc_list count=4183
+[2026-04-20 09:00:46] Optimized main query with inlined sc_list count=4183
+[2026-04-20 09:00:46] Optimized main query with sc_list count=4183
+[2026-04-20 09:00:49] Optimized main query with inlined sc_list count=4183
+[2026-04-20 09:00:49] Optimized main query with sc_list count=4183
+[2026-04-20 09:00:51] Optimized main query with inlined sc_list count=4183
+[2026-04-20 09:00:51] Optimized main query with sc_list count=4183
+[2026-04-20 09:01:35] Optimized main query with inlined sc_list count=4184
+[2026-04-20 09:01:35] Optimized main query with sc_list count=4184
+[2026-04-20 09:01:36] Optimized main query with sc_list count=25
+[2026-04-20 09:01:36] Optimized main query with sc_list count=25
+[2026-04-20 09:26:34] Optimized main query with inlined sc_list count=4184
+[2026-04-20 09:31:27] Optimized main query with sc_list count=26
+[2026-04-20 09:31:41] Optimized main query with inlined sc_list count=4185
+[2026-04-20 10:49:44] Optimized main query with sc_list count=48
+[2026-04-22 03:18:37] Optimized main query with sc_list count=54
+[2026-04-22 04:03:05] Optimized main query with inlined sc_list count=19655
+[2026-04-22 04:17:16] Optimized main query with sc_list count=5
+[2026-04-22 04:17:43] Optimized main query with inlined sc_list count=19655
+[2026-04-22 04:18:27] Optimized main query with inlined sc_list count=19655
+[2026-04-22 04:28:44] Optimized main query with inlined sc_list count=19655
+[2026-04-22 05:23:50] Optimized main query with inlined sc_list count=19659
+[2026-04-22 05:25:01] Optimized main query with inlined sc_list count=19659
+[2026-04-22 10:15:09] Optimized main query with sc_list count=41
+[2026-04-22 10:15:14] Optimized main query with sc_list count=41
+[2026-04-22 10:15:32] Optimized main query with sc_list count=41
+[2026-04-22 10:15:41] Optimized main query with sc_list count=41
+[2026-04-22 10:21:39] Optimized main query with sc_list count=41
+[2026-04-22 10:21:48] Optimized main query with sc_list count=41
+[2026-04-22 10:25:47] Optimized main query with inlined sc_list count=19691
+[2026-04-22 10:47:29] Optimized main query with sc_list count=46
+[2026-04-22 10:49:56] Optimized main query with sc_list count=46
+[2026-04-22 10:52:12] Optimized main query with sc_list count=46
+[2026-04-22 11:04:49] Optimized main query with sc_list count=46
+[2026-04-23 06:39:46] Optimized main query with sc_list count=5
+[2026-04-23 06:46:50] Optimized main query with sc_list count=5
+[2026-04-23 08:06:21] Optimized main query with sc_list count=5
+[2026-04-23 10:24:21] Optimized main query with sc_list count=33
+[2026-04-24 02:44:17] Optimized main query with sc_list count=67
+[2026-04-24 03:33:35] Optimized main query with sc_list count=67
+[2026-04-24 03:38:39] Optimized main query with sc_list count=67
+[2026-04-24 03:42:57] Optimized main query with inlined sc_list count=4397
+[2026-04-24 05:50:58] Optimized main query with sc_list count=10
+[2026-04-24 06:40:16] Optimized main query with sc_list count=14
+[2026-04-24 08:22:35] Optimized main query with sc_list count=26
+[2026-04-24 08:28:14] Optimized main query with sc_list count=28
+[2026-04-24 08:28:59] Optimized main query with inlined sc_list count=4421
+[2026-04-24 08:40:19] Optimized main query with sc_list count=30
+[2026-04-24 08:40:25] Optimized main query with inlined sc_list count=4421
+[2026-04-24 08:41:13] Optimized main query with sc_list count=30
+[2026-04-24 08:41:28] Optimized main query with inlined sc_list count=4421
+[2026-04-24 08:42:13] Optimized main query with sc_list count=30
+[2026-04-24 08:42:30] Optimized main query with inlined sc_list count=4421
+[2026-04-24 08:45:45] Optimized main query with inlined sc_list count=4421
+[2026-04-25 05:27:00] Optimized main query with sc_list count=141
+[2026-04-27 03:28:50] Optimized main query with sc_list count=1199
+[2026-04-27 05:08:18] Optimized main query with sc_list count=4
+[2026-04-27 05:08:28] Optimized main query with sc_list count=1203
+[2026-04-27 08:51:11] Optimized main query with sc_list count=1234
+[2026-05-03 09:05:43] Optimized main query with sc_list count=50
+[2026-05-19 05:33:58] Optimized main query with sc_list count=11
+[2026-05-19 05:36:14] Optimized main query with sc_list count=11
+[2026-05-19 05:36:30] Optimized main query with sc_list count=11
+[2026-05-19 05:36:33] Optimized main query with sc_list count=11
+[2026-05-19 05:36:34] Optimized main query with sc_list count=11
+[2026-05-19 05:36:41] SQL ERROR (sc preselect): [{"0":"42S22","SQLSTATE":"42S22","1":207,"code":207,"2":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'dTglkirim2'.","message":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'dTglkirim2'."},{"0":"42S22","SQLSTATE":"42S22","1":207,"code":207,"2":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'dTglkirim2'.","message":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'dTglkirim2'."}]
+[2026-05-19 05:37:08] Optimized main query with sc_list count=696
+[2026-05-19 05:37:31] SQL ERROR (sc preselect): [{"0":"42S22","SQLSTATE":"42S22","1":207,"code":207,"2":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'dTglkirim2'.","message":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'dTglkirim2'."},{"0":"42S22","SQLSTATE":"42S22","1":207,"code":207,"2":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'dTglkirim2'.","message":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'dTglkirim2'."}]
+[2026-05-19 05:37:40] Optimized main query with sc_list count=11
+[2026-05-19 05:37:49] SQL ERROR (sc preselect): [{"0":"42S22","SQLSTATE":"42S22","1":207,"code":207,"2":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'dTglkirim2'.","message":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'dTglkirim2'."},{"0":"42S22","SQLSTATE":"42S22","1":207,"code":207,"2":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'dTglkirim2'.","message":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'dTglkirim2'."}]
+[2026-05-19 05:37:50] SQL ERROR (sc preselect): [{"0":"42S22","SQLSTATE":"42S22","1":207,"code":207,"2":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'dTglkirim2'.","message":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'dTglkirim2'."},{"0":"42S22","SQLSTATE":"42S22","1":207,"code":207,"2":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'dTglkirim2'.","message":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'dTglkirim2'."}]
+[2026-05-19 05:37:50] SQL ERROR (sc preselect): [{"0":"42S22","SQLSTATE":"42S22","1":207,"code":207,"2":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'dTglkirim2'.","message":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'dTglkirim2'."},{"0":"42S22","SQLSTATE":"42S22","1":207,"code":207,"2":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'dTglkirim2'.","message":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'dTglkirim2'."}]
+[2026-05-19 05:37:51] SQL ERROR (sc preselect): [{"0":"42S22","SQLSTATE":"42S22","1":207,"code":207,"2":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'dTglkirim2'.","message":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'dTglkirim2'."},{"0":"42S22","SQLSTATE":"42S22","1":207,"code":207,"2":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'dTglkirim2'.","message":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'dTglkirim2'."}]
+[2026-05-19 05:37:53] Optimized main query with sc_list count=11
+[2026-05-19 05:37:58] SQL ERROR (sc preselect): [{"0":"42S22","SQLSTATE":"42S22","1":207,"code":207,"2":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'dTglkirim2'.","message":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'dTglkirim2'."},{"0":"42S22","SQLSTATE":"42S22","1":207,"code":207,"2":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'dTglkirim2'.","message":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'dTglkirim2'."}]
+[2026-05-19 05:37:58] Optimized main query with sc_list count=11
+[2026-05-19 05:38:03] SQL ERROR (sc preselect): [{"0":"42S22","SQLSTATE":"42S22","1":207,"code":207,"2":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'dTglkirim2'.","message":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'dTglkirim2'."},{"0":"42S22","SQLSTATE":"42S22","1":207,"code":207,"2":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'dTglkirim2'.","message":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'dTglkirim2'."}]
+[2026-05-19 05:38:04] Optimized main query with sc_list count=11
+[2026-05-19 05:38:10] Optimized main query with sc_list count=11
+[2026-05-19 05:38:15] Optimized main query with sc_list count=11
+[2026-05-19 05:38:18] Optimized main query with sc_list count=11
+[2026-05-19 05:38:19] Optimized main query with sc_list count=58
+[2026-05-19 05:38:28] Optimized main query with sc_list count=11
+[2026-05-19 05:38:32] Optimized main query with sc_list count=685
+[2026-05-19 05:38:33] Optimized main query with sc_list count=696
+[2026-05-19 05:38:54] Optimized main query with sc_list count=732
+[2026-05-19 05:39:14] Optimized main query with sc_list count=732
+[2026-05-19 05:41:55] Optimized main query with sc_list count=11
+[2026-05-19 05:42:08] Optimized main query with sc_list count=11
+[2026-05-19 05:54:57] Optimized main query with sc_list count=11
+[2026-05-19 07:54:12] Optimized main query with sc_list count=22
+[2026-05-19 09:49:11] Optimized main query with sc_list count=44
+[2026-05-20 06:05:45] Optimized main query with sc_list count=13
+[2026-05-20 06:06:00] Optimized main query with sc_list count=771
+[2026-05-20 06:26:18] Optimized main query with sc_list count=775
+[2026-05-20 08:14:32] Optimized main query with sc_list count=26
+[2026-05-20 08:14:42] Optimized main query with sc_list count=784
+[2026-05-20 08:32:57] SQL ERROR (sc preselect): [{"0":"42S22","SQLSTATE":"42S22","1":207,"code":207,"2":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'dTglkirim2'.","message":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'dTglkirim2'."},{"0":"42S22","SQLSTATE":"42S22","1":207,"code":207,"2":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'dTglkirim2'.","message":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'dTglkirim2'."}]
+[2026-05-20 09:19:08] Optimized main query with sc_list count=32
+[2026-05-20 09:19:15] Optimized main query with sc_list count=790
+[2026-05-20 09:33:52] Optimized main query with sc_list count=33
+[2026-05-20 09:34:51] Optimized main query with sc_list count=33
+[2026-05-20 09:35:23] Optimized main query with sc_list count=33
+[2026-05-20 09:35:25] Optimized main query with sc_list count=791
+[2026-05-20 09:39:52] Optimized main query with sc_list count=790
+[2026-05-21 05:21:44] Optimized main query with sc_list count=10
+[2026-05-21 05:21:50] Optimized main query with sc_list count=823
+[2026-05-21 05:23:04] Optimized main query with sc_list count=823
+[2026-05-21 05:23:29] Optimized main query with sc_list count=823
+[2026-05-21 05:26:38] Optimized main query with sc_list count=823
+[2026-05-21 05:27:04] Optimized main query with sc_list count=823
+[2026-05-21 05:27:28] Optimized main query with sc_list count=823
+[2026-05-21 05:27:34] Optimized main query with sc_list count=823
+[2026-05-21 06:28:24] Optimized main query with inlined sc_list count=5528
+[2026-05-22 05:36:37] Optimized main query with sc_list count=7
+[2026-05-22 05:36:52] Optimized main query with sc_list count=7
+[2026-05-22 05:36:55] Optimized main query with sc_list count=874
+[2026-05-22 05:42:37] Optimized main query with sc_list count=7
+[2026-05-22 05:43:07] Optimized main query with sc_list count=7
+[2026-05-22 05:43:40] Optimized main query with sc_list count=7
+[2026-05-22 05:49:52] Optimized main query with sc_list count=7
+[2026-05-22 05:49:56] Optimized main query with sc_list count=7
+[2026-05-22 06:21:22] Optimized main query with sc_list count=10
+[2026-05-22 06:28:09] Optimized main query with sc_list count=12
+[2026-05-22 09:41:46] Optimized main query with sc_list count=26
+[2026-05-22 09:42:57] Optimized main query with sc_list count=894
+[2026-05-22 09:43:25] Optimized main query with sc_list count=894
+[2026-05-22 09:44:02] Optimized main query with sc_list count=1
+[2026-05-22 09:44:48] Optimized main query with sc_list count=1
+[2026-05-22 09:52:53] Optimized main query with sc_list count=31
+[2026-05-25 03:27:26] Optimized main query with sc_list count=1
+[2026-05-25 03:28:00] Optimized main query with sc_list count=938
+[2026-05-25 03:28:01] Optimized main query with sc_list count=938
+[2026-05-25 03:28:22] Optimized main query with sc_list count=938
+[2026-05-25 07:11:00] Optimized main query with sc_list count=938
+[2026-05-25 07:11:08] Optimized main query with sc_list count=17
+[2026-05-25 08:19:08] Optimized main query with sc_list count=17
+[2026-05-25 08:19:15] Optimized main query with sc_list count=17
+[2026-05-25 08:19:25] Optimized main query with sc_list count=17
+[2026-05-25 08:23:24] Optimized main query with sc_list count=17
+[2026-05-25 08:24:37] Optimized main query with sc_list count=17
+[2026-05-25 08:31:36] Optimized main query with sc_list count=18
+[2026-05-25 08:31:50] SQL ERROR (sc preselect): [{"0":"42S22","SQLSTATE":"42S22","1":207,"code":207,"2":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'dTglkirim2'.","message":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'dTglkirim2'."},{"0":"42S22","SQLSTATE":"42S22","1":207,"code":207,"2":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'dTglkirim2'.","message":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'dTglkirim2'."}]
+[2026-05-25 08:31:55] SQL ERROR (sc preselect): [{"0":"42S22","SQLSTATE":"42S22","1":207,"code":207,"2":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'dTglkirim2'.","message":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'dTglkirim2'."},{"0":"42S22","SQLSTATE":"42S22","1":207,"code":207,"2":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'dTglkirim2'.","message":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'dTglkirim2'."}]
+[2026-05-25 08:31:56] SQL ERROR (sc preselect): [{"0":"42S22","SQLSTATE":"42S22","1":207,"code":207,"2":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'dTglkirim2'.","message":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'dTglkirim2'."},{"0":"42S22","SQLSTATE":"42S22","1":207,"code":207,"2":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'dTglkirim2'.","message":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'dTglkirim2'."}]
+[2026-05-25 08:31:57] SQL ERROR (sc preselect): [{"0":"42S22","SQLSTATE":"42S22","1":207,"code":207,"2":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'dTglkirim2'.","message":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'dTglkirim2'."},{"0":"42S22","SQLSTATE":"42S22","1":207,"code":207,"2":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'dTglkirim2'.","message":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'dTglkirim2'."}]
+[2026-05-25 08:32:05] SQL ERROR (sc preselect): [{"0":"42S22","SQLSTATE":"42S22","1":207,"code":207,"2":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'dTglkirim2'.","message":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'dTglkirim2'."},{"0":"42S22","SQLSTATE":"42S22","1":207,"code":207,"2":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'dTglkirim2'.","message":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'dTglkirim2'."}]
+[2026-05-25 08:32:06] SQL ERROR (sc preselect): [{"0":"42S22","SQLSTATE":"42S22","1":207,"code":207,"2":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'dTglkirim2'.","message":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'dTglkirim2'."},{"0":"42S22","SQLSTATE":"42S22","1":207,"code":207,"2":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'dTglkirim2'.","message":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'dTglkirim2'."}]
+[2026-05-25 08:35:05] SQL ERROR (sc preselect): [{"0":"42S22","SQLSTATE":"42S22","1":207,"code":207,"2":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'dTglkirim'.","message":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'dTglkirim'."},{"0":"42S22","SQLSTATE":"42S22","1":207,"code":207,"2":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'dTglkirim'.","message":"[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'dTglkirim'."}]
+[2026-05-25 08:40:38] Optimized main query with inlined sc_list count=223377
+[2026-05-25 08:41:17] Optimized main query with inlined sc_list count=223378
+[2026-05-25 09:19:09] Optimized main query with inlined sc_list count=223378
+[2026-05-25 09:19:55] Optimized main query with inlined sc_list count=223378
+[2026-05-25 09:20:09] Optimized main query with sc_list count=19
+[2026-05-27 00:27:56] Optimized main query with sc_list count=73
+[2026-06-17 06:18:12] Optimized main query with sc_list count=5
+[2026-06-24 04:48:40] Optimized main query with sc_list count=4

@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>STB Report — SLC</title>
+	<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+	<style>
+		:root {
+			--bg:        #f0f2f8;
+			--white:     #ffffff;
+			--surface:   #f8f9fc;
+			--border:    #e2e6f0;
+			--border2:   #d0d6e8;
+			--accent:    #3b6ef8;
+			--accent-lt: #eef2ff;
+			--accent-dk: #2553d8;
+			--green:     #16a34a;
+			--green-lt:  #dcfce7;
+			--red:       #dc2626;
+			--red-lt:    #fee2e2;
+			--amber:     #d97706;
+			--amber-lt:  #fef3c7;
+			--text:      #111827;
+			--text2:     #374151;
+			--muted:     #6b7280;
+			--muted2:    #9ca3af;
+			--mono:      'JetBrains Mono', monospace;
+			--sans:      'Plus Jakarta Sans', sans-serif;
+			--radius:    12px;
+			--shadow-sm: 0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
+		}
+		*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+		body { font-family: var(--sans); background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 0 64px; }
+
+		/* ── Topbar ────────────────────────────────────── */
+		.topbar {
+			background: var(--white); border-bottom: 1px solid var(--border);
+			padding: 0 28px; display: flex; align-items: center; justify-content: space-between;
+			height: 60px; position: sticky; top: 0; z-index: 200; box-shadow: var(--shadow-sm);
+		}
+		.topbar-brand { display: flex; align-items: center; gap: 10px; }
+		.topbar-logo  { width: 32px; height: 32px; background: var(--accent); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+		.topbar-name  { font-size: 15px; font-weight: 700; letter-spacing: -.02em; }
+		.topbar-name span { color: var(--accent); }
+		.topbar-meta  { font-size: 12px; color: var(--muted); font-family: var(--mono); }
+
+		/* ── Layout ─────────────────────────────────────── */
+		.main { max-width: 1180px; margin: 0 auto; padding: 28px 20px 0; }
+		.page-title { margin-bottom: 22px; }
+		.page-title h1 { font-size: 23px; font-weight: 800; letter-spacing: -.03em; }
+		.page-title p  { font-size: 13px; color: var(--muted); margin-top: 3px; }
+
+		/* ── Card ───────────────────────────────────────── */
+		.card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow-sm); overflow: hidden; margin-bottom: 18px; }
+		.card-head { padding: 12px 18px; border-bottom: 1px solid var(--border); background: var(--surface); display: flex; align-items: center; gap: 7px; }
+		.card-head span { font-size: 11.5px; font-weight: 600; color: var(--muted); letter-spacing: .06em; text-transform: uppercase; }
+		.card-body { padding: 18px; }
+
+		/* ── Filter ─────────────────────────────────────── */
+		.filter-grid { display: grid; grid-template-columns: 1fr 1fr 1fr auto auto; gap: 10px; align-items: end; }
+		@media(max-width:720px){ .filter-grid { grid-template-columns: 1fr 1fr; } }
+		@media(max-width:480px){ .filter-grid { grid-template-columns: 1fr; } }
+
+		.field label { display: block; font-size: 11px; font-weight: 600; color: var(--muted); letter-spacing: .05em; text-transform: uppercase; margin-bottom: 5px; }
+		.field input, .field select {
+			width: 100%; padding: 9px 11px; background: var(--surface); border: 1.5px solid var(--border);
+			border-radius: 8px; color: var(--text); font-family: var(--sans); font-size: 13px;
+			outline: none; transition: border-color .15s, box-shadow .15s, background .15s; color-scheme: light;
+		}
+		.field input:focus, .field select:focus {
+			border-color: var(--accent); background: var(--white); box-shadow: 0 0 0 3px rgba(59,110,248,.1);
+		}
+		.field select { cursor: pointer; appearance: none;
+			background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7'%3E%3Cpath d='M0 0l6 7 6-7z' fill='%236b7280'/%3E%3C/svg%3E");
+			background-repeat: no-repeat; background-position: right 10px center; padding-right: 28px;
+		}
+
+		/* ── Buttons ─────────────────────────────────────── */
+		.btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 9px 16px; border: none; border-radius: 8px; font-family: var(--sans); font-size: 13px; font-weight: 600; cursor: pointer; transition: all .15s; white-space: nowrap; line-height: 1; }
+		.btn-search { background: var(--accent); color: #fff; }
+		.btn-search:hover  { background: var(--accent-dk); box-shadow: 0 4px 14px rgba(59,110,248,.3); }
+		.btn-search:active { transform: scale(.97); }
+		.btn-search:disabled { background: var(--border2); color: var(--muted2); cursor: not-allowed; }
+		.btn-export { background: var(--green); color: #fff; display: none; }
+		.btn-export:hover  { background: #15803d; box-shadow: 0 4px 14px rgba(22,163,74,.3); }
+		.btn-export:active { transform: scale(.97); }
+		.btn-export.show { display: inline-flex; }
+		.spinner { width: 14px; height: 14px; border: 2px solid rgba(255,255,255,.35); border-top-color: #fff; border-radius: 50%; animation: spin .65s linear infinite; display: none; }
+		.loading .spinner { display: block; }
+		.loading .lbl { opacity: .75; }
+		@keyframes spin { to { transform: rotate(360deg); } }
+
+		/* ── Error msg ───────────────────────────────────── */
+		.error-msg { margin-top: 12px; padding: 10px 14px; background: var(--red-lt); border: 1px solid #fca5a5; border-radius: 8px; color: var(--red); font-size: 13px; display: none; align-items: center; gap: 8px; font-weight: 500; }
+		.error-msg.on { display: flex; }
+
+		/* ── Toast ───────────────────────────────────────── */
+		#toast {
+			position: fixed; bottom: 24px; right: 24px; z-index: 9999;
+			padding: 11px 18px; border-radius: 9px; font-size: 13px; font-weight: 600;
+			box-shadow: 0 6px 24px rgba(0,0,0,.15);
+			opacity: 0; transform: translateY(8px); transition: opacity .22s, transform .22s;
+			pointer-events: none; max-width: 300px;
+		}
+		#toast.on { opacity: 1; transform: translateY(0); }
+		#toast.success { background: var(--green); color: #fff; }
+		#toast.error   { background: var(--red);   color: #fff; }
+		#toast.info    { background: var(--accent); color: #fff; }
+
+		/* ── Stats ───────────────────────────────────────── */
+		.stats-row { display: none; grid-template-columns: repeat(auto-fit, minmax(155px, 1fr)); gap: 11px; margin-bottom: 18px; }
+		.stats-row.on { display: grid; }
+		.stat-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 15px 17px; box-shadow: var(--shadow-sm); animation: fadeUp .35s ease both; }
+		.stat-card:nth-child(2){animation-delay:.05s} .stat-card:nth-child(3){animation-delay:.1s}
+		.stat-card:nth-child(4){animation-delay:.15s} .stat-card:nth-child(5){animation-delay:.2s}
+		.stat-icon  { width: 30px; height: 30px; border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: 14px; margin-bottom: 9px; }
+		.stat-label { font-size: 10.5px; font-weight: 600; color: var(--muted); letter-spacing: .06em; text-transform: uppercase; margin-bottom: 3px; }
+		.stat-value { font-family: var(--mono); font-size: 19px; font-weight: 600; color: var(--text); letter-spacing: -.02em; }
+
+		/* ── Table card ──────────────────────────────────── */
+		.tbl-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow-sm); overflow: hidden; display: none; animation: fadeUp .35s ease both; }
+		.tbl-card.on { display: block; }
+		.tbl-head { padding: 12px 18px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; background: var(--surface); }
+		.tbl-head-left { display: flex; align-items: center; gap: 8px; }
+		.tbl-head-title { font-size: 13px; font-weight: 700; color: var(--text2); }
+		.badge { font-size: 11px; font-weight: 600; padding: 2px 9px; border-radius: 20px; background: var(--accent-lt); color: var(--accent); }
+		.tbl-search { display: flex; align-items: center; gap: 6px; background: var(--white); border: 1.5px solid var(--border); border-radius: 7px; padding: 5px 10px; transition: border-color .15s; }
+		.tbl-search:focus-within { border-color: var(--accent); }
+		.tbl-search input { border: none; outline: none; background: transparent; font-family: var(--sans); font-size: 13px; color: var(--text); width: 150px; }
+		.tbl-search input::placeholder { color: var(--muted2); }
+
+		/* ── Table ───────────────────────────────────────── */
+		.tbl-wrap { overflow-x: auto; }
+		table { width: 100%; border-collapse: collapse; }
+		thead th { padding: 9px 14px; font-size: 10.5px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); background: var(--surface); border-bottom: 1.5px solid var(--border); text-align: right; white-space: nowrap; cursor: pointer; user-select: none; }
+		thead th:first-child { text-align: left; }
+		thead th.no-sort { cursor: default; }
+		thead th:not(.no-sort):hover { color: var(--accent); }
+		thead th .si { margin-left: 3px; opacity: .35; font-size: 10px; }
+		thead th.sorted .si { opacity: 1; color: var(--accent); }
+		tbody tr { border-bottom: 1px solid var(--border); transition: background .1s; }
+		tbody tr:last-child { border-bottom: none; }
+		tbody tr:hover { background: #f5f7ff; }
+		tbody tr.is-close { background: #fafafa; }
+		tbody tr.is-close td:not(.status-cell) { opacity: .55; }
+		td { padding: 10px 14px; font-size: 13px; text-align: right; white-space: nowrap; }
+		td:first-child { text-align: left; font-family: var(--mono); font-size: 12px; font-weight: 600; color: var(--accent); }
+		td.num  { font-family: var(--mono); color: var(--text2); }
+		td.pos  { font-family: var(--mono); color: var(--green); font-weight: 600; }
+		td.neg  { font-family: var(--mono); color: var(--red);   font-weight: 600; }
+		td.zero { font-family: var(--mono); color: var(--muted2); }
+		td.status-cell { text-align: center; padding: 8px 14px; }
+
+		/* ── Status dropdown (pill style) ────────────────── */
+		.status-wrap { position: relative; display: inline-block; }
+		.status-sel {
+			appearance: none; -webkit-appearance: none;
+			padding: 5px 26px 5px 11px;
+			border-radius: 20px; border: 1.5px solid transparent;
+			font-family: var(--sans); font-size: 12px; font-weight: 700;
+			cursor: pointer; outline: none; transition: all .15s; min-width: 86px;
+			background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='currentColor' opacity='.6'/%3E%3C/svg%3E");
+			background-repeat: no-repeat; background-position: right 9px center;
+		}
+		.status-sel.open {
+			background-color: var(--green-lt); border-color: #86efac; color: var(--green);
+		}
+		.status-sel.open:hover  { box-shadow: 0 2px 8px rgba(22,163,74,.2); }
+		.status-sel.close {
+			background-color: #f3f4f6; border-color: var(--border2); color: var(--muted);
+		}
+		.status-sel.close:hover { box-shadow: 0 2px 8px rgba(0,0,0,.08); }
+		.status-sel.saving { opacity: .5; pointer-events: none; }
+		.status-sel option { color: var(--text); background: var(--white); font-weight: 600; }
+		/* spinner overlay while saving */
+		.status-wrap .sv { display: none; position: absolute; right: 8px; top: 50%; transform: translateY(-50%); width: 12px; height: 12px; border: 2px solid rgba(0,0,0,.2); border-top-color: var(--accent); border-radius: 50%; animation: spin .6s linear infinite; pointer-events: none; }
+		.status-wrap.saving .sv { display: block; }
+
+		tfoot td { padding: 10px 14px; font-size: 12px; font-weight: 700; text-align: right; background: #eef2ff; border-top: 2px solid var(--border2); font-family: var(--mono); color: var(--text); }
+		tfoot td:first-child { text-align: left; color: var(--muted); font-family: var(--sans); font-size: 11px; letter-spacing: .04em; text-transform: uppercase; }
+		tfoot td.status-cell { background: #eef2ff; }
+
+		.empty-state { padding: 52px 24px; text-align: center; color: var(--muted); display: none; }
+		.empty-state .ei { font-size: 34px; margin-bottom: 10px; }
+		.empty-state p { font-size: 14px; }
+
+		.tbl-foot { padding: 10px 18px; border-top: 1px solid var(--border); display: none; align-items: center; justify-content: space-between; font-size: 12px; color: var(--muted); background: var(--surface); }
+		.tbl-foot.on { display: flex; }
+		.pag { display: flex; gap: 4px; }
+		.pb { padding: 4px 10px; border: 1px solid var(--border); border-radius: 5px; background: var(--white); font-size: 12px; cursor: pointer; font-family: var(--sans); color: var(--text2); transition: all .12s; }
+		.pb:hover  { border-color: var(--accent); color: var(--accent); }
+		.pb.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+		.pb:disabled { opacity: .4; cursor: not-allowed; }
+
+		@keyframes fadeUp { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+	</style>
+</head>
+<body>
+
+<!-- Topbar -->
+<div class="topbar">
+	<div class="topbar-brand">
+		<div class="topbar-logo">📦</div>
+		<div class="topbar-name">STB <span>Report</span></div>
+	</div>
+	<div class="topbar-meta" id="lastFetch">—</div>
+</div>
+
+<!-- Toast notification -->
+<div id="toast"></div>
+
+<div class="main">
+
+	<div class="page-title">
+		<h1>Laporan STB per SLC</h1>
+		<p>Data STB, SRJ, stok, dan order. Ubah status Open/Close langsung dari tabel.</p>
+	</div>
+
+	<!-- Filter Card -->
+	<div class="card">
+		<div class="card-head"><span>🗓 Filter &amp; Pencarian</span></div>
+		<div class="card-body">
+			<div class="filter-grid">
+				<div class="field">
+					<label>Tanggal Mulai</label>
+					<input type="date" id="startDate">
+				</div>
+				<div class="field">
+					<label>Tanggal Akhir</label>
+					<input type="date" id="endDate">
+				</div>
+				<div class="field">
+					<label>Filter Status</label>
+					<select id="statusFilter">
+						<option value="">Semua Status</option>
+						<option value="OPEN">Open</option>
+						<option value="CLOSE">Close</option>
+					</select>
+				</div>
+				<button class="btn btn-search" id="searchBtn" onclick="fetchReport()">
+					<div class="spinner"></div>
+					<span class="lbl">🔍 Cari</span>
+				</button>
+				<button class="btn btn-export" id="exportBtn" onclick="exportExcel()">
+					⬇ Excel
+				</button>
+			</div>
+			<div class="error-msg" id="errorMsg"></div>
+		</div>
+	</div>
+
+	<!-- Stats -->
+	<div class="stats-row" id="statsRow">
+		<div class="stat-card">
+			<div class="stat-icon" style="background:#eef2ff">🏷️</div>
+			<div class="stat-label">Total SLC</div>
+			<div class="stat-value" id="sSLC">—</div>
+		</div>
+		<div class="stat-card">
+			<div class="stat-icon" style="background:#dcfce7">✅</div>
+			<div class="stat-label">Status Open</div>
+			<div class="stat-value" id="sOpen" style="color:var(--green)">—</div>
+		</div>
+		<div class="stat-card">
+			<div class="stat-icon" style="background:#f3f4f6">🔒</div>
+			<div class="stat-label">Status Close</div>
+			<div class="stat-value" id="sClose" style="color:var(--muted)">—</div>
+		</div>
+		<div class="stat-card">
+			<div class="stat-icon" style="background:#eff6ff">📥</div>
+			<div class="stat-label">Total nQty STB</div>
+			<div class="stat-value" id="sSTB">—</div>
+		</div>
+		<div class="stat-card">
+			<div class="stat-icon" style="background:#fef3c7">📋</div>
+			<div class="stat-label">Total Order</div>
+			<div class="stat-value" id="sOrder">—</div>
+		</div>
+	</div>
+
+	<!-- Table Card -->
+	<div class="tbl-card" id="tblCard">
+		<div class="tbl-head">
+			<div class="tbl-head-left">
+				<span class="tbl-head-title">Detail Data</span>
+				<span class="badge" id="rowBadge">0 baris</span>
+			</div>
+			<div class="tbl-search">
+				🔍
+				<input type="text" id="filterInput" placeholder="Filter No SLC…" oninput="applyFilter()">
+			</div>
+		</div>
+		<div class="tbl-wrap">
+			<table>
+				<thead>
+					<tr>
+						<th onclick="sortBy('sc')">No SLC <span class="si" id="si-sc">↕</span></th>
+						<th onclick="sortBy('total_nqty_stb')">nQty STB <span class="si" id="si-total_nqty_stb">↕</span></th>
+						<th onclick="sortBy('total_nqty_sj')">nQty SRJ <span class="si" id="si-total_nqty_sj">↕</span></th>
+						<th onclick="sortBy('sisa_stb')">Sisa STB <span class="si" id="si-sisa_stb">↕</span></th>
+						<th onclick="sortBy('total_order')">Total Order <span class="si" id="si-total_order">↕</span></th>
+						<th onclick="sortBy('sisa_order')">Sisa Order <span class="si" id="si-sisa_order">↕</span></th>
+						<th class="no-sort" style="text-align:center; min-width:110px">Status</th>
+					</tr>
+				</thead>
+				<tbody id="resultBody"></tbody>
+				<tfoot id="footerRow" style="display:none">
+					<tr>
+						<td>TOTAL</td>
+						<td id="ftSTB">—</td>
+						<td id="ftSRJ">—</td>
+						<td id="ftSisaSTB">—</td>
+						<td id="ftOrder">—</td>
+						<td id="ftSisaOrder">—</td>
+						<td class="status-cell">—</td>
+					</tr>
+				</tfoot>
+			</table>
+			<div class="empty-state" id="emptyState">
+				<div class="ei">📭</div>
+				<p>Tidak ada data untuk filter tersebut.</p>
+			</div>
+		</div>
+		<div class="tbl-foot" id="tblFoot">
+			<span id="pageInfo"></span>
+			<div class="pag" id="pagBtns"></div>
+		</div>
+	</div>
+
+</div><!-- /main -->
+
+<script>
+// ── State ──────────────────────────────────────────────────────────────────
+let allData = [], filtered = [];
+let sortKey = '', sortAsc = true, curPage = 1;
+const PG   = 20;
+const COLS = ['sc','total_nqty_stb','total_nqty_sj','sisa_stb','total_order','sisa_order'];
+
+// ── Init default dates ─────────────────────────────────────────────────────
+(function(){
+	const fmt = d => d.toISOString().split('T')[0];
+	const t = new Date(), p = new Date(t); p.setDate(p.getDate()-30);
+	document.getElementById('startDate').value = fmt(p);
+	document.getElementById('endDate').value   = fmt(t);
+})();
+
+// ── Helpers ────────────────────────────────────────────────────────────────
+const fmtN = n => Number(n).toLocaleString('id-ID');
+function setErr(m){ const e=document.getElementById('errorMsg'); e.textContent=m; e.classList.toggle('on',!!m); }
+function numCls(n){ return n>0?'pos':n<0?'neg':'zero'; }
+
+let _toastT;
+function toast(msg, type='success'){
+	const el=document.getElementById('toast');
+	el.textContent=msg; el.className='on '+type;
+	clearTimeout(_toastT);
+	_toastT=setTimeout(()=>el.classList.remove('on'), 2800);
+}
+
+// ── Fetch report data ──────────────────────────────────────────────────────
+function fetchReport(){
+	const start  = document.getElementById('startDate').value;
+	const end    = document.getElementById('endDate').value;
+	const status = document.getElementById('statusFilter').value;
+	const btn    = document.getElementById('searchBtn');
+
+	setErr('');
+	if(!start||!end){ setErr('Tanggal mulai dan akhir wajib diisi.'); return; }
+	if(start>end){ setErr('Tanggal mulai tidak boleh setelah tanggal akhir.'); return; }
+
+	btn.disabled=true; btn.classList.add('loading'); btn.querySelector('.lbl').textContent='Memuat…';
+	document.getElementById('tblCard').classList.remove('on');
+	document.getElementById('statsRow').classList.remove('on');
+	document.getElementById('exportBtn').classList.remove('show');
+
+	let url = 'report_backend.php?start='+encodeURIComponent(start)+'&end='+encodeURIComponent(end);
+	if(status) url += '&status='+encodeURIComponent(status);
+
+	fetch(url)
+		.then(r=>r.json())
+		.then(data=>{
+			btn.disabled=false; btn.classList.remove('loading'); btn.querySelector('.lbl').textContent='🔍 Cari';
+			if(!data.success){ setErr(data.message||'Gagal mengambil data.'); return; }
+			allData = Array.isArray(data.rows) ? data.rows : [];
+			document.getElementById('lastFetch').textContent = 'Diperbarui: '+new Date().toLocaleTimeString('id-ID');
+			document.getElementById('filterInput').value = '';
+			applyFilter();
+		})
+		.catch(()=>{
+			btn.disabled=false; btn.classList.remove('loading'); btn.querySelector('.lbl').textContent='🔍 Cari';
+			setErr('Koneksi gagal. Pastikan server berjalan.');
+		});
+}
+
+// ── Filter (live search in table) ─────────────────────────────────────────
+function applyFilter(){
+	const q = (document.getElementById('filterInput').value||'').toLowerCase();
+	filtered = allData.filter(r => !q || (r.sc||'').toLowerCase().includes(q));
+	curPage = 1;
+	if(sortKey) doSort(false);
+	renderStats();
+	renderTable();
+}
+
+// ── Sort ───────────────────────────────────────────────────────────────────
+function sortBy(key){
+	if(sortKey===key) sortAsc=!sortAsc; else { sortKey=key; sortAsc=true; }
+	COLS.forEach(k=>{ const el=document.getElementById('si-'+k); if(el){ el.textContent='↕'; el.closest('th').classList.remove('sorted'); } });
+	const el=document.getElementById('si-'+key);
+	if(el){ el.textContent=sortAsc?'↑':'↓'; el.closest('th').classList.add('sorted'); }
+	doSort(true);
+}
+function doSort(render){
+	filtered.sort((a,b)=>{
+		let va=a[sortKey], vb=b[sortKey];
+		if(sortKey==='sc'){ va=va||''; vb=vb||''; return sortAsc?va.localeCompare(vb):vb.localeCompare(va); }
+		va=Number(va)||0; vb=Number(vb)||0; return sortAsc?va-vb:vb-va;
+	});
+	if(render) renderTable();
+}
+
+// ── Stats ──────────────────────────────────────────────────────────────────
+function renderStats(){
+	let stb=0, order=0, nOpen=0, nClose=0;
+	filtered.forEach(r=>{
+		stb   += +r.total_nqty_stb||0;
+		order += +r.total_order||0;
+		const st = (r.cStatus||'OPEN').toUpperCase();
+		if(st==='CLOSE') nClose++; else nOpen++;
+	});
+	document.getElementById('sSLC').textContent   = fmtN(filtered.length);
+	document.getElementById('sOpen').textContent  = fmtN(nOpen);
+	document.getElementById('sClose').textContent = fmtN(nClose);
+	document.getElementById('sSTB').textContent   = fmtN(stb);
+	document.getElementById('sOrder').textContent = fmtN(order);
+	document.getElementById('statsRow').classList.toggle('on', allData.length>0);
+}
+
+// ── Table ──────────────────────────────────────────────────────────────────
+function renderTable(){
+	const tbody = document.getElementById('resultBody');
+	const empty = document.getElementById('emptyState');
+	const frow  = document.getElementById('footerRow');
+	const foot  = document.getElementById('tblFoot');
+
+	document.getElementById('tblCard').classList.add('on');
+	tbody.innerHTML = '';
+
+	if(!filtered.length){
+		empty.style.display='block'; frow.style.display='none'; foot.classList.remove('on');
+		document.getElementById('rowBadge').textContent='0 baris';
+		document.getElementById('exportBtn').classList.remove('show');
+		return;
+	}
+	empty.style.display='none';
+	document.getElementById('rowBadge').textContent = filtered.length+' baris';
+	document.getElementById('exportBtn').classList.add('show');
+
+	// Totals
+	let tSTB=0, tSRJ=0, tSisaSTB=0, tOrder=0, tSisaOrder=0;
+	filtered.forEach(r=>{ tSTB+=+r.total_nqty_stb||0; tSRJ+=+r.total_nqty_sj||0; tSisaSTB+=+r.sisa_stb||0; tOrder+=+r.total_order||0; tSisaOrder+=+r.sisa_order||0; });
+	document.getElementById('ftSTB').textContent       = fmtN(tSTB);
+	document.getElementById('ftSRJ').textContent       = fmtN(tSRJ);
+	document.getElementById('ftSisaSTB').textContent   = fmtN(tSisaSTB);
+	document.getElementById('ftOrder').textContent     = fmtN(tOrder);
+	document.getElementById('ftSisaOrder').textContent = fmtN(tSisaOrder);
+	frow.style.display = '';
+
+	// Page slice
+	const totalPg = Math.ceil(filtered.length/PG);
+	const rows    = filtered.slice((curPage-1)*PG, curPage*PG);
+
+	rows.forEach((r, i) => {
+		const ss     = +r.sisa_stb||0;
+		const so     = +r.sisa_order||0;
+		const status = (r.cStatus||'OPEN').toUpperCase();
+		const isOpen = status !== 'CLOSE';
+
+		const tr = document.createElement('tr');
+		tr.dataset.sc = r.sc;
+		if(!isOpen) tr.classList.add('is-close');
+		tr.style.animationDelay = Math.min(i*16, 200)+'ms';
+
+		tr.innerHTML =
+			'<td>'+escHtml(r.sc||'')+'</td>'+
+			'<td class="num">'+fmtN(r.total_nqty_stb)+'</td>'+
+			'<td class="num">'+fmtN(r.total_nqty_sj)+'</td>'+
+			'<td class="'+numCls(ss)+'">'+fmtN(ss)+'</td>'+
+			'<td class="num">'+fmtN(r.total_order)+'</td>'+
+			'<td class="'+numCls(so)+'">'+fmtN(so)+'</td>'+
+			'<td class="status-cell">'+buildStatusDropdown(r.sc, status)+'</td>';
+
+		tbody.appendChild(tr);
+	});
+
+	// Pagination
+	foot.classList.add('on');
+	document.getElementById('pageInfo').textContent = 'Halaman '+curPage+' dari '+totalPg+' ('+filtered.length+' baris)';
+	const pg = document.getElementById('pagBtns'); pg.innerHTML='';
+	const addPb = (lbl,p,active) => {
+		const b=document.createElement('button');
+		b.className='pb'+(active?' active':'');
+		b.textContent=lbl; b.disabled=(p<1||p>totalPg);
+		b.onclick=()=>{ curPage=p; renderTable(); };
+		pg.appendChild(b);
+	};
+	addPb('‹', curPage-1, false);
+	for(let p=Math.max(1,curPage-1); p<=Math.min(totalPg,curPage+1); p++) addPb(p,p,p===curPage);
+	addPb('›', curPage+1, false);
+}
+
+// ── Build status dropdown HTML ─────────────────────────────────────────────
+function buildStatusDropdown(sc, status){
+	const isOpen = status !== 'CLOSE';
+	const cls    = isOpen ? 'open' : 'close';
+	return `<div class="status-wrap" id="wrap-${escAttr(sc)}">
+		<select class="status-sel ${cls}" onchange="saveStatus('${escAttr(sc)}',this)">
+			<option value="OPEN"  ${isOpen?'selected':''}>✅ Open</option>
+			<option value="CLOSE" ${!isOpen?'selected':''}>🔒 Close</option>
+		</select>
+		<div class="sv"></div>
+	</div>`;
+}
+
+// ── Save status to server ──────────────────────────────────────────────────
+function saveStatus(sc, selectEl){
+	const newStatus = selectEl.value;
+	const wrap      = document.getElementById('wrap-'+sc);
+	const tr        = selectEl.closest('tr');
+
+	// Optimistic UI
+	selectEl.className = 'status-sel saving';
+	if(wrap) wrap.classList.add('saving');
+
+	fetch('report_backend.php', {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+		body: 'action=update_status&sc='+encodeURIComponent(sc)+'&status='+encodeURIComponent(newStatus)
+	})
+	.then(r=>r.json())
+	.then(data=>{
+		if(wrap) wrap.classList.remove('saving');
+
+		if(data.success){
+			// Update local data array
+			const row = allData.find(r=>r.sc===sc);
+			if(row) row.cStatus = newStatus;
+
+			// Update dropdown style
+			selectEl.className = 'status-sel ' + (newStatus==='CLOSE' ? 'close' : 'open');
+
+			// Dim/undim row
+			if(tr){ tr.classList.toggle('is-close', newStatus==='CLOSE'); }
+
+			toast((newStatus==='CLOSE'?'🔒 Ditutup: ':'✅ Dibuka: ')+sc, 'success');
+
+			// Refresh stats
+			renderStats();
+		} else {
+			// Revert select
+			const orig = (allData.find(r=>r.sc===sc)||{}).cStatus||'OPEN';
+			selectEl.value     = orig;
+			selectEl.className = 'status-sel '+(orig==='CLOSE'?'close':'open');
+			toast('Gagal menyimpan: '+(data.message||'Error'), 'error');
+		}
+	})
+	.catch(()=>{
+		if(wrap) wrap.classList.remove('saving');
+		const orig = (allData.find(r=>r.sc===sc)||{}).cStatus||'OPEN';
+		selectEl.value     = orig;
+		selectEl.className = 'status-sel '+(orig==='CLOSE'?'close':'open');
+		toast('Koneksi gagal saat menyimpan status.', 'error');
+	});
+}
+
+// ── Export Excel ───────────────────────────────────────────────────────────
+function exportExcel(){
+	if(!filtered.length) return;
+	const start = document.getElementById('startDate').value;
+	const end   = document.getElementById('endDate').value;
+	const now   = new Date().toLocaleString('id-ID');
+
+	let tSTB=0,tSRJ=0,tSisaSTB=0,tOrder=0,tSisaOrder=0;
+	filtered.forEach(r=>{ tSTB+=+r.total_nqty_stb||0; tSRJ+=+r.total_nqty_sj||0; tSisaSTB+=+r.sisa_stb||0; tOrder+=+r.total_order||0; tSisaOrder+=+r.sisa_order||0; });
+
+	const hdrs = ['No SLC','nQty STB','nQty SRJ','Sisa STB','Total Order','Sisa Order','Status'];
+	const dataRows = filtered.map(r=>[
+		r.sc,
+		+r.total_nqty_stb||0,
+		+r.total_nqty_sj||0,
+		+r.sisa_stb||0,
+		+r.total_order||0,
+		+r.sisa_order||0,
+		(r.cStatus||'OPEN').toUpperCase()
+	]);
+	const totalRow = ['TOTAL', tSTB, tSRJ, tSisaSTB, tOrder, tSisaOrder, ''];
+
+	const wsArr = [
+		['STB Report — SLC'],
+		['Periode: '+start+' s/d '+end],
+		['Diekspor: '+now],
+		[],
+		hdrs,
+		...dataRows,
+		totalRow
+	];
+
+	const wb = XLSX.utils.book_new();
+	const ws = XLSX.utils.aoa_to_sheet(wsArr);
+	ws['!cols'] = [{wch:22},{wch:14},{wch:14},{wch:14},{wch:14},{wch:14},{wch:10}];
+	ws['!merges'] = [
+		{s:{r:0,c:0},e:{r:0,c:6}},
+		{s:{r:1,c:0},e:{r:1,c:6}},
+		{s:{r:2,c:0},e:{r:2,c:6}},
+	];
+
+	// Title style
+	if(ws['A1']) ws['A1'].s = {font:{bold:true,sz:14,color:{rgb:'1D4ED8'}}};
+	if(ws['A2']) ws['A2'].s = {font:{sz:11,color:{rgb:'6B7280'}}};
+	if(ws['A3']) ws['A3'].s = {font:{sz:10,color:{rgb:'9CA3AF'}}};
+
+	// Header row (index 4)
+	hdrs.forEach((_,ci)=>{
+		const a=XLSX.utils.encode_cell({r:4,c:ci});
+		if(ws[a]) ws[a].s={font:{bold:true,color:{rgb:'FFFFFF'}},fill:{fgColor:{rgb:'3B6EF8'},patternType:'solid'},alignment:{horizontal:ci===0?'left':'center'}};
+	});
+
+	// Data rows (index 5+)
+	for(let ri=5; ri<5+dataRows.length; ri++){
+		const rowStatus = (dataRows[ri-5][6]||'').toUpperCase();
+		for(let ci=0;ci<7;ci++){
+			const a=XLSX.utils.encode_cell({r:ri,c:ci});
+			if(!ws[a]) continue;
+			const s={alignment:{horizontal:ci===0||ci===6?'left':'right'}};
+			if(ci>0&&ci<6) s.numFmt='#,##0';
+			if(ci===3||ci===5){
+				const v=ws[a].v;
+				if(v<0) s.font={color:{rgb:'DC2626'}};
+				else if(v>0) s.font={color:{rgb:'16A34A'}};
+			}
+			// status cell color
+			if(ci===6){
+				s.font = {bold:true, color:{rgb: rowStatus==='CLOSE'?'6B7280':'16A34A'}};
+				s.alignment = {horizontal:'center'};
+			}
+			// dim closed rows slightly
+			if(rowStatus==='CLOSE' && ci<6 && !s.font) s.font={color:{rgb:'9CA3AF'}};
+			ws[a].s = s;
+		}
+	}
+
+	// Total row
+	const totIdx = 5+dataRows.length;
+	for(let ci=0;ci<7;ci++){
+		const a=XLSX.utils.encode_cell({r:totIdx,c:ci});
+		if(ws[a]) ws[a].s={font:{bold:true},fill:{fgColor:{rgb:'EEF2FF'},patternType:'solid'},numFmt:ci>0&&ci<6?'#,##0':'',alignment:{horizontal:ci===0?'left':'right'}};
+	}
+
+	XLSX.utils.book_append_sheet(wb, ws, 'Detail STB');
+
+	// Sheet 2: Ringkasan
+	let nOpen=0,nClose=0;
+	filtered.forEach(r=>{ if((r.cStatus||'').toUpperCase()==='CLOSE') nClose++; else nOpen++; });
+	const ws2 = XLSX.utils.aoa_to_sheet([
+		['Ringkasan STB Report'],
+		['Periode', start+' s/d '+end],
+		['Diekspor', now],
+		[],
+		['Keterangan','Nilai'],
+		['Total SLC', filtered.length],
+		['Status Open', nOpen],
+		['Status Close', nClose],
+		['Total nQty STB', tSTB],
+		['Total nQty SRJ', tSRJ],
+		['Total Sisa STB', tSisaSTB],
+		['Total Order', tOrder],
+		['Total Sisa Order', tSisaOrder],
+	]);
+	ws2['!cols']=[{wch:22},{wch:20}];
+	XLSX.utils.book_append_sheet(wb, ws2, 'Ringkasan');
+
+	XLSX.writeFile(wb, 'STB_Report_'+start+'_'+end+'.xlsx');
+}
+
+// ── Utils ──────────────────────────────────────────────────────────────────
+function escHtml(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function escAttr(s){ return s.replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
+
+// Enter key
+['startDate','endDate'].forEach(id=>{
+	document.getElementById(id).addEventListener('keydown',e=>{ if(e.key==='Enter') fetchReport(); });
+});
+</script>
+</body>
+</html>

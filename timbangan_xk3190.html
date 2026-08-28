@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Monitor Timbangan XK3190-A12(E)</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Courier New', monospace;
+      background: #0d0d0d;
+      color: #ccc;
+      min-height: 100vh;
+      padding: 24px;
+    }
+    h1 {
+      font-size: 14px;
+      letter-spacing: 0.2em;
+      color: #5dcaa5;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      border-bottom: 1px solid #1a2e1a;
+      padding-bottom: 12px;
+    }
+
+    .display-panel {
+      background: #050f08;
+      border: 1px solid #1a3020;
+      border-top: 2px solid #1d9e75;
+      border-radius: 10px;
+      padding: 20px 24px;
+      margin-bottom: 16px;
+    }
+    .display-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .model-label { font-size: 11px; color: #5dcaa5; letter-spacing: 0.15em; }
+    .conn-status { display: flex; align-items: center; gap: 8px; font-size: 11px; }
+    .status-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: #333;
+      transition: background 0.3s;
+    }
+    .status-dot.connected { background: #1d9e75; box-shadow: 0 0 6px #1d9e7580; }
+    .status-dot.error     { background: #e24b4a; }
+
+    .weight-display { display: flex; align-items: baseline; gap: 12px; margin-bottom: 10px; }
+    .weight-value {
+      font-size: 56px;
+      font-weight: 400;
+      color: #5dcaa5;
+      letter-spacing: 0.05em;
+      line-height: 1;
+      transition: color 0.2s;
+    }
+    .weight-value.overload  { color: #e24b4a; }
+    .weight-value.underload { color: #ef9f27; }
+    .weight-unit { font-size: 22px; color: #3b6d11; }
+
+    .indicators { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+    .pill {
+      font-size: 10px;
+      padding: 3px 10px;
+      border-radius: 100px;
+      background: #111;
+      border: 1px solid #222;
+      color: #333;
+      letter-spacing: 0.05em;
+      transition: all 0.2s;
+    }
+    .pill.active { background: #0f3020; border-color: #1d9e75; color: #5dcaa5; }
+    .pill.warn   { background: #2a1a00; border-color: #ba7517; color: #ef9f27; }
+    .pill.danger { background: #2a0a0a; border-color: #a32d2d; color: #e24b4a; }
+
+    .tabs {
+      display: flex;
+      border-bottom: 1px solid #1e1e1e;
+      margin-bottom: 16px;
+    }
+    .tab {
+      padding: 8px 18px;
+      font-size: 12px;
+      color: #555;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      letter-spacing: 0.05em;
+      user-select: none;
+      transition: all 0.15s;
+    }
+    .tab:hover { color: #aaa; }
+    .tab.active { color: #1d9e75; border-bottom-color: #1d9e75; }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
+    .panel {
+      background: #111;
+      border: 1px solid #1e1e1e;
+      border-radius: 8px;
+      padding: 16px 20px;
+      margin-bottom: 12px;
+    }
+    .panel-title {
+      font-size: 10px;
+      color: #444;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .panels { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+    .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .stat-card {
+      background: #0a0a0a;
+      border-radius: 6px;
+      padding: 8px 12px;
+      border: 1px solid #1a1a1a;
+    }
+    .stat-label { font-size: 10px; color: #444; font-family: sans-serif; }
+    .stat-value { font-size: 20px; font-weight: 500; color: #ccc; }
+
+    .btn-row { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
+    button {
+      height: 34px;
+      padding: 0 14px;
+      border-radius: 6px;
+      border: 1px solid #333;
+      background: transparent;
+      color: #aaa;
+      font-size: 12px;
+      cursor: pointer;
+      font-family: 'Courier New', monospace;
+      letter-spacing: 0.05em;
+      transition: background 0.15s;
+    }
+    button:hover { background: #1a1a1a; color: #ccc; }
+    button:active { transform: scale(0.98); }
+    button.primary { background: #0f3020; border-color: #1d9e75; color: #5dcaa5; }
+    button.primary:hover { background: #163d28; }
+    button:disabled { opacity: 0.3; cursor: not-allowed; }
+
+    .log-panel {
+      background: #080808;
+      border: 1px solid #1a1a1a;
+      border-radius: 8px;
+      margin-bottom: 12px;
+      overflow: hidden;
+    }
+    .log-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 16px;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    .log-title { font-size: 10px; color: #444; letter-spacing: 0.1em; text-transform: uppercase; }
+    .log-body {
+      padding: 10px 16px;
+      height: 200px;
+      overflow-y: auto;
+      font-size: 11px;
+    }
+    .log-body::-webkit-scrollbar { width: 4px; }
+    .log-body::-webkit-scrollbar-track { background: #0a0a0a; }
+    .log-body::-webkit-scrollbar-thumb { background: #222; border-radius: 4px; }
+    .log-entry {
+      display: grid;
+      grid-template-columns: 90px 1fr auto;
+      gap: 10px;
+      padding: 3px 0;
+      border-bottom: 1px solid #111;
+      animation: fadeIn 0.2s ease;
+      align-items: center;
+    }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(-3px); } to { opacity: 1; } }
+    .log-time { color: #333; }
+    .log-raw  { color: #2a4a3a; font-size: 10px; word-break: break-all; }
+    .log-ok   { color: #1d9e75; text-align: right; white-space: nowrap; }
+    .log-err  { color: #e24b4a; text-align: right; white-space: nowrap; }
+    .log-warn { color: #ef9f27; text-align: right; white-space: nowrap; }
+    .log-info { color: #5588bb; text-align: right; white-space: nowrap; }
+
+    .cfg-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+    .cfg-row label { font-size: 11px; color: #555; width: 120px; font-family: sans-serif; }
+    .cfg-row select, .cfg-row input {
+      flex: 1;
+      font-size: 12px;
+      height: 30px;
+      border-radius: 6px;
+      border: 1px solid #2a2a2a;
+      padding: 0 8px;
+      background: #0a0a0a;
+      color: #ccc;
+      font-family: 'Courier New', monospace;
+    }
+    .cfg-row select:focus, .cfg-row input:focus { outline: none; border-color: #1d9e75; }
+
+    .history-wrap { overflow-x: auto; }
+    table { width: 100%; font-size: 12px; border-collapse: collapse; }
+    th {
+      text-align: left;
+      font-size: 10px;
+      font-weight: 500;
+      color: #444;
+      padding: 5px 10px;
+      border-bottom: 1px solid #1a1a1a;
+      font-family: sans-serif;
+      letter-spacing: 0.08em;
+    }
+    td { padding: 6px 10px; border-bottom: 1px solid #111; color: #aaa; }
+    tr:hover td { background: #111; }
+    .badge { font-size: 9px; padding: 2px 7px; border-radius: 100px; font-family: sans-serif; }
+    .badge-net   { background: #0f3020; color: #5dcaa5; border: 1px solid #1d9e75; }
+    .badge-gross { background: #1a1a1a; color: #666;    border: 1px solid #333; }
+
+    .code-block {
+      background: #050505;
+      border: 1px solid #1a1a1a;
+      border-radius: 6px;
+      padding: 14px 16px;
+      font-size: 12px;
+      line-height: 1.8;
+      white-space: pre;
+      overflow-x: auto;
+      color: #888;
+    }
+    .kw  { color: #5dcaa5; }
+    .str { color: #ef9f27; }
+    .num { color: #88bbff; }
+    .cm  { color: #333; }
+
+    .notice {
+      background: #0a1f14;
+      border: 1px solid #1d4a30;
+      border-radius: 6px;
+      padding: 10px 14px;
+      font-size: 12px;
+      color: #4a9a6a;
+      margin-bottom: 12px;
+      font-family: sans-serif;
+      line-height: 1.7;
+    }
+    .notice b { color: #5dcaa5; }
+
+    @media (max-width: 600px) {
+      .panels { grid-template-columns: 1fr; }
+      .weight-value { font-size: 40px; }
+    }
+  </style>
+</head>
+<body>
+
+<h1>Monitor Timbangan &middot; XK3190-A12(E)</h1>
+
+<!-- DISPLAY UTAMA -->
+<div class="display-panel">
+  <div class="display-header">
+    <span class="model-label">XK3190-A12(E) &middot; RS232 Live Monitor</span>
+    <div class="conn-status">
+      <span id="conn-text" style="color:#444">Tidak terhubung</span>
+      <div class="status-dot" id="status-dot"></div>
+    </div>
+  </div>
+  <div class="weight-display">
+    <span class="weight-value" id="weight-val">---.---</span>
+    <span class="weight-unit">kg</span>
+  </div>
+  <div class="indicators">
+    <span class="pill" id="ind-net">NET</span>
+    <span class="pill" id="ind-gross">GROSS</span>
+    <span class="pill" id="ind-stable">STABIL</span>
+    <span class="pill" id="ind-ol">OVERLOAD</span>
+    <span class="pill" id="ind-lo">UNDERFLOW</span>
+    <span class="pill" id="ind-bat">BATERAI LEMAH</span>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tabs">
+  <div class="tab active" onclick="switchTab('monitor')">Monitor Live</div>
+  <div class="tab" onclick="switchTab('config')">Konfigurasi Port</div>
+  <div class="tab" onclick="switchTab('history')">Riwayat Data</div>
+  <div class="tab" onclick="switchTab('code')">Kode Parser</div>
+</div>
+
+<!-- TAB: MONITOR -->
+<div class="tab-content active" id="tab-monitor">
+  <div class="notice">
+    <b>Persyaratan:</b> Browser <b>Chrome</b> atau <b>Edge 89+</b> (Web Serial API).<br>
+    Klik <b>Hubungkan Port</b> &rarr; pilih COM port timbangan &rarr; data masuk otomatis.<br>
+    Pastikan baud rate sesuai setting <b>P2</b> di timbangan (default P2=4 &rarr; 1200 baud, P4=2 &rarr; continuous).
+  </div>
+  <div class="btn-row">
+    <button class="primary" id="btn-connect" onclick="connectSerial()">&#9654; Hubungkan Port</button>
+    <button id="btn-disconnect" onclick="disconnectSerial()" disabled>&#9632; Putuskan</button>
+    <button onclick="clearLog()">Bersihkan Log</button>
+    <button onclick="exportCSV()">Ekspor CSV</button>
+  </div>
+  <div class="panels">
+    <div class="panel">
+      <div class="panel-title">Statistik Sesi</div>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-label">Total paket</div>
+          <div class="stat-value" id="stat-total">0</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Paket valid</div>
+          <div class="stat-value" id="stat-valid">0</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Berat maks</div>
+          <div class="stat-value" id="stat-max">&mdash;</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Berat min</div>
+          <div class="stat-value" id="stat-min">&mdash;</div>
+        </div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-title">Info Port Aktif</div>
+      <div style="font-size:12px;line-height:2.2;color:#555">
+        Baud rate&nbsp;&nbsp;: <span id="info-baud" style="color:#aaa">&mdash;</span><br>
+        Data bits&nbsp;&nbsp;: <span style="color:#aaa">8</span><br>
+        Stop bits&nbsp;&nbsp;: <span style="color:#aaa">1</span><br>
+        Parity&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <span style="color:#aaa">Even</span><br>
+        Mode output: <span id="info-output" style="color:#aaa">&mdash;</span>
+      </div>
+    </div>
+  </div>
+  <div class="log-panel">
+    <div class="log-header">
+      <span class="log-title">Log Data Mentah &rarr; Parsed</span>
+      <span style="font-size:10px;color:#333" id="log-count">0 entri</span>
+    </div>
+    <div class="log-body" id="log-body">
+      <div style="color:#333;font-size:11px;padding:8px 0">Menunggu koneksi serial...</div>
+    </div>
+  </div>
+</div>
+
+<!-- TAB: CONFIG -->
+<div class="tab-content" id="tab-config">
+  <div class="panel">
+    <div class="panel-title">Pengaturan Port RS232</div>
+    <div class="cfg-row">
+      <label>Baud Rate</label>
+      <select id="cfg-baud">
+        <option value="1200" selected>1200 baud  (P2 = 4)</option>
+        <option value="2400">2400 baud  (P2 = 3)</option>
+        <option value="4800">4800 baud  (P2 = 2)</option>
+        <option value="9600">9600 baud  (P2 = 1)</option>
+      </select>
+    </div>
+    <div class="cfg-row">
+      <label>Mode Output</label>
+      <select id="cfg-output">
+        <option value="net">Net weight  (P3 = 1)</option>
+        <option value="gross">Gross weight (P3 = 2)</option>
+      </select>
+    </div>
+    <div class="cfg-row">
+      <label>Filter simpan</label>
+      <select id="cfg-filter">
+        <option value="all">Semua paket</option>
+        <option value="positive">Berat positif saja</option>
+      </select>
+    </div>
+  </div>
+  <div class="panel">
+    <div class="panel-title">Petunjuk Kabel RS232 (DB9)</div>
+    <div style="font-size:12px;line-height:2.4;color:#555">
+      Gunakan kabel 2-core shielded, max 10 meter.<br>
+      <span style="color:#5dcaa5">Indikator pin 1 (TXD)</span> &rarr; <span style="color:#ef9f27">PC DB9 pin 2 (RXD)</span><br>
+      <span style="color:#5dcaa5">Indikator pin 2 (GND)</span> &rarr; <span style="color:#ef9f27">PC DB9 pin 5 (GND)</span><br>
+      Kabel &gt; 3m: pasang <b style="color:#aaa">magnetic loop</b> di interface RS232.<br>
+      Tidak ada DB9? Gunakan <b style="color:#aaa">USB-to-RS232 adapter</b> (CH340/CP2102/FTDI).
+    </div>
+  </div>
+  <div class="panel">
+    <div class="panel-title">Setting di Timbangan (Menu P)</div>
+    <div style="font-size:12px;line-height:2.4;color:#555">
+      Tekan [Func] lebih dari 5 detik &rarr; masuk mode pengaturan.<br>
+      <b style="color:#aaa">P2</b> &nbsp;= Baud rate &nbsp;&nbsp;&nbsp;(1=9600 / 2=4800 / 3=2400 / <b style="color:#5dcaa5">4=1200</b>)<br>
+      <b style="color:#aaa">P3</b> &nbsp;= Mode output &nbsp;(1=Net / 2=Gross)<br>
+      <b style="color:#aaa">P4</b> &nbsp;= RS232 mode &nbsp;&nbsp;(1=Stop / <b style="color:#5dcaa5">2=Continuous</b> / 3=Stable only)<br>
+      Tekan [Func] untuk simpan setelah setting.
+    </div>
+  </div>
+</div>
+
+<!-- TAB: HISTORY -->
+<div class="tab-content" id="tab-history">
+  <div class="btn-row">
+    <button onclick="clearHistory()">Hapus Semua</button>
+    <button onclick="exportCSV()">Ekspor CSV</button>
+  </div>
+  <div class="history-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Waktu</th>
+          <th>Berat (kg)</th>
+          <th>Tipe</th>
+          <th>Checksum</th>
+          <th>Status</th>
+          <th>Raw HEX</th>
+        </tr>
+      </thead>
+      <tbody id="history-body">
+        <tr>
+          <td colspan="7" style="color:#333;text-align:center;padding:20px;font-family:sans-serif">
+            Belum ada data &mdash; hubungkan timbangan terlebih dahulu
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- TAB: CODE -->
+<div class="tab-content" id="tab-code">
+  <div class="panel">
+    <div class="panel-title">Parser Protokol RS232 &mdash; XK3190-A12(E)</div>
+    <div class="code-block"><span class="cm">/**
+ * Parser RS232 XK3190-A12(E) — 15-byte ASCII packet
+ *
+ * Byte  1    : 'W' (0x57)           — header
+ * Byte  2    : 'G'=gross / 'N'=net  — weight type
+ * Byte  3–9  : weight + decimal pt  — e.g. "004.139"
+ * Byte 10–11 : 'kg' (0x6B 0x67)
+ * Byte 12–13 : checksum (ASCII-encoded nibbles)
+ * Byte 14    : 0x0D (CR)
+ * Byte 15    : 0x0A (LF)
+ *
+ * Overload  → byte 10='O'(0x4F), 11='L'(0x4C)
+ * Underflow → byte 10='L'(0x4C), 11='O'(0x4F)
+ */</span>
+
+<span class="kw">function</span> parseXK3190Packet(bytes) {
+  <span class="kw">if</span> (bytes.length !== <span class="num">15</span>)                       <span class="kw">return null</span>;
+  <span class="kw">if</span> (bytes[<span class="num">0</span>]  !== <span class="num">0x57</span>)                        <span class="kw">return null</span>;
+  <span class="kw">if</span> (bytes[<span class="num">13</span>] !== <span class="num">0x0D</span> || bytes[<span class="num">14</span>] !== <span class="num">0x0A</span>) <span class="kw">return null</span>;
+
+  <span class="kw">if</span> (bytes[<span class="num">9</span>] === <span class="num">0x4F</span> && bytes[<span class="num">10</span>] === <span class="num">0x4C</span>)
+    <span class="kw">return</span> { status: <span class="str">'overload'</span> };
+  <span class="kw">if</span> (bytes[<span class="num">9</span>] === <span class="num">0x4C</span> && bytes[<span class="num">10</span>] === <span class="num">0x4F</span>)
+    <span class="kw">return</span> { status: <span class="str">'underflow'</span> };
+
+  <span class="kw">const</span> type      = bytes[<span class="num">1</span>] === <span class="num">0x4E</span> ? <span class="str">'net'</span> : <span class="str">'gross'</span>;
+  <span class="kw">const</span> weightStr = bytes.slice(<span class="num">2</span>, <span class="num">9</span>)
+                         .map(b => String.fromCharCode(b))
+                         .join(<span class="str">''</span>).trim();
+  <span class="kw">const</span> weight    = parseFloat(weightStr);
+
+  <span class="cm">// Checksum: sum byte 1–11, encode each nibble</span>
+  <span class="kw">const</span> sum   = bytes.slice(<span class="num">0</span>, <span class="num">11</span>)
+                      .reduce((a, b) => a + b, <span class="num">0</span>) & <span class="num">0xFF</span>;
+  <span class="kw">const</span> hi    = (sum >> <span class="num">4</span>) & <span class="num">0x0F</span>;
+  <span class="kw">const</span> lo    =  sum        & <span class="num">0x0F</span>;
+  <span class="kw">const</span> encHi = hi <= <span class="num">9</span> ? hi + <span class="num">0x30</span> : hi + <span class="num">0x37</span>;
+  <span class="kw">const</span> encLo = lo <= <span class="num">9</span> ? lo + <span class="num">0x30</span> : lo + <span class="num">0x37</span>;
+  <span class="kw">const</span> checksumOk = bytes[<span class="num">11</span>] === encHi && bytes[<span class="num">12</span>] === encLo;
+
+  <span class="kw">const</span> raw = bytes.map(b => b.toString(<span class="num">16</span>)
+                              .padStart(<span class="num">2</span>, <span class="str">'0'</span>)
+                              .toUpperCase()).join(<span class="str">' '</span>);
+
+  <span class="kw">return</span> { status: <span class="str">'ok'</span>, type, weight, checksumOk, raw };
+}
+
+<span class="cm">// ── Web Serial API (Chrome/Edge 89+) ───────────────────────────</span>
+<span class="kw">async function</span> connectSerial(baudRate = <span class="num">1200</span>) {
+  <span class="kw">const</span> port = <span class="kw">await</span> navigator.serial.requestPort();
+  <span class="kw">await</span> port.open({
+    baudRate,
+    dataBits: <span class="num">8</span>,
+    stopBits: <span class="num">1</span>,
+    parity: <span class="str">'even'</span>        <span class="cm">// sesuai spesifikasi manual</span>
+  });
+  <span class="kw">const</span> reader = port.readable.getReader();
+  <span class="kw">const</span> buffer = [];
+  <span class="kw">while</span> (<span class="kw">true</span>) {
+    <span class="kw">const</span> { value, done } = <span class="kw">await</span> reader.read();
+    <span class="kw">if</span> (done) <span class="kw">break</span>;
+    buffer.push(...Array.from(value));
+    <span class="kw">while</span> (buffer.length >= <span class="num">15</span>) {
+      <span class="kw">const</span> idx = buffer.indexOf(<span class="num">0x57</span>);
+      <span class="kw">if</span> (idx === -<span class="num">1</span>) { buffer.length = <span class="num">0</span>; <span class="kw">break</span>; }
+      <span class="kw">if</span> (idx > <span class="num">0</span>)    { buffer.splice(<span class="num">0</span>, idx); }
+      <span class="kw">if</span> (buffer.length < <span class="num">15</span>) <span class="kw">break</span>;
+      <span class="kw">const</span> pkt    = buffer.splice(<span class="num">0</span>, <span class="num">15</span>);
+      <span class="kw">const</span> result = parseXK3190Packet(pkt);
+      <span class="kw">if</span> (result) console.log(result);
+    }
+  }
+}</div>
+  </div>
+</div>
+
+<script>
+  // ================================================================
+  //  STATE
+  // ================================================================
+  let port = null, reader = null, readActive = false;
+  let buffer = [];
+  let history = [];
+  let totalPkts = 0, validPkts = 0;
+  let maxW = null, minW = null;
+  let logCount = 0;
+
+  // ================================================================
+  //  TABS
+  // ================================================================
+  function switchTab(name) {
+    const ids = ['monitor','config','history','code'];
+    document.querySelectorAll('.tab').forEach((t,i) =>
+      t.classList.toggle('active', ids[i] === name));
+    document.querySelectorAll('.tab-content').forEach(c =>
+      c.classList.toggle('active', c.id === 'tab-' + name));
+  }
+
+  // ================================================================
+  //  UI HELPERS
+  // ================================================================
+  function setStatus(s) {
+    const dot = document.getElementById('status-dot');
+    const txt = document.getElementById('conn-text');
+    dot.className = 'status-dot ' + (s==='connected'?'connected':s==='error'?'error':'');
+    txt.textContent = s==='connected'?'Terhubung':s==='error'?'Error':'Tidak terhubung';
+    txt.style.color = s==='connected'?'#1d9e75':s==='error'?'#e24b4a':'#444';
+  }
+
+  function setIndicator(id, active, style) {
+    const el = document.getElementById('ind-' + id);
+    if (!el) return;
+    el.className = 'pill' + (active
+      ? (style==='warn'?' warn':style==='danger'?' danger':' active') : '');
+  }
+
+  function updateDisplay(result) {
+    const wv = document.getElementById('weight-val');
+    ['ol','lo','bat'].forEach(id => setIndicator(id, false));
+
+    if (result.status === 'overload') {
+      wv.textContent = 'OVER';
+      wv.className   = 'weight-value overload';
+      setIndicator('ol', true, 'danger');
+      setIndicator('net', false); setIndicator('gross', false);
+      return;
+    }
+    if (result.status === 'underflow') {
+      wv.textContent = 'Lo';
+      wv.className   = 'weight-value underload';
+      setIndicator('lo', true, 'warn');
+      return;
+    }
+
+    wv.className  = 'weight-value';
+    wv.textContent = isNaN(result.weight) ? 'ERR' : result.weight.toFixed(3);
+    setIndicator('net',    result.type === 'net');
+    setIndicator('gross',  result.type === 'gross');
+    setIndicator('stable', true);
+
+    if (!isNaN(result.weight)) {
+      if (maxW === null || result.weight > maxW) {
+        maxW = result.weight;
+        document.getElementById('stat-max').textContent = maxW.toFixed(3);
+      }
+      if (minW === null || result.weight < minW) {
+        minW = result.weight;
+        document.getElementById('stat-min').textContent = minW.toFixed(3);
+      }
+    }
+  }
+
+  // ================================================================
+  //  PARSER — sesuai manual hal. 12-13
+  // ================================================================
+  function parseXK3190Packet(bytes) {
+    if (bytes.length !== 15)                       return null;
+    if (bytes[0]  !== 0x57)                        return null; // 'W'
+    if (bytes[13] !== 0x0D || bytes[14] !== 0x0A) return null; // CRLF
+
+    const raw = bytes.map(b => b.toString(16).padStart(2,'0').toUpperCase()).join(' ');
+
+    // Overload: byte 10='O', 11='L'
+    if (bytes[9] === 0x4F && bytes[10] === 0x4C)
+      return { status: 'overload', weight: null, type: null, checksumOk: null, raw };
+
+    // Underflow: byte 10='L', 11='O'
+    if (bytes[9] === 0x4C && bytes[10] === 0x4F)
+      return { status: 'underflow', weight: null, type: null, checksumOk: null, raw };
+
+    const type      = bytes[1] === 0x4E ? 'net' : 'gross';
+    const weightStr = bytes.slice(2, 9).map(b => String.fromCharCode(b)).join('').trim();
+    const weight    = parseFloat(weightStr);
+
+    // Checksum byte 1–11
+    const sum    = bytes.slice(0, 11).reduce((a, b) => a + b, 0) & 0xFF;
+    const hiNib  = (sum >> 4) & 0x0F;
+    const loNib  =  sum       & 0x0F;
+    const encHi  = hiNib <= 9 ? hiNib + 0x30 : hiNib + 0x37;
+    const encLo  = loNib <= 9 ? loNib + 0x30 : loNib + 0x37;
+    const checksumOk = bytes[11] === encHi && bytes[12] === encLo;
+
+    return { status: 'ok', type, weight, checksumOk, raw };
+  }
+
+  // ================================================================
+  //  BYTE STREAM PROCESSOR
+  // ================================================================
+  function processBytes(newBytes) {
+    buffer.push(...newBytes);
+
+    while (buffer.length >= 15) {
+      const wIdx = buffer.indexOf(0x57);
+      if (wIdx === -1) { buffer.length = 0; break; }
+      if (wIdx  >  0)  buffer.splice(0, wIdx);
+      if (buffer.length < 15) break;
+
+      const pkt    = buffer.splice(0, 15);
+      const t      = new Date().toLocaleTimeString('id-ID');
+      const result = parseXK3190Packet(pkt);
+
+      totalPkts++;
+      document.getElementById('stat-total').textContent = totalPkts;
+
+      if (!result) {
+        addLog(t, pkt.map(b=>b.toString(16).padStart(2,'0').toUpperCase()).join(' '),
+               'Paket tidak valid', 'err');
+        continue;
+      }
+
+      validPkts++;
+      document.getElementById('stat-valid').textContent = validPkts;
+      updateDisplay(result);
+
+      if (result.status === 'ok') {
+        const cs = result.checksumOk ? 'CS:OK' : 'CS:FAIL';
+        addLog(t, result.raw,
+               result.weight.toFixed(3) + ' kg [' + result.type + '] ' + cs,
+               result.checksumOk ? 'ok' : 'warn');
+        saveHistory(result, t);
+      } else {
+        addLog(t, result.raw || '', result.status.toUpperCase(), 'warn');
+        saveHistory(result, t);
+      }
+    }
+  }
+
+  // ================================================================
+  //  SERIAL
+  // ================================================================
+  async function connectSerial() {
+    if (!navigator.serial) {
+      alert('Web Serial API tidak tersedia!\n\nGunakan Google Chrome atau Microsoft Edge versi 89+.');
+      return;
+    }
+    try {
+      const baud   = parseInt(document.getElementById('cfg-baud').value);
+      const output = document.getElementById('cfg-output').value;
+
+      port = await navigator.serial.requestPort();
+      await port.open({ baudRate: baud, dataBits: 8, stopBits: 1, parity: 'even' });
+
+      readActive = true;
+      setStatus('connected');
+      document.getElementById('btn-connect').disabled    = true;
+      document.getElementById('btn-disconnect').disabled = false;
+      document.getElementById('info-baud').textContent   = baud + ' baud';
+      document.getElementById('info-output').textContent =
+        output === 'net' ? 'Net weight' : 'Gross weight';
+
+      addLog(new Date().toLocaleTimeString('id-ID'), '',
+             'Port terhubung @ ' + baud + ' baud', 'info');
+
+      reader = port.readable.getReader();
+      readLoop();
+    } catch (e) {
+      setStatus('error');
+      addLog(new Date().toLocaleTimeString('id-ID'), '', 'Error: ' + e.message, 'err');
+    }
+  }
+
+  async function readLoop() {
+    try {
+      while (readActive) {
+        const { value, done } = await reader.read();
+        if (done) break;
+        processBytes(Array.from(value));
+      }
+    } catch (e) {
+      if (readActive) {
+        setStatus('error');
+        addLog(new Date().toLocaleTimeString('id-ID'), '',
+               'Koneksi terputus: ' + e.message, 'err');
+      }
+    }
+  }
+
+  async function disconnectSerial() {
+    readActive = false;
+    setStatus('disconnected');
+    try { if (reader) { await reader.cancel(); reader = null; } } catch (_) {}
+    try { if (port)   { await port.close();    port   = null; } } catch (_) {}
+
+    document.getElementById('btn-connect').disabled    = false;
+    document.getElementById('btn-disconnect').disabled = true;
+    document.getElementById('weight-val').textContent  = '---.---';
+    document.getElementById('weight-val').className    = 'weight-value';
+    ['net','gross','stable','ol','lo','bat'].forEach(id => setIndicator(id, false));
+    addLog(new Date().toLocaleTimeString('id-ID'), '', 'Port diputuskan', 'warn');
+  }
+
+  // ================================================================
+  //  LOG
+  // ================================================================
+  function addLog(time, raw, parsed, cls) {
+    logCount++;
+    const body  = document.getElementById('log-body');
+    const entry = document.createElement('div');
+    entry.className = 'log-entry';
+    entry.innerHTML =
+      '<span class="log-time">' + time + '</span>' +
+      '<span class="log-raw">'  + raw  + '</span>' +
+      '<span class="log-' + cls + '">' + parsed + '</span>';
+    body.insertBefore(entry, body.firstChild);
+    if (body.children.length > 120) body.removeChild(body.lastChild);
+    document.getElementById('log-count').textContent = logCount + ' entri';
+  }
+
+  function clearLog() {
+    document.getElementById('log-body').innerHTML =
+      '<div style="color:#333;font-size:11px;padding:8px 0">Log dibersihkan.</div>';
+    logCount = 0;
+    document.getElementById('log-count').textContent = '0 entri';
+  }
+
+  // ================================================================
+  //  HISTORY
+  // ================================================================
+  function saveHistory(result, time) {
+    const filter = document.getElementById('cfg-filter').value;
+    if (filter === 'positive' && (result.status !== 'ok' || result.weight <= 0)) return;
+    history.unshift({ ...result, time });
+    if (history.length > 500) history.pop();
+    renderHistory();
+  }
+
+  function renderHistory() {
+    const body = document.getElementById('history-body');
+    if (!history.length) {
+      body.innerHTML = '<tr><td colspan="7" style="color:#333;text-align:center;padding:20px;' +
+                       'font-family:sans-serif">Belum ada data</td></tr>';
+      return;
+    }
+    body.innerHTML = history.slice(0, 150).map((r, i) => {
+      const wt = r.status === 'ok'
+        ? (isNaN(r.weight) ? 'ERR' : r.weight.toFixed(3))
+        : r.status.toUpperCase();
+      const badge = r.status === 'ok'
+        ? '<span class="badge badge-' + r.type + '">' + r.type.toUpperCase() + '</span>'
+        : '&mdash;';
+      const cs = r.status === 'ok'
+        ? '<span style="color:' + (r.checksumOk ? '#1d9e75':'#e24b4a') + '">' +
+          (r.checksumOk ? 'OK' : 'FAIL') + '</span>'
+        : '&mdash;';
+      const stColor = r.status==='ok'?'#1d9e75':r.status==='overload'?'#e24b4a':'#ef9f27';
+      return '<tr>' +
+        '<td>' + (i+1) + '</td>' +
+        '<td>' + r.time + '</td>' +
+        '<td style="color:#ccc;font-weight:500">' + wt + '</td>' +
+        '<td>' + badge + '</td>' +
+        '<td>' + cs + '</td>' +
+        '<td style="color:' + stColor + '">' + r.status + '</td>' +
+        '<td style="font-size:10px;color:#333">' + (r.raw||'').substring(0,26) + '...</td>' +
+        '</tr>';
+    }).join('');
+  }
+
+  function clearHistory() {
+    history = []; maxW = null; minW = null;
+    totalPkts = 0; validPkts = 0;
+    renderHistory();
+    ['stat-total','stat-valid'].forEach(id =>
+      document.getElementById(id).textContent = '0');
+    ['stat-max','stat-min'].forEach(id =>
+      document.getElementById(id).textContent = '\u2014');
+  }
+
+  // ================================================================
+  //  EXPORT CSV
+  // ================================================================
+  function exportCSV() {
+    if (!history.length) { alert('Belum ada data untuk diekspor.'); return; }
+    const header = ['No','Waktu','Berat (kg)','Tipe','Checksum OK','Status','Raw HEX'];
+    const rows   = history.map((r, i) => [
+      i + 1,
+      r.time,
+      r.status === 'ok' ? (isNaN(r.weight) ? 'ERR' : r.weight.toFixed(3)) : r.status,
+      r.status === 'ok' ? r.type : '',
+      r.status === 'ok' ? (r.checksumOk ? 'TRUE' : 'FALSE') : '',
+      r.status,
+      '"' + (r.raw || '') + '"'
+    ]);
+    const csv    = [header, ...rows].map(r => r.join(',')).join('\r\n');
+    const blob   = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+    const a      = document.createElement('a');
+    a.href       = URL.createObjectURL(blob);
+    a.download   = 'timbangan_' +
+                   new Date().toISOString().slice(0,19).replace(/[:.]/g,'-') + '.csv';
+    a.click();
+  }
+</script>
+</body>
+</html>

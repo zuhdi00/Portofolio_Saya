@@ -1,0 +1,357 @@
+barcode: 
+barcode: SPS/1612/00806-B01
+Response JSON: {"success":true,"data":{"cNoOp":"SPS\/1612\/00806-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00806    ","dTglkirim":"2017-01-06","nQty":"3000.00","nQty_corr":"428.57","nRm":"494.14","cMengetahui":"WWN","cNoMc":"0011325        ","cnm_c":"LABAN RAYA CAKRAWALA, PT","cnm_brg":"484 \/ PK 18, OB","cLayer":"","cTipe":"A1","nTot_netto":".15496","nPanjang":"370.00","nLebar":"187.00","nTinggi":"125.00","cWarna":"RED 01"}}
+barcode: SPS/1612/00806-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00806-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00806    ","dTglkirim":"2017-01-06","nQty":"3000.00","nQty_corr":"428.57","nRm":"494.14","cMengetahui":"WWN","cNoMc":"0011325        ","cnm_c":"LABAN RAYA CAKRAWALA, PT","cnm_brg":"484 \/ PK 18, OB","cLayer":"","cTipe":"A1","nTot_netto":".15496","nPanjang":"370.00","nLebar":"187.00","nTinggi":"125.00","cWarna":"RED 01"}}
+barcode: SPS/1612/00806-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00806-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00806    ","dTglkirim":"2017-01-06","nQty":"3000.00","nQty_corr":"428.57","nRm":"494.14","cMengetahui":"WWN","cNoMc":"0011325        ","cnm_c":"LABAN RAYA CAKRAWALA, PT","cnm_brg":"484 \/ PK 18, OB","cLayer":"","cTipe":"A1","nTot_netto":".15496","nPanjang":"370.00","nLebar":"187.00","nTinggi":"125.00","cWarna":"RED 01"}}
+barcode: SPS/1612/00806-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00806-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00806    ","dTglkirim":"2017-01-06","nQty":"3000.00","nQty_corr":"428.57","nRm":"494.14","cMengetahui":"WWN","cNoMc":"0011325        ","cnm_c":"LABAN RAYA CAKRAWALA, PT","cnm_brg":"484 \/ PK 18, OB","cLayer":"","cTipe":"A1","nTot_netto":".15496","nPanjang":"370.00","nLebar":"187.00","nTinggi":"125.00","cWarna":"RED 01"}}
+barcode: SPS/1612/00806-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00806-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00806    ","dTglkirim":"2017-01-06","nQty":"3000.00","nQty_corr":"428.57","nRm":"494.14","cMengetahui":"WWN","cNoMc":"0011325        ","cnm_c":"LABAN RAYA CAKRAWALA, PT","cnm_brg":"484 \/ PK 18, OB","cLayer":"","cTipe":"A1","nTot_netto":".15496","nPanjang":"370.00","nLebar":"187.00","nTinggi":"125.00","cWarna":"RED 01"}}
+barcode: SPS/1612/00806-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00806-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00806    ","dTglkirim":"2017-01-06","nQty":"3000.00","nQty_corr":"428.57","nRm":"494.14","cMengetahui":"WWN","cNoMc":"0011325        ","cnm_c":"LABAN RAYA CAKRAWALA, PT","cnm_brg":"484 \/ PK 18, OB","cLayer":"","cTipe":"A1","nTot_netto":".15496","nPanjang":"370.00","nLebar":"187.00","nTinggi":"125.00","cWarna":"RED 01"}}
+barcode: SPS/1612/00806-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00806-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00806    ","dTglkirim":"2017-01-06","nQty":"3000.00","nQty_corr":"428.57","nRm":"494.14","cMengetahui":"WWN","cNoMc":"0011325        ","cnm_c":"LABAN RAYA CAKRAWALA, PT","cnm_brg":"484 \/ PK 18, OB","cLayer":"","cTipe":"A1","nTot_netto":".15496","nPanjang":"370.00","nLebar":"187.00","nTinggi":"125.00","cWarna":"RED 01"}}
+barcode: SPS/1612/00806-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00806-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00806    ","dTglkirim":"2017-01-06","nQty":"3000.00","nQty_corr":"428.57","nRm":"494.14","cMengetahui":"WWN","cNoMc":"0011325        ","cnm_c":"LABAN RAYA CAKRAWALA, PT","cnm_brg":"484 \/ PK 18, OB","cLayer":"","cTipe":"A1","nTot_netto":".15496","nPanjang":"370.00","nLebar":"187.00","nTinggi":"125.00","cWarna":"RED 01"}}
+barcode: SPS/1612/00806-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00806-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00806    ","dTglkirim":"2017-01-06","nQty":"3000.00","nQty_corr":"428.57","nRm":"494.14","cMengetahui":"WWN","cNoMc":"0011325        ","cnm_c":"LABAN RAYA CAKRAWALA, PT","cnm_brg":"484 \/ PK 18, OB","cLayer":"","cTipe":"A1","nTot_netto":".15496","nPanjang":"370.00","nLebar":"187.00","nTinggi":"125.00","cWarna":"RED 01"}}
+barcode: SPS/1612/00806-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00806-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00806    ","dTglkirim":"2017-01-06","nQty":"3000.00","nQty_corr":"428.57","nRm":"494.14","cMengetahui":"WWN","cNoMc":"0011325        ","cnm_c":"LABAN RAYA CAKRAWALA, PT","cnm_brg":"484 \/ PK 18, OB","cLayer":"","cTipe":"A1","nTot_netto":".15496","nPanjang":"370.00","nLebar":"187.00","nTinggi":"125.00","cWarna":"RED 01"}}
+barcode: SPS/1612/00806-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00806-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00806    ","dTglkirim":"2017-01-06","nQty":"3000.00","nQty_corr":"428.57","nRm":"494.14","cMengetahui":"WWN","cNoMc":"0011325        ","cnm_c":"LABAN RAYA CAKRAWALA, PT","cnm_brg":"484 \/ PK 18, OB","cLayer":"","cTipe":"A1","nTot_netto":".15496","nPanjang":"370.00","nLebar":"187.00","nTinggi":"125.00","cWarna":"RED 01"}}
+barcode: SPS/1612/00806-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00806-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00806    ","dTglkirim":"2017-01-06","nQty":"3000.00","nQty_corr":"428.57","nRm":"494.14","cMengetahui":"WWN","cNoMc":"0011325        ","cnm_c":"LABAN RAYA CAKRAWALA, PT","cnm_brg":"484 \/ PK 18, OB","cLayer":"","cTipe":"A1","nTot_netto":".15496","nPanjang":"370.00","nLebar":"187.00","nTinggi":"125.00","cWarna":"RED 01"}}
+barcode: SPS/1612/00806-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00806-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00806    ","dTglkirim":"2017-01-06","nQty":"3000.00","nQty_corr":"428.57","nRm":"494.14","cMengetahui":"WWN","cNoMc":"0011325        ","cnm_c":"LABAN RAYA CAKRAWALA, PT","cnm_brg":"484 \/ PK 18, OB","cLayer":"","cTipe":"A1","nTot_netto":".15496","nPanjang":"370.00","nLebar":"187.00","nTinggi":"125.00","cWarna":"RED 01"}}
+barcode: SPS/1612/00806-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00806-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00806    ","dTglkirim":"2017-01-06","nQty":"3000.00","nQty_corr":"428.57","nRm":"494.14","cMengetahui":"WWN","cNoMc":"0011325        ","cnm_c":"LABAN RAYA CAKRAWALA, PT","cnm_brg":"484 \/ PK 18, OB","cLayer":"","cTipe":"A1","nTot_netto":".15496","nPanjang":"370.00","nLebar":"187.00","nTinggi":"125.00","cWarna":"RED 01"}}
+barcode: SPS/1612/00806-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00806-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00806    ","dTglkirim":"2017-01-06","nQty":"3000.00","nQty_corr":"428.57","nRm":"494.14","cMengetahui":"WWN","cNoMc":"0011325        ","cnm_c":"LABAN RAYA CAKRAWALA, PT","cnm_brg":"484 \/ PK 18, OB","cLayer":"","cTipe":"A1","nTot_netto":".15496","nPanjang":"370.00","nLebar":"187.00","nTinggi":"125.00","cWarna":"RED 01"}}
+barcode: SPS/1612/00806-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00806-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00806    ","dTglkirim":"2017-01-06","nQty":"3000.00","nQty_corr":"428.57","nRm":"494.14","cMengetahui":"WWN","cNoMc":"0011325        ","cnm_c":"LABAN RAYA CAKRAWALA, PT","cnm_brg":"484 \/ PK 18, OB","cLayer":"","cTipe":"A1","nTot_netto":".15496","nPanjang":"370.00","nLebar":"187.00","nTinggi":"125.00","cWarna":"RED 01"}}
+barcode: SPS/1612/00806-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00806-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00806    ","dTglkirim":"2017-01-06","nQty":"3000.00","nQty_corr":"428.57","nRm":"494.14","cMengetahui":"WWN","cNoMc":"0011325        ","cnm_c":"LABAN RAYA CAKRAWALA, PT","cnm_brg":"484 \/ PK 18, OB","cLayer":"","cTipe":"A1","nTot_netto":".15496","nPanjang":"370.00","nLebar":"187.00","nTinggi":"125.00","cWarna":"RED 01"}}
+barcode: SPS/1612/00806-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00806-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00806    ","dTglkirim":"2017-01-06","nQty":"3000.00","nQty_corr":"428.57","nRm":"494.14","cMengetahui":"WWN","cNoMc":"0011325        ","cnm_c":"LABAN RAYA CAKRAWALA, PT","cnm_brg":"484 \/ PK 18, OB","cLayer":"","cTipe":"A1","nTot_netto":".15496","nPanjang":"370.00","nLebar":"187.00","nTinggi":"125.00","cWarna":"RED 01"}}
+barcode: SPS/1612/00806-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00806-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00806    ","dTglkirim":"2017-01-06","nQty":"3000.00","nQty_corr":"428.57","nRm":"494.14","cMengetahui":"WWN","cNoMc":"0011325        ","cnm_c":"LABAN RAYA CAKRAWALA, PT","cnm_brg":"484 \/ PK 18, OB","cLayer":"","cTipe":"A1","nTot_netto":".15496","nPanjang":"370.00","nLebar":"187.00","nTinggi":"125.00","cWarna":"RED 01"}}
+barcode: SPS/1612/00806-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00806-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00806    ","dTglkirim":"2017-01-06","nQty":"3000.00","nQty_corr":"428.57","nRm":"494.14","cMengetahui":"WWN","cNoMc":"0011325        ","cnm_c":"LABAN RAYA CAKRAWALA, PT","cnm_brg":"484 \/ PK 18, OB","cLayer":"","cTipe":"A1","nTot_netto":".15496","nPanjang":"370.00","nLebar":"187.00","nTinggi":"125.00","cWarna":"RED 01"}}
+barcode: SPS/1612/00806-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00806-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00806    ","dTglkirim":"2017-01-06","nQty":"3000.00","nQty_corr":"428.57","nRm":"494.14","cMengetahui":"WWN","cNoMc":"0011325        ","cnm_c":"LABAN RAYA CAKRAWALA, PT","cnm_brg":"484 \/ PK 18, OB","cLayer":"","cTipe":"A1","nTot_netto":".15496","nPanjang":"370.00","nLebar":"187.00","nTinggi":"125.00","cWarna":"RED 01"}}
+barcode: SPS/1612/00806-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00806-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00806    ","dTglkirim":"2017-01-06","nQty":"3000.00","nQty_corr":"428.57","nRm":"494.14","cMengetahui":"WWN","cNoMc":"0011325        ","cnm_c":"LABAN RAYA CAKRAWALA, PT","cnm_brg":"484 \/ PK 18, OB","cLayer":"","cTipe":"A1","nTot_netto":".15496","nPanjang":"370.00","nLebar":"187.00","nTinggi":"125.00","cWarna":"RED 01"}}
+barcode: SPS/1612/00806-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00806-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00806    ","dTglkirim":"2017-01-06","nQty":"3000.00","nQty_corr":"428.57","nRm":"494.14","cMengetahui":"WWN","cNoMc":"0011325        ","cnm_c":"LABAN RAYA CAKRAWALA, PT","cnm_brg":"484 \/ PK 18, OB","cLayer":"","cTipe":"A1","nTot_netto":".15496","nPanjang":"370.00","nLebar":"187.00","nTinggi":"125.00","cWarna":"RED 01"}}
+barcode: SPS/1612/00806-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00806-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00806    ","dTglkirim":"2017-01-06","nQty":"3000.00","nQty_corr":"428.57","nRm":"494.14","cMengetahui":"WWN","cNoMc":"0011325        ","cnm_c":"LABAN RAYA CAKRAWALA, PT","cnm_brg":"484 \/ PK 18, OB","cLayer":"","cTipe":"A1","nTot_netto":".15496","nPanjang":"370.00","nLebar":"187.00","nTinggi":"125.00","cWarna":"RED 01"}}
+barcode: SPS/1612/00806-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00806-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00806    ","dTglkirim":"2017-01-06","nQty":"3000.00","nQty_corr":"428.57","nRm":"494.14","cMengetahui":"WWN","cNoMc":"0011325        ","cnm_c":"LABAN RAYA CAKRAWALA, PT","cnm_brg":"484 \/ PK 18, OB","cLayer":"","cTipe":"A1","nTot_netto":".15496","nPanjang":"370.00","nLebar":"187.00","nTinggi":"125.00","cWarna":"RED 01"}}
+barcode: SPS/1612/00806-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00806-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00806    ","dTglkirim":"2017-01-06","nQty":"3000.00","nQty_corr":"428.57","nRm":"494.14","cMengetahui":"WWN","cNoMc":"0011325        ","cnm_c":"LABAN RAYA CAKRAWALA, PT","cnm_brg":"484 \/ PK 18, OB","cLayer":"","cTipe":"A1","nTot_netto":".15496","nPanjang":"370.00","nLebar":"187.00","nTinggi":"125.00","cWarna":"RED 01"}}
+barcode: SPS/1612/00806-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00806-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00806    ","dTglkirim":"2017-01-06","nQty":"3000.00","nQty_corr":"428.57","nRm":"494.14","cMengetahui":"WWN","cNoMc":"0011325        ","cnm_c":"LABAN RAYA CAKRAWALA, PT","cnm_brg":"484 \/ PK 18, OB","cLayer":"","cTipe":"A1","nTot_netto":".15496","nPanjang":"370.00","nLebar":"187.00","nTinggi":"125.00","cWarna":"RED 01"}}
+barcode: SPS/1612/00806-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00806-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00806    ","dTglkirim":"2017-01-06","nQty":"3000.00","nQty_corr":"428.57","nRm":"494.14","cMengetahui":"WWN","cNoMc":"0011325        ","cnm_c":"LABAN RAYA CAKRAWALA, PT","cnm_brg":"484 \/ PK 18, OB","cLayer":"","cTipe":"A1","nTot_netto":".15496","nPanjang":"370.00","nLebar":"187.00","nTinggi":"125.00","cWarna":"RED 01"}}
+barcode: SPS/1612/00806-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00806-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00806    ","dTglkirim":"2017-01-06","nQty":"3000.00","nQty_corr":"428.57","nRm":"494.14","cMengetahui":"WWN","cNoMc":"0011325        ","cnm_c":"LABAN RAYA CAKRAWALA, PT","cnm_brg":"484 \/ PK 18, OB","cLayer":"","cTipe":"A1","nTot_netto":".15496","nPanjang":"370.00","nLebar":"187.00","nTinggi":"125.00","cWarna":"RED 01"}}
+barcode: SPS/1612/00806-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00806-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00806    ","dTglkirim":"2017-01-06","nQty":"3000.00","nQty_corr":"428.57","nRm":"494.14","cMengetahui":"WWN","cNoMc":"0011325        ","cnm_c":"LABAN RAYA CAKRAWALA, PT","cnm_brg":"484 \/ PK 18, OB","cLayer":"","cTipe":"A1","nTot_netto":".15496","nPanjang":"370.00","nLebar":"187.00","nTinggi":"125.00","cWarna":"RED 01"}}
+barcode: SPS/1612/00806-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00806-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00806    ","dTglkirim":"2017-01-06","nQty":"3000.00","nQty_corr":"428.57","nRm":"494.14","cMengetahui":"WWN","cNoMc":"0011325        ","cnm_c":"LABAN RAYA CAKRAWALA, PT","cnm_brg":"484 \/ PK 18, OB","cLayer":"","cTipe":"A1","nTot_netto":".15496","nPanjang":"370.00","nLebar":"187.00","nTinggi":"125.00","cWarna":"RED 01"}}
+barcode: SPS/1612/00806-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00806-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00806    ","dTglkirim":"2017-01-06","nQty":"3000.00","nQty_corr":"428.57","nRm":"494.14","cMengetahui":"WWN","cNoMc":"0011325        ","cnm_c":"LABAN RAYA CAKRAWALA, PT","cnm_brg":"484 \/ PK 18, OB","cLayer":"","cTipe":"A1","nTot_netto":".15496","nPanjang":"370.00","nLebar":"187.00","nTinggi":"125.00","cWarna":"RED 01"}}
+barcode: SPS/1612/00806-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00806-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00806    ","dTglkirim":"2017-01-06","nQty":"3000.00","nQty_corr":"428.57","nRm":"494.14","cMengetahui":"WWN","cNoMc":"0011325        ","cnm_c":"LABAN RAYA CAKRAWALA, PT","cnm_brg":"484 \/ PK 18, OB","cLayer":"","cTipe":"A1","nTot_netto":".15496","nPanjang":"370.00","nLebar":"187.00","nTinggi":"125.00","cWarna":"RED 01"}}
+barcode: SPS/1612/00806-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00806-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00806    ","dTglkirim":"2017-01-06","nQty":"3000.00","nQty_corr":"428.57","nRm":"494.14","cMengetahui":"WWN","cNoMc":"0011325        ","cnm_c":"LABAN RAYA CAKRAWALA, PT","cnm_brg":"484 \/ PK 18, OB","cLayer":"","cTipe":"A1","nTot_netto":".15496","nPanjang":"370.00","nLebar":"187.00","nTinggi":"125.00","cWarna":"RED 01"}}
+barcode: SPS/1612/00806-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00806-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00806    ","dTglkirim":"2017-01-06","nQty":"3000.00","nQty_corr":"428.57","nRm":"494.14","cMengetahui":"WWN","cNoMc":"0011325        ","cnm_c":"LABAN RAYA CAKRAWALA, PT","cnm_brg":"484 \/ PK 18, OB","cLayer":"","cTipe":"A1","nTot_netto":".15496","nPanjang":"370.00","nLebar":"187.00","nTinggi":"125.00","cWarna":"RED 01"}}
+barcode: SPS/1612/00806-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00806-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00806    ","dTglkirim":"2017-01-06","nQty":"3000.00","nQty_corr":"428.57","nRm":"494.14","cMengetahui":"WWN","cNoMc":"0011325        ","cnm_c":"LABAN RAYA CAKRAWALA, PT","cnm_brg":"484 \/ PK 18, OB","cLayer":"","cTipe":"A1","nTot_netto":".15496","nPanjang":"370.00","nLebar":"187.00","nTinggi":"125.00","cWarna":"RED 01"}}
+barcode: SPS/1612/00806-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00806-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00806    ","dTglkirim":"2017-01-06","nQty":"3000.00","nQty_corr":"428.57","nRm":"494.14","cMengetahui":"WWN","cNoMc":"0011325        ","cnm_c":"LABAN RAYA CAKRAWALA, PT","cnm_brg":"484 \/ PK 18, OB","cLayer":"","cTipe":"A1","nTot_netto":".15496","nPanjang":"370.00","nLebar":"187.00","nTinggi":"125.00","cWarna":"RED 01"}}
+barcode: SPS/1612/00806-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00806-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00806    ","dTglkirim":"2017-01-06","nQty":"3000.00","nQty_corr":"428.57","nRm":"494.14","cMengetahui":"WWN","cNoMc":"0011325        ","cnm_c":"LABAN RAYA CAKRAWALA, PT","cnm_brg":"484 \/ PK 18, OB","cLayer":"","cTipe":"A1","nTot_netto":".15496","nPanjang":"370.00","nLebar":"187.00","nTinggi":"125.00","cWarna":"RED 01"}}
+barcode: SPS/1612/00806-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00806-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00806    ","dTglkirim":"2017-01-06","nQty":"3000.00","nQty_corr":"428.57","nRm":"494.14","cMengetahui":"WWN","cNoMc":"0011325        ","cnm_c":"LABAN RAYA CAKRAWALA, PT","cnm_brg":"484 \/ PK 18, OB","cLayer":"","cTipe":"A1","nTot_netto":".15496","nPanjang":"370.00","nLebar":"187.00","nTinggi":"125.00","cWarna":"RED 01"}}
+barcode: SPS/1612/00806-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00806-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00806    ","dTglkirim":"2017-01-06","nQty":"3000.00","nQty_corr":"428.57","nRm":"494.14","cMengetahui":"WWN","cNoMc":"0011325        ","cnm_c":"LABAN RAYA CAKRAWALA, PT","cnm_brg":"484 \/ PK 18, OB","cLayer":"","cTipe":"A1","nTot_netto":".15496","nPanjang":"370.00","nLebar":"187.00","nTinggi":"125.00","cWarna":"RED 01"}}
+barcode: SPS/1612/00806-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00806-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00806    ","dTglkirim":"2017-01-06","nQty":"3000.00","nQty_corr":"428.57","nRm":"494.14","cMengetahui":"WWN","cNoMc":"0011325        ","cnm_c":"LABAN RAYA CAKRAWALA, PT","cnm_brg":"484 \/ PK 18, OB","cLayer":"","cTipe":"A1","nTot_netto":".15496","nPanjang":"370.00","nLebar":"187.00","nTinggi":"125.00","cWarna":"RED 01"}}
+barcode: SPS/1612/00806-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00806-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00806    ","dTglkirim":"2017-01-06","nQty":"3000.00","nQty_corr":"428.57","nRm":"494.14","cMengetahui":"WWN","cNoMc":"0011325        ","cnm_c":"LABAN RAYA CAKRAWALA, PT","cnm_brg":"484 \/ PK 18, OB","cLayer":"","cTipe":"A1","nTot_netto":".15496","nPanjang":"370.00","nLebar":"187.00","nTinggi":"125.00","cWarna":"RED 01"}}
+barcode: SPS/1612/00806-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00806-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00806    ","dTglkirim":"2017-01-06","nQty":"3000.00","nQty_corr":"428.57","nRm":"494.14","cMengetahui":"WWN","cNoMc":"0011325        ","cnm_c":"LABAN RAYA CAKRAWALA, PT","cnm_brg":"484 \/ PK 18, OB","cLayer":"","cTipe":"A1","nTot_netto":".15496","nPanjang":"370.00","nLebar":"187.00","nTinggi":"125.00","cWarna":"RED 01"}}
+barcode: SPS/1612/00806-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00806-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00806    ","dTglkirim":"2017-01-06","nQty":"3000.00","nQty_corr":"428.57","nRm":"494.14","cMengetahui":"WWN","cNoMc":"0011325        ","cnm_c":"LABAN RAYA CAKRAWALA, PT","cnm_brg":"484 \/ PK 18, OB","cLayer":"","cTipe":"A1","nTot_netto":".15496","nPanjang":"370.00","nLebar":"187.00","nTinggi":"125.00","cWarna":"RED 01"}}
+barcode: SPS/1612/00806-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00806-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00806    ","dTglkirim":"2017-01-06","nQty":"3000.00","nQty_corr":"428.57","nRm":"494.14","cMengetahui":"WWN","cNoMc":"0011325        ","cnm_c":"LABAN RAYA CAKRAWALA, PT","cnm_brg":"484 \/ PK 18, OB","cLayer":"","cTipe":"A1","nTot_netto":".15496","nPanjang":"370.00","nLebar":"187.00","nTinggi":"125.00","cWarna":"RED 01"}}
+barcode: SPS/1612/00806-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00806-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00806    ","dTglkirim":"2017-01-06","nQty":"3000.00","nQty_corr":"428.57","nRm":"494.14","cMengetahui":"WWN","cNoMc":"0011325        ","cnm_c":"LABAN RAYA CAKRAWALA, PT","cnm_brg":"484 \/ PK 18, OB","cLayer":"","cTipe":"A1","nTot_netto":".15496","nPanjang":"370.00","nLebar":"187.00","nTinggi":"125.00","cWarna":"RED 01"}}
+barcode: SPS/1612/00806-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00806-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00806    ","dTglkirim":"2017-01-06","nQty":"3000.00","nQty_corr":"428.57","nRm":"494.14","cMengetahui":"WWN","cNoMc":"0011325        ","cnm_c":"LABAN RAYA CAKRAWALA, PT","cnm_brg":"484 \/ PK 18, OB","cLayer":"","cTipe":"A1","nTot_netto":".15496","nPanjang":"370.00","nLebar":"187.00","nTinggi":"125.00","cWarna":"RED 01"}}
+barcode: SPS/1612/00806-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00806-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00806    ","dTglkirim":"2017-01-06","nQty":"3000.00","nQty_corr":"428.57","nRm":"494.14","cMengetahui":"WWN","cNoMc":"0011325        ","cnm_c":"LABAN RAYA CAKRAWALA, PT","cnm_brg":"484 \/ PK 18, OB","cLayer":"","cTipe":"A1","nTot_netto":".15496","nPanjang":"370.00","nLebar":"187.00","nTinggi":"125.00","cWarna":"RED 01"}}
+barcode: SPS/1612/00806-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00806-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00806    ","dTglkirim":"2017-01-06","nQty":"3000.00","nQty_corr":"428.57","nRm":"494.14","cMengetahui":"WWN","cNoMc":"0011325        ","cnm_c":"LABAN RAYA CAKRAWALA, PT","cnm_brg":"484 \/ PK 18, OB","cLayer":"","cTipe":"A1","nTot_netto":".15496","nPanjang":"370.00","nLebar":"187.00","nTinggi":"125.00","cWarna":"RED 01"}}
+barcode: SPS/1612/00806-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00806-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00806    ","dTglkirim":"2017-01-06","nQty":"3000.00","nQty_corr":"428.57","nRm":"494.14","cMengetahui":"WWN","cNoMc":"0011325        ","cnm_c":"LABAN RAYA CAKRAWALA, PT","cnm_brg":"484 \/ PK 18, OB","cLayer":"","cTipe":"A1","nTot_netto":".15496","nPanjang":"370.00","nLebar":"187.00","nTinggi":"125.00","cWarna":"RED 01"}}
+barcode: SPS/1612/00806-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00806-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00806    ","dTglkirim":"2017-01-06","nQty":"3000.00","nQty_corr":"428.57","nRm":"494.14","cMengetahui":"WWN","cNoMc":"0011325        ","cnm_c":"LABAN RAYA CAKRAWALA, PT","cnm_brg":"484 \/ PK 18, OB","cLayer":"","cTipe":"A1","nTot_netto":".15496","nPanjang":"370.00","nLebar":"187.00","nTinggi":"125.00","cWarna":"RED 01"}}
+barcode: SPS/1612/00806-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00806-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00806    ","dTglkirim":"2017-01-06","nQty":"3000.00","nQty_corr":"428.57","nRm":"494.14","cMengetahui":"WWN","cNoMc":"0011325        ","cnm_c":"LABAN RAYA CAKRAWALA, PT","cnm_brg":"484 \/ PK 18, OB","cLayer":"","cTipe":"A1","nTot_netto":".15496","nPanjang":"370.00","nLebar":"187.00","nTinggi":"125.00","cWarna":"RED 01"}}
+barcode: SPS/1612/00806-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00806-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00806    ","dTglkirim":"2017-01-06","nQty":"3000.00","nQty_corr":"428.57","nRm":"494.14","cMengetahui":"WWN","cNoMc":"0011325        ","cnm_c":"LABAN RAYA CAKRAWALA, PT","cnm_brg":"484 \/ PK 18, OB","cLayer":"","cTipe":"A1","nTot_netto":".15496","nPanjang":"370.00","nLebar":"187.00","nTinggi":"125.00","cWarna":"RED 01"}}
+barcode: SPS/1612/00806-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00806-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00806    ","dTglkirim":"2017-01-06","nQty":"3000.00","nQty_corr":"428.57","nRm":"494.14","cMengetahui":"WWN","cNoMc":"0011325        ","cnm_c":"LABAN RAYA CAKRAWALA, PT","cnm_brg":"484 \/ PK 18, OB","cLayer":"","cTipe":"A1","nTot_netto":".15496","nPanjang":"370.00","nLebar":"187.00","nTinggi":"125.00","cWarna":"RED 01"}}
+barcode: SPS/1612/00806-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00806-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00806    ","dTglkirim":"2017-01-06","nQty":"3000.00","nQty_corr":"428.57","nRm":"494.14","cMengetahui":"WWN","cNoMc":"0011325        ","cnm_c":"LABAN RAYA CAKRAWALA, PT","cnm_brg":"484 \/ PK 18, OB","cLayer":"","cTipe":"A1","nTot_netto":".15496","nPanjang":"370.00","nLebar":"187.00","nTinggi":"125.00","cWarna":"RED 01"}}
+barcode: SPS/1612/00806-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00806-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00806    ","dTglkirim":"2017-01-06","nQty":"3000.00","nQty_corr":"428.57","nRm":"494.14","cMengetahui":"WWN","cNoMc":"0011325        ","cnm_c":"LABAN RAYA CAKRAWALA, PT","cnm_brg":"484 \/ PK 18, OB","cLayer":"","cTipe":"A1","nTot_netto":".15496","nPanjang":"370.00","nLebar":"187.00","nTinggi":"125.00","cWarna":"RED 01"}}
+barcode: SPS/1612/00806-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00806-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00806    ","dTglkirim":"2017-01-06","nQty":"3000.00","nQty_corr":"428.57","nRm":"494.14","cMengetahui":"WWN","cNoMc":"0011325        ","cnm_c":"LABAN RAYA CAKRAWALA, PT","cnm_brg":"484 \/ PK 18, OB","cLayer":"","cTipe":"A1","nTot_netto":".15496","nPanjang":"370.00","nLebar":"187.00","nTinggi":"125.00","cWarna":"RED 01"}}
+barcode: SPS/1612/00806-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00806-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00806    ","dTglkirim":"2017-01-06","nQty":"3000.00","nQty_corr":"428.57","nRm":"494.14","cMengetahui":"WWN","cNoMc":"0011325        ","cnm_c":"LABAN RAYA CAKRAWALA, PT","cnm_brg":"484 \/ PK 18, OB","cLayer":"","cTipe":"A1","nTot_netto":".15496","nPanjang":"370.00","nLebar":"187.00","nTinggi":"125.00","cWarna":"RED 01"}}
+barcode: SPS/1612/00806-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00806-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00806    ","dTglkirim":"2017-01-06","nQty":"3000.00","nQty_corr":"428.57","nRm":"494.14","cMengetahui":"WWN","cNoMc":"0011325        ","cnm_c":"LABAN RAYA CAKRAWALA, PT","cnm_brg":"484 \/ PK 18, OB","cLayer":"","cTipe":"A1","nTot_netto":".15496","nPanjang":"370.00","nLebar":"187.00","nTinggi":"125.00","cWarna":"RED 01"}}
+barcode: SPS/1612/00806-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00806-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00806    ","dTglkirim":"2017-01-06","nQty":"3000.00","nQty_corr":"428.57","nRm":"494.14","cMengetahui":"WWN","cNoMc":"0011325        ","cnm_c":"LABAN RAYA CAKRAWALA, PT","cnm_brg":"484 \/ PK 18, OB","cLayer":"","cTipe":"A1","nTot_netto":".15496","nPanjang":"370.00","nLebar":"187.00","nTinggi":"125.00","cWarna":"RED 01"}}
+barcode: SPS/1612/00806-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00806-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00806    ","dTglkirim":"2017-01-06","nQty":"3000.00","nQty_corr":"428.57","nRm":"494.14","cMengetahui":"WWN","cNoMc":"0011325        ","cnm_c":"LABAN RAYA CAKRAWALA, PT","cnm_brg":"484 \/ PK 18, OB","cLayer":"","cTipe":"A1","nTot_netto":".15496","nPanjang":"370.00","nLebar":"187.00","nTinggi":"125.00","cWarna":"RED 01"}}
+barcode: SPS/1612/00806-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00806-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00806    ","dTglkirim":"2017-01-06","nQty":"3000.00","nQty_corr":"428.57","nRm":"494.14","cMengetahui":"WWN","cNoMc":"0011325        ","cnm_c":"LABAN RAYA CAKRAWALA, PT","cnm_brg":"484 \/ PK 18, OB","cLayer":"","cTipe":"A1","nTot_netto":".15496","nPanjang":"370.00","nLebar":"187.00","nTinggi":"125.00","cWarna":"RED 01"}}
+barcode: SPS/1612/00806-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00806-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00806    ","dTglkirim":"2017-01-06","nQty":"3000.00","nQty_corr":"428.57","nRm":"494.14","cMengetahui":"WWN","cNoMc":"0011325        ","cnm_c":"LABAN RAYA CAKRAWALA, PT","cnm_brg":"484 \/ PK 18, OB","cLayer":"","cTipe":"A1","nTot_netto":".15496","nPanjang":"370.00","nLebar":"187.00","nTinggi":"125.00","cWarna":"RED 01"}}
+barcode: SPS/1612/00806-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00806-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00806    ","dTglkirim":"2017-01-06","nQty":"3000.00","nQty_corr":"428.57","nRm":"494.14","cMengetahui":"WWN","cNoMc":"0011325        ","cnm_c":"LABAN RAYA CAKRAWALA, PT","cnm_brg":"484 \/ PK 18, OB","cLayer":"","cTipe":"A1","nTot_netto":".15496","nPanjang":"370.00","nLebar":"187.00","nTinggi":"125.00","cWarna":"RED 01"}}
+barcode: SPS/1612/00806-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00806-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00806    ","dTglkirim":"2017-01-06","nQty":"3000.00","nQty_corr":"428.57","nRm":"494.14","cMengetahui":"WWN","cNoMc":"0011325        ","cnm_c":"LABAN RAYA CAKRAWALA, PT","cnm_brg":"484 \/ PK 18, OB","cLayer":"","cTipe":"A1","nTot_netto":".15496","nPanjang":"370.00","nLebar":"187.00","nTinggi":"125.00","cWarna":"RED 01"}}
+barcode: SPS/1612/00806-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00806-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00806    ","dTglkirim":"2017-01-06","nQty":"3000.00","nQty_corr":"428.57","nRm":"494.14","cMengetahui":"WWN","cNoMc":"0011325        ","cnm_c":"LABAN RAYA CAKRAWALA, PT","cnm_brg":"484 \/ PK 18, OB","cLayer":"","cTipe":"A1","nTot_netto":".15496","nPanjang":"370.00","nLebar":"187.00","nTinggi":"125.00","cWarna":"RED 01"}}
+barcode: SPS/1612/00806-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00806-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00806    ","dTglkirim":"2017-01-06","nQty":"3000.00","nQty_corr":"428.57","nRm":"494.14","cMengetahui":"WWN","cNoMc":"0011325        ","cnm_c":"LABAN RAYA CAKRAWALA, PT","cnm_brg":"484 \/ PK 18, OB","cLayer":"","cTipe":"A1","nTot_netto":".15496","nPanjang":"370.00","nLebar":"187.00","nTinggi":"125.00","cWarna":"RED 01"}}
+barcode: SPS/1612/00806-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00806-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00806    ","dTglkirim":"2017-01-06","nQty":"3000.00","nQty_corr":"428.57","nRm":"494.14","cMengetahui":"WWN","cNoMc":"0011325        ","cnm_c":"LABAN RAYA CAKRAWALA, PT","cnm_brg":"484 \/ PK 18, OB","cLayer":"","cTipe":"A1","nTot_netto":".15496","nPanjang":"370.00","nLebar":"187.00","nTinggi":"125.00","cWarna":"RED 01"}}
+barcode: SPS/1612/00806-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00806-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00806    ","dTglkirim":"2017-01-06","nQty":"3000.00","nQty_corr":"428.57","nRm":"494.14","cMengetahui":"WWN","cNoMc":"0011325        ","cnm_c":"LABAN RAYA CAKRAWALA, PT","cnm_brg":"484 \/ PK 18, OB","cLayer":"","cTipe":"A1","nTot_netto":".15496","nPanjang":"370.00","nLebar":"187.00","nTinggi":"125.00","cWarna":"RED 01"}}
+barcode: SPS/1612/00806-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00806-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00806    ","dTglkirim":"2017-01-06","nQty":"3000.00","nQty_corr":"428.57","nRm":"494.14","cMengetahui":"WWN","cNoMc":"0011325        ","cnm_c":"LABAN RAYA CAKRAWALA, PT","cnm_brg":"484 \/ PK 18, OB","cLayer":"","cTipe":"A1","nTot_netto":".15496","nPanjang":"370.00","nLebar":"187.00","nTinggi":"125.00","cWarna":"RED 01"}}
+barcode: SPS/1612/00806-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00806-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00806    ","dTglkirim":"2017-01-06","nQty":"3000.00","nQty_corr":"428.57","nRm":"494.14","cMengetahui":"WWN","cNoMc":"0011325        ","cnm_c":"LABAN RAYA CAKRAWALA, PT","cnm_brg":"484 \/ PK 18, OB","cLayer":"","cTipe":"A1","nTot_netto":".15496","nPanjang":"370.00","nLebar":"187.00","nTinggi":"125.00","cWarna":"RED 01"}}
+barcode: SPS/1612/00806-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00806-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00806    ","dTglkirim":"2017-01-06","nQty":"3000.00","nQty_corr":"428.57","nRm":"494.14","cMengetahui":"WWN","cNoMc":"0011325        ","cnm_c":"LABAN RAYA CAKRAWALA, PT","cnm_brg":"484 \/ PK 18, OB","cLayer":"","cTipe":"A1","nTot_netto":".15496","nPanjang":"370.00","nLebar":"187.00","nTinggi":"125.00","cWarna":"RED 01"}}
+barcode: SPS/1612/00806-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00806-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00806    ","dTglkirim":"2017-01-06","nQty":"3000.00","nQty_corr":"428.57","nRm":"494.14","cMengetahui":"WWN","cNoMc":"0011325        ","cnm_c":"LABAN RAYA CAKRAWALA, PT","cnm_brg":"484 \/ PK 18, OB","cLayer":"","cTipe":"A1","nTot_netto":".15496","nPanjang":"370.00","nLebar":"187.00","nTinggi":"125.00","cWarna":"RED 01"}}
+barcode: SPS/1612/00806-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00806-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00806    ","dTglkirim":"2017-01-06","nQty":"3000.00","nQty_corr":"428.57","nRm":"494.14","cMengetahui":"WWN","cNoMc":"0011325        ","cnm_c":"LABAN RAYA CAKRAWALA, PT","cnm_brg":"484 \/ PK 18, OB","cLayer":"","cTipe":"A1","nTot_netto":".15496","nPanjang":"370.00","nLebar":"187.00","nTinggi":"125.00","cWarna":"RED 01"}}
+barcode: SPS/1612/00806-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00806-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00806    ","dTglkirim":"2017-01-06","nQty":"3000.00","nQty_corr":"428.57","nRm":"494.14","cMengetahui":"WWN","cNoMc":"0011325        ","cnm_c":"LABAN RAYA CAKRAWALA, PT","cnm_brg":"484 \/ PK 18, OB","cLayer":"","cTipe":"A1","nTot_netto":".15496","nPanjang":"370.00","nLebar":"187.00","nTinggi":"125.00","cWarna":"RED 01"}}
+barcode: SPS/1612/00806-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00806-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00806    ","dTglkirim":"2017-01-06","nQty":"3000.00","nQty_corr":"428.57","nRm":"494.14","cMengetahui":"WWN","cNoMc":"0011325        ","cnm_c":"LABAN RAYA CAKRAWALA, PT","cnm_brg":"484 \/ PK 18, OB","cLayer":"","cTipe":"A1","nTot_netto":".15496","nPanjang":"370.00","nLebar":"187.00","nTinggi":"125.00","cWarna":"RED 01"}}
+barcode: SPS/1612/00806-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00806-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00806    ","dTglkirim":"2017-01-06","nQty":"3000.00","nQty_corr":"428.57","nRm":"494.14","cMengetahui":"WWN","cNoMc":"0011325        ","cnm_c":"LABAN RAYA CAKRAWALA, PT","cnm_brg":"484 \/ PK 18, OB","cLayer":"","cTipe":"A1","nTot_netto":".15496","nPanjang":"370.00","nLebar":"187.00","nTinggi":"125.00","cWarna":"RED 01"}}
+barcode: SPS/1612/00806-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00806-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00806    ","dTglkirim":"2017-01-06","nQty":"3000.00","nQty_corr":"428.57","nRm":"494.14","cMengetahui":"WWN","cNoMc":"0011325        ","cnm_c":"LABAN RAYA CAKRAWALA, PT","cnm_brg":"484 \/ PK 18, OB","cLayer":"","cTipe":"A1","nTot_netto":".15496","nPanjang":"370.00","nLebar":"187.00","nTinggi":"125.00","cWarna":"RED 01"}}
+barcode: SPS/1612/00800-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00800-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00800    ","dTglkirim":"2017-01-05","nQty":"2000.00","nQty_corr":"525.00","nRm":"782.78","cMengetahui":"IFN","cNoMc":"0013436        ","cnm_c":"MUJUR BISCUIT FACTORY","cnm_brg":"PINE-APPLE ISI 42 BKS (BARU)","cLayer":"","cTipe":"A1","nTot_netto":".35762","nPanjang":"408.00","nLebar":"318.00","nTinggi":"212.00","cWarna":"YLW   , RED   , BLUE"}}
+barcode: SPS/1612/00800-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00800-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00800    ","dTglkirim":"2017-01-05","nQty":"2000.00","nQty_corr":"525.00","nRm":"782.78","cMengetahui":"IFN","cNoMc":"0013436        ","cnm_c":"MUJUR BISCUIT FACTORY","cnm_brg":"PINE-APPLE ISI 42 BKS (BARU)","cLayer":"","cTipe":"A1","nTot_netto":".35762","nPanjang":"408.00","nLebar":"318.00","nTinggi":"212.00","cWarna":"YLW   , RED   , BLUE"}}
+barcode: SPS/1612/00800-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00800-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00800    ","dTglkirim":"2017-01-05","nQty":"2000.00","nQty_corr":"525.00","nRm":"782.78","cMengetahui":"IFN","cNoMc":"0013436        ","cnm_c":"MUJUR BISCUIT FACTORY","cnm_brg":"PINE-APPLE ISI 42 BKS (BARU)","cLayer":"","cTipe":"A1","nTot_netto":".35762","nPanjang":"408.00","nLebar":"318.00","nTinggi":"212.00","cWarna":"YLW   , RED   , BLUE"}}
+barcode: SPS/1612/00800-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00800-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00800    ","dTglkirim":"2017-01-05","nQty":"2000.00","nQty_corr":"525.00","nRm":"782.78","cMengetahui":"IFN","cNoMc":"0013436        ","cnm_c":"MUJUR BISCUIT FACTORY","cnm_brg":"PINE-APPLE ISI 42 BKS (BARU)","cLayer":"","cTipe":"A1","nTot_netto":".35762","nPanjang":"408.00","nLebar":"318.00","nTinggi":"212.00","cWarna":"YLW   , RED   , BLUE"}}
+barcode: SPS/1612/00800-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00800-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00800    ","dTglkirim":"2017-01-05","nQty":"2000.00","nQty_corr":"525.00","nRm":"782.78","cMengetahui":"IFN","cNoMc":"0013436        ","cnm_c":"MUJUR BISCUIT FACTORY","cnm_brg":"PINE-APPLE ISI 42 BKS (BARU)","cLayer":"","cTipe":"A1","nTot_netto":".35762","nPanjang":"408.00","nLebar":"318.00","nTinggi":"212.00","cWarna":"YLW   , RED   , BLUE"}}
+barcode: SPS/1612/00800-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00800-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00800    ","dTglkirim":"2017-01-05","nQty":"2000.00","nQty_corr":"525.00","nRm":"782.78","cMengetahui":"IFN","cNoMc":"0013436        ","cnm_c":"MUJUR BISCUIT FACTORY","cnm_brg":"PINE-APPLE ISI 42 BKS (BARU)","cLayer":"","cTipe":"A1","nTot_netto":".35762","nPanjang":"408.00","nLebar":"318.00","nTinggi":"212.00","cWarna":"YLW   , RED   , BLUE"}}
+barcode: SPS/1612/00800-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00800-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00800    ","dTglkirim":"2017-01-05","nQty":"2000.00","nQty_corr":"525.00","nRm":"782.78","cMengetahui":"IFN","cNoMc":"0013436        ","cnm_c":"MUJUR BISCUIT FACTORY","cnm_brg":"PINE-APPLE ISI 42 BKS (BARU)","cLayer":"","cTipe":"A1","nTot_netto":".35762","nPanjang":"408.00","nLebar":"318.00","nTinggi":"212.00","cWarna":"YLW   , RED   , BLUE"}}
+barcode: SPS/1612/00800-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00800-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00800    ","dTglkirim":"2017-01-05","nQty":"2000.00","nQty_corr":"525.00","nRm":"782.78","cMengetahui":"IFN","cNoMc":"0013436        ","cnm_c":"MUJUR BISCUIT FACTORY","cnm_brg":"PINE-APPLE ISI 42 BKS (BARU)","cLayer":"","cTipe":"A1","nTot_netto":".35762","nPanjang":"408.00","nLebar":"318.00","nTinggi":"212.00","cWarna":"YLW   , RED   , BLUE"}}
+barcode: SPS/1612/00800-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00800-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00800    ","dTglkirim":"2017-01-05","nQty":"2000.00","nQty_corr":"525.00","nRm":"782.78","cMengetahui":"IFN","cNoMc":"0013436        ","cnm_c":"MUJUR BISCUIT FACTORY","cnm_brg":"PINE-APPLE ISI 42 BKS (BARU)","cLayer":"","cTipe":"A1","nTot_netto":".35762","nPanjang":"408.00","nLebar":"318.00","nTinggi":"212.00","cWarna":"YLW   , RED   , BLUE"}}
+barcode: SPS/1612/00800-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00800-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00800    ","dTglkirim":"2017-01-05","nQty":"2000.00","nQty_corr":"525.00","nRm":"782.78","cMengetahui":"IFN","cNoMc":"0013436        ","cnm_c":"MUJUR BISCUIT FACTORY","cnm_brg":"PINE-APPLE ISI 42 BKS (BARU)","cLayer":"","cTipe":"A1","nTot_netto":".35762","nPanjang":"408.00","nLebar":"318.00","nTinggi":"212.00","cWarna":"YLW   , RED   , BLUE"}}
+barcode: SPS/1612/00800-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00800-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00800    ","dTglkirim":"2017-01-05","nQty":"2000.00","nQty_corr":"525.00","nRm":"782.78","cMengetahui":"IFN","cNoMc":"0013436        ","cnm_c":"MUJUR BISCUIT FACTORY","cnm_brg":"PINE-APPLE ISI 42 BKS (BARU)","cLayer":"","cTipe":"A1","nTot_netto":".35762","nPanjang":"408.00","nLebar":"318.00","nTinggi":"212.00","cWarna":"YLW   , RED   , BLUE"}}
+barcode: SPS/1612/00800-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00800-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00800    ","dTglkirim":"2017-01-05","nQty":"2000.00","nQty_corr":"525.00","nRm":"782.78","cMengetahui":"IFN","cNoMc":"0013436        ","cnm_c":"MUJUR BISCUIT FACTORY","cnm_brg":"PINE-APPLE ISI 42 BKS (BARU)","cLayer":"","cTipe":"A1","nTot_netto":".35762","nPanjang":"408.00","nLebar":"318.00","nTinggi":"212.00","cWarna":"YLW   , RED   , BLUE"}}
+barcode: SPS/1612/00800-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00800-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00800    ","dTglkirim":"2017-01-05","nQty":"2000.00","nQty_corr":"525.00","nRm":"782.78","cMengetahui":"IFN","cNoMc":"0013436        ","cnm_c":"MUJUR BISCUIT FACTORY","cnm_brg":"PINE-APPLE ISI 42 BKS (BARU)","cLayer":"","cTipe":"A1","nTot_netto":".35762","nPanjang":"408.00","nLebar":"318.00","nTinggi":"212.00","cWarna":"YLW   , RED   , BLUE"}}
+barcode: SPS/1612/00800-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00800-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00800    ","dTglkirim":"2017-01-05","nQty":"2000.00","nQty_corr":"525.00","nRm":"782.78","cMengetahui":"IFN","cNoMc":"0013436        ","cnm_c":"MUJUR BISCUIT FACTORY","cnm_brg":"PINE-APPLE ISI 42 BKS (BARU)","cLayer":"","cTipe":"A1","nTot_netto":".35762","nPanjang":"408.00","nLebar":"318.00","nTinggi":"212.00","cWarna":"YLW   , RED   , BLUE"}}
+barcode: SPS/1612/00800-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00800-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00800    ","dTglkirim":"2017-01-05","nQty":"2000.00","nQty_corr":"525.00","nRm":"782.78","cMengetahui":"IFN","cNoMc":"0013436        ","cnm_c":"MUJUR BISCUIT FACTORY","cnm_brg":"PINE-APPLE ISI 42 BKS (BARU)","cLayer":"","cTipe":"A1","nTot_netto":".35762","nPanjang":"408.00","nLebar":"318.00","nTinggi":"212.00","cWarna":"YLW   , RED   , BLUE"}}
+barcode: SPS/1612/00800-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00800-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00800    ","dTglkirim":"2017-01-05","nQty":"2000.00","nQty_corr":"525.00","nRm":"782.78","cMengetahui":"IFN","cNoMc":"0013436        ","cnm_c":"MUJUR BISCUIT FACTORY","cnm_brg":"PINE-APPLE ISI 42 BKS (BARU)","cLayer":"","cTipe":"A1","nTot_netto":".35762","nPanjang":"408.00","nLebar":"318.00","nTinggi":"212.00","cWarna":"YLW   , RED   , BLUE"}}
+barcode: SPS/1612/00800-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00800-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00800    ","dTglkirim":"2017-01-05","nQty":"2000.00","nQty_corr":"525.00","nRm":"782.78","cMengetahui":"IFN","cNoMc":"0013436        ","cnm_c":"MUJUR BISCUIT FACTORY","cnm_brg":"PINE-APPLE ISI 42 BKS (BARU)","cLayer":"","cTipe":"A1","nTot_netto":".35762","nPanjang":"408.00","nLebar":"318.00","nTinggi":"212.00","cWarna":"YLW   , RED   , BLUE"}}
+barcode: SPS/1612/00800-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00800-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00800    ","dTglkirim":"2017-01-05","nQty":"2000.00","nQty_corr":"525.00","nRm":"782.78","cMengetahui":"IFN","cNoMc":"0013436        ","cnm_c":"MUJUR BISCUIT FACTORY","cnm_brg":"PINE-APPLE ISI 42 BKS (BARU)","cLayer":"","cTipe":"A1","nTot_netto":".35762","nPanjang":"408.00","nLebar":"318.00","nTinggi":"212.00","cWarna":"YLW   , RED   , BLUE"}}
+barcode: SPS/1612/00800-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00800-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00800    ","dTglkirim":"2017-01-05","nQty":"2000.00","nQty_corr":"525.00","nRm":"782.78","cMengetahui":"IFN","cNoMc":"0013436        ","cnm_c":"MUJUR BISCUIT FACTORY","cnm_brg":"PINE-APPLE ISI 42 BKS (BARU)","cLayer":"","cTipe":"A1","nTot_netto":".35762","nPanjang":"408.00","nLebar":"318.00","nTinggi":"212.00","cWarna":"YLW   , RED   , BLUE"}}
+barcode: SPS/1612/00800-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00800-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00800    ","dTglkirim":"2017-01-05","nQty":"2000.00","nQty_corr":"525.00","nRm":"782.78","cMengetahui":"IFN","cNoMc":"0013436        ","cnm_c":"MUJUR BISCUIT FACTORY","cnm_brg":"PINE-APPLE ISI 42 BKS (BARU)","cLayer":"","cTipe":"A1","nTot_netto":".35762","nPanjang":"408.00","nLebar":"318.00","nTinggi":"212.00","cWarna":"YLW   , RED   , BLUE"}}
+barcode: SPS/1612/00800-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00800-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00800    ","dTglkirim":"2017-01-05","nQty":"2000.00","nQty_corr":"525.00","nRm":"782.78","cMengetahui":"IFN","cNoMc":"0013436        ","cnm_c":"MUJUR BISCUIT FACTORY","cnm_brg":"PINE-APPLE ISI 42 BKS (BARU)","cLayer":"","cTipe":"A1","nTot_netto":".35762","nPanjang":"408.00","nLebar":"318.00","nTinggi":"212.00","cWarna":"YLW   , RED   , BLUE"}}
+barcode: SPS/1612/00800-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00800-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00800    ","dTglkirim":"2017-01-05","nQty":"2000.00","nQty_corr":"525.00","nRm":"782.78","cMengetahui":"IFN","cNoMc":"0013436        ","cnm_c":"MUJUR BISCUIT FACTORY","cnm_brg":"PINE-APPLE ISI 42 BKS (BARU)","cLayer":"","cTipe":"A1","nTot_netto":".35762","nPanjang":"408.00","nLebar":"318.00","nTinggi":"212.00","cWarna":"YLW   , RED   , BLUE"}}
+barcode: SPS/1612/00800-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00800-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00800    ","dTglkirim":"2017-01-05","nQty":"2000.00","nQty_corr":"525.00","nRm":"782.78","cMengetahui":"IFN","cNoMc":"0013436        ","cnm_c":"MUJUR BISCUIT FACTORY","cnm_brg":"PINE-APPLE ISI 42 BKS (BARU)","cLayer":"","cTipe":"A1","nTot_netto":".35762","nPanjang":"408.00","nLebar":"318.00","nTinggi":"212.00","cWarna":"YLW   , RED   , BLUE"}}
+barcode: SPS/1612/00800-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00800-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00800    ","dTglkirim":"2017-01-05","nQty":"2000.00","nQty_corr":"525.00","nRm":"782.78","cMengetahui":"IFN","cNoMc":"0013436        ","cnm_c":"MUJUR BISCUIT FACTORY","cnm_brg":"PINE-APPLE ISI 42 BKS (BARU)","cLayer":"","cTipe":"A1","nTot_netto":".35762","nPanjang":"408.00","nLebar":"318.00","nTinggi":"212.00","cWarna":"YLW   , RED   , BLUE"}}
+barcode: SPS/1612/00800-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00800-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00800    ","dTglkirim":"2017-01-05","nQty":"2000.00","nQty_corr":"525.00","nRm":"782.78","cMengetahui":"IFN","cNoMc":"0013436        ","cnm_c":"MUJUR BISCUIT FACTORY","cnm_brg":"PINE-APPLE ISI 42 BKS (BARU)","cLayer":"","cTipe":"A1","nTot_netto":".35762","nPanjang":"408.00","nLebar":"318.00","nTinggi":"212.00","cWarna":"YLW   , RED   , BLUE"}}
+barcode: SPS/1612/00800-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00800-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00800    ","dTglkirim":"2017-01-05","nQty":"2000.00","nQty_corr":"525.00","nRm":"782.78","cMengetahui":"IFN","cNoMc":"0013436        ","cnm_c":"MUJUR BISCUIT FACTORY","cnm_brg":"PINE-APPLE ISI 42 BKS (BARU)","cLayer":"","cTipe":"A1","nTot_netto":".35762","nPanjang":"408.00","nLebar":"318.00","nTinggi":"212.00","cWarna":"YLW   , RED   , BLUE"}}
+barcode: SPS/1612/00800-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00800-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00800    ","dTglkirim":"2017-01-05","nQty":"2000.00","nQty_corr":"525.00","nRm":"782.78","cMengetahui":"IFN","cNoMc":"0013436        ","cnm_c":"MUJUR BISCUIT FACTORY","cnm_brg":"PINE-APPLE ISI 42 BKS (BARU)","cLayer":"","cTipe":"A1","nTot_netto":".35762","nPanjang":"408.00","nLebar":"318.00","nTinggi":"212.00","cWarna":"YLW   , RED   , BLUE"}}
+barcode: SPS/1612/00800-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00800-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00800    ","dTglkirim":"2017-01-05","nQty":"2000.00","nQty_corr":"525.00","nRm":"782.78","cMengetahui":"IFN","cNoMc":"0013436        ","cnm_c":"MUJUR BISCUIT FACTORY","cnm_brg":"PINE-APPLE ISI 42 BKS (BARU)","cLayer":"","cTipe":"A1","nTot_netto":".35762","nPanjang":"408.00","nLebar":"318.00","nTinggi":"212.00","cWarna":"YLW   , RED   , BLUE"}}
+barcode: SPS/1612/00800-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00800-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00800    ","dTglkirim":"2017-01-05","nQty":"2000.00","nQty_corr":"525.00","nRm":"782.78","cMengetahui":"IFN","cNoMc":"0013436        ","cnm_c":"MUJUR BISCUIT FACTORY","cnm_brg":"PINE-APPLE ISI 42 BKS (BARU)","cLayer":"","cTipe":"A1","nTot_netto":".35762","nPanjang":"408.00","nLebar":"318.00","nTinggi":"212.00","cWarna":"YLW   , RED   , BLUE"}}
+barcode: SPS/1612/00800-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00800-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00800    ","dTglkirim":"2017-01-05","nQty":"2000.00","nQty_corr":"525.00","nRm":"782.78","cMengetahui":"IFN","cNoMc":"0013436        ","cnm_c":"MUJUR BISCUIT FACTORY","cnm_brg":"PINE-APPLE ISI 42 BKS (BARU)","cLayer":"","cTipe":"A1","nTot_netto":".35762","nPanjang":"408.00","nLebar":"318.00","nTinggi":"212.00","cWarna":"YLW   , RED   , BLUE"}}
+barcode: SPS/1612/00800-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00800-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00800    ","dTglkirim":"2017-01-05","nQty":"2000.00","nQty_corr":"525.00","nRm":"782.78","cMengetahui":"IFN","cNoMc":"0013436        ","cnm_c":"MUJUR BISCUIT FACTORY","cnm_brg":"PINE-APPLE ISI 42 BKS (BARU)","cLayer":"","cTipe":"A1","nTot_netto":".35762","nPanjang":"408.00","nLebar":"318.00","nTinggi":"212.00","cWarna":"YLW   , RED   , BLUE"}}
+barcode: SPS/1612/00800-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00800-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00800    ","dTglkirim":"2017-01-05","nQty":"2000.00","nQty_corr":"525.00","nRm":"782.78","cMengetahui":"IFN","cNoMc":"0013436        ","cnm_c":"MUJUR BISCUIT FACTORY","cnm_brg":"PINE-APPLE ISI 42 BKS (BARU)","cLayer":"","cTipe":"A1","nTot_netto":".35762","nPanjang":"408.00","nLebar":"318.00","nTinggi":"212.00","cWarna":"YLW   , RED   , BLUE"}}
+barcode: SPS/1612/00800-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00800-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00800    ","dTglkirim":"2017-01-05","nQty":"2000.00","nQty_corr":"525.00","nRm":"782.78","cMengetahui":"IFN","cNoMc":"0013436        ","cnm_c":"MUJUR BISCUIT FACTORY","cnm_brg":"PINE-APPLE ISI 42 BKS (BARU)","cLayer":"","cTipe":"A1","nTot_netto":".35762","nPanjang":"408.00","nLebar":"318.00","nTinggi":"212.00","cWarna":"YLW   , RED   , BLUE"}}
+barcode: SPS/1612/00800-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00800-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00800    ","dTglkirim":"2017-01-05","nQty":"2000.00","nQty_corr":"525.00","nRm":"782.78","cMengetahui":"IFN","cNoMc":"0013436        ","cnm_c":"MUJUR BISCUIT FACTORY","cnm_brg":"PINE-APPLE ISI 42 BKS (BARU)","cLayer":"","cTipe":"A1","nTot_netto":".35762","nPanjang":"408.00","nLebar":"318.00","nTinggi":"212.00","cWarna":"YLW   , RED   , BLUE"}}
+barcode: SPS/1612/00800-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00800-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00800    ","dTglkirim":"2017-01-05","nQty":"2000.00","nQty_corr":"525.00","nRm":"782.78","cMengetahui":"IFN","cNoMc":"0013436        ","cnm_c":"MUJUR BISCUIT FACTORY","cnm_brg":"PINE-APPLE ISI 42 BKS (BARU)","cLayer":"","cTipe":"A1","nTot_netto":".35762","nPanjang":"408.00","nLebar":"318.00","nTinggi":"212.00","cWarna":"YLW   , RED   , BLUE"}}
+barcode: SPS/1612/00800-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00800-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00800    ","dTglkirim":"2017-01-05","nQty":"2000.00","nQty_corr":"525.00","nRm":"782.78","cMengetahui":"IFN","cNoMc":"0013436        ","cnm_c":"MUJUR BISCUIT FACTORY","cnm_brg":"PINE-APPLE ISI 42 BKS (BARU)","cLayer":"","cTipe":"A1","nTot_netto":".35762","nPanjang":"408.00","nLebar":"318.00","nTinggi":"212.00","cWarna":"YLW   , RED   , BLUE"}}
+barcode: SPS/1612/00800-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00800-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00800    ","dTglkirim":"2017-01-05","nQty":"2000.00","nQty_corr":"525.00","nRm":"782.78","cMengetahui":"IFN","cNoMc":"0013436        ","cnm_c":"MUJUR BISCUIT FACTORY","cnm_brg":"PINE-APPLE ISI 42 BKS (BARU)","cLayer":"","cTipe":"A1","nTot_netto":".35762","nPanjang":"408.00","nLebar":"318.00","nTinggi":"212.00","cWarna":"YLW   , RED   , BLUE"}}
+barcode: SPS/1612/00806-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00806-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00806    ","dTglkirim":"2017-01-06","nQty":"3000.00","nQty_corr":"428.57","nRm":"494.14","cMengetahui":"WWN","cNoMc":"0011325        ","cnm_c":"LABAN RAYA CAKRAWALA, PT","cnm_brg":"484 \/ PK 18, OB","cLayer":"","cTipe":"A1","nTot_netto":".15496","nPanjang":"370.00","nLebar":"187.00","nTinggi":"125.00","cWarna":"RED 01"}}
+barcode: SPS/1612/00806-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00806-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00806    ","dTglkirim":"2017-01-06","nQty":"3000.00","nQty_corr":"428.57","nRm":"494.14","cMengetahui":"WWN","cNoMc":"0011325        ","cnm_c":"LABAN RAYA CAKRAWALA, PT","cnm_brg":"484 \/ PK 18, OB","cLayer":"","cTipe":"A1","nTot_netto":".15496","nPanjang":"370.00","nLebar":"187.00","nTinggi":"125.00","cWarna":"RED 01"}}
+barcode: SPS/1612/00806-B01
+Response JSON:
+{"success":true,"data":{"cNoOp":"SPS\/1612\/00806-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00806    ","dTglkirim":"2017-01-06","nQty":"3000.00","nQty_corr":"428.57","nRm":"494.14","cMengetahui":"WWN","cNoMc":"0011325        ","cnm_c":"LABAN RAYA CAKRAWALA, PT","cnm_brg":"484 \/ PK 18, OB","cLayer":"","cTipe":"A1","nTot_netto":".15496","nPanjang":"370.00","nLebar":"187.00","nTinggi":"125.00","cWarna":"RED 01"}}
+barcode: SPS/1612/00806-B01
+Response JSON:
+{"success":true,"data":[{"cNoOp":"SPS\/1612\/00806-B01      ","dTgl":"2016-12-28","cNoSc":"SLC\/1612\/00806    ","dTglkirim":"2017-01-06","nQty":"3000.00","nQty_corr":"428.57","nRm":"494.14","cMengetahui":"WWN","cNoMc":"0011325        ","cnm_c":"LABAN RAYA CAKRAWALA, PT","cnm_brg":"484 \/ PK 18, OB","cLayer":"","cTipe":"A1","nTot_netto":".15496","nPanjang":"370.00","nLebar":"187.00","nTinggi":"125.00","cWarna":"RED 01"}]}
