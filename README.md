@@ -15,7 +15,8 @@ Repository ini berisi kumpulan project dan tools yang saya buat selama bekerja d
 | `DataStokGBJ`, `GBJstok` | Pencatatan dan pengelolaan stok Gudang Barang Jadi |
 | `SPAREPART` | Manajemen data sparepart mesin |
 | `SCList` | Daftar/rekap stock card |
-| `LabelSTB`, `Label_supracor`, `LabelCorrWIP` | Pembuatan dan koreksi label produk (STB, Supracor, WIP) |
+| `LabelSTB`, `LabelSTB-v1`, `Label_supracor`, `LabelCorrWIP` | Pembuatan dan koreksi label produk (STB beserta versi iterasinya, Supracor, WIP) |
+| `LabelQC` | Modul label untuk proses Quality Control (QC) |
 | `stbtotal`, `stbtotalv1` | Rekap total data STB |
 | **`SPSBarcode_version. - Untuk STB`** | Aplikasi **Android (Kotlin/Java)** untuk scan barcode STB — dilengkapi backend PHP (`api_get_data.php`, `api_update_qty.php`, `api_update_rak.php`, dll.) dan modul `api-redirector` (Spring Boot) sebagai proxy API |
 | **`SPSBarcode_version. - Untuk WIP`** | Varian aplikasi Android scan barcode untuk proses **WIP (Work in Process)**, dengan struktur project serupa versi STB |
