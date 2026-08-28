@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Label QC - Produk Tidak Sesuai</title>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <link rel="icon" type="image/png" href="http://supracor.co.id/SPS_Logo.png">
+  <style>
+    @page {
+      size: A4 portrait;
+      margin: 5mm 8mm 5mm 8mm;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      font-size: 0.95rem;
+      background: #ffffff;
+      margin: 0;
+      padding: 1rem;
+      color: #000;
+    }
+
+    .search-area {
+      padding: 0.75rem 1rem;
+      text-align: center;
+      background: #fff;
+      border-radius: 6px;
+      margin-bottom: 1rem;
+      max-width: 190mm;
+      margin-left: auto;
+      margin-right: auto;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    }
+
+    .search-area h3 {
+      margin: 0 0 0.5rem 0;
+      font-size: 1rem;
+      color: rgb(43, 17, 17);
+      margin-left: -55px;
+    }
+
+    .search-row {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .search-row input {
+      padding: 0.4rem 0.6rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 0.95rem;
+      width: 200px;
+    }
+
+    .search-row button {
+      padding: 0.4rem 0.8rem;
+      background: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    /* ===== LABEL QC - Setengah A4 Portrait (210mm x 148mm) ===== */
+    .label-qc {
+      border: 3px solid rgb(0, 0, 0);
+      padding: 4mm 6mm;
+      width: 100%;
+      max-width: 190mm;
+      height: 138mm;
+      margin: 0 auto;
+      background-color: #ffffff00;
+      position: relative;
+      box-sizing: border-box;
+      display: none;
+      font-size: 0.9rem;
+      line-height: 1.2;
+      overflow: hidden;
+    }
+
+    /* Header */
+    .header-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 1.5mm;
+      border-bottom: 2px solid rgb(2, 1, 1);
+      padding-bottom: 1.5mm;
+      justify-content: space-between;
+    }
+
+    .logo {
+      height: 56px;
+      width: auto;
+      display: block;
+    }
+
+    .header-text {
+      flex: 1;
+    }
+
+    .company-name {
+      font-size: 1.25rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      line-height: 1.05;
+      color: #000;
+      letter-spacing: 0.6px;
+    }
+
+    .company-sub {
+      font-size: 0.75rem;
+      color: #222;
+      line-height: 1.2;
+      margin-top: 2px;
+    }
+
+    .label-title-wrapper {
+      text-align: center;
+      margin: 1.5mm 0;
+    }
+
+    .label-title {
+      font-size: 1.2rem;
+      font-weight: 900;
+      color: rgb(3, 3, 3);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      border: 2px solid rgb(0, 0, 0);
+      display: inline-block;
+      padding: 1mm 7mm;
+      background: #ffffff00;
+    }
+
+    /* Rows */
+    .row {
+      display: flex;
+      align-items: baseline;
+      margin-bottom: 1.2mm;
+      gap: 0.25rem;
+    }
+
+    .lbl {
+      font-weight: 600;
+      width: 38%;
+      flex-shrink: 0;
+      font-size: 0.9rem;
+    }
+
+    .sep {
+      flex-shrink: 0;
+      font-weight: 600;
+    }
+
+    .val {
+      flex: 1;
+      font-size: 0.9rem;
+      min-height: 1em;
+    }
+
+    .val.bold {
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+    .val input[type="text"],
+    .val input[type="number"],
+    .val select {
+      width: 100%;
+      font-size: 0.88rem;
+      padding: 0.8mm 2mm;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      background: #fff;
+      font-family: inherit;
+    }
+
+    .val select {
+      cursor: pointer;
+    }
+
+    /* Divider */
+    .divider {
+      border: none;
+      border-top: 1px dashed rgb(0, 0, 0);
+      margin: 1.5mm 0;
+    }
+
+    /* Signature area */
+    /* Signature hidden by default; add class `show-signature` on .label-qc to reveal */
+    .signature-section {
+      display: none;
+      justify-content: space-between;
+      margin-top: 2mm;
+      gap: 3mm;
+    }
+
+    .label-qc.show-signature .signature-section {
+      display: flex;
+    }
+
+    .sig-box {
+      flex: 1;
+      border: 1px solid #535050;
+      padding: 1.5mm 2mm;
+      text-align: center;
+      font-size: 0.78rem;
+      min-height: 18mm;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .sig-box .sig-title {
+      font-weight: 700;
+      font-size: 0.82rem;
+      color: rgb(7, 7, 7);
+    }
+
+    .sig-box .sig-line {
+      border-top: 1px solid #555;
+      margin-top: 4mm;
+      font-size: 0.72rem;
+      color: #555;
+    }
+
+    /* Print button */
+    .print-area {
+      text-align: center;
+      margin-top: 1mm;
+    }
+
+    /* Small footer text (form code) at bottom-left of label */
+    .label-foot {
+      position: absolute;
+      left: 6mm;
+      bottom: 6mm;
+      font-size: 0.72rem;
+      color: #000000;
+      opacity: 0.95;
+    }
+
+    .btn-print {
+      background: rgb(44, 30, 238);
+      color: #fff;
+      padding: 0.45rem 1.4rem;
+      border: none;
+      border-radius: 4px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      letter-spacing: 0.5px;
+    }
+
+    .btn-print:hover {
+      background: rgb(0, 26, 170);
+    }
+
+    /* ===== PRINT STYLES ===== */
+    @media print {
+      body {
+        background: #fff;
+        padding: 0;
+        margin: 0;
+      }
+
+      .search-area {
+        display: none !important;
+      }
+
+      .label-qc {
+        display: block !important;
+        border: 3px solid rgb(161, 159, 159) !important;
+        max-width: 100%;
+        height: 138mm;
+        min-height: auto;
+        background-color: #ffffff !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+        page-break-inside: avoid;
+        padding: 3mm 4mm;
+      }
+
+      .val input[type="text"],
+      .val input[type="number"],
+      .val select {
+        border: none !important;
+        background: transparent !important;
+        pointer-events: none;
+        -webkit-appearance: none;
+        appearance: none;
+      }
+
+      .print-area {
+        display: none !important;
+      }
+
+      .label-title {
+        color: rgb(3, 3, 3) !important;
+        border-color: rgb(14, 7, 7) !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Search Input (tidak dicetak) -->
+  <div class="search-area">
+    <h3>🔍 Masukkan Nomor OP</h3>
+    <div class="search-row">
+      <input type="text" id="inputOP" placeholder="Masukkan No. O.P (mis: 12345)" />
+      <button onclick="fetchData()">Cari</button>
+    </div>
+  </div>
+
+  <!-- Label QC -->
+  <div class="label-qc" id="labelContainer">
+
+    <!-- Header -->
+    <div class="header-wrapper">
+      <img src="http://supracor.co.id/SPS_Logo1.png" class="logo" alt="SPS Logo"
+           onerror="this.style.display='none'">
+      <div class="header-text">
+        <div class="company-name">PT. Supracor Sejahtera</div>
+        <div class="company-sub">
+          Corrugated Carton Box<br>
+          Jl. Raya Pungging, Ds. Pungging Kec.Pungging - Kab. Mojokerto 61384<br>
+          TELP. 0321 6817377 | FAX. 0321 6817380
+        </div>
+      </div>
+    </div>
+
+    <!-- Title -->
+    <div class="label-title-wrapper">
+      <div class="label-title">⚠ PRODUK TIDAK SESUAI</div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- Field Rows -->
+    <div class="row">
+      <span class="lbl">Tanggal</span>
+      <span class="sep">:</span>
+      <span class="val bold" id="displayTanggal">-</span>
+    </div>
+
+    <div class="row">
+      <span class="lbl">No. O.P</span>
+      <span class="sep">:</span>
+      <span class="val bold" id="displayNoOp">-</span>
+    </div>
+
+    <div class="row">
+      <span class="lbl">Pemesan</span>
+      <span class="sep">:</span>
+      <span class="val bold" id="displayPemesan">-</span>
+    </div>
+
+    <div class="row">
+      <span class="lbl">Nama Barang</span>
+      <span class="sep">:</span>
+      <span class="val" id="displayNamaBarang">-</span>
+    </div>
+
+    <div class="row">
+      <span class="lbl">Jumlah Order</span>
+      <span class="sep">:</span>
+      <span class="val" id="displayJmlOrder">-</span>
+    </div>
+
+    <hr class="divider">
+
+    <div class="row">
+      <span class="lbl">Jumlah Defect</span>
+      <span class="sep">:</span>
+      <span class="val">
+        <input type="number" id="inputDefect" min="0" placeholder="0" />
+      </span>
+    </div>
+
+    <div class="row">
+      <span class="lbl">Penyebab</span>
+      <span class="sep">:</span>
+      <span class="val">
+        <select id="selectPenyebab">
+          <option value="">-- Pilih Penyebab --</option>
+        </select>
+      </span>
+    </div>
+
+    <div class="row">
+      <span class="lbl">Mesin</span>
+      <span class="sep">:</span>
+      <span class="val">
+        <select id="selectMesin">
+          <option value="">-- Pilih Mesin --</option>
+        </select>
+      </span>
+    </div>
+
+    <div class="row">
+      <span class="lbl">Regu</span>
+      <span class="sep">:</span>
+      <span class="val">
+        <select id="selectRegu">
+          <option value="">-- Pilih Regu --</option>
+          <option value="Regu A">Regu A</option>
+          <option value="Regu B">Regu B</option>
+          <option value="Regu C">Regu C</option>
+        </select>
+      </span>
+    </div>
+
+    <div class="row">
+      <span class="lbl">PIC QC</span>
+      <span class="sep">:</span>
+      <span class="val">
+        <input type="text" id="inputPicQc" placeholder="Nama PIC QC" maxlength="50" />
+      </span>
+    </div>
+
+    <div class="row">
+      <span class="lbl">Status</span>
+      <span class="sep">:</span>
+      <span class="val">
+        <select id="selectStatus">
+          <option value="">-- Pilih Status --</option>
+          <option value="Pending">Pending</option>
+          <option value="Retur">Retur</option>
+        </select>
+      </span>
+    </div>
+
+    <div class="row">
+      <span class="lbl">Keterangan</span>
+      <span class="sep">:</span>
+      <span class="val">
+        <select id="selectKeterangan">
+          <option value="">-- Pilih Keterangan --</option>
+          <option value="Ukuran tidak sesuai">Ukuran tidak sesuai</option>
+          <option value="Warna tidak sesuai">Warna tidak sesuai</option>
+          <option value="Karton rusak / penyok">Karton rusak / penyok</option>
+          <option value="Cetak kurang jelas">Cetak kurang jelas</option>
+          <option value="Flute tidak rata">Flute tidak rata</option>
+          <option value="Lem tidak kuat">Lem tidak kuat</option>
+          <option value="Sisi sobek">Sisi sobek</option>
+          <option value="Basah / lembab">Basah / lembab</option>
+          <option value="Lainnya">Lainnya</option>
+        </select>
+      </span>
+    </div>
+
+    <hr class="divider">
+
+    <!-- Signature -->
+    <div class="signature-section">
+      <div class="sig-box">
+        <div class="sig-title">Dibuat,</div>
+        <div style="font-size:0.6rem; color:#555; padding-top:2mm;" id="sigPicName"></div>
+        <div class="sig-line">QC Insp.</div>
+      </div>
+      <div class="sig-box">
+        <div class="sig-title">Mengetahui,</div>
+        <div style="height:10mm;"></div>
+        <div class="sig-line">QC Chief</div>
+      </div>
+    </div>
+
+    <!-- Print Button (tidak dicetak) -->
+    <div class="print-area">
+      <button class="btn-print" onclick="printAndSave()">🖨 Print &amp; Save</button>
+    </div>
+
+    <div class="label-foot">SPS/FM-QA 14 Rev 00 15-03-2012</div>
+
+  </div><!-- end label-qc -->
+
+
+  <script>
+    let currentData = {};
+
+    // ===== Helpers =====
+    function getTodayFormatted() {
+      const today = new Date();
+      const dd = String(today.getDate()).padStart(2, '0');
+      const mm = String(today.getMonth() + 1).padStart(2, '0');
+      const yyyy = today.getFullYear();
+      return `${dd}-${mm}-${yyyy}`;
+    }
+
+    // Format date like "2023-03-20 00:00:00.000" or ISO date to "20 Maret 2023"
+    function formatDateLong(d) {
+      if (!d) return '-';
+      // accept Date object or string
+      let dt = null;
+      if (d instanceof Date && !isNaN(d)) dt = d;
+      else if (typeof d === 'string') {
+        // Try YYYY-MM-DD or SQL datetime
+        const m = d.match(/(\d{4})-(\d{2})-(\d{2})/);
+        if (m) {
+          dt = new Date(`${m[1]}-${m[2]}-${m[3]}T00:00:00`);
+        } else {
+          const parsed = Date.parse(d);
+          if (!isNaN(parsed)) dt = new Date(parsed);
+        }
+      }
+      if (!dt || isNaN(dt)) return '-';
+      const days = dt.getDate();
+      const months = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+      return `${String(days).padStart(2,'0')} ${months[dt.getMonth()]} ${dt.getFullYear()}`;
+    }
+
+    function getTodayISO() {
+      const today = new Date();
+      return today.toISOString().split('T')[0]; // YYYY-MM-DD for DB
+    }
+
+    function getUsername() {
+      // Try cached value first
+      try {
+        const cached = localStorage.getItem('labelqc_username');
+        if (cached && cached.trim()) return cached.trim().substring(0, 50);
+      } catch (e) {
+        // ignore
+      }
+
+      // Try ActiveX (IE / Edge IE mode) to read Windows username
+      try {
+        if (typeof ActiveXObject !== 'undefined') {
+          try {
+            const wsh = new ActiveXObject('WScript.Network');
+            const user = (wsh.UserName || '').toString().trim();
+            const domain = (wsh.UserDomain || '').toString().trim();
+            const full = domain ? (domain + '\\' + user) : user;
+            if (full) {
+              try { localStorage.setItem('labelqc_username', full); } catch (e) {}
+              return full.substring(0, 50);
+            }
+          } catch (ax) {
+            // ActiveX not available or blocked
+          }
+        }
+      } catch (e) {
+        // ignore
+      }
+
+      // Fallback: derive candidate and ask user once (store in localStorage)
+      const uaCandidate = (navigator.userAgent.split(')')[0].split('(').pop() || '').trim() || 'UNKNOWN';
+      try {
+        // prompt the user for a username (only shown if none cached)
+        const ans = window.prompt('Masukkan nama pengguna untuk pencetakan label (akan disimpan di browser):', uaCandidate);
+        if (ans !== null) {
+          const v = ans.trim() || uaCandidate;
+          try { localStorage.setItem('labelqc_username', v); } catch (e) {}
+          return v.substring(0, 50);
+        }
+      } catch (e) {
+        // prompt may be blocked; continue
+      }
+
+      return uaCandidate.substring(0, 50);
+    }
+
+    // ===== Load Dropdown Penyebab dari API =====
+    function loadPenyebab() {
+      axios.get('proxy_qc.php?action=get_penyebab')
+        .then(res => {
+          if (res.data.success) {
+            const sel = document.getElementById('selectPenyebab');
+            res.data.data.forEach(item => {
+              const opt = document.createElement('option');
+              opt.value = item.cSebab;
+              opt.textContent = item.cSebab;
+              sel.appendChild(opt);
+            });
+          }
+        })
+        .catch(() => {
+          // Fallback jika API belum tersedia
+          const sel = document.getElementById('selectPenyebab');
+          ['Kesalahan Cetak', 'Kesalahan Ukuran', 'Material Cacat', 'Proses Salah'].forEach(p => {
+            const opt = document.createElement('option');
+            opt.value = p; opt.textContent = p;
+            sel.appendChild(opt);
+          });
+        });
+    }
+
+    // ===== Load Dropdown Mesin dari API =====
+    function loadMesin() {
+      axios.get('proxy_qc.php?action=get_mesin')
+        .then(res => {
+          if (res.data.success) {
+            const sel = document.getElementById('selectMesin');
+            res.data.data.forEach(item => {
+              const opt = document.createElement('option');
+              opt.value = item.cNama;
+              opt.textContent = item.cNama;
+              sel.appendChild(opt);
+            });
+          }
+        })
+        .catch(() => {
+          // Fallback jika API belum tersedia
+          const sel = document.getElementById('selectMesin');
+          ['FLEXO-1', 'FLEXO-2', 'CORRUGATING 1', 'FOLDER GLUE', 'SLITTER'].forEach(m => {
+            const opt = document.createElement('option');
+            opt.value = m; opt.textContent = m;
+            sel.appendChild(opt);
+          });
+        });
+    }
+
+    // ===== Fetch data OP =====
+    function fetchData() {
+      let op = document.getElementById("inputOP").value.trim();
+      if (!op) {
+        alert("Silakan masukkan nomor O.P");
+        return;
+      }
+      if (!op.startsWith("SPS/")) {
+        op = "SPS/" + op;
+      }
+
+      axios.get(`proxy.php?barcode=${encodeURIComponent(op)}`)
+        .then(response => {
+          if (response.data.success) {
+            const d = response.data.data;
+            currentData = d;
+
+            // Set tampilan
+            // Prefer server-provided date (d.dTgl or d.dTanggal), fallback to today
+            const serverDate = d.dTgl || d.dTanggal || d.dTanggalOp || d.dTglOp || null;
+            document.getElementById("displayTanggal").textContent = serverDate ? formatDateLong(serverDate) : getTodayFormatted();
+            document.getElementById("displayNoOp").textContent = d.cNoOp || "-";
+            document.getElementById("displayPemesan").textContent = d.cnm_c || "-";
+            document.getElementById("displayNamaBarang").textContent = d.cnm_brg || "-";
+            document.getElementById("displayJmlOrder").textContent = (d.nQty || 0) + " pcs";
+
+            // Reset input
+            document.getElementById("inputDefect").value = '';
+            document.getElementById("inputPicQc").value = '';
+            document.getElementById("selectPenyebab").selectedIndex = 0;
+            document.getElementById("selectMesin").selectedIndex = 0;
+            document.getElementById("selectRegu").selectedIndex = 0;
+            document.getElementById("selectStatus").selectedIndex = 0;
+            document.getElementById("selectKeterangan").selectedIndex = 0;
+            document.getElementById("sigPicName").textContent = '';
+
+            document.getElementById("labelContainer").style.display = "block";
+          } else {
+            alert("Data tidak ditemukan: " + response.data.message);
+          }
+        })
+        .catch(error => {
+          alert("Gagal mengambil data: " + error);
+        });
+    }
+
+    // ===== Print & Save =====
+    function printAndSave() {
+      const noOp     = currentData.cNoOp || '';
+      const pemesan  = currentData.cnm_c || '';
+      const item     = currentData.cnm_brg || '';
+      const jmlOrder = currentData.nQty || 0;
+
+      const defect      = document.getElementById("inputDefect").value.trim();
+      const penyebab    = document.getElementById("selectPenyebab").value;
+      const mesin       = document.getElementById("selectMesin").value;
+      const regu        = document.getElementById("selectRegu").value;
+      const picQc       = document.getElementById("inputPicQc").value.trim();
+      const status      = document.getElementById("selectStatus").value;
+      const keterangan  = document.getElementById("selectKeterangan").value;
+
+      // Validasi
+      if (!noOp) { alert("Data O.P belum dimuat!"); return; }
+      if (!defect || isNaN(defect) || parseInt(defect) < 0) { alert("Masukkan jumlah defect yang valid!"); return; }
+      if (!penyebab)   { alert("Pilih penyebab!"); return; }
+      if (!mesin)      { alert("Pilih mesin!"); return; }
+      if (!regu)       { alert("Pilih regu!"); return; }
+      if (!picQc)      { alert("Masukkan nama PIC QC!"); return; }
+      if (!status)     { alert("Pilih status!"); return; }
+      if (!keterangan) { alert("Pilih keterangan!"); return; }
+
+      document.getElementById("sigPicName").textContent = picQc;
+
+      const username = getUsername();
+      const userdate = getTodayISO();
+
+      const payload = {
+        action:      'save_label_qc',
+        dTgl:        getTodayFormatted(),
+        cNoOp:       noOp,
+        cCust:       pemesan,
+        cItem:       item,
+        nQtyOrder:   jmlOrder,
+        nQty:        parseInt(defect),
+        nPenyebab:   penyebab,
+        nMesin:      mesin,
+        cRegu:       regu,
+        cPic:        picQc,
+        cStatus:     status,
+        cKeterangan: keterangan,
+        username:    username,
+        userdate:    userdate
+      };
+
+      axios.post('proxy_qc.php', payload)
+        .then(response => {
+          if (response.data.success) {
+            window.print();
+          } else {
+            alert("Gagal menyimpan: " + response.data.message);
+          }
+        })
+        .catch(error => {
+          alert("Terjadi kesalahan: " + error);
+        });
+    }
+
+    // ===== Enter key navigation =====
+    document.getElementById("inputOP").addEventListener("keydown", function(e) {
+      if (e.key === "Enter") fetchData();
+    });
+
+    // ===== Init dropdowns =====
+    window.onload = function() {
+      loadPenyebab();
+      loadMesin();
+    };
+  </script>
+</body>
+</html>

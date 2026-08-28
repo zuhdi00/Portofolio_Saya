@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Master Penyebab - Label QC</title>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <link rel="icon" type="image/png" href="http://supracor.co.id/SPS_Logo.png">
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      font-size: 0.88rem;
+      background: #f4f6f9;
+      margin: 0;
+      padding: 1.5rem;
+      color: #222;
+    }
+
+    /* ── Page Header ── */
+    .page-header {
+      max-width: 680px;
+      margin: 0 auto 1.2rem auto;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .page-header img {
+      height: 48px;
+      width: auto;
+    }
+
+    .page-header-text h1 {
+      margin: 0;
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #1a1a2e;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .page-header-text p {
+      margin: 2px 0 0 0;
+      font-size: 0.75rem;
+      color: #555;
+    }
+
+    /* ── Card ── */
+    .card {
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.09);
+      padding: 1.25rem 1.5rem;
+      max-width: 680px;
+      margin: 0 auto 1.2rem auto;
+    }
+
+    .card-title {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #1a1a2e;
+      margin: 0 0 1rem 0;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid #e8eaf0;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    /* ── Form ── */
+    .form-row {
+      display: flex;
+      gap: 0.6rem;
+      align-items: center;
+    }
+
+    .form-row input[type="text"] {
+      flex: 1;
+      padding: 0.5rem 0.75rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 0.88rem;
+      font-family: inherit;
+      transition: border-color 0.2s;
+    }
+
+    .form-row input[type="text"]:focus {
+      outline: none;
+      border-color: #007bff;
+      box-shadow: 0 0 0 2px rgba(0,123,255,0.12);
+    }
+
+    .btn {
+      padding: 0.5rem 1.1rem;
+      border: none;
+      border-radius: 5px;
+      font-size: 0.83rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.18s, transform 0.1s;
+      white-space: nowrap;
+    }
+
+    .btn:active { transform: scale(0.97); }
+
+    .btn-primary { background: #007bff; color: #fff; }
+    .btn-primary:hover { background: #0062cc; }
+
+    .btn-success { background: #28a745; color: #fff; }
+    .btn-success:hover { background: #1e7e34; }
+
+    .btn-warning { background: #ffc107; color: #212529; }
+    .btn-warning:hover { background: #e0a800; }
+
+    .btn-danger { background: #dc3545; color: #fff; }
+    .btn-danger:hover { background: #b21f2d; }
+
+    .btn-secondary { background: #6c757d; color: #fff; }
+    .btn-secondary:hover { background: #545b62; }
+
+    .btn-sm {
+      padding: 0.3rem 0.7rem;
+      font-size: 0.78rem;
+    }
+
+    /* ── Alert / Toast ── */
+    #alertBox {
+      max-width: 680px;
+      margin: 0 auto 0.9rem auto;
+      padding: 0.6rem 1rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      display: none;
+      animation: fadeIn 0.2s ease;
+    }
+
+    @keyframes fadeIn { from { opacity:0; transform:translateY(-4px); } to { opacity:1; transform:translateY(0); } }
+
+    #alertBox.success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+    #alertBox.error   { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+    #alertBox.info    { background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+
+    /* ── Table ── */
+    .table-wrapper {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.86rem;
+    }
+
+    thead th {
+      background: #1a1a2e;
+      color: #fff;
+      padding: 0.6rem 0.85rem;
+      text-align: left;
+      font-weight: 600;
+      font-size: 0.8rem;
+      letter-spacing: 0.3px;
+    }
+
+    tbody tr {
+      border-bottom: 1px solid #edf0f5;
+      transition: background 0.12s;
+    }
+
+    tbody tr:hover { background: #f0f4ff; }
+    tbody tr:last-child { border-bottom: none; }
+
+    tbody td {
+      padding: 0.55rem 0.85rem;
+      vertical-align: middle;
+    }
+
+    .td-no { width: 52px; color: #888; text-align: center; }
+    .td-actions { width: 140px; text-align: right; }
+
+    /* edit input inside table */
+    .edit-input {
+      width: 100%;
+      padding: 0.3rem 0.5rem;
+      border: 1px solid #007bff;
+      border-radius: 4px;
+      font-size: 0.86rem;
+      font-family: inherit;
+    }
+
+    /* ── Empty & Loading states ── */
+    .empty-row td {
+      text-align: center;
+      color: #aaa;
+      padding: 1.5rem;
+      font-style: italic;
+    }
+
+    /* ── Search filter ── */
+    .filter-row {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .filter-row input {
+      flex: 1;
+      padding: 0.4rem 0.7rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 0.84rem;
+      font-family: inherit;
+    }
+
+    .filter-row input:focus {
+      outline: none;
+      border-color: #007bff;
+    }
+
+    .count-badge {
+      background: #e9ecef;
+      color: #495057;
+      border-radius: 20px;
+      padding: 0.15rem 0.6rem;
+      font-size: 0.76rem;
+      font-weight: 600;
+    }
+
+    /* ── Back link ── */
+    .back-link {
+      max-width: 680px;
+      margin: 0 auto 0.8rem auto;
+      display: block;
+    }
+
+    .back-link a {
+      font-size: 0.82rem;
+      color: #007bff;
+      text-decoration: none;
+    }
+
+    .back-link a:hover { text-decoration: underline; }
+
+    @media (max-width: 520px) {
+      body { padding: 0.8rem; }
+      .form-row { flex-wrap: wrap; }
+      .td-actions { width: 110px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Page Header -->
+  <div class="page-header">
+    <img src="http://supracor.co.id/SPS_Logo1.png" alt="SPS Logo"
+         onerror="this.style.display='none'">
+    <div class="page-header-text">
+      <h1>Master Penyebab</h1>
+      <p>PT. Supracor Sejahtera &mdash; Label QC</p>
+    </div>
+  </div>
+
+  <!-- Back link -->
+  <div class="back-link">
+    <a href="http://edp2:8081/LabelQC/">← Kembali ke Label QC</a>
+  </div>
+
+  <!-- Alert Box -->
+  <div id="alertBox"></div>
+
+  <!-- Form Tambah -->
+  <div class="card">
+    <div class="card-title">➕ Tambah Penyebab Baru</div>
+    <div class="form-row">
+      <input type="text" id="inputSebab" placeholder="Ketik nama penyebab..." maxlength="100"
+             onkeydown="if(event.key==='Enter') simpanBaru()" />
+      <button class="btn btn-primary" onclick="simpanBaru()">Simpan</button>
+    </div>
+  </div>
+
+  <!-- Daftar Penyebab -->
+  <div class="card">
+    <div class="card-title">📋 Daftar Penyebab
+      <span class="count-badge" id="countBadge">0</span>
+    </div>
+
+    <div class="filter-row">
+      <input type="text" id="inputFilter" placeholder="🔍 Cari penyebab..." oninput="filterTable()" />
+      <button class="btn btn-secondary btn-sm" onclick="loadData()">↻ Refresh</button>
+    </div>
+
+    <div class="table-wrapper">
+      <table id="tabelPenyebab">
+        <thead>
+          <tr>
+            <th class="td-no">#</th>
+            <th>Nama Penyebab (cSebab)</th>
+            <th class="td-actions">Aksi</th>
+          </tr>
+        </thead>
+        <tbody id="tabelBody">
+          <tr class="empty-row"><td colspan="3">Memuat data...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    // ── State ─────────────────────────────────────────────────────────────────
+    let allData = [];   // master list from server
+    let editingRow = null; // cSebab currently being edited
+
+    // ── Alert ─────────────────────────────────────────────────────────────────
+    function showAlert(msg, type = 'info', autoHide = true) {
+      const box = document.getElementById('alertBox');
+      box.textContent = msg;
+      box.className = type;
+      box.style.display = 'block';
+      if (autoHide) {
+        setTimeout(() => { box.style.display = 'none'; }, 3500);
+      }
+    }
+
+    // ── Load data ─────────────────────────────────────────────────────────────
+    function loadData() {
+      setBodyLoading();
+      axios.get('proxy_penyebab.php?action=get_all')
+        .then(res => {
+          if (res.data.success) {
+            allData = res.data.data || [];
+            renderTable(allData);
+          } else {
+            showAlert('Gagal memuat data: ' + res.data.message, 'error');
+            setBodyEmpty('Gagal memuat data.');
+          }
+        })
+        .catch(err => {
+          showAlert('Koneksi gagal: ' + err.message, 'error');
+          setBodyEmpty('Koneksi ke server gagal.');
+        });
+    }
+
+    // ── Render table ──────────────────────────────────────────────────────────
+    function renderTable(data) {
+      const tbody = document.getElementById('tabelBody');
+      document.getElementById('countBadge').textContent = data.length;
+
+      if (!data.length) {
+        tbody.innerHTML = '<tr class="empty-row"><td colspan="3">Tidak ada data penyebab.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = '';
+      data.forEach((item, idx) => {
+        const cSebab = item.cSebab;
+        const tr = document.createElement('tr');
+        tr.dataset.sebab = cSebab;
+
+        if (editingRow === cSebab) {
+          // Edit mode row
+          tr.innerHTML = `
+            <td class="td-no">${idx + 1}</td>
+            <td>
+              <input class="edit-input" id="editInput_${idx}"
+                     value="${escHtml(cSebab)}" maxlength="100"
+                     onkeydown="if(event.key==='Enter') simpanEdit('${escJs(cSebab)}', ${idx});
+                                if(event.key==='Escape') batalEdit();" />
+            </td>
+            <td class="td-actions">
+              <button class="btn btn-success btn-sm" onclick="simpanEdit('${escJs(cSebab)}', ${idx})">✔ Simpan</button>
+              <button class="btn btn-secondary btn-sm" style="margin-top:2px" onclick="batalEdit()">✕</button>
+            </td>`;
+        } else {
+          // Normal row
+          tr.innerHTML = `
+            <td class="td-no">${idx + 1}</td>
+            <td>${escHtml(cSebab)}</td>
+            <td class="td-actions">
+              <button class="btn btn-warning btn-sm" onclick="mulaiEdit('${escJs(cSebab)}')">✏ Edit</button>
+              <button class="btn btn-danger btn-sm" style="margin-top:2px" onclick="hapus('${escJs(cSebab)}')">🗑 Hapus</button>
+            </td>`;
+        }
+        tbody.appendChild(tr);
+      });
+
+      // Focus edit input if applicable
+      if (editingRow !== null) {
+        const allInputs = tbody.querySelectorAll('.edit-input');
+        if (allInputs.length) allInputs[0].focus();
+      }
+    }
+
+    // ── Filter ────────────────────────────────────────────────────────────────
+    function filterTable() {
+      const q = document.getElementById('inputFilter').value.toLowerCase();
+      const filtered = allData.filter(d => d.cSebab.toLowerCase().includes(q));
+      renderTable(filtered);
+    }
+
+    // ── Helpers ───────────────────────────────────────────────────────────────
+    function setBodyLoading() {
+      document.getElementById('tabelBody').innerHTML =
+        '<tr class="empty-row"><td colspan="3">⏳ Memuat data...</td></tr>';
+    }
+
+    function setBodyEmpty(msg) {
+      document.getElementById('tabelBody').innerHTML =
+        `<tr class="empty-row"><td colspan="3">${escHtml(msg)}</td></tr>`;
+    }
+
+    function escHtml(s) {
+      return String(s)
+        .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+        .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+    }
+
+    function escJs(s) {
+      return String(s).replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+    }
+
+    // ── Tambah baru ───────────────────────────────────────────────────────────
+    function simpanBaru() {
+      const val = document.getElementById('inputSebab').value.trim();
+      if (!val) { showAlert('Nama penyebab tidak boleh kosong.', 'error'); return; }
+
+      axios.post('proxy_penyebab.php', { action: 'insert', cSebab: val })
+        .then(res => {
+          if (res.data.success) {
+            showAlert('✔ Penyebab "' + val + '" berhasil ditambahkan.', 'success');
+            document.getElementById('inputSebab').value = '';
+            loadData();
+          } else {
+            showAlert('Gagal: ' + res.data.message, 'error');
+          }
+        })
+        .catch(err => showAlert('Koneksi gagal: ' + err.message, 'error'));
+    }
+
+    // ── Edit ──────────────────────────────────────────────────────────────────
+    function mulaiEdit(cSebab) {
+      editingRow = cSebab;
+      // re-render with current filtered view
+      const q = document.getElementById('inputFilter').value.toLowerCase();
+      const filtered = allData.filter(d => d.cSebab.toLowerCase().includes(q));
+      renderTable(filtered);
+    }
+
+    function batalEdit() {
+      editingRow = null;
+      filterTable();
+    }
+
+    function simpanEdit(oldSebab, idx) {
+      const newVal = document.getElementById('editInput_' + idx)?.value.trim();
+      if (!newVal) { showAlert('Nama penyebab tidak boleh kosong.', 'error'); return; }
+      if (newVal === oldSebab) { batalEdit(); return; }
+
+      axios.post('proxy_penyebab.php', { action: 'update', cSebabLama: oldSebab, cSebabBaru: newVal })
+        .then(res => {
+          if (res.data.success) {
+            showAlert('✔ Berhasil diubah menjadi "' + newVal + '".', 'success');
+            editingRow = null;
+            loadData();
+          } else {
+            showAlert('Gagal: ' + res.data.message, 'error');
+          }
+        })
+        .catch(err => showAlert('Koneksi gagal: ' + err.message, 'error'));
+    }
+
+    // ── Hapus ─────────────────────────────────────────────────────────────────
+    function hapus(cSebab) {
+      if (!confirm('Hapus penyebab "' + cSebab + '"?\nData yang sudah terpakai di Label QC tidak akan terhapus.')) return;
+
+      axios.post('proxy_penyebab.php', { action: 'delete', cSebab: cSebab })
+        .then(res => {
+          if (res.data.success) {
+            showAlert('🗑 Penyebab "' + cSebab + '" berhasil dihapus.', 'success');
+            loadData();
+          } else {
+            showAlert('Gagal: ' + res.data.message, 'error');
+          }
+        })
+        .catch(err => showAlert('Koneksi gagal: ' + err.message, 'error'));
+    }
+
+    // ── Init ──────────────────────────────────────────────────────────────────
+    window.onload = loadData;
+  </script>
+</body>
+</html>
