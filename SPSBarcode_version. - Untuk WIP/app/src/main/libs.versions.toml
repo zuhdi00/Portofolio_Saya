@@ -1,0 +1,15 @@
+[versions]
+# ... your existing versions
+mlkit-barcode = "17.3.0" # Or 17.0.2 for on-demand
+camerax = "1.4.2" # Or the latest
+
+[libraries]
+# ... your existing libraries
+mlkit-barcode-scanning = { module = "com.google.mlkit:barcode-scanning", version.ref = "mlkit-barcode" }
+camera-core = { module = "androidx.camera:camera-core", version.ref = "camerax" }
+camera-camera2 = { module = "androidx.camera:camera-camera2", version.ref = "camerax" }
+camera-lifecycle = { module = "androidx.camera:camera-lifecycle", version.ref = "camerax" }
+camera-view = { module = "androidx.camera:camera-view", version.ref = "camerax" }
+
+[plugins]
+# ... your existing plugins

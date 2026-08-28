@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <domain-config cleartextTrafficPermitted="true">
+<<<<<<< HEAD
+        <domain includeSubdomains="true">36.81.162.214</domain>
+=======
+        <domain includeSubdomains="true">supracor.co.id</domain>
+>>>>>>> 3e81cfb (Update 01 November 2025)
+    </domain-config>
+</network-security-config>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:padding="20dp"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Masukkan Qty baru:"
+        android:textSize="16sp" />
+
+    <EditText
+        android:id="@+id/editQtyInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:hint="Qty"
+        android:inputType="numberDecimal"
+        android:minHeight="48dp"
+        android:paddingVertical="12dp" />
+
+</LinearLayout>
