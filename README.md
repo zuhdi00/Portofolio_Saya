@@ -1,7 +1,6 @@
-[README(2).md](https://github.com/user-attachments/files/31538557/README.2.md)
-# Portofolio Saya — Zuhdi
+# Portofolio Saya — Zuhdi Abdillah Hidayat
 
-Repository ini berisi kumpulan project dan tools yang saya buat selama bekerja di bidang **IT / EDP (Electronic Data Processing)**, khususnya untuk mendukung operasional produksi, gudang, dan administrasi di lingkungan manufaktur. Sebagian besar aplikasi dibangun untuk menyelesaikan kebutuhan internal perusahaan: pencatatan stok, pelabelan produk, monitoring mesin, pengelolaan tiket IT, hingga sistem HR.
+Repository ini berisi kumpulan project dan tools yang saya buat selama bekerja di bidang **IT / EDP (Electronic Data Processing)**, khususnya untuk mendukung operasional produksi, gudang, dan administrasi di lingkungan manufaktur. Sebagian besar aplikasi dibangun untuk menyelesaikan kebutuhan internal perusahaan: pencatatan stok, pelabelan produk, monitoring mesin, pengelolaan tiket IT, hingga sistem HR dan aplikasi mobile scanning barcode.
 
 > ⚠️ **Catatan:** Repo ini adalah kumpulan dokumentasi portofolio pribadi. Beberapa project berisi banyak versi/iterasi (`v1`, `v2`, `WIP`, dsb.) yang merupakan riwayat pengembangan, bukan seluruhnya siap pakai di production.
 
@@ -18,6 +17,8 @@ Repository ini berisi kumpulan project dan tools yang saya buat selama bekerja d
 | `SCList` | Daftar/rekap stock card |
 | `LabelSTB`, `Label_supracor`, `LabelCorrWIP` | Pembuatan dan koreksi label produk (STB, Supracor, WIP) |
 | `stbtotal`, `stbtotalv1` | Rekap total data STB |
+| **`SPSBarcode_version. - Untuk STB`** | Aplikasi **Android (Kotlin/Java)** untuk scan barcode STB — dilengkapi backend PHP (`api_get_data.php`, `api_update_qty.php`, `api_update_rak.php`, dll.) dan modul `api-redirector` (Spring Boot) sebagai proxy API |
+| **`SPSBarcode_version. - Untuk WIP`** | Varian aplikasi Android scan barcode untuk proses **WIP (Work in Process)**, dengan struktur project serupa versi STB |
 | `TIMBANGANCORR`, `timbanganpython` | Koreksi data timbangan & integrasi timbangan digital menggunakan Python |
 | `OrderRecapDaily` | Rekap pesanan/order harian |
 | `intake`, `intake-v1`, `intake-v2`, `intake_op`, `intake(publish)` | Sistem input/pencatatan data intake produksi (beberapa versi iterasi) |
@@ -37,7 +38,8 @@ Selain folder di atas, terdapat juga berbagai file pendukung berdiri sendiri di 
 
 ## 🛠️ Teknologi yang Digunakan
 
-- **Backend:** PHP (native)
+- **Backend:** PHP (native), Java Spring Boot (modul `api-redirector`)
+- **Mobile:** Android native — Kotlin & Java (Gradle Kotlin DSL)
 - **Frontend:** HTML, CSS, JavaScript
 - **Database:** MySQL
 - **Automasi/Integrasi Hardware:** Python (untuk integrasi timbangan digital)
@@ -46,30 +48,43 @@ Selain folder di atas, terdapat juga berbagai file pendukung berdiri sendiri di 
 ## 🎯 Tujuan Repository
 
 Repository ini digunakan sebagai:
-1. **Arsip portofolio** — menunjukkan pengalaman membangun berbagai sistem internal berbasis web untuk kebutuhan produksi dan administrasi perusahaan.
+1. **Arsip portofolio** — menunjukkan pengalaman membangun berbagai sistem internal berbasis web dan mobile untuk kebutuhan produksi dan administrasi perusahaan.
 2. **Riwayat pengembangan** — beberapa folder menyimpan iterasi (`v1`, `v2`, `WIP`) sebagai jejak proses pengembangan dan penyempurnaan fitur.
 
 ## 🚀 Menjalankan Project Secara Lokal
 
-Karena repo ini berisi banyak project independen, jalankan tiap project secara terpisah sesuai kebutuhannya. Secara umum:
+Karena repo ini berisi banyak project independen, jalankan tiap project secara terpisah sesuai kebutuhannya.
+
+### Project berbasis PHP (mayoritas folder)
 
 1. **Clone repository**
    ```bash
    git clone https://github.com/zuhdi00/Portofolio_Saya.git
    ```
-2. **Pindahkan folder project yang ingin dijalankan** ke direktori server lokal (mis. `htdocs` pada XAMPP/Laragon) — karena sebagian besar project berbasis PHP native.
+2. **Pindahkan folder project yang ingin dijalankan** ke direktori server lokal (mis. `htdocs` pada XAMPP/Laragon).
 3. **Siapkan database MySQL** sesuai kebutuhan masing-masing project (skema/kredensial biasanya ada di file koneksi seperti `connection.php` di masing-masing folder).
-4. **Untuk project berbasis Python** (mis. `timbanganpython`), pastikan Python dan library pendukungnya (lihat `requirements.txt` bila tersedia di folder tersebut) sudah terpasang.
-5. Jalankan Apache/MySQL, lalu akses melalui browser sesuai path folder project, contoh:
+4. Jalankan Apache/MySQL, lalu akses melalui browser sesuai path folder project, contoh:
    ```
    http://localhost/Portofolio_Saya/<nama_folder_project>/
    ```
 
+### Project Android (`SPSBarcode_version. - Untuk STB` / `- Untuk WIP`)
+
+1. Buka folder project di **Android Studio**.
+2. Sinkronkan Gradle (project menggunakan `build.gradle.kts` dan Kotlin DSL).
+3. Sesuaikan endpoint API (mis. `ApiClient.java`/`ApiService.java`) agar mengarah ke backend PHP yang sesuai.
+4. Jalankan di emulator atau perangkat Android fisik.
+5. Modul `api-redirector` (Spring Boot) bisa dijalankan terpisah sebagai proxy API bila diperlukan — jalankan dengan `./gradlew bootRun` atau melalui IDE Java/Kotlin.
+
+### Project Python (`timbanganpython`)
+
+Pastikan Python dan library pendukungnya (lihat `requirements.txt` bila tersedia di folder tersebut) sudah terpasang, lalu jalankan skrip sesuai dokumentasi masing-masing.
+
 ## 📌 Catatan
 
 - Beberapa file (`Untitled-1.html`, versi ganda `MCList*.html`, dsb.) merupakan berkas eksperimen/percobaan yang dapat dibersihkan lebih lanjut.
+- Folder `SPSBarcode_version. - Untuk STB` dan `- Untuk WIP` masih menyertakan beberapa arsip `.zip` riwayat build — untuk repo yang lebih ringkas, arsip ini bisa dihapus dan cukup diandalkan `.gitignore` untuk mencegahnya ter-*commit* ulang.
 - Pastikan untuk **tidak menyertakan kredensial database sensitif** (username, password) secara publik pada file konfigurasi — gunakan `.env` atau file konfigurasi terpisah yang di-`.gitignore` bila repo akan tetap publik.
-- File-file berukuran besar (arsip `.rar`/`.zip`) sebaiknya tidak ikut di-*commit* ke repository; gunakan `.gitignore` atau Git LFS bila memang perlu disertakan.
 
 ## 📄 Lisensi
 
