@@ -1,0 +1,5 @@
+{"id_peg":"1162","nik":"325","nama_peg":"Dian Setyorini"}
+{"id_peg":"1163","nik":"352","nama_peg":"Disi Widiati"}
+{"id_peg":"1164","nik":"384","nama_peg":"Tut Wuri Handayani"}
+{"id_peg":"1165","nik":"387","nama_peg":"Nuvi Indahyani"}
+{"id_peg":"1166","nik":"761","nama_peg":"Erlin Yutrika Sari"}

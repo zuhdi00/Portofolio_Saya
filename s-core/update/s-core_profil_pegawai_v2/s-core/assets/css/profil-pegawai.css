@@ -1,0 +1,254 @@
+/* =====================================================================
+   S-CORE  |  Kartu Pegawai & Profil Kehadiran
+   Mengikuti token NiceAdmin: navy #012970, primary #4154f1, bg #f6f9ff
+   Motif sampul: penampang karton gelombang (liner + flute) - PT Supracor
+   ===================================================================== */
+:root {
+  --pf-navy: #012970;
+  --pf-primary: #4154f1;
+  --pf-muted: #899bbd;
+  --pf-line: #eef1fb;
+  --pf-soft: #f6f9ff;
+  --pf-radius: 10px;
+  --pf-flute: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='30' viewBox='0 0 48 30'%3E%3Cg fill='none' stroke='%23ffffff' stroke-opacity='.11' stroke-width='1.6'%3E%3Cpath d='M0 2.5h48M0 27.5h48'/%3E%3Cpath d='M0 26 C6 26 6 4 12 4 S18 26 24 26 30 4 36 4 42 26 48 26'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* ---------- avatar ---------- */
+.pf-avatar,
+.pf-avatar-sm {
+  position: relative;
+  border-radius: 50%;
+  background: var(--pf-av, var(--pf-primary));
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  border: 4px solid #fff;
+  box-shadow: 0 6px 18px rgba(1, 41, 112, .18);
+  flex-shrink: 0;
+}
+.pf-avatar { width: 108px; height: 108px; font-size: 36px; }
+.pf-avatar-sm { width: 72px; height: 72px; font-size: 24px; border-width: 3px; }
+.pf-avatar img,
+.pf-avatar-sm img {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+}
+
+/* ---------- sampul bermotif karton ---------- */
+.pf-cover {
+  position: relative;
+  background-color: var(--pf-navy);
+  background-image: var(--pf-flute);
+  background-size: 48px 30px;
+}
+
+/* =====================================================================
+   PROFIL (halaman dashboard 1 pegawai)
+   ===================================================================== */
+.pf-hero { border-radius: var(--pf-radius); overflow: hidden; }
+.pf-hero .pf-cover { height: 120px; }
+.pf-hero .pf-avatar { margin: -58px auto 0; }
+
+.pf-state {
+  position: absolute; top: 14px; right: 14px;
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 4px 10px; border-radius: 20px;
+  background: rgba(255, 255, 255, .14);
+  color: #fff; font-size: 12px; font-weight: 600;
+  backdrop-filter: blur(2px);
+}
+.pf-state::before {
+  content: ""; width: 7px; height: 7px; border-radius: 50%; background: #2eca6a;
+}
+.pf-state.is-off::before { background: #e74c3c; }
+
+.pf-name {
+  font-family: "Poppins", sans-serif; font-weight: 600; font-size: 20px;
+  color: var(--pf-navy); margin: 12px 0 2px; line-height: 1.3;
+}
+.pf-role { color: var(--pf-muted); font-size: 14px; margin-bottom: 10px; }
+.pf-chip {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 600;
+  background: var(--pf-soft); color: var(--pf-navy); border: 1px solid var(--pf-line);
+}
+
+.pf-facts {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  border-top: 1px solid var(--pf-line); border-bottom: 1px solid var(--pf-line);
+  margin: 18px -20px 0;
+}
+.pf-facts > div { padding: 12px 6px; text-align: center; }
+.pf-facts > div + div { border-left: 1px solid var(--pf-line); }
+.pf-facts b {
+  display: block; font-family: "Poppins", sans-serif; font-weight: 600;
+  font-size: 15px; color: var(--pf-navy); white-space: nowrap;
+}
+.pf-facts small { color: var(--pf-muted); font-size: 12px; }
+
+.pf-info { list-style: none; padding: 0; margin: 16px 0 0; }
+.pf-info li { display: flex; gap: 12px; align-items: flex-start; padding: 8px 0; }
+.pf-info li + li { border-top: 1px dashed var(--pf-line); }
+.pf-info li > i {
+  width: 32px; height: 32px; border-radius: 8px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: #eef0fe; color: var(--pf-primary); font-size: 15px;
+}
+.pf-info small { display: block; color: var(--pf-muted); font-size: 12px; line-height: 1.2; }
+.pf-info span { color: #444; font-size: 14px; word-break: break-word; }
+
+/* ---------- periode ---------- */
+.pf-periode { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.pf-periode .btn { border-radius: 20px; font-size: 13px; padding: 4px 12px; }
+.pf-mode { font-size: 12px; color: var(--pf-muted); }
+
+/* ---------- 6 kategori ---------- */
+.pf-tile {
+  --c: var(--pf-primary); --t: #eef0fe;
+  width: 100%; height: 100%; text-align: left;
+  background: #fff; border: 1px solid var(--pf-line); border-radius: var(--pf-radius);
+  padding: 14px 14px 12px; position: relative;
+  transition: border-color .15s, box-shadow .15s;
+}
+.pf-tile:hover { border-color: var(--c); }
+.pf-tile:focus-visible { outline: 2px solid var(--c); outline-offset: 2px; }
+.pf-tile[aria-pressed="true"] { border-color: var(--c); box-shadow: 0 0 0 3px var(--t); }
+.pf-tile-top { display: flex; justify-content: space-between; align-items: center; }
+.pf-tile-ico {
+  width: 38px; height: 38px; border-radius: 50%;
+  background: var(--t); color: var(--c);
+  display: flex; align-items: center; justify-content: center; font-size: 18px;
+}
+.pf-tile-pct { font-size: 12px; font-weight: 600; color: var(--c); }
+.pf-tile-num {
+  font-family: "Poppins", sans-serif; font-weight: 600; font-size: 28px; line-height: 1;
+  color: var(--pf-navy); margin-top: 12px; font-variant-numeric: tabular-nums;
+}
+.pf-tile-num small { font-size: 12px; font-weight: 500; color: var(--pf-muted); margin-left: 3px; }
+.pf-tile-label { font-size: 13px; color: #555; margin-top: 4px; }
+.pf-tile-bar { height: 4px; border-radius: 4px; background: var(--t); margin-top: 10px; overflow: hidden; }
+.pf-tile-bar span { display: block; height: 100%; background: var(--c); border-radius: 4px; }
+
+/* ---------- ringkasan ---------- */
+.pf-ringkas {
+  display: grid; grid-template-columns: repeat(5, 1fr);
+  background: var(--pf-soft); border-radius: var(--pf-radius); margin-top: 16px;
+}
+.pf-ringkas > div { padding: 12px 14px; }
+.pf-ringkas > div + div { border-left: 1px solid #e3e8f7; }
+.pf-ringkas small { display: block; font-size: 12px; color: var(--pf-muted); }
+.pf-ringkas b {
+  font-family: "Poppins", sans-serif; font-weight: 600; font-size: 18px; color: var(--pf-navy);
+  font-variant-numeric: tabular-nums;
+}
+.pf-ringkas b.is-warn { color: #e74c3c; }
+
+/* ---------- donut ---------- */
+.pf-donut { position: relative; max-width: 240px; margin: 0 auto; }
+.pf-donut-center {
+  position: absolute; inset: 0; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; pointer-events: none;
+}
+.pf-donut-center b { font-family: "Poppins", sans-serif; font-size: 30px; font-weight: 600; color: var(--pf-navy); line-height: 1; }
+.pf-donut-center small { color: var(--pf-muted); font-size: 12px; margin-top: 4px; }
+.pf-legend { list-style: none; padding: 0; margin: 16px 0 0; font-size: 13px; }
+.pf-legend li { display: flex; align-items: center; gap: 8px; padding: 4px 0; }
+.pf-legend li b { margin-left: auto; font-variant-numeric: tabular-nums; color: var(--pf-navy); }
+.pf-dot { width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0; }
+
+/* ---------- kalender ---------- */
+.pf-cal-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+.pf-cal-head b { font-family: "Poppins", sans-serif; color: var(--pf-navy); font-weight: 600; }
+.pf-cal-head .btn { width: 32px; height: 32px; padding: 0; border-radius: 8px; }
+.pf-cal { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; }
+.pf-cal-dow { text-align: center; font-size: 11px; color: var(--pf-muted); padding-bottom: 2px; }
+.pf-cal-day {
+  aspect-ratio: 1 / 1; border-radius: 8px; background: var(--pf-soft);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  font-size: 13px; color: #9aa6c4; position: relative; min-height: 34px;
+}
+.pf-cal-day.has { color: #fff; font-weight: 600; background: var(--c); cursor: help; }
+.pf-cal-day.has.k-terlambat { color: #5c3700; }
+.pf-cal-day.is-today { box-shadow: inset 0 0 0 2px var(--pf-navy); }
+.pf-cal-day.is-out { background: transparent; }
+.pf-cal-day em { font-style: normal; font-size: 9px; font-weight: 500; opacity: .9; line-height: 1; margin-top: 1px; }
+.pf-cal-legend { display: flex; flex-wrap: wrap; gap: 10px 14px; margin-top: 14px; font-size: 12px; color: #555; }
+.pf-cal-legend span { display: inline-flex; align-items: center; gap: 5px; }
+
+/* ---------- riwayat ---------- */
+.pf-table-wrap { max-height: 520px; overflow: auto; border-radius: 8px; border: 1px solid var(--pf-line); }
+.pf-table-wrap table { margin: 0; }
+.pf-table-wrap thead th {
+  position: sticky; top: 0; z-index: 1; background: var(--pf-soft);
+  font-size: 12px; font-weight: 600; color: var(--pf-navy); white-space: nowrap; border-bottom: 1px solid var(--pf-line);
+}
+.pf-table-wrap td { font-size: 13px; vertical-align: middle; white-space: nowrap; }
+.pf-table-wrap td.pf-ket { white-space: normal; min-width: 160px; color: #666; }
+.pf-badge {
+  display: inline-flex; align-items: center; gap: 4px; padding: 3px 9px; border-radius: 20px;
+  font-size: 11.5px; font-weight: 600; background: var(--t); color: var(--c);
+}
+.pf-flag { color: #e74c3c; font-size: 12px; }
+.pf-empty { text-align: center; padding: 36px 16px; color: var(--pf-muted); }
+.pf-empty i { font-size: 34px; display: block; margin-bottom: 8px; color: #c5cde3; }
+
+/* =====================================================================
+   KARTU PEGAWAI (grid)
+   ===================================================================== */
+.pf-toolbar .form-control,
+.pf-toolbar .form-select { font-size: 14px; }
+.pf-card {
+  display: block; height: 100%; border-radius: var(--pf-radius); overflow: hidden;
+  color: inherit; margin-bottom: 0;
+  transition: transform .15s, box-shadow .15s;
+}
+.pf-card:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(1, 41, 112, .16); color: inherit; }
+.pf-card:focus-visible { outline: 3px solid var(--pf-primary); outline-offset: 2px; }
+.pf-card .pf-cover { height: 58px; }
+.pf-card .pf-avatar-sm { margin: -36px auto 0; }
+.pf-card-body { padding: 10px 16px 16px; text-align: center; }
+.pf-card-name {
+  font-family: "Poppins", sans-serif; font-weight: 600; font-size: 15px; color: var(--pf-navy);
+  margin: 8px 0 0; line-height: 1.3;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+.pf-card-role { font-size: 13px; color: var(--pf-muted); min-height: 19px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pf-card-meta { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.pf-card .pf-cover .badge { position: absolute; top: 10px; right: 10px; font-weight: 600; }
+.pf-card .pf-cover .pf-nik { position: absolute; top: 12px; left: 12px; color: rgba(255,255,255,.8); font-size: 12px; font-weight: 600; }
+
+.pf-mini { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--pf-line); }
+.pf-mini-bar { display: flex; height: 6px; border-radius: 6px; overflow: hidden; background: var(--pf-line); }
+.pf-mini-bar span { display: block; height: 100%; }
+.pf-mini-grid { display: grid; grid-template-columns: repeat(6, 1fr); margin-top: 10px; }
+.pf-mini-grid div { display: flex; flex-direction: column; align-items: center; gap: 1px; }
+.pf-mini-grid i { font-size: 14px; }
+.pf-mini-grid b { font-size: 13px; font-weight: 700; color: var(--pf-navy); font-variant-numeric: tabular-nums; }
+.pf-mini-grid div.is-zero b { color: #c5cde3; }
+.pf-mini-cap { font-size: 11px; color: var(--pf-muted); margin-top: 6px; }
+
+/* ---------- responsif ---------- */
+@media (max-width: 991.98px) {
+  .pf-ringkas { grid-template-columns: repeat(3, 1fr); }
+  .pf-ringkas > div:nth-child(4) { border-left: 0; }
+  .pf-ringkas > div:nth-child(n+4) { border-top: 1px solid #e3e8f7; }
+}
+@media (max-width: 575.98px) {
+  .pf-ringkas { grid-template-columns: repeat(2, 1fr); }
+  .pf-ringkas > div { border-left: 0 !important; border-top: 1px solid #e3e8f7; }
+  .pf-ringkas > div:nth-child(-n+2) { border-top: 0; }
+  .pf-ringkas > div:nth-child(even) { border-left: 1px solid #e3e8f7 !important; }
+  .pf-tile-num { font-size: 24px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pf-card, .pf-tile { transition: none; }
+  .pf-card:hover { transform: none; }
+}
+
+/* kartu bersebelahan sama tinggi (margin-bottom .card NiceAdmin = 30px) */
+@media (min-width: 992px) {
+  .pf-eq { height: calc(100% - 30px); }
+}

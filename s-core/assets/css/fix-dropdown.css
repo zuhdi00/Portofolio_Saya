@@ -1,0 +1,47 @@
+/* =====================================================================
+   Perbaikan dropdown header S-CORE (profil, notifikasi, pesan)
+
+   Masalah yang diperbaiki:
+   1. .dropdown-menu.show tetap opacity:0  -> menu terbuka tapi tak terlihat
+   2. header punya overflow:hidden          -> dropdown terpotong di batas header
+
+   Muat SETELAH style.css supaya menimpa aturan template.
+   ===================================================================== */
+
+/* 1. Paksa dropdown yang terbuka jadi terlihat penuh.
+      CATATAN: JANGAN menimpa transform / top / left di sini -
+      Bootstrap (Popper.js) memakainya untuk menghitung posisi menu.
+      Menimpanya membuat menu melenceng menutupi header.            */
+.dropdown-menu.show {
+    opacity: 1 !important;
+    visibility: visible !important;
+    display: block !important;
+    pointer-events: auto !important;
+}
+
+/* 2. Header tidak boleh memotong dropdown */
+header.header,
+#header,
+.header.fixed-top {
+    overflow: visible !important;
+}
+
+/* induk lain yang kadang ikut memotong */
+.header-nav,
+.header-nav ul,
+.header-nav .nav-item,
+.header-nav .nav-profile {
+    overflow: visible !important;
+}
+
+/* 3. Pastikan dropdown berada di atas elemen lain */
+.header .dropdown-menu,
+#header .dropdown-menu {
+    z-index: 1060 !important;
+}
+
+/* 4. Area notifikasi tetap bisa di-scroll bila isinya panjang */
+.dropdown-menu.notifications {
+    max-height: 400px;
+    overflow-y: auto !important;
+}

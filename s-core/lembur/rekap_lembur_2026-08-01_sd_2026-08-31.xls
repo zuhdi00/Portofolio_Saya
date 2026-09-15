@@ -1,0 +1,42 @@
+﻿<html xmlns:o="urn:schemas-microsoft-com:office:office"
+    xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">
+    <head><meta charset="utf-8"><!--[if gte mso 9]><xml>
+    <x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet>
+    <x:Name>Rekap Lembur</x:Name><x:WorksheetOptions><x:DisplayGridlines/>
+    </x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook>
+    </xml><![endif]--></head><body>
+    <h3>Rekap Total Jam Lembur per Karyawan</h3>
+    <p>Periode: 2026-08-01 s/d 2026-08-31</p>
+    <table border="1">
+            <thead class="table-light"><tr><th>NIK</th><th>Nama</th><th>Dept</th><th>Status</th>
+              <th>Hari</th><th>Total Jam</th></tr></thead>
+            <tbody>
+                          <tr>
+                <td>330</td>
+                <td>Prio Suwahyo</td>
+                <td><small>IT</small></td>
+                <td><small>—</small></td>
+                <td>3</td>
+                <td><strong class="">
+                    14.3</strong></td>
+              </tr>
+                          <tr>
+                <td>13134</td>
+                <td>Christian Marcello</td>
+                <td><small>IT</small></td>
+                <td><small>—</small></td>
+                <td>4</td>
+                <td><strong class="">
+                    14.0</strong></td>
+              </tr>
+                          <tr>
+                <td>12823</td>
+                <td>Zuhdi Abdillah Hidayat</td>
+                <td><small>MT</small></td>
+                <td><small>tetap</small></td>
+                <td>3</td>
+                <td><strong class="">
+                    11.0</strong></td>
+              </tr>
+                        </tbody>
+          </table></body></html>
