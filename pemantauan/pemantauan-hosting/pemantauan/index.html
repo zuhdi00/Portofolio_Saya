@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#14213D">
+<title>Pemantauan Lokasi – PT Supracor Sejahtera</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📦</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/app.css?v=4">
+</head>
+<body>
+<header class="top">
+  <div class="brand">
+    <div>
+      <h1><span class="flute" aria-hidden="true"></span>Pemantauan Lokasi</h1>
+      <div class="toplinks"><a href="index.html" aria-current="page">Scan & laporan</a><a href="barcode.html">Kelola barcode</a></div>
+    </div>
+    <div class="conn" id="conn"><i></i><span>Menghubungkan…</span></div>
+  </div>
+</header>
+
+<main>
+  <div class="banner hidden" id="errBanner"></div>
+
+  <!-- ============ SCAN ============ -->
+  <section class="view active" id="v-scan">
+    <div id="step-scan">
+      <h2>Scan barcode lokasi</h2>
+      <div class="scanbox">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 7V4h3M18 4h3v3M21 17v3h-3M6 20H3v-3"/><path d="M7 8v8M10 8v8M13 8v8M16 8v8" stroke-width="1.4"/></svg>
+        <p class="muted small" style="margin:0 0 14px">Arahkan kamera ke label QR / barcode di lokasi. Setelah terbaca, kamera langsung memotret ruangan.</p>
+        <div id="reader"></div>
+        <div class="row" style="margin-top:12px">
+          <button class="btn primary" id="btnStartScan">Buka kamera scan</button>
+          <button class="btn hidden" id="btnStopScan">Tutup kamera</button>
+        </div>
+        <p class="small muted hidden" id="camHint" style="margin:10px 0 0"></p>
+      </div>
+      <div id="manualBox" class="hidden">
+        <label class="btn block" style="margin-top:10px">
+          Foto barcode
+          <input type="file" accept="image/*" capture="environment" id="barcodeFile" class="hidden">
+        </label>
+        <div class="or">atau pilih manual</div>
+        <div class="row">
+          <select class="i" id="manualLoc" aria-label="Pilih lokasi"><option value="">Pilih lokasi…</option></select>
+          <input class="i" id="manualCode" placeholder="Ketik kode lokasi" aria-label="Kode lokasi">
+        </div>
+        <button class="btn block" id="btnManual" style="margin-top:10px">Lanjut dengan lokasi ini</button>
+      </div>
+      <div id="file-reader" class="hidden"></div>
+    </div>
+
+    <div id="step-report" class="hidden">
+      <div class="panel loccard" id="locCard"></div>
+
+      <div class="panel hidden" id="registerBox">
+        <h3>Kode belum terdaftar</h3>
+        <p class="small muted" style="margin:0">Isi nama lokasi agar kode ini otomatis terdaftar.</p>
+        <div class="row" style="margin-top:8px">
+          <input class="i" id="regName" placeholder="Nama lokasi, mis. Gudang Roll Kertas">
+          <input class="i" id="regArea" placeholder="Area / gedung">
+        </div>
+      </div>
+
+      <div class="panel">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px"><h3>Foto sekitar ruangan</h3><span class="small muted" id="photoCount"></span></div>
+        <p class="small muted" style="margin:0 0 10px">Foto otomatis diambil setelah scan. Arahkan kamera ke ruangan, tekan tombol untuk menambah sudut lain.</p>
+        <div class="camwrap"><video id="cam" playsinline muted autoplay></video><div class="countdown" id="countdown" aria-live="polite"></div><div class="flash" id="flash"></div></div>
+        <p class="small" id="camMsg" style="color:var(--warn);margin:8px 0 0"></p>
+        <button class="btn primary block shutter" id="btnShutter" style="margin-top:10px">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>Ambil foto</button>
+        <div class="photos" id="photoGrid"></div>
+      </div>
+
+      <div class="panel">
+        <h3>Keterangan pemantauan</h3>
+        <div class="row">
+          <div><label class="f" for="petugas">Nama petugas</label><input class="i" id="petugas" placeholder="Nama lengkap" autocomplete="name"></div>
+          <div><label class="f" for="divisi">Divisi</label><select class="i" id="divisi"></select></div>
+          <div><label class="f" for="shift">Shift</label>
+            <select class="i" id="shift"><option>Shift 1</option><option>Shift 2</option><option>Shift 3</option><option>Non-shift</option></select></div>
+        </div>
+        <label class="f">Status kondisi lokasi</label>
+        <div class="seg" id="statusSeg" role="group" aria-label="Status kondisi">
+          <button type="button" class="s-aman" data-v="aman" aria-pressed="false">Aman</button>
+          <button type="button" class="s-perhatian" data-v="perhatian" aria-pressed="false">Perlu perhatian</button>
+          <button type="button" class="s-bahaya" data-v="bahaya" aria-pressed="false">Bahaya</button>
+        </div>
+        <label class="f">Checklist</label>
+        <div class="checks" id="checks"></div>
+        <label class="f" for="catatan">Catatan temuan</label>
+        <textarea class="i" id="catatan" placeholder="mis. ada tumpukan sheet di jalur forklift, lampu area flexo 2 mati."></textarea>
+        <div class="row">
+          <div><label class="f" for="tindak">Tindak lanjut</label><input class="i" id="tindak" placeholder="Apa yang perlu dilakukan"></div>
+          <div><label class="f" for="pic">PIC / divisi tujuan</label><input class="i" id="pic" placeholder="mis. Maintenance – Pak Budi"></div>
+        </div>
+      </div>
+
+      <div class="row">
+        <button class="btn" id="btnCancel">Batal</button>
+        <button class="btn primary" id="btnSave">Simpan laporan</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ RIWAYAT ============ -->
+  <section class="view" id="v-history">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
+      <h2>Riwayat laporan</h2>
+      <a class="btn" id="btnCsv" href="#">Unduh Excel (CSV)</a>
+    </div>
+    <div class="stats" id="stats"></div>
+    <div class="filters">
+      <input class="i" id="fText" placeholder="Cari lokasi, petugas, no. laporan" aria-label="Cari">
+      <select class="i" id="fStatus" aria-label="Filter status"><option value="">Semua status</option><option value="aman">Aman</option><option value="perhatian">Perlu perhatian</option><option value="bahaya">Bahaya</option></select>
+      <select class="i" id="fFollow" aria-label="Filter tindak lanjut"><option value="">Semua tindak lanjut</option><option value="open">Belum ditangani</option><option value="proses">Sedang diproses</option><option value="selesai">Selesai</option></select>
+    </div>
+    <div class="row" style="margin:-4px 0 12px">
+      <div><label class="f" for="fFrom" style="margin-top:0">Dari tanggal</label><input class="i" type="date" id="fFrom"></div>
+      <div><label class="f" for="fTo" style="margin-top:0">Sampai</label><input class="i" type="date" id="fTo"></div>
+    </div>
+    <div class="list" id="reportList"></div>
+  </section>
+
+  <!-- ============ LOKASI ============ -->
+  <section class="view" id="v-loc">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
+      <h2>Status lokasi hari ini</h2>
+      <a class="btn" href="barcode.html">Kelola & cetak barcode</a>
+    </div>
+    <p class="small muted" id="uncheckedInfo" style="margin-top:0"></p>
+    <div class="list" id="locList"></div>
+  </section>
+</main>
+
+<nav class="tabs" aria-label="Menu utama">
+  <button data-view="v-scan" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 7V4h3M18 4h3v3M21 17v3h-3M6 20H3v-3M7 12h10"/></svg>Scan</button>
+  <button data-view="v-history"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M6 3h9l4 4v14H6z"/><path d="M9 11h7M9 15h7M9 7h4"/></svg>Riwayat</button>
+  <button data-view="v-loc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Lokasi</button>
+</nav>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true"><div class="sheet" id="sheet"></div></div>
+<div class="toast" id="toast" role="status"></div>
+
+<script src="config.js?v=4"></script>
+<script src="assets/vendor/html5-qrcode.min.js"></script>
+<script src="assets/vendor/qrcode.js"></script>
+<script src="assets/common.js?v=4"></script>
+<script src="assets/app.js?v=4"></script>
+</body>
+</html>

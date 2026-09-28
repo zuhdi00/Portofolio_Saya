@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kelola Barcode Lokasi – PT Supracor Sejahtera</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏷️</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/app.css?v=4">
+</head>
+<body>
+<header class="top">
+  <div class="brand" style="max-width:1100px">
+    <div>
+      <h1><span class="flute" aria-hidden="true"></span>Kelola Barcode Lokasi</h1>
+      <div class="toplinks"><a href="index.html">Scan & laporan</a><a href="barcode.html" aria-current="page">Kelola barcode</a></div>
+    </div>
+    <div class="conn" id="conn"><i></i><span>Menghubungkan…</span></div>
+  </div>
+</header>
+
+<main class="wide">
+  <div class="banner hidden noprint" id="errBanner"></div>
+
+  <div class="grid2 noprint">
+    <!-- form lokasi -->
+    <div class="panel">
+      <h3 id="formTitle">Tambah lokasi</h3>
+      <p class="small muted" style="margin:0">Simpan ke database agar lokasi muncul di aplikasi scan. Butuh PIN admin.</p>
+      <div class="row">
+        <div><label class="f" for="lCode">Kode (isi barcode)</label><input class="i" id="lCode" placeholder="SPS-LOC-009" style="text-transform:uppercase"></div>
+        <div><label class="f" for="lName">Nama lokasi</label><input class="i" id="lName" placeholder="Area Stitching"></div>
+      </div>
+      <div class="row">
+        <div><label class="f" for="lArea">Area / gedung</label><input class="i" id="lArea" placeholder="Gedung Produksi"></div>
+        <div><label class="f" for="lDiv">Penanggung jawab</label><input class="i" id="lDiv" list="divList" placeholder="Produksi"><datalist id="divList"></datalist></div>
+        <div><label class="f" for="lType">Jenis barcode</label><select class="i" id="lType"><option value="QR">QR code</option><option value="CODE128">Barcode 1D (Code 128)</option></select></div>
+      </div>
+      <div class="row" style="margin-top:12px">
+        <button class="btn hidden" id="btnCancelEdit">Batal edit</button>
+        <button class="btn primary" id="btnSaveLoc">Simpan lokasi</button>
+      </div>
+    </div>
+
+    <!-- pengaturan cetak -->
+    <div class="panel">
+      <h3>Pengaturan label</h3>
+      <div class="row">
+        <div><label class="f" for="pType">Jenis barcode</label>
+          <select class="i" id="pType"><option value="auto">Ikuti setting lokasi</option><option value="QR">Semua QR code</option><option value="CODE128">Semua Code 128</option></select></div>
+        <div><label class="f" for="pSize">Ukuran label</label>
+          <select class="i" id="pSize"><option value="s">Kecil 50×34 mm (stiker)</option><option value="m" selected>Sedang 60×62 mm</option><option value="l">Besar 92×92 mm (pintu)</option></select></div>
+      </div>
+      <label class="f" for="pContent">Isi QR code</label>
+      <select class="i" id="pContent">
+        <option value="code">Kode saja (discan lewat aplikasi ini)</option>
+        <option value="url">Link web + kode (kamera HP biasa langsung buka form)</option>
+      </select>
+      <input class="i hidden" id="pBaseUrl" style="margin-top:6px" placeholder="https://domain-anda/pemantauan/index.html">
+      <label class="f" for="pHeader">Teks atas label</label>
+      <input class="i" id="pHeader">
+      <div style="margin-top:10px">
+        <label class="inline-check"><input type="checkbox" id="pName" checked> Nama</label>
+        <label class="inline-check"><input type="checkbox" id="pArea" checked> Area</label>
+        <label class="inline-check"><input type="checkbox" id="pCode" checked> Kode</label>
+      </div>
+    </div>
+  </div>
+
+  <!-- tabel lokasi -->
+  <div class="panel noprint">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px">
+      <h3 style="margin:0">Lokasi terdaftar <span class="muted small" id="locCount"></span></h3>
+      <div class="row" style="flex:0 1 auto">
+        <input class="i" id="locSearch" placeholder="Cari lokasi" style="min-width:180px">
+        <button class="btn" id="btnAddSelected">Tambah terpilih ke lembar cetak</button>
+      </div>
+    </div>
+    <div class="tablewrap">
+      <table class="t">
+        <thead><tr><th><input type="checkbox" id="chkAll" aria-label="Pilih semua"></th><th>Kode</th><th>Nama</th><th>Area</th><th>PJ</th><th>Jenis</th><th>Cek terakhir</th><th></th></tr></thead>
+        <tbody id="locBody"><tr><td colspan="8" class="muted">Memuat…</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- manual -->
+  <div class="panel noprint">
+    <h3>Buat barcode manual (tanpa database)</h3>
+    <p class="small muted" style="margin:0">Satu baris satu label, format: <b>KODE | Nama | Area</b>. Cocok untuk tes atau label sementara.</p>
+    <textarea class="i" id="manualList" style="margin-top:8px" placeholder="SPS-LOC-020 | Ruang Genset | Area Utilitas&#10;SPS-LOC-021 | Pos Satpam Depan | Gerbang Utama"></textarea>
+    <button class="btn" id="btnAddManual" style="margin-top:8px">Tambah ke lembar cetak</button>
+  </div>
+
+  <!-- lembar -->
+  <div class="noprint" style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin:18px 0 10px">
+    <h2 style="margin:0">Lembar cetak <span class="muted small" id="sheetCount"></span></h2>
+    <div class="row" style="flex:0 1 auto">
+      <button class="btn" id="btnClear">Kosongkan</button>
+      <button class="btn primary" id="btnPrint">Cetak (A4)</button>
+    </div>
+  </div>
+  <div id="sheet-wrap"><div id="labelSheet"></div></div>
+  <p class="small muted noprint">Tip: cetak di kertas stiker / HVS lalu laminasi. Tombol PNG di tiap label untuk kirim ke percetakan stiker.</p>
+</main>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script src="config.js?v=4"></script>
+<script src="assets/vendor/qrcode.js"></script>
+<script src="assets/vendor/JsBarcode.all.min.js"></script>
+<script src="assets/common.js?v=4"></script>
+<script src="assets/barcode.js?v=4"></script>
+</body>
+</html>

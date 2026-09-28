@@ -1,0 +1,11 @@
+# Lindungi file konfigurasi & helper dari akses langsung
+<FilesMatch "^(config|lib)\.php$">
+  Require all denied
+</FilesMatch>
+
+# Jangan cache HTML/JS/CSS agar update langsung terpakai
+<IfModule mod_headers.c>
+  <FilesMatch "\.(html|js|css)$">
+    Header set Cache-Control "no-cache, no-store, must-revalidate"
+  </FilesMatch>
+</IfModule>
